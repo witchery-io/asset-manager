@@ -37,4 +37,8 @@ export class AccountService {
   get() {
     return this.accounts;
   }
+
+  getItem(id = 0) {
+    return this.accounts[id];
+  }
 }

@@ -1,6 +1,6 @@
-import {Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import {AccountService} from '../../services/account.service';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-settings',
@@ -10,6 +10,7 @@ import {AccountService} from '../../services/account.service';
 export class SettingsComponent implements OnInit {
   modalRef: BsModalRef;
   accounts: any;
+  account: any;
 
   constructor(
     private modalService: BsModalService,
@@ -18,6 +19,7 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.accounts = this.accountService.get();
+    this.account = this.accountService.getItem();
   }
 
   openModal(template: TemplateRef<any>) {
@@ -39,4 +41,7 @@ export class SettingsComponent implements OnInit {
     });
   }
 
+  currentAccount($event, id) {
+    this.account = this.accountService.getItem(id);
+  }
 }
