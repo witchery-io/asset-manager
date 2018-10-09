@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12">
+    <div class="col-12 pt-3 pb-3">
       <tabset>
         <tab heading="Groups" id="tab1">
           <div class="row">
@@ -49,17 +49,17 @@
                 <thead>
                   <tr>
                     <th scope="col">Name</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Risk</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>Mark</td>
-                    <td>Otto</td>
+                    <td>1.5</td>
                   </tr>
                   <tr>
                     <td>Jacob</td>
-                    <td>Thornton</td>
+                    <td>2.5</td>
                   </tr>
                 </tbody>
               </table>
@@ -120,7 +120,9 @@
         <tab heading="Accounts">
           <div class="row">
             <div class="col-6">
-              <button class="btn btn-primary m-2" (click)="openModal(template)">+ Create account</button>
+              <button class="btn btn-primary btn-sm mt-3 mb-3" (click)="openModal(template)">
+                <fa-icon icon="plus"></fa-icon> Create account
+              </button>
               <ng-template #template>
                 <div class="modal-header">
                   <h4 class="modal-title pull-left">Create account</h4>
@@ -252,7 +254,7 @@
             </div>
           </div>
         </tab>
-        <tab heading="Basic Title 2">Basic content 2</tab>
+        <!-- <tab heading="Basic Title 2">Basic content 2</tab> -->
       </tabset>
     </div>
   </div>
@@ -268,16 +270,16 @@
     <form novalidate [formGroup]="groupForm">
       <div class="form-group">
         <label>Acc. Name</label>
-        <input type="text" class="form-control" placeholder="Acc. Name" #accName>
+        <input type="text" class="form-control" placeholder="Acc. Name">
       </div>
       <div class="form-group">
         <label>User Name</label>
-        <input type="text" class="form-control" placeholder="User Name" #userName>
+        <input type="text" class="form-control" placeholder="User Name">
       </div>
       <div class="form-group">
         <label>
           Exchange
-          <select class="custom-select" #exchange>
+          <select class="custom-select">
             <option selected value="Bitfinex">Bitfinex</option>
           </select>
         </label>
@@ -285,15 +287,18 @@
       <div class="form-group">
         <label>
           Base currency
-          <select class="custom-select" #bc>
+          <select class="custom-select">
             <option selected value="BTC">BTC</option>
           </select>
         </label>
       </div>
-      <button type="button" class="btn btn-outline-primary left" aria-label="Close" (click)="modalRef.hide()">CANCEL
-      </button>
-      <button type="submit" class="btn btn-primary right" (click)="confirmed($event, accName, userName, exchange, bc)">ADD
-      </button>
+      <div>
+        <button type="button" class="btn btn-outline-primary float-left" aria-label="Close" (click)="modalRef.hide()">Cancel
+        </button>
+        <button type="submit" class="btn btn-primary float-right">Create
+        </button>
+      </div>
+
     </form>
   </div>
 </ng-template>

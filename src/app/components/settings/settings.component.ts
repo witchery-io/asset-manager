@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AccountService } from '../../services/account.service';
 
 @Component({
@@ -23,6 +23,11 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
     this.accounts = this.accountService.get();
     this.account = this.accountService.getItem();
+
+    this.groupForm = new FormGroup({
+      name: new FormControl('', [<any>Validators.required]),
+      allocation_method: new FormControl('', [<any>Validators.required]),
+    });
   }
 
   openModal(template: TemplateRef<any>) {
