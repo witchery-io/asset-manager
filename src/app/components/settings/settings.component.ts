@@ -1,7 +1,7 @@
-import {Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import {AccountService} from '../../services/account.service';
 import { FormGroup } from '@angular/forms';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-settings',
@@ -11,6 +11,7 @@ import { FormGroup } from '@angular/forms';
 export class SettingsComponent implements OnInit {
   modalRef: BsModalRef;
   accounts: any;
+  account: any;
 
   public groupForm: FormGroup;
 
@@ -21,6 +22,7 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.accounts = this.accountService.get();
+    this.account = this.accountService.getItem();
   }
 
   openModal(template: TemplateRef<any>) {
@@ -42,4 +44,7 @@ export class SettingsComponent implements OnInit {
     });
   }
 
+  currentAccount($event, id) {
+    this.account = this.accountService.getItem(id);
+  }
 }
