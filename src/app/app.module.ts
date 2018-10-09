@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ModalModule.forRoot(),
     TabsModule.forRoot(),
   ],
   providers: [],
