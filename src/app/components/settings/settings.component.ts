@@ -2,6 +2,8 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AccountService } from '../../services/account.service';
+import { GroupsService } from '../../services/groups.service';
+import { Group } from '../../models/group';
 
 @Component({
   selector: 'app-settings',
@@ -18,6 +20,7 @@ export class SettingsComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private accountService: AccountService,
+    public groupsService: GroupsService,
     ) { }
 
   ngOnInit() {
@@ -26,7 +29,8 @@ export class SettingsComponent implements OnInit {
 
     this.groupForm = new FormGroup({
       name: new FormControl('', [<any>Validators.required]),
-      allocation_method: new FormControl('', [<any>Validators.required]),
+      allocation_method: new FormControl(0, [<any>Validators.required]),
+      active: new FormControl(true, [<any>Validators.required]),
     });
   }
 
@@ -51,5 +55,14 @@ export class SettingsComponent implements OnInit {
 
   currentAccount($event, id) {
     this.account = this.accountService.getItem(id);
+  }
+
+  createGroup(model: Group, isValid: boolean) {
+    console.log(model);
+    if (isValid) {
+      this.groupsService.createaGroup(model);
+      this.groupForm.reset();
+      this.modalRef.hide();
+    }
   }
 }
