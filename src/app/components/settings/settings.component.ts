@@ -1,6 +1,7 @@
 import {Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import {AccountService} from '../../services/account.service';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-settings',
@@ -10,6 +11,8 @@ import {AccountService} from '../../services/account.service';
 export class SettingsComponent implements OnInit {
   modalRef: BsModalRef;
   accounts: any;
+
+  public groupForm: FormGroup;
 
   constructor(
     private modalService: BsModalService,

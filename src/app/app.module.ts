@@ -11,6 +11,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 library.add(fas);
 
@@ -26,6 +27,8 @@ library.add(fas);
     ModalModule.forRoot(),
     TabsModule.forRoot(),
     FontAwesomeModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
