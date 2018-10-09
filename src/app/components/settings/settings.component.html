@@ -143,7 +143,12 @@
                 <tbody>
                   <tr *ngFor="let account of accounts; index as i" (click)="currentAccount($event, i)">
                     <th scope="col">{{ account.id }}</th>
-                    <td scope="col">{{ account.status }}</td>
+                    <td scope="col">
+                      <span class="switch switch-sm">
+                        <input type="checkbox" [checked]="account.status" class="switch" id="switch-{{account.id}}">
+                        <label for="switch-{{account.id}}"></label>
+                      </span>
+                    </td>
                     <td scope="col">{{ account.acc_name }}</td>
                     <td scope="col">{{ account.user_name }}</td>
                     <td scope="col">{{ account.exchange }}</td>
