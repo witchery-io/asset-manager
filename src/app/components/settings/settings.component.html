@@ -144,10 +144,10 @@
                   <tr *ngFor="let account of accounts; index as i" (click)="currentAccount($event, i)">
                     <th scope="col">{{ account.id }}</th>
                     <td scope="col">{{ account.status }}</td>
-                    <td scope="col">{{ account.accName }}</td>
-                    <td scope="col">{{ account.userName }}</td>
+                    <td scope="col">{{ account.acc_name }}</td>
+                    <td scope="col">{{ account.user_name }}</td>
                     <td scope="col">{{ account.exchange }}</td>
-                    <td scope="col">{{ account.baseCurrency }}</td>
+                    <td scope="col">{{ account.base_currency }}</td>
                     <td scope="col">{{ account.equity }}</td>
                     <td scope="col">{{ account.risk }}</td>
                     <td scope="col">{{ account.date }}</td>
@@ -160,7 +160,7 @@
                 <div class="col">
                   <h4>
                     <small class="text-muted">Base currency</small>
-                    <div>{{ account.baseCurrency }}</div>
+                    <div>{{ account.base_currency }}</div>
                   </h4>
                 </div>
                 <div class="col">
@@ -225,9 +225,7 @@
       </tabset>
     </div>
   </div>
-
 </div>
-
 
 <ng-template #groupModal class="modal-sm">
   <div class="modal-header">
@@ -263,40 +261,36 @@
     <h4 class="modal-title pull-left">Create account</h4>
   </div>
   <div class="modal-body">
-    <form novalidate [formGroup]="accountForm">
+    <form novalidate [formGroup]="accountForm" (submit)="createAccount(accountForm.value, accountForm.valid)">
       <div class="form-group">
         <label>Acc. Name</label>
-        <input type="text" class="form-control" placeholder="Acc. Name" formControlName="accName">
+        <input type="text" class="form-control" placeholder="Acc. Name" formControlName="acc_name">
       </div>
       <div class="form-group">
         <label>User Name</label>
-        <input type="text" class="form-control" placeholder="User Name" formControlName="userName">
+        <input type="text" class="form-control" placeholder="User Name" formControlName="user_name">
       </div>
       <div class="form-group">
         <label>Risk</label>
         <input type="text" class="form-control" placeholder="Risk" formControlName="risk">
       </div>
       <div class="form-group">
-        <label>
-          Exchange
-          <select class="custom-select" formControlName="exchange">
-            <option selected value="Bitfinex">Bitfinex</option>
-          </select>
-        </label>
+        <label for="exchange">Exchange</label>
+        <select id="exchange" class="form-control" formControlName="exchange">
+          <option selected value="Bitfinex">Bitfinex</option>
+        </select>
       </div>
       <div class="form-group">
-        <label>
-          Base currency
-          <select class="custom-select" formControlName="baseCurrency">
-            <option selected value="BTC">BTC</option>
-            <option value="ETH">ETH</option>
-          </select>
-        </label>
+        <label for="base_currency">Base currency</label>
+        <select id="base_currency" class="form-control" formControlName="base_currency">
+          <option selected value="BTC">BTC</option>
+          <option value="ETH">ETH</option>
+        </select>
       </div>
       <div>
-        <button type="submit" class="btn btn-outline-primary" aria-label="Close" (click)="modalRef.hide()">CANCEL
+        <button type="button" class="btn btn-outline-primary" aria-label="Close" (click)="modalRef.hide()">CANCEL
         </button>
-        <button type="submit" class="btn btn-primary float-right" (click)="create($event)">ADD
+        <button type="submit" class="btn btn-primary float-right">ADD
         </button>
       </div>
     </form>

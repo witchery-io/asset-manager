@@ -9,10 +9,10 @@ export class AccountService {
     {
       id: 1,
       status: true,
-      accName: 'test 1',
-      userName: 'test 2',
+      acc_name: 'test 1',
+      user_name: 'test 2',
       exchange: 'Bitfinex',
-      baseCurrency: 'BTC',
+      base_currency: 'BTC',
       equity: '150',
       risk: 0.5,
       date: '10/9/2018',
@@ -20,10 +20,10 @@ export class AccountService {
     {
       id: 2,
       status: true,
-      accName: 'test 1',
-      userName: 'test 2',
+      acc_name: 'test 1',
+      user_name: 'test 2',
       exchange: 'Bitfinex',
-      baseCurrency: 'BTC',
+      base_currency: 'BTC',
       equity: '122',
       risk: 1.5,
       date: '9/12/2018',
@@ -32,15 +32,15 @@ export class AccountService {
 
   constructor() { }
 
-  set(account) {
+  createAccount(account) {
     this.accounts.push(account);
   }
 
-  get() {
+  getAccounts() {
     return this.accounts;
   }
 
-  getItem(id = 0) {
+  getAccount(id = 0) {
     return this.accounts[id];
   }
 }

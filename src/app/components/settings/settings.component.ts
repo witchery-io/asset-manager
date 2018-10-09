@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AccountService } from '../../services/account.service';
 import { GroupsService } from '../../services/groups.service';
 import { Group } from '../../models/group';
+import { Account } from '../../models/account';
 
 @Component({
   selector: 'app-settings',
@@ -26,8 +27,8 @@ export class SettingsComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.accounts = this.accountService.get();
-    this.account = this.accountService.getItem();
+    this.accounts = this.accountService.getAccounts();
+    this.account = this.accountService.getAccount();
 
     this.groupForm = new FormGroup({
       name: new FormControl('', [<any>Validators.required]),
@@ -36,11 +37,11 @@ export class SettingsComponent implements OnInit {
     });
 
     this.accountForm = new FormGroup({
-      accName: new FormControl('', [<any>Validators.required]),
-      userName: new FormControl('', [<any>Validators.required]),
-      risk: new FormControl('', [<any>Validators.required]),
+      acc_name: new FormControl('', [<any>Validators.required]),
+      user_name: new FormControl('', [<any>Validators.required]),
+      risk: new FormControl(0, [<any>Validators.required]),
       exchange: new FormControl('', [<any>Validators.required]),
-      baseCurrency: new FormControl('', [<any>Validators.required]),
+      base_currency: new FormControl('', [<any>Validators.required]),
     });
   }
 
@@ -48,13 +49,16 @@ export class SettingsComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  create($event) {
-    $event.preventDefault();
-    this.accountService.set(this.accountForm.value);
+  createAccount(modal: Account, isValid: boolean) {
+    if (isValid) {
+      this.accountService.createAccount(modal);
+      this.accountForm.reset({ risk: 0 });
+      this.modalRef.hide();
+    }
   }
 
   currentAccount($event, id) {
-    this.account = this.accountService.getItem(id);
+    this.account = this.accountService.getAccount(id);
   }
 
   createGroup(model: Group, isValid: boolean) {

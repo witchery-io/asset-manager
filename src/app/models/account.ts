@@ -5,5 +5,6 @@ export class Account {
     user_name: string;
     exchange: string;
     base_currency: string;
+    risk: number;
     created_at: Date;
 }
