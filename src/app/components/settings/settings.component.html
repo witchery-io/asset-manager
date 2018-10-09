@@ -18,7 +18,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let g of groupsService.groups">
+                  <tr *ngFor="let g of groupsService.groups; let i = index" class="cursor-pointer">
                     <td>{{g.name}}</td>
                     <td>
                       <span class="switch switch-sm">
@@ -56,20 +56,32 @@
               </table>
             </div>
             <div class="col-6">
-              <div class="row">
-                <div class="col-6">
-                  <h2>
-                    <small class="text-muted">Base currency</small>
-                    <div>BTC</div>
-                  </h2>
-                </div>
-                <div class="col-6">
-                  <h2>
-                    <small class="text-muted">Equity</small>
-                    <div>5600</div>
-                  </h2>
-                </div>
-              </div>
+                <div class="row">
+                    <div class="col">
+                      <h4>
+                        <small class="text-muted">Base currency</small>
+                        <div>BTC</div>
+                      </h4>
+                    </div>
+                    <div class="col">
+                      <h4>
+                        <small class="text-muted">WSB</small>
+                        <div>100</div>
+                      </h4>
+                    </div>
+                    <div class="col">
+                      <h4>
+                        <small class="text-muted">PL (%)</small>
+                        <div>50</div>
+                      </h4>
+                    </div>
+                    <div class="col">
+                      <h4>
+                        <small class="text-muted">Equity</small>
+                        <div>{{ account.equity }}</div>
+                      </h4>
+                    </div>
+                  </div>
               <div class="row">
                 <div class="col-12">
                   <h5 class="mt-3">Balances</h5>
@@ -181,29 +193,29 @@
             </div>
             <div *ngIf="account" class="col-6">
               <div class="row">
-                <div class="col-3">
-                  <h2>
+                <div class="col">
+                  <h4>
                     <small class="text-muted">Base currency</small>
                     <div>{{ account.baseCurrency }}</div>
-                  </h2>
+                  </h4>
                 </div>
-                <div class="col-3">
-                  <h2>
+                <div class="col">
+                  <h4>
                     <small class="text-muted">WSB</small>
                     <div>100</div>
-                  </h2>
+                  </h4>
                 </div>
-                <div class="col-3">
-                  <h2>
+                <div class="col">
+                  <h4>
                     <small class="text-muted">PL (%)</small>
                     <div>50</div>
-                  </h2>
+                  </h4>
                 </div>
-                <div class="col-3">
-                  <h2>
+                <div class="col">
+                  <h4>
                     <small class="text-muted">Equity</small>
                     <div>{{ account.equity }}</div>
-                  </h2>
+                  </h4>
                 </div>
               </div>
 

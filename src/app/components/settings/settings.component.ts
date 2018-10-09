@@ -16,6 +16,7 @@ export class SettingsComponent implements OnInit {
   account: any;
 
   public groupForm: FormGroup;
+  public selectedGroup: number;
 
   constructor(
     private modalService: BsModalService,
@@ -61,7 +62,7 @@ export class SettingsComponent implements OnInit {
     console.log(model);
     if (isValid) {
       this.groupsService.createaGroup(model);
-      this.groupForm.reset();
+      this.groupForm.reset({allocation_method: 0, active: true});
       this.modalRef.hide();
     }
   }
