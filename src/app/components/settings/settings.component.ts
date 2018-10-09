@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AccountService } from '../../services/account.service';
 import { GroupsService } from '../../services/groups.service';
 import { Group } from '../../models/group';
+import { Account } from '../../models/account';
 
 @Component({
   selector: 'app-settings',
@@ -16,6 +17,7 @@ export class SettingsComponent implements OnInit {
   account: any;
 
   public groupForm: FormGroup;
+  public accountForm: FormGroup;
   public selectedGroup: number;
 
   constructor(
@@ -25,8 +27,8 @@ export class SettingsComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.accounts = this.accountService.get();
-    this.account = this.accountService.getItem();
+    this.accounts = this.accountService.getAccounts();
+    this.account = this.accountService.getAccount();
 
     this.groupForm = new FormGroup({
       name: new FormControl('', [<any>Validators.required]),
@@ -35,29 +37,30 @@ export class SettingsComponent implements OnInit {
       exchange: new FormControl('bifinex', [<any>Validators.required]),
       base_currency: new FormControl('usd', [<any>Validators.required]),
     });
+
+    this.accountForm = new FormGroup({
+      acc_name: new FormControl('', [<any>Validators.required]),
+      user_name: new FormControl('', [<any>Validators.required]),
+      risk: new FormControl(0, [<any>Validators.required]),
+      exchange: new FormControl('', [<any>Validators.required]),
+      base_currency: new FormControl('', [<any>Validators.required]),
+    });
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
-  confirmed($event, ...props) {
-    $event.preventDefault();
-
-    this.accountService.set({
-      id: this.accounts.length + 1,
-      status: false,
-      accName: props[0].value,
-      userName: props[1].value,
-      exchange: props[2].value,
-      baseCurrency: props[3].value,
-      equity: '15',
-      date: '15/12/2018',
-    });
+  createAccount(modal: Account, isValid: boolean) {
+    if (isValid) {
+      this.accountService.createAccount(modal);
+      this.accountForm.reset({ risk: 0 });
+      this.modalRef.hide();
+    }
   }
 
   currentAccount($event, id) {
-    this.account = this.accountService.getItem(id);
+    this.account = this.accountService.getAccount(id);
   }
 
   createGroup(model: Group, isValid: boolean) {
