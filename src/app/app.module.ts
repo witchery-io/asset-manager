@@ -7,6 +7,7 @@ import { MainComponent } from './components/main/main.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -22,6 +23,7 @@ library.add(fas);
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ModalModule.forRoot(),
     TabsModule.forRoot(),
     FontAwesomeModule,
   ],
