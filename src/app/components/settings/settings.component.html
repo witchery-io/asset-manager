@@ -120,47 +120,9 @@
         <tab heading="Accounts">
           <div class="row">
             <div class="col-6">
-              <button class="btn btn-primary btn-sm mt-3 mb-3" (click)="openModal(template)">
+              <button class="btn btn-primary btn-sm mt-3 mb-3" (click)="openModal(accountModal)">
                 <fa-icon icon="plus"></fa-icon> Create account
               </button>
-              <ng-template #template>
-                <div class="modal-header">
-                  <h4 class="modal-title pull-left">Create account</h4>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <div class="form-group">
-                      <label>Acc. Name</label>
-                      <input type="text" class="form-control" placeholder="Acc. Name" #accName>
-                    </div>
-                    <div class="form-group">
-                      <label>User Name</label>
-                      <input type="text" class="form-control" placeholder="User Name" #userName>
-                    </div>
-                    <div class="form-group">
-                      <label>
-                        Exchange
-                        <select class="custom-select" #exchange>
-                          <option selected value="Bitfinex">Bitfinex</option>
-                        </select>
-                      </label>
-                    </div>
-                    <div class="form-group">
-                      <label>
-                        Base currency
-                        <select class="custom-select" #bc>
-                          <option selected value="BTC">BTC</option>
-                          <option value="ETH">ETH</option>
-                        </select>
-                      </label>
-                    </div>
-                    <button type="submit" class="btn btn-outline-primary" aria-label="Close" (click)="modalRef.hide()">CANCEL
-                    </button>
-                    <button type="submit" class="btn btn-primary" (click)="confirmed($event, accName, userName, exchange, bc)">ADD
-                    </button>
-                  </form>
-                </div>
-              </ng-template>
               <table class="table">
                 <thead>
                   <tr>
@@ -171,6 +133,7 @@
                     <th scope="col">Exchange</th>
                     <th scope="col">BC</th>
                     <th scope="col">Equity</th>
+                    <th scope="col">Risk</th>
                     <th scope="col">Date</th>
                   </tr>
                 </thead>
@@ -183,6 +146,7 @@
                     <td scope="col">{{ account.exchange }}</td>
                     <td scope="col">{{ account.baseCurrency }}</td>
                     <td scope="col">{{ account.equity }}</td>
+                    <td scope="col">{{ account.risk }}</td>
                     <td scope="col">{{ account.date }}</td>
                   </tr>
                 </tbody>
@@ -302,3 +266,49 @@
     </form>
   </div>
 </ng-template>
+
+<ng-template #accountModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create account</h4>
+  </div>
+  <div class="modal-body">
+    <form novalidate [formGroup]="accountForm">
+      <div class="form-group">
+        <label>Acc. Name</label>
+        <input type="text" class="form-control" placeholder="Acc. Name" formControlName="accName">
+      </div>
+      <div class="form-group">
+        <label>User Name</label>
+        <input type="text" class="form-control" placeholder="User Name" formControlName="userName">
+      </div>
+      <div class="form-group">
+        <label>Risk</label>
+        <input type="text" class="form-control" placeholder="Risk" formControlName="risk">
+      </div>
+      <div class="form-group">
+        <label>
+          Exchange
+          <select class="custom-select" formControlName="exchange">
+            <option selected value="Bitfinex">Bitfinex</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          Base currency
+          <select class="custom-select" formControlName="baseCurrency">
+            <option selected value="BTC">BTC</option>
+            <option value="ETH">ETH</option>
+          </select>
+        </label>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-outline-primary" aria-label="Close" (click)="modalRef.hide()">CANCEL
+        </button>
+        <button type="submit" class="btn btn-primary float-right" (click)="create($event)">ADD
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+

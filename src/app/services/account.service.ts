@@ -14,6 +14,7 @@ export class AccountService {
       exchange: 'Bitfinex',
       baseCurrency: 'BTC',
       equity: '150',
+      risk: 0.5,
       date: '10/9/2018',
     },
     {
@@ -24,6 +25,7 @@ export class AccountService {
       exchange: 'Bitfinex',
       baseCurrency: 'BTC',
       equity: '122',
+      risk: 1.5,
       date: '9/12/2018',
     },
   ];

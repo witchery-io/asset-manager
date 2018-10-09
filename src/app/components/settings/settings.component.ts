@@ -14,6 +14,7 @@ export class SettingsComponent implements OnInit {
   account: any;
 
   public groupForm: FormGroup;
+  public accountForm: FormGroup;
 
   constructor(
     private modalService: BsModalService,
@@ -28,25 +29,23 @@ export class SettingsComponent implements OnInit {
       name: new FormControl('', [<any>Validators.required]),
       allocation_method: new FormControl('', [<any>Validators.required]),
     });
+
+    this.accountForm = new FormGroup({
+      accName: new FormControl('', [<any>Validators.required]),
+      userName: new FormControl('', [<any>Validators.required]),
+      risk: new FormControl('', [<any>Validators.required]),
+      exchange: new FormControl('', [<any>Validators.required]),
+      baseCurrency: new FormControl('', [<any>Validators.required]),
+    });
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
-  confirmed($event, ...props) {
+  create($event) {
     $event.preventDefault();
-
-    this.accountService.set({
-      id: this.accounts.length + 1,
-      status: false,
-      accName: props[0].value,
-      userName: props[1].value,
-      exchange: props[2].value,
-      baseCurrency: props[3].value,
-      equity: '15',
-      date: '15/12/2018',
-    });
+    this.accountService.set(this.accountForm.value);
   }
 
   currentAccount($event, id) {
