@@ -34,6 +34,8 @@ export class SettingsComponent implements OnInit {
       name: new FormControl('', [<any>Validators.required]),
       allocation_method: new FormControl(0, [<any>Validators.required]),
       active: new FormControl(true, [<any>Validators.required]),
+      exchange: new FormControl('bifinex', [<any>Validators.required]),
+      base_currency: new FormControl('usd', [<any>Validators.required]),
     });
 
     this.accountForm = new FormGroup({
