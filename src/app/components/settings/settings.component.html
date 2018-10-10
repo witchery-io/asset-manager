@@ -22,8 +22,8 @@
                     <td>{{g.name}}</td>
                     <td>
                       <span class="switch switch-sm">
-                        <input type="checkbox" [checked]="g.active" class="switch" id="switch-{{g.id}}">
-                        <label for="switch-{{g.id}}"></label>
+                        <input type="checkbox" [checked]="g.active" class="switch" id="switch-group-{{g.id}}">
+                        <label for="switch-group-{{g.id}}"></label>
                       </span>
                     </td>
                   </tr>
@@ -120,7 +120,7 @@
             </div>
           </div>
         </tab>
-        <tab heading="Accounts">
+        <tab heading="Accounts" id="tab2">
           <div class="row">
             <div class="col-6">
               <button class="btn btn-primary btn-sm mt-3 mb-3" (click)="openModal(accountModal)">
@@ -145,8 +145,8 @@
                     <th scope="col">{{ account.id }}</th>
                     <td scope="col">
                       <span class="switch switch-sm">
-                        <input type="checkbox" [checked]="account.status" class="switch" id="switch-{{account.id}}">
-                        <label for="switch-{{account.id}}"></label>
+                        <input type="checkbox" [checked]="account.status" class="switch" id="switch-account-{{account.id}}">
+                        <label for="switch-account-{{account.id}}"></label>
                       </span>
                     </td>
                     <td scope="col">{{ account.acc_name }}</td>
@@ -279,7 +279,7 @@
   </div>
 </ng-template>
 
-<ng-template #accountModal>
+<ng-template #accountModal class="modal-sm">
   <div class="modal-header">
     <h4 class="modal-title pull-left">Create account</h4>
   </div>
@@ -298,16 +298,19 @@
         <input type="text" class="form-control" placeholder="Risk" formControlName="risk">
       </div>
       <div class="form-group">
-        <label for="exchange">Exchange</label>
-        <select id="exchange" class="form-control" formControlName="exchange">
-          <option selected value="Bitfinex">Bitfinex</option>
+        <label for="account_exchange">Exchange</label>
+        <select class="form-control" id="account_exchange" formControlName="exchange">
+          <option selected value="bifinex">Btifinex</option>
+          <option value="cexio">CEX.IO</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="base_currency">Base currency</label>
-        <select id="base_currency" class="form-control" formControlName="base_currency">
-          <option selected value="BTC">BTC</option>
-          <option value="ETH">ETH</option>
+        <label for="account_base_currency">Base currency</label>
+        <select class="form-control" id="account_base_currency" formControlName="base_currency">
+          <option selected value="usd">USD</option>
+          <option value="btc">BTC</option>
+          <option value="eth">ETH</option>
+          <option value="eur">EUR</option>
         </select>
       </div>
       <div>
