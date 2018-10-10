@@ -1,0 +1,194 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-4">
+      <div class="mt-4">
+        <div class="form-group">
+          <select class="form-control" id="groups" (change)="changeGroup($event.target.value)">
+            <option *ngFor="let group of groups"
+                    [value]="group.id"
+                    [attr.selected]="group.id == currentGroupId ? true : null">
+              {{ group.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <table class="table table-bordered table-sm">
+        <thead>
+        <tr>
+          <th scope="col">Instrument</th>
+          <th scope="col">Last</th>
+          <th scope="col">Vol USD</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let tick of ticks; index as i">
+          <td scope="row">{{ tick.instrument }}</td>
+          <td>{{ tick.last }}</td>
+          <td>{{ tick.vol_usd }}</td>
+          <td>
+            <button class="btn btn-outline-warning btn-sm" (click)="tickSettings(tradingModal, i)">
+              <fa-icon icon="plus"></fa-icon>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-8">Graphic</div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <tabset>
+        <tab heading="Positions" id="tab1">
+          <table class="table mt-3">
+            <thead>
+            <tr>
+              <th scope="col">Instruments</th>
+              <th scope="col">L/S</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Open Price</th>
+              <th scope="col">Market Price</th>
+              <th scope="col">Stop</th>
+              <th scope="col">Limit</th>
+              <th scope="col">PL</th>
+              <th scope="col">PL(BTC)</th>
+              <th scope="col">PL %</th>
+              <th scope="col">Exposure (BTC)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>2</td>
+              <td>3</td>
+              <td>4</td>
+              <td>5</td>
+              <td>6</td>
+              <td>7</td>
+              <td>8</td>
+              <td>9</td>
+              <td>10</td>
+              <td>11</td>
+            </tr>
+            </tbody>
+          </table>
+        </tab>
+        <tab heading="Orders" id="tab2">
+          <table class="table mt-3">
+            <thead>
+            <tr>
+              <th scope="col">Instruments</th>
+              <th scope="col">Context</th>
+              <th scope="col">Type</th>
+              <th scope="col">B/S</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Price</th>
+              <th scope="col">Duration</th>
+              <th scope="col">Created</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>2</td>
+              <td>3</td>
+              <td>4</td>
+              <td>5</td>
+              <td>6</td>
+              <td>7</td>
+              <td>8</td>
+            </tr>
+            </tbody>
+          </table>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>
+
+<ng-template #tradingModal class="modal-sm">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <h3>{{ tick.instrument }}</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <tabset>
+          <tab heading="Exchange">
+            <form novalidate [formGroup]="exchangeForm" class="mt-3">
+              <div class="form-group">
+                <label for="exchange_o_type"></label>
+                <select class="form-control" id="exchange_o_type" formControlName="o_type">
+                  <option value="limit">Limit</option>
+                  <option value="market">Market</option>
+                  <option value="stop">Stop</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col">
+                  <input
+                    [attr.disabled]="exchangeForm.value.o_type === 'market' ? '' : null"
+                    type="number"
+                    class="form-control"
+                    placeholder="Price"
+                    formControlName="price"
+                  >
+                </div>
+                <div class="form-group col">
+                  <input type="number" class="form-control" placeholder="Amount" formControlName="amount">
+                </div>
+              </div>
+              <div>
+                <button type="submit" class="btn btn-success" (click)="buyExchange(exchangeForm.value, exchangeForm.valid)">BUY</button>
+                <button type="submit" class="btn btn-danger float-right" (click)="sellExchange(exchangeForm.value, exchangeForm.valid)">SELL</button>
+              </div>
+            </form>
+          </tab>
+
+          <tab heading="Margin">
+            <form novalidate [formGroup]="marginForm" class="mt-3">
+              <div class="form-group">
+                <label for="margin_o_type"></label>
+                <select class="form-control" id="margin_o_type" formControlName="o_type">
+                  <option value="limit">Limit</option>
+                  <option value="market">Market</option>
+                  <option value="stop">Stop</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col">
+                  <input
+                    [attr.disabled]="marginForm.value.o_type === 'market' ? '' : null"
+                    type="number"
+                    class="form-control"
+                    placeholder="Price"
+                    formControlName="price"
+                  >
+                </div>
+                <div class="form-group col">
+                  <input type="number" class="form-control" placeholder="Amount" formControlName="amount">
+                </div>
+              </div>
+
+              <div>
+                <button type="submit" class="btn btn-success" (click)="buyMargin(marginForm.value, marginForm.valid)">BUY</button>
+                <button type="submit" class="btn btn-danger float-right" (click)="sellMargin(marginForm.value, marginForm.valid)">SELL</button>
+              </div>
+            </form>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</ng-template>
