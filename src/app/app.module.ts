@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { TradingComponent } from './components/trading/trading.component';
+import { BotsComponent } from './components/bots/bots.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -13,8 +15,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import {BotsComponent} from './components/bots/bots.component';
-
 
 library.add(fas);
 
@@ -23,7 +23,8 @@ library.add(fas);
     AppComponent,
     MainComponent,
     SettingsComponent,
-    BotsComponent
+    TradingComponent,
+    BotsComponent,
   ],
   imports: [
     BrowserModule,

@@ -64,7 +64,6 @@ export class SettingsComponent implements OnInit {
   }
 
   createGroup(model: Group, isValid: boolean) {
-    console.log(model);
     if (isValid) {
       this.groupsService.createaGroup(model);
       this.groupForm.reset({allocation_method: 0, active: true});
