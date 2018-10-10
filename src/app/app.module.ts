@@ -13,6 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {BotsComponent} from './components/bots/bots.component';
+
 
 library.add(fas);
 
@@ -20,7 +22,8 @@ library.add(fas);
   declarations: [
     AppComponent,
     MainComponent,
-    SettingsComponent
+    SettingsComponent,
+    BotsComponent
   ],
   imports: [
     BrowserModule,
