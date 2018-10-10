@@ -1,0 +1,296 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 pt-3 pb-3">
+      <div class="row">
+        <div class="col-12">
+          <div class="pt-3 pb-3">
+            <button (click)="openModal(botModal)" class="btn btn-sm btn-success">
+              <fa-icon icon="plus"></fa-icon>
+              New Bot
+            </button>
+          </div>
+        </div>
+        <div class="row bot-container" style="margin: 20px 0">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-2"></div>
+              <div class="col-md-1">Exchange</div>
+              <div class="col-md-1">Pair</div>
+              <div class="col-md-1">L/S</div>
+              <div class="col-md-1">Date</div>
+              <div class="col-md-1">Acc/Gr</div>
+              <div class="col-md-1">P/L</div>
+              <div class="col-md-1"></div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div>
+              <div class="row"
+                   style="padding-top: 5px; padding-bottom: 5px;">
+                <div class="col-md-1">
+                  <button (click)="openModal(editBotModal)" type="button"
+                          id="editBot1" class="btn btn-icon btn-primary"
+                          style="border-radius: 50%;margin-left: 10px">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                  </button>
+                </div>
+                <div class="col-md-2">
+                  <button onclick="showBotInfo1()"
+                          class="btn btn btn-light dropbtn"
+                          style="text-transform: none">
+                    bot1-gridrating
+                  </button>
+                </div>
+                <div class="col-md-1 pt12 m-auto-0">bitfinex</div>
+                <div class="col-md-1 pt12 m-auto-0">BTCUSD</div>
+                <div class="col-md-1 pt12 m-auto-0">Long</div>
+                <div class="col-md-1 pt12 m-auto-0">18/04/21</div>
+                <div class="col-md-1 pt12 m-auto-0">Group</div>
+                <div class="col-md-1 pt12 m-auto-0">55</div>
+
+                <div class="col-md-1 pt12 m-auto-0">
+                  <div class="toggle-switch left">
+                  <span class="switch switch-sm">
+                    <input type="checkbox" class="switch" id="bot1" checked>
+                    <label for="bot1"></label>
+                  </span>
+                  </div>
+                </div>
+
+                <div class="col-md-1">
+                  <button class="btn btn-danger" style="text-transform: none">
+                    Delete Bot
+                  </button>
+                </div>
+                <div class="col-12 bot-table" id="botTable1">
+                  <table style="margin-top: .5rem;" class="table table-bordered">
+                    <thead>
+                    <tr>
+                      <th scope="col">Exchange Order</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Ticker</th>
+                      <th scope="col">Amount</th>
+                      <th scope="col">B/S</th>
+                      <th scope="col">Open Price</th>
+                      <th scope="col">P/L</th>
+                      <th scope="col">P/L, BC</th>
+                      <th scope="col">P/L, &#37;</th>
+                      <th scope="col"></th>
+
+                    </tr>
+                    </thead>
+                    <tr>
+                      <td>1265465466</td>
+                      <td>18/04/21, 18:50:20</td>
+                      <td>BTCUSD</td>
+                      <td>10</td>
+                      <td>Buy</td>
+                      <td>6,321</td>
+                      <td>2</td>
+                      <td>2</td>
+                      <td>0.2</td>
+                      <td>
+                        <button class="btn btn-sm btn-danger">close
+                        </button>
+                      </td>
+
+                    </tr>
+                  </table>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+  </div>
+</div>
+
+<ng-template #botModal class="modal-sm">
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create Bot</h4>
+  </div>
+
+  <div class="modal-body">
+    <form novalidate [formGroup]="botForm" (submit)="createGroup(botForm.value, botForm.valid)">
+
+      <div class="form-group">
+        <label for="strategy">Strategy</label>
+        <select class="form-control" id="strategy" formControlName="strategy">
+          <option selected value="0">bot1-grid_a</option>
+          <option value="1">bot2-grid_a</option>
+          <option value="2">bot3-gridtrading</option>
+          <option value="3">bot5-grid_a</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Group</label>
+        <input type="text" class="form-control" formControlName="group" placeholder="Group">
+      </div>
+
+      <div class="form-group">
+        <label>Account</label>
+        <input type="text" class="form-control" formControlName="account" placeholder="Account">
+      </div>
+
+      <div class="form-group">
+        <label for="long_term_priority">Long Term Priority</label>
+        <select class="form-control" id="long_term_priority" formControlName="long_term_priority">
+          <option selected value="0">Long</option>
+          <option value="1">Short</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Exchange</label>
+        <input type="text" class="form-control" formControlName="exchange" placeholder="Exchange">
+      </div>
+
+      <div class="form-group">
+        <label>Pair</label>
+        <input type="text" class="form-control" formControlName="pair" placeholder="Pair">
+      </div>
+
+      <div class="form-group">
+        <label>InitialVolume</label>
+        <input type="number" class="form-control" formControlName="initial_volume" placeholder="InitialVolume">
+      </div>
+
+      <div class="form-group">
+        <label>InitialVolumepercent</label>
+        <input type="number" class="form-control" formControlName="initial_volume_percent" placeholder="InitialVolumepercent">
+      </div>
+
+      <div class="form-group">
+        <label>Maxamount</label>
+        <input type="number" class="form-control" formControlName="max_amount" placeholder="Maxamount">
+      </div>
+
+      <div class="form-group">
+        <label>Stepfix</label>
+        <input type="number" class="form-control" formControlName="step_fix" placeholder="Stepfix">
+      </div>
+
+      <div class="form-group">
+        <label>Stepcalc</label>
+        <input type="text" class="form-control" formControlName="step_calc" placeholder="Stepcalc">
+      </div>
+
+      <div class="form-group">
+        <label>Tradelevel</label>
+        <input type="number" class="form-control" formControlName="trade_level" placeholder="Tradelevel">
+      </div>
+
+      <div class="form-group">
+        <label>Priority1coefficient</label>
+        <input type="text" class="form-control" formControlName="priority1coefficient" placeholder="Priority1coefficient">
+      </div>
+
+      <div class="form-group">
+        <label>Priority2coefficient</label>
+        <input type="text" class="form-control" formControlName="priority2coefficient" placeholder="Priority2coefficient">
+      </div>
+
+      <div class="form-group">
+        <label>VolumeCoeffUp</label>
+        <input type="number" class="form-control" formControlName="volume_coeff_up" placeholder="VolumeCoeffUp">
+      </div>
+
+      <div class="form-group">
+        <label>VolumeCoeffDown</label>
+        <input type="number" class="form-control" formControlName="volume_coeff_down" placeholder="VolumeCoeffDown">
+      </div>
+
+      <div class="form-group">
+        <label>CloseTrigerBelow</label>
+        <input type="text" class="form-control" formControlName="close_triger_below" placeholder="CloseTrigerBelow">
+      </div>
+
+      <div class="form-group">
+        <label>CloseTrigerAbove</label>
+        <input type="number" class="form-control" formControlName="close_triger_above" placeholder="CloseTrigerAbove">
+      </div>
+
+      <div class="mt-2">
+        <button type="button" class="btn btn-outline-primary float-left" aria-label="Close" (click)="modalRef.hide()">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary float-right">Run
+        </button>
+        <button type="submit" class="btn btn-success float-right mr-1">Save As
+        </button>
+      </div>
+
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #editBotModal class="modal-sm">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Edit Bot</h4>
+    </div>
+
+    <div class="modal-body">
+      <form novalidate [formGroup]="editBotForm" (submit)="createGroup(botForm.value, botForm.valid)">
+
+        <div class="form-group">
+          <label for="strategy">Strategy</label>
+          <select class="form-control" id="strategy" formControlName="strategy">
+            <option selected value="0">bot1-grid_a</option>
+            <option value="1">bot2-grid_a</option>
+            <option value="2">bot3-gridtrading</option>
+            <option value="3">bot5-grid_a</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="long_term_priority">Long Term Priority</label>
+          <select class="form-control" id="long_term_priority" formControlName="long_term_priority">
+            <option selected value="0">Long</option>
+            <option value="1">Short</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="bot_exchange">Exchange</label>
+          <select class="form-control" id="bot_exchange"
+                  (change)="getSelected($event.target.value)"
+                  formControlName="exchange">
+            <option value="0">
+              Any
+            </option>
+            <option *ngFor="let b of botService.bots" [value]="b.id" >
+              {{b.name}}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="group">Group</label>
+          <select class="form-control" id="group" formControlName="group">
+            <option *ngFor="let g of groupExchange" [value]="g.name" >
+              {{g.name}}
+            </option>
+          </select>
+        </div>
+
+        <div class="mt-2">
+          <button type="button" class="btn btn-outline-primary float-left" aria-label="Close" (click)="modalRef.hide()">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary float-right">Run
+          </button>
+          <button type="submit" class="btn btn-success float-right mr-1">Save As
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </ng-template>
+

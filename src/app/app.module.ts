@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { TradingComponent } from './components/trading/trading.component';
+import { BotsComponent } from './components/bots/bots.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -23,6 +24,7 @@ library.add(fas);
     MainComponent,
     SettingsComponent,
     TradingComponent,
+    BotsComponent,
   ],
   imports: [
     BrowserModule,

@@ -42,7 +42,7 @@ export class SettingsComponent implements OnInit {
       acc_name: new FormControl('', [<any>Validators.required]),
       user_name: new FormControl('', [<any>Validators.required]),
       risk: new FormControl(0, [<any>Validators.required]),
-      exchange: new FormControl('', [<any>Validators.required]),
+      exchanges_name: new FormControl('', [<any>Validators.required]),
       base_currency: new FormControl('', [<any>Validators.required]),
     });
   }
