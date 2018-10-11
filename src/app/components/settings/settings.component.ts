@@ -16,10 +16,15 @@ export class SettingsComponent implements OnInit {
   modalRef: BsModalRef;
   accounts: any;
   groups: any;
-  currentGroupAccounts: any;
-  // account: any;
+
+  currentGroupId: string;
+  currentGroupAccounts: string;
+
+  account: any;
+
   groupForm: FormGroup;
   accountForm: FormGroup;
+  addAccountForm: FormGroup;
 
   constructor(
     private modalService: BsModalService,
@@ -34,17 +39,13 @@ export class SettingsComponent implements OnInit {
       }
     );
 
-    this.groupsService.getGroups()
-      .subscribe(groups => {
-        this.groups = groups;
-        }
-      );
+    this.fetchGroup();
 
-/*    this.accountService.getAccount()
+    this.accountService.getAccounts()
       .subscribe(account => {
-        this.account = account;
+        this.account = account[0];
       }
-    );*/
+    );
 
     this.groupForm = new FormGroup({
       name: new FormControl('', [<any>Validators.required]),
@@ -61,6 +62,18 @@ export class SettingsComponent implements OnInit {
       exchange: new FormControl('', [<any>Validators.required]),
       base_currency: new FormControl('', [<any>Validators.required]),
     });
+
+    this.addAccountForm = new FormGroup({
+      account_id: new FormControl('', [<any>Validators.required]),
+    });
+  }
+
+  fetchGroup() {
+    this.groupsService.getGroups()
+      .subscribe(groups => {
+          this.groups = groups;
+        }
+      );
   }
 
   openModal(template: TemplateRef<any>) {
@@ -68,14 +81,15 @@ export class SettingsComponent implements OnInit {
   }
 
   currentAccount($event, id) {
-/*    this.accountService.getAccount(id)
+    this.accountService.getAccount(id)
       .subscribe(account => {
           this.account = account;
         }
-      );*/
+      );
   }
 
   choseGroupAccount(group_id) {
+    this.currentGroupId = group_id;
     this.groupsService.getGroup(group_id)
       .subscribe(group => this.currentGroupAccounts = group.accounts);
   }
@@ -101,6 +115,17 @@ export class SettingsComponent implements OnInit {
         },
         error => console.log(error),
       );
+    }
+  }
+
+  createAddAccount(model: any, isValid: boolean) {
+    if (isValid) {
+      this.groupsService.addAccount(this.currentGroupId, model)
+        .subscribe((result: { group_id: string }) => {
+          this.fetchGroup();
+          this.choseGroupAccount(result.group_id);
+          this.modalRef.hide();
+        });
     }
   }
 }

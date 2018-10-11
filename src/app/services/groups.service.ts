@@ -26,4 +26,8 @@ export class GroupsService {
   createGroup(group: Group): Observable<any> {
     return this.http.post(`${ environment.apiUrl }${ this.url }`, group);
   }
+
+  addAccount(group_id, params: any) {
+    return this.http.post(`${ environment.apiUrl }${ this.url }/${ group_id }/accounts`, params);
+  }
 }

@@ -18,7 +18,12 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let group of groups; let i = index" class="cursor-pointer" (click)="choseGroupAccount(group.id)">
+                  <tr
+                    *ngFor="let group of groups"
+                    class="cursor-pointer"
+                    [className]="group.id === currentGroupId ? 'table-active' : ''"
+                    (click)="choseGroupAccount(group.id)"
+                  >
                     <td>{{ group.name }}</td>
                     <td>
                       <span class="switch switch-sm">
@@ -32,7 +37,11 @@
             </div>
             <div class="col-3">
               <div class="pt-3 pb-3">
-                <button class="btn btn-sm btn-outline-primary">
+                <button
+                  class="btn btn-sm btn-outline-primary"
+                  [disabled]="!currentGroupId"
+                  (click)="openModal(addAccountModal)"
+                >
                   <fa-icon icon="plus"></fa-icon> Add account
                 </button>
               </div>
@@ -227,7 +236,6 @@
           <option value="2">Equity</option>
         </select>
       </div>
-
       <div class="form-group">
         <label for="exchange">Exchange</label>
         <select class="form-control" id="exchange" formControlName="exchange">
@@ -235,7 +243,6 @@
           <option value="cexio">CEX.IO</option>
         </select>
       </div>
-      
       <div class="form-group">
           <label for="base_currency">Base currency</label>
           <select class="form-control" id="base_currency" formControlName="base_currency">
@@ -251,12 +258,11 @@
         <button type="submit" class="btn btn-primary float-right">Create
         </button>
       </div>
-
     </form>
   </div>
 </ng-template>
 
-<ng-template #accountModal>
+<ng-template #accountModal class="modal-sm">
   <div class="modal-header">
     <h4 class="modal-title pull-left">Create account</h4>
   </div>
@@ -297,3 +303,19 @@
   </div>
 </ng-template>
 
+<ng-template #addAccountModal class="modal-sm">
+  <div class="modal-body">
+    <form novalidate [formGroup]="addAccountForm" (submit)="createAddAccount(addAccountForm.value, addAccountForm.valid)">
+      <div class="form-group">
+        <select class="form-control" formControlName="account_id">
+          <option *ngFor="let account of accounts" [value]="account.id">
+            {{ account.user_name }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary float-right">ADD</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
