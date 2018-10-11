@@ -19,6 +19,7 @@ export class TradingComponent implements OnInit {
   currentTickId: number;
   exchangeForm: FormGroup;
   marginForm: FormGroup;
+  groups: any;
 
   constructor(
     private modalService: BsModalService,
@@ -32,6 +33,12 @@ export class TradingComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.currentGroupId = params['groupId'];
     });
+
+    this.groupsService.getGroups().subscribe(
+      groups => {
+        this.groups = groups;
+      }
+    );
 
     this.exchangeForm = new FormGroup({
       o_type: new FormControl('limit', [<any>Validators.required]),
@@ -55,10 +62,6 @@ export class TradingComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  get groups() {
-    return this.groupsService.getAll();
-  }
-
   get ticks() {
     return this.tickService.getTicks();
   }
@@ -69,7 +72,7 @@ export class TradingComponent implements OnInit {
 
   changeGroup(current_id) {
     this.currentGroupId = current_id;
-    this.router.navigate([`/trading/${current_id}`]);
+    this.router.navigate([`/trading/${ current_id }`]);
   }
 
   buyExchange(model: Exchange, isValid: boolean) {
