@@ -7,10 +7,10 @@ export class AccountService {
 
   accounts = [
     {
-      id: 1,
+      id: '1',
       status: true,
-      acc_name: 'test 1',
-      user_name: 'test 2',
+      acc_name: 'acc name 1',
+      user_name: 'user name 1',
       exchange: 'Bitfinex',
       base_currency: 'BTC',
       equity: '150',
@@ -18,10 +18,10 @@ export class AccountService {
       date: '10/9/2018',
     },
     {
-      id: 2,
+      id: '2',
       status: true,
-      acc_name: 'test 1',
-      user_name: 'test 2',
+      acc_name: 'acc name 2',
+      user_name: 'user name 2',
       exchange: 'Bitfinex',
       base_currency: 'BTC',
       equity: '122',

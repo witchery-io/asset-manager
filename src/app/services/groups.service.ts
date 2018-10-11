@@ -7,9 +7,19 @@ import { HttpClient } from '@angular/common/http';
 })
 export class GroupsService {
 
-  public groups: Group[] = [
-    {id: 'group1', name: 'Group 1', allocation_method: 0, active: true},
-    {id: 'group2', name: 'Group 2', allocation_method: 2, active: false},
+  public groups: any[] = [
+    {
+      id: 'group1',
+      name: 'Group 1',
+      allocation_method: 0,
+      active: true,
+    },
+    {
+      id: 'group2',
+      name: 'Group 2',
+      allocation_method: 2,
+      active: false,
+    },
   ];
 
   constructor(private http: HttpClient) { }
