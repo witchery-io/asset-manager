@@ -1,46 +1,31 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Account } from '../models/account';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
-  accounts = [
-    {
-      id: 1,
-      status: true,
-      acc_name: 'test 1',
-      user_name: 'test 2',
-      exchange: 'Bitfinex',
-      base_currency: 'BTC',
-      equity: '150',
-      risk: 0.5,
-      date: '10/9/2018',
-    },
-    {
-      id: 2,
-      status: true,
-      acc_name: 'test 1',
-      user_name: 'test 2',
-      exchange: 'Bitfinex',
-      base_currency: 'BTC',
-      equity: '122',
-      risk: 1.5,
-      date: '9/12/2018',
-    },
-  ];
+  url: 'accounts';
 
-  constructor() { }
+  constructor(
+    private http: HttpClient,
+  ) { }
 
-  createAccount(account) {
-    this.accounts.push(account);
+  createAccount(account: Account): Observable<any> {
+    return this.http.post(`${ environment.apiUrl }${ this.url }`, {
+      params: account
+    });
   }
 
   getAccounts() {
-    return this.accounts;
+    return this.http.get(`${ environment.apiUrl }${ this.url }`);
   }
 
   getAccount(id = 0) {
-    return this.accounts[id];
+    return this.http.get(`${ environment.apiUrl }${ this.url }/${ id }`);
   }
 }

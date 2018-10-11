@@ -9,16 +9,15 @@ import { Account } from '../../models/account';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
+
   modalRef: BsModalRef;
   accounts: any;
   account: any;
-
-  public groupForm: FormGroup;
-  public accountForm: FormGroup;
-  public selectedGroup: number;
+  groupForm: FormGroup;
+  accountForm: FormGroup;
 
   constructor(
     private modalService: BsModalService,
@@ -27,8 +26,17 @@ export class SettingsComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.accounts = this.accountService.getAccounts();
-    this.account = this.accountService.getAccount();
+    this.accounts = this.accountService.getAccounts()
+      .subscribe(accounts => {
+        this.accounts = accounts;
+      }
+    );
+
+    this.account = this.accountService.getAccount()
+      .subscribe(account => {
+        this.account = account;
+      }
+    );
 
     this.groupForm = new FormGroup({
       name: new FormControl('', [<any>Validators.required]),
@@ -51,16 +59,24 @@ export class SettingsComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  createAccount(modal: Account, isValid: boolean) {
+  createAccount(model: Account, isValid: boolean) {
     if (isValid) {
-      this.accountService.createAccount(modal);
-      this.accountForm.reset({ risk: 0 });
-      this.modalRef.hide();
+      this.accountService.createAccount(model)
+        .subscribe(() => {
+          this.accountForm.reset({ risk: 0 });
+          this.modalRef.hide();
+        },
+        error => console.log(error),
+      );
     }
   }
 
   currentAccount($event, id) {
-    this.account = this.accountService.getAccount(id);
+    this.accountService.getAccount(id)
+      .subscribe(account => {
+        this.account = account;
+      }
+    );
   }
 
   createGroup(model: Group, isValid: boolean) {
@@ -70,7 +86,7 @@ export class SettingsComponent implements OnInit {
           this.groupForm.reset({ allocation_method: 0, active: true });
           this.modalRef.hide();
         },
-        error1 => console.log(error1),
+        error => console.log(error),
       );
     }
   }

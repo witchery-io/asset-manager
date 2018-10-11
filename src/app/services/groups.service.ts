@@ -11,14 +11,9 @@ export class GroupsService {
 
   url = 'groups';
 
-  public groups: any[] = [
-    { id: 'group1', name: 'Group 1', allocation_method: 0, active: true },
-    { id: 'group2', name: 'Group 2', allocation_method: 2, active: false },
-  ];
-
   constructor(
     private http: HttpClient,
-    ) { }
+  ) { }
 
   getGroups(): Observable<any> {
     return this.http.get(`${ environment.apiUrl }${ this.url }`);

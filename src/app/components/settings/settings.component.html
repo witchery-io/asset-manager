@@ -19,7 +19,7 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let g of groupsService.groups; let i = index" class="cursor-pointer">
-                    <td>{{g.name}}</td>
+                    <td>{{ g.name }}</td>
                     <td>
                       <span class="switch switch-sm">
                         <input type="checkbox" [checked]="g.active" class="switch" id="switch-{{g.id}}">
@@ -135,12 +135,11 @@
                     <th scope="col">User Name</th>
                     <th scope="col">Exchange</th>
                     <th scope="col">BC</th>
-                    <th scope="col">Equity</th>
                     <th scope="col">Risk</th>
                     <th scope="col">Date</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="accounts?.length">
                   <tr *ngFor="let account of accounts; index as i" (click)="currentAccount($event, i)">
                     <th scope="col">{{ account.id }}</th>
                     <td scope="col">{{ account.status }}</td>
@@ -148,7 +147,6 @@
                     <td scope="col">{{ account.user_name }}</td>
                     <td scope="col">{{ account.exchange }}</td>
                     <td scope="col">{{ account.base_currency }}</td>
-                    <td scope="col">{{ account.equity }}</td>
                     <td scope="col">{{ account.risk }}</td>
                     <td scope="col">{{ account.date }}</td>
                   </tr>
@@ -173,12 +171,6 @@
                   <h4>
                     <small class="text-muted">PL (%)</small>
                     <div>50</div>
-                  </h4>
-                </div>
-                <div class="col">
-                  <h4>
-                    <small class="text-muted">Equity</small>
-                    <div>{{ account.equity }}</div>
                   </h4>
                 </div>
               </div>
