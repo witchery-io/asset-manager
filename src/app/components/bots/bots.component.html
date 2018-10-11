@@ -116,10 +116,22 @@
     <h4 class="modal-title pull-left">Create Bot</h4>
   </div>
 
-  <div class="modal-body">
-    <form novalidate [formGroup]="botForm" (submit)="createGroup(botForm.value, botForm.valid)">
+  <div class="modal-body" id="create_bot">
+    <form novalidate [formGroup]="botForm" (submit)="createBot(botForm.value, botForm.valid)">
 
-      <div class="form-group">
+
+      <div class="form-group" >
+        <label for="tamplate">Tamplate</label>
+        <select (change)="getTamplate($event.target.value)" class="form-control" id="tamplate" formControlName="tamplate">
+          <option selected value="0">Select Tamplate</option>
+          <option *ngFor="let t of botService.tamplate" [value]="t.id" >
+            {{t.name}}
+          </option>
+        </select>
+
+      </div>
+
+      <div class="form-group" *ngIf="show">
         <label for="strategy">Strategy</label>
         <select class="form-control" id="strategy" formControlName="strategy">
           <option selected value="0">bot1-grid_a</option>
@@ -129,17 +141,43 @@
         </select>
       </div>
 
-      <div class="form-group">
-        <label>Group</label>
-        <input type="text" class="form-control" formControlName="group" placeholder="Group">
+      <!--<div class="form-group">-->
+        <!--<label>Group</label>-->
+        <!--<input type="text" class="form-control" formControlName="group" placeholder="Group">-->
+      <!--</div>-->
+
+      <div class="form-group" *ngIf="show">
+        <label for="exchange">Exchange</label>
+        <select class="form-control" id="exchange"
+                (change)="getSelected($event.target.value)"
+                formControlName="exchange">
+          <option selected value="0">Any</option>
+          <option *ngFor="let b of botService.bots" [value]="b.id" >
+            {{b.name}}
+          </option>
+        </select>
       </div>
 
-      <div class="form-group">
-        <label>Account</label>
-        <input type="text" class="form-control" formControlName="account" placeholder="Account">
+      <div class="form-group" *ngIf="show">
+        <label for="group">Group</label>
+        <select class="form-control" id="group" formControlName="group">
+          <option *ngFor="let g of groupExchange" [value]="g.name" >
+            {{g.name}}
+          </option>
+        </select>
       </div>
 
-      <div class="form-group">
+      <!--<div class="form-group">-->
+        <!--<label>Account</label>-->
+        <!--<select class="form-control" id="account" formControlName="account">-->
+          <!--<option selected value="0">Account-1</option>-->
+          <!--<option value="1">Account-2</option>-->
+          <!--<option value="2">Account-3</option>-->
+          <!--<option value="3">Account-4</option>-->
+        <!--</select>-->
+      <!--</div>-->
+
+      <div class="form-group" *ngIf="show">
         <label for="long_term_priority">Long Term Priority</label>
         <select class="form-control" id="long_term_priority" formControlName="long_term_priority">
           <option selected value="0">Long</option>
@@ -147,77 +185,78 @@
         </select>
       </div>
 
-      <div class="form-group">
-        <label>Exchange</label>
-        <input type="text" class="form-control" formControlName="exchange" placeholder="Exchange">
-      </div>
+      <!--<div class="form-group">-->
+        <!--<label>Exchange</label>-->
+        <!--<input type="text" class="form-control" formControlName="exchange" placeholder="Exchange">-->
+      <!--</div>-->
 
-      <div class="form-group">
-        <label>Pair</label>
-        <input type="text" class="form-control" formControlName="pair" placeholder="Pair">
-      </div>
 
-      <div class="form-group">
-        <label>InitialVolume</label>
-        <input type="number" class="form-control" formControlName="initial_volume" placeholder="InitialVolume">
-      </div>
+      <!--<div class="form-group">-->
+        <!--<label>Pair</label>-->
+        <!--<input type="text" class="form-control" formControlName="pair" placeholder="Pair">-->
+      <!--</div>-->
 
-      <div class="form-group">
-        <label>InitialVolumepercent</label>
-        <input type="number" class="form-control" formControlName="initial_volume_percent" placeholder="InitialVolumepercent">
-      </div>
+      <!--<div class="form-group">-->
+        <!--<label>InitialVolume</label>-->
+        <!--<input type="number" class="form-control" formControlName="initial_volume" placeholder="InitialVolume">-->
+      <!--</div>-->
 
-      <div class="form-group">
-        <label>Maxamount</label>
-        <input type="number" class="form-control" formControlName="max_amount" placeholder="Maxamount">
-      </div>
+      <!--<div class="form-group">-->
+        <!--<label>InitialVolumepercent</label>-->
+        <!--<input type="number" class="form-control" formControlName="initial_volume_percent" placeholder="InitialVolumepercent">-->
+      <!--</div>-->
 
-      <div class="form-group">
-        <label>Stepfix</label>
-        <input type="number" class="form-control" formControlName="step_fix" placeholder="Stepfix">
-      </div>
+      <!--<div class="form-group">-->
+        <!--<label>Maxamount</label>-->
+        <!--<input type="number" class="form-control" formControlName="max_amount" placeholder="Maxamount">-->
+      <!--</div>-->
 
-      <div class="form-group">
-        <label>Stepcalc</label>
-        <input type="text" class="form-control" formControlName="step_calc" placeholder="Stepcalc">
-      </div>
+      <!--<div class="form-group">-->
+        <!--<label>Stepfix</label>-->
+        <!--<input type="number" class="form-control" formControlName="step_fix" placeholder="Stepfix">-->
+      <!--</div>-->
 
-      <div class="form-group">
-        <label>Tradelevel</label>
-        <input type="number" class="form-control" formControlName="trade_level" placeholder="Tradelevel">
-      </div>
+      <!--<div class="form-group">-->
+        <!--<label>Stepcalc</label>-->
+        <!--<input type="text" class="form-control" formControlName="step_calc" placeholder="Stepcalc">-->
+      <!--</div>-->
 
-      <div class="form-group">
-        <label>Priority1coefficient</label>
-        <input type="text" class="form-control" formControlName="priority1coefficient" placeholder="Priority1coefficient">
-      </div>
+      <!--<div class="form-group">-->
+        <!--<label>Tradelevel</label>-->
+        <!--<input type="number" class="form-control" formControlName="trade_level" placeholder="Tradelevel">-->
+      <!--</div>-->
 
-      <div class="form-group">
-        <label>Priority2coefficient</label>
-        <input type="text" class="form-control" formControlName="priority2coefficient" placeholder="Priority2coefficient">
-      </div>
+      <!--<div class="form-group">-->
+        <!--<label>Priority1coefficient</label>-->
+        <!--<input type="text" class="form-control" formControlName="priority1coefficient" placeholder="Priority1coefficient">-->
+      <!--</div>-->
 
-      <div class="form-group">
-        <label>VolumeCoeffUp</label>
-        <input type="number" class="form-control" formControlName="volume_coeff_up" placeholder="VolumeCoeffUp">
-      </div>
+      <!--<div class="form-group">-->
+        <!--<label>Priority2coefficient</label>-->
+        <!--<input type="text" class="form-control" formControlName="priority2coefficient" placeholder="Priority2coefficient">-->
+      <!--</div>-->
 
-      <div class="form-group">
-        <label>VolumeCoeffDown</label>
-        <input type="number" class="form-control" formControlName="volume_coeff_down" placeholder="VolumeCoeffDown">
-      </div>
+      <!--<div class="form-group">-->
+        <!--<label>VolumeCoeffUp</label>-->
+        <!--<input type="number" class="form-control" formControlName="volume_coeff_up" placeholder="VolumeCoeffUp">-->
+      <!--</div>-->
 
-      <div class="form-group">
-        <label>CloseTrigerBelow</label>
-        <input type="text" class="form-control" formControlName="close_triger_below" placeholder="CloseTrigerBelow">
-      </div>
+      <!--<div class="form-group">-->
+        <!--<label>VolumeCoeffDown</label>-->
+        <!--<input type="number" class="form-control" formControlName="volume_coeff_down" placeholder="VolumeCoeffDown">-->
+      <!--</div>-->
 
-      <div class="form-group">
-        <label>CloseTrigerAbove</label>
-        <input type="number" class="form-control" formControlName="close_triger_above" placeholder="CloseTrigerAbove">
-      </div>
+      <!--<div class="form-group">-->
+        <!--<label>CloseTrigerBelow</label>-->
+        <!--<input type="text" class="form-control" formControlName="close_triger_below" placeholder="CloseTrigerBelow">-->
+      <!--</div>-->
 
-      <div class="mt-2">
+      <!--<div class="form-group">-->
+        <!--<label>CloseTrigerAbove</label>-->
+        <!--<input type="number" class="form-control" formControlName="close_triger_above" placeholder="CloseTrigerAbove">-->
+      <!--</div>-->
+
+      <div class="pt-3">
         <button type="button" class="btn btn-outline-primary float-left" aria-label="Close" (click)="modalRef.hide()">
           Cancel
         </button>
@@ -239,9 +278,20 @@
     <div class="modal-body">
       <form novalidate [formGroup]="editBotForm" (submit)="createGroup(botForm.value, botForm.valid)">
 
+        <div class="form-group" >
+          <label for="bot_tamplate">Tamplate</label>
+          <select disabled class="form-control" id="bot_tamplate" formControlName="tamplate">
+            <option selected value="0">Select Tamplate</option>
+            <option *ngFor="let t of botService.tamplate" [value]="t.id" >
+              {{t.name}}
+            </option>
+          </select>
+
+        </div>
+
         <div class="form-group">
-          <label for="strategy">Strategy</label>
-          <select class="form-control" id="strategy" formControlName="strategy">
+          <label for="bot_strategy">Strategy</label>
+          <select class="form-control" id="bot_strategy" formControlName="strategy">
             <option selected value="0">bot1-grid_a</option>
             <option value="1">bot2-grid_a</option>
             <option value="2">bot3-gridtrading</option>
@@ -250,8 +300,17 @@
         </div>
 
         <div class="form-group">
-          <label for="long_term_priority">Long Term Priority</label>
-          <select class="form-control" id="long_term_priority" formControlName="long_term_priority">
+          <label for="bot_group">Group</label>
+          <select class="form-control" id="bot_group" formControlName="group">
+            <option *ngFor="let g of groupExchange" [value]="g.name" >
+              {{g.name}}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="bot_long_term_priority">Long Term Priority</label>
+          <select class="form-control" id="bot_long_term_priority" formControlName="long_term_priority">
             <option selected value="0">Long</option>
             <option value="1">Short</option>
           </select>
@@ -262,32 +321,11 @@
           <select class="form-control" id="bot_exchange"
                   (change)="getSelected($event.target.value)"
                   formControlName="exchange">
-            <option value="0">
-              Any
-            </option>
+            <option selected value="0">Any</option>
             <option *ngFor="let b of botService.bots" [value]="b.id" >
               {{b.name}}
             </option>
           </select>
-        </div>
-
-        <div class="form-group">
-          <label for="group">Group</label>
-          <select class="form-control" id="group" formControlName="group">
-            <option *ngFor="let g of groupExchange" [value]="g.name" >
-              {{g.name}}
-            </option>
-          </select>
-        </div>
-
-        <div class="mt-2">
-          <button type="button" class="btn btn-outline-primary float-left" aria-label="Close" (click)="modalRef.hide()">
-            Cancel
-          </button>
-          <button type="submit" class="btn btn-primary float-right">Run
-          </button>
-          <button type="submit" class="btn btn-success float-right mr-1">Save As
-          </button>
         </div>
 
       </form>

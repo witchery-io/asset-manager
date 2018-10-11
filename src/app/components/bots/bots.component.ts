@@ -4,6 +4,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Bots} from '../../models/bots';
 import {BotService} from '../../services/bot.service';
 import {GroupsService} from '../../services/groups.service';
+import {Router} from '@angular/router';
+import {Group} from '../../models/group';
 
 
 
@@ -12,12 +14,18 @@ import {GroupsService} from '../../services/groups.service';
   templateUrl: './bots.component.html',
   styleUrls: ['./bots.component.scss']
 })
+
+
+
 export class BotsComponent implements OnInit {
   public items: Bots[] = [];
   public group: any = [];
   public groupExchange = [];
   public exchanges: string;
   modalRef: BsModalRef;
+  show: boolean = false;
+
+  public bots: any[];
 
   public botForm: FormGroup;
   public editBotForm: FormGroup;
@@ -27,7 +35,7 @@ export class BotsComponent implements OnInit {
     private modalService: BsModalService,
     public botService: BotService,
     public groupsService: GroupsService,
-
+    public router: Router
   ) {
 
 
@@ -35,15 +43,13 @@ export class BotsComponent implements OnInit {
 
   ngOnInit() {
 
-
-
     this.botForm = new FormGroup({
       strategy: new FormControl(0, [<any>Validators.required]),
       active: new FormControl(true, [<any>Validators.required]),
       group: new FormControl('', [<any>Validators.required]),
       account: new FormControl('', [<any>Validators.required]),
       long_term_priority: new FormControl(0, [<any>Validators.required]),
-      exchange: new FormControl('', [<any>Validators.required]),
+      exchange: new FormControl(0, [<any>Validators.required]),
       pair: new FormControl('', [<any>Validators.required]),
       initial_volume: new FormControl('', [<any>Validators.required]),
       initial_volume_percent: new FormControl('', [<any>Validators.required]),
@@ -57,6 +63,7 @@ export class BotsComponent implements OnInit {
       volume_coeff_down: new FormControl('', [<any>Validators.required]),
       close_triger_below: new FormControl('', [<any>Validators.required]),
       close_triger_above: new FormControl('', [<any>Validators.required]),
+      tamplate: new FormControl(0, [<any>Validators.required]),
 
     });
 
@@ -74,6 +81,8 @@ export class BotsComponent implements OnInit {
     // this.group = this.groupsService.getAll();
 
   }
+
+
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
@@ -97,24 +106,25 @@ export class BotsComponent implements OnInit {
     }
   }
 
-  // createAccount(modal: Account, isValid: boolean) {
-  //   if (isValid) {
-  //     this.accountService.createAccount(modal);
-  //     this.accountForm.reset({ risk: 0 });
-  //     this.modalRef.hide();
-  //   }
-  // }
 
-  // currentAccount($event, id) {
-  //   this.account = this.accountService.getAccount(id);
-  // }
 
-  // createGroup(model: Group, isValid: boolean) {
-  //   console.log(model);
-  //   if (isValid) {
-  //     this.groupsService.createaGroup(model);
-  //     this.groupForm.reset({allocation_method: 0, active: true});
-  //     this.modalRef.hide();
-  //   }
-  // }
+  getTamplate(val: any) {
+     this.show = val !== '0' ? true : false;
+  }
+
+
+  createBot(model: Bots, isValid: boolean) {
+    console.log(model);
+    if (isValid) {
+      this.botService.createaBot(model);
+      this.botForm.reset({
+        strategy: '',
+        group: '',
+        long_term_priority: '',
+        exchange: '',
+        tamplate: ''
+      });
+      this.modalRef.hide();
+    }
+  }
 }
