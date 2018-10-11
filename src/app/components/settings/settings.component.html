@@ -18,12 +18,17 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let g of groupsService.groups; let i = index" class="cursor-pointer">
-                    <td>{{ g.name }}</td>
+                  <tr
+                    *ngFor="let group of groups"
+                    class="cursor-pointer"
+                    [className]="group.id === currentGroupId ? 'table-active' : ''"
+                    (click)="choseGroupAccount(group.id)"
+                  >
+                    <td>{{ group.name }}</td>
                     <td>
                       <span class="switch switch-sm">
-                        <input type="checkbox" [checked]="g.active" class="switch" id="switch-{{g.id}}">
-                        <label for="switch-{{g.id}}"></label>
+                        <input type="checkbox" [checked]="group.active" class="switch" id="switch-{{group.id}}">
+                        <label for="switch-{{group.id}}"></label>
                       </span>
                     </td>
                   </tr>
@@ -32,7 +37,11 @@
             </div>
             <div class="col-3">
               <div class="pt-3 pb-3">
-                <button class="btn btn-sm btn-outline-primary">
+                <button
+                  class="btn btn-sm btn-outline-primary"
+                  [disabled]="!currentGroupId"
+                  (click)="openModal(addAccountModal)"
+                >
                   <fa-icon icon="plus"></fa-icon> Add account
                 </button>
               </div>
@@ -43,14 +52,10 @@
                     <th scope="col">Risk</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>Mark</td>
-                    <td>1.5</td>
-                  </tr>
-                  <tr>
-                    <td>Jacob</td>
-                    <td>2.5</td>
+                <tbody *ngIf="currentGroupAccounts">
+                  <tr *ngFor="let account of currentGroupAccounts">
+                    <td>{{ account.user_name }}</td>
+                    <td>{{ account.risk }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -73,12 +78,6 @@
                   <h4>
                     <small class="text-muted">PL (%)</small>
                     <div>50</div>
-                  </h4>
-                </div>
-                <div class="col">
-                  <h4>
-                    <small class="text-muted">Equity</small>
-                    <div>{{ account.equity }}</div>
                   </h4>
                 </div>
               </div>
@@ -237,7 +236,6 @@
           <option value="2">Equity</option>
         </select>
       </div>
-
       <div class="form-group">
         <label for="exchange">Exchange</label>
         <select class="form-control" id="exchange" formControlName="exchange">
@@ -245,7 +243,6 @@
           <option value="cexio">CEX.IO</option>
         </select>
       </div>
-      
       <div class="form-group">
           <label for="base_currency">Base currency</label>
           <select class="form-control" id="base_currency" formControlName="base_currency">
@@ -261,12 +258,11 @@
         <button type="submit" class="btn btn-primary float-right">Create
         </button>
       </div>
-
     </form>
   </div>
 </ng-template>
 
-<ng-template #accountModal>
+<ng-template #accountModal class="modal-sm">
   <div class="modal-header">
     <h4 class="modal-title pull-left">Create account</h4>
   </div>
@@ -285,14 +281,14 @@
         <input type="text" class="form-control" placeholder="Risk" formControlName="risk">
       </div>
       <div class="form-group">
-        <label for="exchange">Exchange</label>
-        <select id="exchange" class="form-control" formControlName="exchange">
+        <label for="account_exchange">Exchange</label>
+        <select id="account_exchange" class="form-control" formControlName="exchange">
           <option selected value="Bitfinex">Bitfinex</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="base_currency">Base currency</label>
-        <select id="base_currency" class="form-control" formControlName="base_currency">
+        <label for="account_base_currency">Base currency</label>
+        <select id="account_base_currency" class="form-control" formControlName="base_currency">
           <option selected value="BTC">BTC</option>
           <option value="ETH">ETH</option>
         </select>
@@ -307,3 +303,19 @@
   </div>
 </ng-template>
 
+<ng-template #addAccountModal class="modal-sm">
+  <div class="modal-body">
+    <form novalidate [formGroup]="addAccountForm" (submit)="createAddAccount(addAccountForm.value, addAccountForm.valid)">
+      <div class="form-group">
+        <select class="form-control" formControlName="account_id">
+          <option *ngFor="let account of accounts" [value]="account.id">
+            {{ account.user_name }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary float-right">ADD</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
