@@ -1,13 +1,26 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-4">
+    <div class="col-2">
       <div class="mt-4">
         <div class="form-group">
-          <select class="form-control" id="groups" (change)="changeGroup($event.target.value)">
+          <select class="form-control" id="groups" (change)="changeType('group', $event.target.value)">
             <option *ngFor="let group of groups"
                     [value]="group.id"
-                    [attr.selected]="group.id == currentGroupId ? true : null">
+                    [attr.selected]="group.id == currentTypeId ? true : null">
               {{ group.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="mt-4">
+        <div class="form-group">
+          <select class="form-control" id="accounts" (change)="changeType('account', $event.target.value)">
+            <option *ngFor="let account of accounts"
+                    [value]="account.id"
+                    [attr.selected]="account.id == currentTypeId ? true : null">
+              {{ account.user_name }}
             </option>
           </select>
         </div>

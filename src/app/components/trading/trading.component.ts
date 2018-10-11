@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { GroupsService } from '../../services/groups.service';
+import { AccountService } from '../../services/account.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TickService } from '../../services/tick.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -15,7 +16,8 @@ import { Exchange } from '../../models/exchange';
 export class TradingComponent implements OnInit {
 
   modalRef: BsModalRef;
-  currentGroupId: string;
+  currentType: string;
+  currentTypeId: string;
   currentTickId: number;
   exchangeForm: FormGroup;
   marginForm: FormGroup;
@@ -24,6 +26,7 @@ export class TradingComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private groupsService: GroupsService,
+    private accountService: AccountService,
     private tickService: TickService,
     private route: ActivatedRoute,
     private router: Router,
@@ -31,7 +34,8 @@ export class TradingComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.currentGroupId = params['groupId'];
+      this.currentType = params['type'];
+      this.currentTypeId = params['id'];
     });
 
     this.groupsService.getGroups().subscribe(
@@ -62,6 +66,10 @@ export class TradingComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  get accounts() {
+    return this.accountService.getAccounts();
+  }
+
   get ticks() {
     return this.tickService.getTicks();
   }
@@ -70,9 +78,9 @@ export class TradingComponent implements OnInit {
     return this.tickService.getTick(this.currentTickId);
   }
 
-  changeGroup(current_id) {
-    this.currentGroupId = current_id;
-    this.router.navigate([`/trading/${ current_id }`]);
+  changeType(type, current_type_id) {
+    this.currentTypeId = current_type_id;
+    this.router.navigate([`/trading/${ type }/${ current_type_id }`]);
   }
 
   buyExchange(model: Exchange, isValid: boolean) {
