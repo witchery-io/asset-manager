@@ -15,7 +15,9 @@ export class SettingsComponent implements OnInit {
 
   modalRef: BsModalRef;
   accounts: any;
-  account: any;
+  groups: any;
+  currentGroupAccounts: any;
+  // account: any;
   groupForm: FormGroup;
   accountForm: FormGroup;
 
@@ -26,17 +28,23 @@ export class SettingsComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.accounts = this.accountService.getAccounts()
+    this.accountService.getAccounts()
       .subscribe(accounts => {
         this.accounts = accounts;
       }
     );
 
-    this.account = this.accountService.getAccount()
+    this.groupsService.getGroups()
+      .subscribe(groups => {
+        this.groups = groups;
+        }
+      );
+
+/*    this.accountService.getAccount()
       .subscribe(account => {
         this.account = account;
       }
-    );
+    );*/
 
     this.groupForm = new FormGroup({
       name: new FormControl('', [<any>Validators.required]),
@@ -50,7 +58,7 @@ export class SettingsComponent implements OnInit {
       acc_name: new FormControl('', [<any>Validators.required]),
       user_name: new FormControl('', [<any>Validators.required]),
       risk: new FormControl(0, [<any>Validators.required]),
-      exchanges_name: new FormControl('', [<any>Validators.required]),
+      exchange: new FormControl('', [<any>Validators.required]),
       base_currency: new FormControl('', [<any>Validators.required]),
     });
   }
@@ -59,9 +67,22 @@ export class SettingsComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  currentAccount($event, id) {
+/*    this.accountService.getAccount(id)
+      .subscribe(account => {
+          this.account = account;
+        }
+      );*/
+  }
+
+  choseGroupAccount(group_id) {
+    this.groupsService.getGroup(group_id)
+      .subscribe(group => this.currentGroupAccounts = group.accounts);
+  }
+
   createAccount(model: Account, isValid: boolean) {
     if (isValid) {
-      this.accountService.createAccount(model)
+      this.accountService.createAccount({ ...model, ...{ risk : +model.risk }})
         .subscribe(() => {
           this.accountForm.reset({ risk: 0 });
           this.modalRef.hide();
@@ -71,18 +92,10 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  currentAccount($event, id) {
-    this.accountService.getAccount(id)
-      .subscribe(account => {
-        this.account = account;
-      }
-    );
-  }
-
   createGroup(model: Group, isValid: boolean) {
     if (isValid) {
-      this.groupsService.createGroup(model).subscribe(
-        () => {
+      this.groupsService.createGroup({ ...model, ...{ allocation_method : +model.allocation_method }})
+        .subscribe(() => {
           this.groupForm.reset({ allocation_method: 0, active: true });
           this.modalRef.hide();
         },

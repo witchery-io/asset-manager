@@ -91,9 +91,9 @@ export class BotsComponent implements OnInit {
   getSelected(filterVal: any) {
       console.log(typeof filterVal);
     if (filterVal === '0') {
-      this.groupExchange = this.groupsService.groups;
+      // this.groupExchange = this.groupsService.groups;
     } else {
-      this.groupExchange = this.groupsService.groups.filter((item) => item.id === 'group1');
+      // this.groupExchange = this.groupsService.groups.filter((item) => item.id === 'group1');
     }
   }
 
