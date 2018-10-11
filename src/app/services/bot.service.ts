@@ -2,20 +2,17 @@ import { Injectable } from '@angular/core';
 import {Bots} from '../models/bots';
 import {Tamplate} from '../models/tamplate';
 import {HttpClient} from '@angular/common/http';
-import {Group} from '../models/group';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class BotService {
 
-
-  public data: any = [];
-
   constructor(private http: HttpClient) { }
 
   public bots: any = [
-    { id: 'bitfinex', name: 'Btifinex'},
+    { id: 'btifinex', name: 'Btifinex'},
     { id: 'cexio', name: 'CEX.IO'},
   ];
 

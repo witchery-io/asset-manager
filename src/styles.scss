@@ -177,3 +177,19 @@ $switch-transition: .2s all !default;
   }
 }
 
+.settings .svg-inline--fa {
+  color: #ccc;
+  font-size: 25px;
+  -webkit-transition: color .5s ease;
+  -moz-transition: color .5s ease;
+  -o-transition: color .5s ease;
+  transition: color .5s ease;
+}
+
+#settings a:hover .svg-inline--fa {
+  color: #fff;
+}
+
+
+
+

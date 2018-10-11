@@ -24,8 +24,8 @@ export class BotsComponent implements OnInit {
   public exchanges: string;
   modalRef: BsModalRef;
   show: boolean = false;
-
   public bots: any[];
+  public groups = [];
 
   public botForm: FormGroup;
   public editBotForm: FormGroup;
@@ -42,6 +42,11 @@ export class BotsComponent implements OnInit {
     }
 
   ngOnInit() {
+
+    this.groupsService.getGroups()
+      .subscribe((data: any[]) => {
+        this.groups = data;
+      });
 
     this.botForm = new FormGroup({
       strategy: new FormControl(0, [<any>Validators.required]),
@@ -72,6 +77,7 @@ export class BotsComponent implements OnInit {
       long_term_priority: new FormControl(0, [<any>Validators.required]),
       exchange: new FormControl(0, [<any>Validators.required]),
       group: new FormControl(0, [<any>Validators.required]),
+      tamplate: new FormControl(0, [<any>Validators.required]),
 
     });
 
@@ -81,6 +87,9 @@ export class BotsComponent implements OnInit {
     // this.group = this.groupsService.getAll();
 
   }
+
+
+
 
 
 
@@ -100,13 +109,11 @@ export class BotsComponent implements OnInit {
   getSelected(filterVal: any) {
       console.log(typeof filterVal);
     if (filterVal === '0') {
-      this.groupExchange = this.groupsService.groups;
+      this.groupExchange = this.groups;
     } else {
-      this.groupExchange = this.groupsService.groups.filter((item) => item.id === 'group1');
+      this.groupExchange = this.groups.filter((item) => item.exchange === filterVal);
     }
   }
-
-
 
   getTamplate(val: any) {
      this.show = val !== '0' ? true : false;
@@ -122,7 +129,7 @@ export class BotsComponent implements OnInit {
         group: '',
         long_term_priority: '',
         exchange: '',
-        tamplate: ''
+        tamplate: '',
       });
       this.modalRef.hide();
     }

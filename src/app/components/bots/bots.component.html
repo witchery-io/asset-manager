@@ -161,8 +161,8 @@
       <div class="form-group" *ngIf="show">
         <label for="group">Group</label>
         <select class="form-control" id="group" formControlName="group">
-          <option *ngFor="let g of groupExchange" [value]="g.name" >
-            {{g.name}}
+          <option *ngFor="let g of groupExchange" [value]="g.id" >
+            {{g.id}}
           </option>
         </select>
       </div>
@@ -302,8 +302,8 @@
         <div class="form-group">
           <label for="bot_group">Group</label>
           <select class="form-control" id="bot_group" formControlName="group">
-            <option *ngFor="let g of groupExchange" [value]="g.name" >
-              {{g.name}}
+            <option *ngFor="let gr of groupExchange" [value]="gr.name" >
+              {{gr.name}}
             </option>
           </select>
         </div>
@@ -326,6 +326,16 @@
               {{b.name}}
             </option>
           </select>
+        </div>
+
+        <div class="pt-3">
+          <button type="button" class="btn btn-outline-primary float-left" aria-label="Close" (click)="modalRef.hide()">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary float-right">Run
+          </button>
+          <button type="submit" class="btn btn-success float-right mr-1">Save As
+          </button>
         </div>
 
       </form>

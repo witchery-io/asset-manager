@@ -10,11 +10,14 @@ import { Observable } from 'rxjs';
 export class GroupsService {
 
   url = 'groups';
+  public groups: any[] = [];
 
-  public groups: any[] = [
-    { id: 'group1', name: 'Group 1', allocation_method: 0, active: true },
-    { id: 'group2', name: 'Group 2', allocation_method: 2, active: false },
-  ];
+
+  // public groups: any[] = [
+  //   { id: 'group1', name: 'Group 1', allocation_method: 0, active: true },
+  //   { id: 'group2', name: 'Group 2', allocation_method: 2, active: false },
+  // ];
+
 
   constructor(
     private http: HttpClient,

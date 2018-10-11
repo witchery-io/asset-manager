@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-main',
@@ -11,5 +12,6 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
   }
+  faCog = faCog;
 
 }
