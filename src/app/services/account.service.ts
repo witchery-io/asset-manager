@@ -19,7 +19,7 @@ export class AccountService {
     return this.http.post(`${ environment.apiUrl }${ this.url }`, account);
   }
 
-  getAccounts() {
+  getAccounts(): Observable<any> {
     return this.http.get(`${ environment.apiUrl }${ this.url }`);
   }
 

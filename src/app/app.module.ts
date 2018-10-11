@@ -11,10 +11,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { HttpClientModule } from '@angular/common/http';
+import { Ng2TableModule } from 'ng2-table/ng2-table';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ArraySortPipe } from './pipes/array-sort.pipe';
 
 library.add(fas);
 
@@ -25,6 +27,7 @@ library.add(fas);
     SettingsComponent,
     TradingComponent,
     BotsComponent,
+    ArraySortPipe,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +38,7 @@ library.add(fas);
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    Ng2TableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

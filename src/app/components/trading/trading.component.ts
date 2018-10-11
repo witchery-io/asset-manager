@@ -25,6 +25,22 @@ export class TradingComponent implements OnInit {
   marginForm: FormGroup;
   groups: any[] = [];
   accounts: any[] = [];
+  ticks: any[] = [];
+
+  selectedGroup = '';
+  selectedAccount = '';
+
+  public columns: Array<any> = [
+    {title: 'Instrument', className: ['office-header', 'text-success'], name: 'pair', filtering: {sort: 'asc',  placeholder: 'Filter by pair'}},
+    {title: 'Last', name: 'last', filtering: {filterString: '', placeholder: 'Filter by pair'}},
+    {title: '24h%', name: 'daily_change', filtering: {filterString: '', placeholder: 'Filter by pair'}},
+    {title: 'Vol USD', name: 'volume', filtering: {filterString: '', placeholder: 'Filter by pair'}},
+  ];
+
+  public config: any = {
+    sorting: {columns: this.columns},
+    className: ['table-striped', 'table-bordered', 'table-sm']
+  };
 
   enums = {
     'buy': 0,
@@ -49,11 +65,30 @@ export class TradingComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.currentType = params['type'];
       this.currentTypeId = params['id'];
+
+      if (this.currentType === 'group') {
+        this.selectedGroup = this.currentTypeId;
+      } else {
+        this.selectedAccount = this.currentTypeId;
+      }
     });
+
+    this.fetchTicks();
+
+    // @todo POXEL!
+    setInterval(() => {
+      this.fetchTicks();
+    }, 5000);
 
     this.groupsService.getGroups().subscribe(
       groups => {
         this.groups = groups;
+      }
+    );
+
+    this.accountService.getAccounts().subscribe(
+      accounts => {
+        this.accounts = accounts;
       }
     );
 
@@ -87,12 +122,26 @@ export class TradingComponent implements OnInit {
   //   return this.accountService.getAccounts();
   // }
 
-  get ticks() {
-    return this.tickService.getTicks();
-  }
-
   get tick() {
     return this.tickService.getTick(this.currentTickId);
+  }
+
+  fetchTicks() {
+    this.tickService.getTicks().subscribe(
+      ticks => {
+        ticks.sort((a: any, b: any) => {
+          if (a.pair < b.pair) {
+            return -1;
+          } else if (a.pair > b.pair) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+
+        this.ticks = ticks;
+      }
+    );
   }
 
   changeType(type, current_type_id) {
