@@ -65,9 +65,13 @@ export class SettingsComponent implements OnInit {
 
   createGroup(model: Group, isValid: boolean) {
     if (isValid) {
-      this.groupsService.createaGroup(model);
-      this.groupForm.reset({allocation_method: 0, active: true});
-      this.modalRef.hide();
+      this.groupsService.createGroup(model).subscribe(
+        () => {
+          this.groupForm.reset({ allocation_method: 0, active: true });
+          this.modalRef.hide();
+        },
+        error1 => console.log(error1),
+      );
     }
   }
 }
