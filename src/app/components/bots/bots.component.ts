@@ -41,7 +41,7 @@ export class BotsComponent implements OnInit {
     this.botForm = new FormGroup({
       strategy: new FormControl(0, [<any>Validators.required]),
       active: new FormControl(true, [<any>Validators.required]),
-      group: new FormControl('vfdfdf', [<any>Validators.required]),
+      group: new FormControl('', [<any>Validators.required]),
       account: new FormControl('', [<any>Validators.required]),
       long_term_priority: new FormControl(0, [<any>Validators.required]),
       exchange: new FormControl(0, [<any>Validators.required]),
@@ -76,8 +76,6 @@ export class BotsComponent implements OnInit {
     // this.group = this.groupsService.getAll();
 
   }
-
-
 
   openModal(template: TemplateRef<any>) {
 

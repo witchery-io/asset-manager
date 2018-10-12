@@ -1,13 +1,26 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-4">
+    <div class="col-2">
       <div class="mt-4">
         <div class="form-group">
-          <select class="form-control" id="groups" (change)="changeGroup($event.target.value)">
+          <select class="form-control" id="groups" [(ngModel)]="selectedGroup" (change)="changeType('group', $event.target.value)">
             <option *ngFor="let group of groups"
                     [value]="group.id"
-                    [attr.selected]="group.id == currentGroupId ? true : null">
+                    [attr.selected]="group.id == currentTypeId ? true : null">
               {{ group.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="mt-4">
+        <div class="form-group">
+          <select class="form-control" id="accounts" [(ngModel)]="selectedAccount" (change)="changeType('account', $event.target.value)">
+            <option *ngFor="let account of accounts"
+                    [value]="account.id"
+                    [attr.selected]="account.id == currentTypeId ? true : null">
+              {{ account.user_name }}
             </option>
           </select>
         </div>
@@ -16,21 +29,26 @@
   </div>
 
   <div class="row">
-    <div class="col-4">
+    <div class="col-4 ticks-container mb-3">
+      <!--<ng-table [config]="config"-->
+                <!--[rows]="ticks" [columns]="columns">-->
+      <!--</ng-table>-->
       <table class="table table-bordered table-sm">
         <thead>
         <tr>
           <th scope="col">Instrument</th>
           <th scope="col">Last</th>
+          <th scope="col">24h%</th>
           <th scope="col">Vol USD</th>
           <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let tick of ticks; index as i">
-          <td scope="row">{{ tick.instrument }}</td>
-          <td>{{ tick.last }}</td>
-          <td>{{ tick.vol_usd }}</td>
+          <td scope="row">{{ tick.pair }}</td>
+          <td>{{ tick.last | number }}</td>
+          <td [class.text-success]="tick.daily_change > 0" [class.text-danger]="tick.daily_change < 0">{{ tick.daily_change * 100 | number }}</td>
+          <td>{{ tick.volume | number }}</td>
           <td>
             <button class="btn btn-outline-warning btn-sm" (click)="tickSettings(tradingModal, i)">
               <fa-icon icon="plus"></fa-icon>

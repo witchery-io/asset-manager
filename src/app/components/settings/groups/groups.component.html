@@ -1,0 +1,128 @@
+<div class="row">
+  <div class="col-3">
+    <div class="pt-3 pb-3">
+      <button (click)="openModal(groupModal)" class="btn btn-sm btn-primary">
+        <fa-icon icon="plus"></fa-icon> Create group
+      </button>
+    </div>
+    <table class="table table-hover table-borderless">
+      <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Status</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        *ngFor="let group of groups; index as i"
+        class="cursor-pointer"
+        [class.table-active]="group.id === currentGroupId"
+        (click)="chooseGroup(group.id, i)">
+        <td>{{ group.name }}</td>
+        <td>
+        <span class="switch switch-sm">
+          <input type="checkbox" [checked]="group.active" class="switch" id="switch-{{group.id}}">
+          <label for="switch-{{group.id}}"></label>
+        </span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-3">
+    <div class="pt-3 pb-3">
+      <button
+        class="btn btn-sm btn-outline-primary"
+        [disabled]="!currentGroupId"
+        (click)="openModal(addAccountModal)">
+        <fa-icon icon="plus"></fa-icon> Add account
+      </button>
+    </div>
+    <table class="table table-hover table-borderless">
+      <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Risk</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let account of currentGroupAccounts; index as i" (click)="currentAccount($event, i)">
+        <td>{{ account.user_name }}</td>
+        <td>{{ account.risk }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-6">
+    <app-balance ></app-balance>
+  </div>
+</div>
+
+<ng-template #groupModal class="modal-sm">
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create group</h4>
+  </div>
+  <div class="modal-body">
+    <form novalidate [formGroup]="groupForm" (submit)="createGroup(groupForm.value, groupForm.valid)">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" formControlName="name" placeholder="Name">
+      </div>
+      <div class="form-group">
+        <label for="allocation_method">Allocation method</label>
+        <select class="form-control" id="allocation_method" formControlName="allocation_method">
+          <option selected value="0">Fix</option>
+          <option value="1">Percent</option>
+          <option value="2">Equity</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="exchange">Exchange</label>
+        <select class="form-control" id="exchange" formControlName="exchange">
+          <option selected value="bitfinex">Bitfinex</option>
+          <option value="cexio">CEX.IO</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="base_currency">Base currency</label>
+        <select class="form-control" id="base_currency" formControlName="base_currency">
+          <option selected value="usd">USD</option>
+          <option value="btc">BTC</option>
+          <option value="eth">ETH</option>
+          <option value="eur">EUR</option>
+        </select>
+      </div>
+      <div>
+        <button
+          type="button"
+          class="btn btn-outline-primary float-left"
+          aria-label="Close"
+          (click)="modalRef.hide()">Cancel
+        </button>
+        <button type="submit" class="btn btn-primary float-right">Create</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #addAccountModal class="modal-sm">
+  <div class="modal-body">
+    <form
+      novalidate
+      [formGroup]="addAccountForm"
+      (submit)="createAddAccount(addAccountForm.value, addAccountForm.valid)"
+    >
+      <div class="form-group">
+        <select class="form-control" formControlName="account_id">
+          <option *ngFor="let account of accounts" [value]="account.id">
+            {{ account.user_name }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary float-right">ADD</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

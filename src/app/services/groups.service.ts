@@ -21,15 +21,21 @@ export class GroupsService {
 
   constructor(
     private http: HttpClient,
-    ) { }
+  ) { }
 
   getGroups(): Observable<any> {
     return this.http.get(`${ environment.apiUrl }${ this.url }`);
   }
 
+  getGroup(id): Observable<any> {
+    return this.http.get(`${ environment.apiUrl }${ this.url }/${ id }`);
+  }
+
   createGroup(group: Group): Observable<any> {
-    return this.http.post(`${ environment.apiUrl }${ this.url }`, {
-      params: group
-    });
+    return this.http.post(`${ environment.apiUrl }${ this.url }`, group);
+  }
+
+  addAccount(group_id, params: any) {
+    return this.http.post(`${ environment.apiUrl }${ this.url }/${ group_id }/accounts`, params);
   }
 }

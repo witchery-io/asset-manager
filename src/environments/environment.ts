@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://192.168.0.111:50089/asset-manager/',
+  apiUrl: 'http://13.69.57.103:50089/accounts/',
 };
 
 /*
