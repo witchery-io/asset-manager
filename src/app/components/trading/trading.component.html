@@ -3,7 +3,7 @@
     <div class="col-2">
       <div class="mt-4">
         <div class="form-group">
-          <select class="form-control" id="groups" [(ngModel)]="selectedGroup" (change)="changeType('group', $event.target.value)">
+          <select class="form-control" id="groups" [ngModel]="selectedGroup" (change)="changeType('group', $event.target.value)">
             <option *ngFor="let group of groups"
                     [value]="group.id"
                     [attr.selected]="group.id == currentTypeId ? true : null">
@@ -16,7 +16,7 @@
     <div class="col-2">
       <div class="mt-4">
         <div class="form-group">
-          <select class="form-control" id="accounts" [(ngModel)]="selectedAccount" (change)="changeType('account', $event.target.value)">
+          <select class="form-control" id="accounts" [ngModel]="selectedAccount" (change)="changeType('account', $event.target.value)">
             <option *ngFor="let account of accounts"
                     [value]="account.id"
                     [attr.selected]="account.id == currentTypeId ? true : null">
