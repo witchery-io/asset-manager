@@ -21,9 +21,8 @@
                   <tr
                     *ngFor="let group of groups"
                     class="cursor-pointer"
-                    [className]="group.id === currentGroupId ? 'table-active' : ''"
-                    (click)="choseGroupAccount(group.id)"
-                  >
+                    [class.table-active]="group.id === currentGroupId"
+                    (click)="chooseGroupAccount(group.id)">
                     <td>{{ group.name }}</td>
                     <td>
                       <span class="switch switch-sm">
@@ -40,8 +39,7 @@
                 <button
                   class="btn btn-sm btn-outline-primary"
                   [disabled]="!currentGroupId"
-                  (click)="openModal(addAccountModal)"
-                >
+                  (click)="openModal(addAccountModal)">
                   <fa-icon icon="plus"></fa-icon> Add account
                 </button>
               </div>

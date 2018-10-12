@@ -88,7 +88,7 @@ export class SettingsComponent implements OnInit {
       );
   }
 
-  choseGroupAccount(group_id) {
+  chooseGroupAccount(group_id) {
     this.currentGroupId = group_id;
     this.groupsService.getGroup(group_id)
       .subscribe(group => this.currentGroupAccounts = group.accounts);
@@ -123,7 +123,7 @@ export class SettingsComponent implements OnInit {
       this.groupsService.addAccount(this.currentGroupId, model)
         .subscribe((result: { group_id: string }) => {
           this.fetchGroup();
-          this.choseGroupAccount(result.group_id);
+          this.chooseGroupAccount(result.group_id);
           this.modalRef.hide();
         });
     }
