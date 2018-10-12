@@ -1,4 +1,4 @@
-export class Tamplate {
+export class Template {
   id: string;
   name: string;
 }

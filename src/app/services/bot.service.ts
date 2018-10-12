@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Bots} from '../models/bots';
-import {Tamplate} from '../models/tamplate';
+import {Template} from '../models/template';
 import {HttpClient} from '@angular/common/http';
 
 
@@ -16,10 +16,10 @@ export class BotService {
     { id: 'cexio', name: 'CEX.IO'},
   ];
 
-  public tamplate: Tamplate[] = [
-    { id: 'tamplate1', name: 'Tamplate-1'},
-    { id: 'tamplate2', name: 'Tamplate-2'},
-    { id: 'tamplate3', name: 'Tamplate-3'},
+  public template: Template[] = [
+    { id: 'tamplate1', name: 'Template-1'},
+    { id: 'tamplate2', name: 'Template-2'},
+    { id: 'tamplate3', name: 'Template-3'},
   ];
 
   public getData() {

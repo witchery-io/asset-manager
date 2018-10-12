@@ -37,7 +37,7 @@
                   </button>
                 </div>
                 <div class="col-md-2">
-                  <button onclick="showBotInfo1()"
+                  <button (click)="show = !show"
                           class="btn btn btn-light dropbtn"
                           style="text-transform: none">
                     bot1-gridrating
@@ -64,7 +64,7 @@
                     Delete Bot
                   </button>
                 </div>
-                <div class="col-12 bot-table" id="botTable1">
+                <div *ngIf="show" class="col-12 bot-table" id="botTable1">
                   <table style="margin-top: .5rem;" class="table table-bordered">
                     <thead>
                     <tr>
@@ -121,10 +121,10 @@
 
 
       <div class="form-group" >
-        <label for="tamplate">Tamplate</label>
-        <select (change)="getTamplate($event.target.value)" class="form-control" id="tamplate" formControlName="tamplate">
-          <option selected value="0">Select Tamplate</option>
-          <option *ngFor="let t of botService.tamplate" [value]="t.id" >
+        <label for="template">Template</label>
+        <select (change)="getTemplate($event.target.value)" class="form-control" id="template" formControlName="template">
+          <option selected value="0">Select Template</option>
+          <option *ngFor="let t of botService.template" [value]="t.id" >
             {{t.name}}
           </option>
         </select>
@@ -279,10 +279,10 @@
       <form novalidate [formGroup]="editBotForm" (submit)="createGroup(botForm.value, botForm.valid)">
 
         <div class="form-group" >
-          <label for="bot_tamplate">Tamplate</label>
-          <select disabled class="form-control" id="bot_tamplate" formControlName="tamplate">
-            <option selected value="0">Select Tamplate</option>
-            <option *ngFor="let t of botService.tamplate" [value]="t.id" >
+          <label for="bot_template">Template</label>
+          <select disabled class="form-control" id="bot_template" formControlName="template">
+            <option selected value="0">Select Template</option>
+            <option *ngFor="let t of botService.template" [value]="t.id" >
               {{t.name}}
             </option>
           </select>
