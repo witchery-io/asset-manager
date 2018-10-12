@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Group } from '../../../models/group';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
@@ -13,12 +13,15 @@ export class GroupsComponent implements OnInit {
 
   @Input() groups: any;
   @Input() accounts: any;
+  @Output() update: EventEmitter<any> = new EventEmitter();
   modalRef: BsModalRef;
   groupForm: FormGroup;
   addAccountForm: FormGroup;
-  currentGroupId: string;
-  currentGroupAccounts: any;
-  chooseAccount: any;
+
+  group: any;
+  groupAccounts: any;
+  account: any;
+  balance: any;
 
   constructor(
     private modalService: BsModalService,
@@ -47,31 +50,38 @@ export class GroupsComponent implements OnInit {
     if (isValid) {
       this.groupsService.createGroup({ ...model, ...{ allocation_method: +model.allocation_method } })
         .subscribe(() => {
-            this.groupForm.reset({ allocation_method: 0, active: true });
+          this.update.emit(null);
+          this.groupForm.reset({ allocation_method: 0, active: true });
             this.modalRef.hide();
           },
         );
     }
   }
 
-  createAddAccount(model: any, isValid: boolean) {
+  createAccount(model: any, isValid: boolean) {
     if (isValid) {
-      this.groupsService.addAccount(this.currentGroupId, model)
+      this.groupsService.addAccount(this.group.id, model)
         .subscribe((result: { group_id: string }) => {
-          // this.chooseGroup(result.group_id);
+          this.update.emit(null);
+          this.updateGroupAccount(result.group_id);
           this.modalRef.hide();
         });
     }
   }
 
-  chooseGroup(group_id, index) {
-    this.currentGroupId = group_id;
-    this.chooseAccount = this.groups[index];
-    this.groupsService.getGroup(group_id)
-      .subscribe(group => this.currentGroupAccounts = group.accounts);
+  chooseGroup(index) {
+    this.group = this.groups[index];
+    this.balance = this.group;
+    this.updateGroupAccount(this.group.id);
   }
 
-  currentAccount($event, i) {
-    this.chooseAccount = this.accounts[i];
+  updateGroupAccount(id) {
+    this.groupsService.getGroup(id)
+      .subscribe(group => this.groupAccounts = group.accounts);
+  }
+
+  chooseAccount(index) {
+    this.account = this.groupAccounts[index];
+    this.balance = this.group;
   }
 }
