@@ -31,6 +31,9 @@ export class TradingComponent implements OnInit {
   selectedGroup = '';
   selectedAccount = '';
 
+  slelectedOrder: number;
+  selectedPosition: number;
+
   public columns: Array<any> = [
     {
       title: 'Instrument',
@@ -57,6 +60,10 @@ export class TradingComponent implements OnInit {
     'exchnage': 0,
     'margin': 1,
   };
+
+  orderType = ['buy', 'sell'];
+  orderOType = ['stop', 'market', 'limit'];
+  orderMType = ['exchnage', 'margin'];
 
   constructor(private modalService: BsModalService,
               private groupsService: GroupsService,
@@ -86,6 +93,9 @@ export class TradingComponent implements OnInit {
     // @todo POXEL!
     setInterval(() => {
       this.fetchTicks();
+    }, 5000);
+    setInterval(() => {
+      this.fetchOrders();
     }, 5000);
 
     this.groupsService.getGroups().subscribe(
@@ -164,6 +174,7 @@ export class TradingComponent implements OnInit {
 
   changeType(type, current_type_id) {
     this.currentTypeId = current_type_id;
+    this.fetchOrders();
     this.router.navigate([`/trading/${ type }/${ current_type_id }`]);
   }
 
@@ -183,14 +194,14 @@ export class TradingComponent implements OnInit {
       this.orderService.placeGroupOrder(this.currentTypeId, order)
         .subscribe(
           data => {
-
+            this.fetchOrders();
           }
         );
     } else {
       this.orderService.placeAccountOrder(this.currentTypeId, order)
         .subscribe(
           data => {
-
+            this.fetchOrders();
           }
         );
     }
