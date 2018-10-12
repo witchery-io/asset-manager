@@ -14,15 +14,15 @@
       </thead>
       <tbody>
       <tr
-        *ngFor="let group of groups; index as i"
+        *ngFor="let g of groups; index as i"
         class="cursor-pointer"
-        [class.table-active]="group.id === currentGroupId"
-        (click)="chooseGroup(group.id, i)">
-        <td>{{ group.name }}</td>
+        [class.table-active]="g.id === group?.id"
+        (click)="chooseGroup(i)">
+        <td>{{ g.name }}</td>
         <td>
         <span class="switch switch-sm">
-          <input type="checkbox" [checked]="group.active" class="switch" id="switch-{{group.id}}">
-          <label for="switch-{{group.id}}"></label>
+          <input type="checkbox" [checked]="g.active" class="switch" id="switch-{{g.id}}">
+          <label for="switch-{{g.id}}"></label>
         </span>
         </td>
       </tr>
@@ -33,7 +33,7 @@
     <div class="pt-3 pb-3">
       <button
         class="btn btn-sm btn-outline-primary"
-        [disabled]="!currentGroupId"
+        [disabled]="!group"
         (click)="openModal(addAccountModal)">
         <fa-icon icon="plus"></fa-icon> Add account
       </button>
@@ -46,16 +46,23 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let account of currentGroupAccounts; index as i" (click)="currentAccount($event, i)">
-        <td>{{ account.user_name }}</td>
-        <td>{{ account.risk }}</td>
+      <tr
+        *ngFor="let a of groupAccounts; index as i"
+        (click)="chooseAccount(i)"
+        [class.table-active]="a.id === account?.id"
+      >
+        <td>{{ a.user_name }}</td>
+        <td>{{ a.risk }}</td>
       </tr>
       </tbody>
     </table>
   </div>
 
   <div class="col-6">
-    <app-balance ></app-balance>
+    <app-balance
+      *ngIf="balance"
+      [values]="balance"
+    ></app-balance>
   </div>
 </div>
 
@@ -111,12 +118,12 @@
     <form
       novalidate
       [formGroup]="addAccountForm"
-      (submit)="createAddAccount(addAccountForm.value, addAccountForm.valid)"
+      (submit)="createAccount(addAccountForm.value, addAccountForm.valid)"
     >
       <div class="form-group">
         <select class="form-control" formControlName="account_id">
-          <option *ngFor="let account of accounts" [value]="account.id">
-            {{ account.user_name }}
+          <option *ngFor="let a of accounts" [value]="a.id">
+            {{ a.user_name }}
           </option>
         </select>
       </div>

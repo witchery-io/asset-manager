@@ -22,6 +22,11 @@ export class SettingsComponent implements OnInit {
     this.fetchAccount();
   }
 
+  update() {
+    this.fetchGroup();
+    this.fetchAccount();
+  }
+
   fetchGroup() {
     this.groupsService.getGroups().subscribe(groups => {
         this.groups = groups;
