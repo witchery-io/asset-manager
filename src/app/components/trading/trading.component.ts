@@ -26,12 +26,18 @@ export class TradingComponent implements OnInit {
   groups: any[] = [];
   accounts: any[] = [];
   ticks: any[] = [];
+  orders: any[] = [];
 
   selectedGroup = '';
   selectedAccount = '';
 
   public columns: Array<any> = [
-    {title: 'Instrument', className: ['office-header', 'text-success'], name: 'pair', filtering: {sort: 'asc',  placeholder: 'Filter by pair'}},
+    {
+      title: 'Instrument',
+      className: ['office-header', 'text-success'],
+      name: 'pair',
+      filtering: {sort: 'asc', placeholder: 'Filter by pair'}
+    },
     {title: 'Last', name: 'last', filtering: {filterString: '', placeholder: 'Filter by pair'}},
     {title: '24h%', name: 'daily_change', filtering: {filterString: '', placeholder: 'Filter by pair'}},
     {title: 'Vol USD', name: 'volume', filtering: {filterString: '', placeholder: 'Filter by pair'}},
@@ -71,6 +77,8 @@ export class TradingComponent implements OnInit {
       } else {
         this.selectedAccount = this.currentTypeId;
       }
+
+      this.fetchOrders();
     });
 
     this.fetchTicks();
@@ -106,6 +114,7 @@ export class TradingComponent implements OnInit {
   }
 
   tickSettings(template: TemplateRef<any>, tickId) {
+    console.log(tickId);
     this.currentTickId = tickId;
     this.openModal(template);
   }
@@ -123,7 +132,7 @@ export class TradingComponent implements OnInit {
   // }
 
   get tick() {
-    return this.tickService.getTick(this.currentTickId);
+    return this.ticks[this.currentTickId];
   }
 
   fetchTicks() {
@@ -142,6 +151,15 @@ export class TradingComponent implements OnInit {
         this.ticks = ticks;
       }
     );
+  }
+
+  fetchOrders() {
+    this.orderService.getGroupOrders(this.currentTypeId)
+      .subscribe(
+        orders => {
+          this.orders = orders;
+        }
+      );
   }
 
   changeType(type, current_type_id) {

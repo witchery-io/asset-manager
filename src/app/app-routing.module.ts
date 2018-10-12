@@ -8,7 +8,7 @@ import { BotsComponent } from './components/bots/bots.component';
 const routes: Routes = [
   { path: '', component: MainComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: 'trading', redirectTo: 'trading/group/3119afa2-5b8a-4521-a874-1f95e6c0726a' },
+  { path: 'trading', redirectTo: 'trading/group/b34f5a72-7692-42d8-b0ba-814116ca576a' },
   { path: 'trading/:type/:id', component: TradingComponent },
   { path: 'bots', component: BotsComponent },
 ];

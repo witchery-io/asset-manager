@@ -58,14 +58,14 @@
         </tbody>
       </table>
     </div>
-    <div class="col-8">Graphic</div>
+    <div class="col-8">Candlestick</div>
   </div>
 
   <div class="row">
     <div class="col-12">
       <tabset>
         <tab heading="Positions" id="tab1">
-          <table class="table mt-3">
+          <table class="table table-bordered mt-3">
             <thead>
             <tr>
               <th scope="col">Instruments</th>
@@ -82,19 +82,59 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>2</td>
-              <td>3</td>
-              <td>4</td>
-              <td>5</td>
-              <td>6</td>
-              <td>7</td>
-              <td>8</td>
-              <td>9</td>
-              <td>10</td>
-              <td>11</td>
-            </tr>
+            <ng-container *ngFor="let o of orders">
+                <tr>
+                  <th scope="row">{{o.pair}}</th>
+                  <td>{{o.type.direaction}}</td>
+                  <td>3</td>
+                  <td>4</td>
+                  <td>5</td>
+                  <td>6</td>
+                  <td>7</td>
+                  <td>8</td>
+                  <td>9</td>
+                  <td>10</td>
+                  <td>11</td>
+                </tr>
+                <tr>
+                  <td class="p-0" colspan="11">
+                    <table class="table table-borderless border-white">
+                      <thead>
+                      <tr>
+                        <th scope="col">Instruments</th>
+                        <th scope="col">L/S</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Open Price</th>
+                        <th scope="col">Market Price</th>
+                        <th scope="col">Stop</th>
+                        <th scope="col">Limit</th>
+                        <th scope="col">PL</th>
+                        <th scope="col">PL(BTC)</th>
+                        <th scope="col">PL %</th>
+                        <th scope="col">Exposure (BTC)</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <ng-container *ngFor="let so of o.suborders">
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>2</td>
+                          <td>3</td>
+                          <td>4</td>
+                          <td>5</td>
+                          <td>6</td>
+                          <td>7</td>
+                          <td>8</td>
+                          <td>9</td>
+                          <td>10</td>
+                          <td>11</td>
+                        </tr>
+                      </ng-container>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+            </ng-container>
             </tbody>
           </table>
         </tab>
@@ -135,7 +175,7 @@
   <div class="modal-body">
     <div class="row">
       <div class="col-12">
-        <h3>{{ tick.instrument }}</h3>
+        <h3>{{ tick.pair }}</h3>
       </div>
     </div>
     <div class="row">
