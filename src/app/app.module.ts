@@ -10,7 +10,6 @@ import { AccountsComponent } from './components/settings/accounts/accounts.compo
 import { BalanceComponent } from './components/settings/balance/balance.component';
 import { TradingComponent } from './components/trading/trading.component';
 import { BotsComponent } from './components/bots/bots.component';
-import { CollapseModule, BsDropdownModule } from 'ngx-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -46,6 +45,7 @@ library.add(fas);
     FormsModule,
     HttpClientModule,
     Ng2TableModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
