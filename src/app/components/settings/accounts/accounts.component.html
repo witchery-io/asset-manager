@@ -17,22 +17,34 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let account of accounts; index as i" (click)="currentAccount($event, i)">
+      <tr
+        *ngFor="let a of accounts; index as i"
+        (click)="currentAccount($event, i)"
+        [class.table-active]="a.id === account?.id"
+      >
         <th scope="col">{{ i + 1 }}</th>
-        <td scope="col">{{ account.status }}</td>
-        <td scope="col">{{ account.acc_name }}</td>
-        <td scope="col">{{ account.user_name }}</td>
-        <td scope="col">{{ account.exchange }}</td>
-        <td scope="col">{{ account.base_currency }}</td>
-        <td scope="col">{{ account.risk }}</td>
-        <td scope="col">{{ account.date }}</td>
+        <td scope="col">
+          <span class="switch switch-sm">
+          <input type="checkbox" [checked]="a.status" class="switch" id="switch-{{a.id}}">
+          <label for="switch-{{a.id}}"></label>
+        </span>
+        </td>
+        <td scope="col">{{ a.acc_name }}</td>
+        <td scope="col">{{ a.user_name }}</td>
+        <td scope="col">{{ a.exchange }}</td>
+        <td scope="col">{{ a.base_currency }}</td>
+        <td scope="col">{{ a.risk }}</td>
+        <td scope="col">{{ a.date }}</td>
       </tr>
       </tbody>
     </table>
   </div>
 
   <div class="col-6">
-    <app-balance></app-balance>
+    <app-balance
+      *ngIf="balance"
+      [values]="balance"
+    ></app-balance>
   </div>
 </div>
 
