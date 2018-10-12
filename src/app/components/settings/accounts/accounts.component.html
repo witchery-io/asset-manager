@@ -1,0 +1,84 @@
+<div class="row">
+  <div class="col-6">
+    <button class="btn btn-primary btn-sm mt-3 mb-3" (click)="openModal(accountModal)">
+      <fa-icon icon="plus"></fa-icon> Create account
+    </button>
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Status</th>
+        <th scope="col">Acc. Name</th>
+        <th scope="col">User Name</th>
+        <th scope="col">Exchange</th>
+        <th scope="col">BC</th>
+        <th scope="col">Risk</th>
+        <th scope="col">Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let account of accounts; index as i" (click)="currentAccount($event, i)">
+        <th scope="col">{{ i + 1 }}</th>
+        <td scope="col">{{ account.status }}</td>
+        <td scope="col">{{ account.acc_name }}</td>
+        <td scope="col">{{ account.user_name }}</td>
+        <td scope="col">{{ account.exchange }}</td>
+        <td scope="col">{{ account.base_currency }}</td>
+        <td scope="col">{{ account.risk }}</td>
+        <td scope="col">{{ account.date }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-6">
+    <app-balance></app-balance>
+  </div>
+</div>
+
+<ng-template #accountModal class="modal-sm">
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create account</h4>
+  </div>
+  <div class="modal-body">
+    <form novalidate [formGroup]="accountForm" (submit)="createAccount(accountForm.value, accountForm.valid)">
+      <div class="form-group">
+        <label>Acc. Name</label>
+        <input type="text" class="form-control" placeholder="Acc. Name" formControlName="acc_name">
+      </div>
+      <div class="form-group">
+        <label>User Name</label>
+        <input type="text" class="form-control" placeholder="User Name" formControlName="user_name">
+      </div>
+      <div class="form-group">
+        <label>Risk</label>
+        <input type="text" class="form-control" placeholder="Risk" formControlName="risk">
+      </div>
+      <div class="form-group">
+        <label for="account_exchange">Exchange</label>
+        <select id="account_exchange" class="form-control" formControlName="exchange">
+          <option selected value="bitfinex">Bitfinex</option>
+          <option value="cexio">CEX.IO</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="account_base_currency">Base currency</label>
+        <select id="account_base_currency" class="form-control" formControlName="base_currency">
+          <option selected value="usd">USD</option>
+          <option value="btc">BTC</option>
+          <option value="eth">ETH</option>
+          <option value="eur">EUR</option>
+        </select>
+      </div>
+      <div>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          aria-label="Close"
+          (click)="modalRef.hide()">CANCEL
+        </button>
+        <button type="submit" class="btn btn-primary float-right">ADD</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
