@@ -65,7 +65,7 @@
     <div class="col-12">
       <tabset>
         <tab heading="Positions" id="tab1">
-          <table class="table table-bordered mt-3">
+          <table class="table table-bordered table-sm mt-3">
             <thead>
             <tr>
               <th scope="col"></th>
@@ -90,7 +90,7 @@
                     <button (click)="slelectedOrder = i" *ngIf="slelectedOrder != i" class="btn btn-sm btn-primary">
                       <fa-icon icon="plus"></fa-icon>
                     </button>
-                    <button (click)="slelectedOrder = i" *ngIf="slelectedOrder == i" class="btn btn-sm btn-outline-primary">
+                    <button (click)="slelectedOrder = i" disabled *ngIf="slelectedOrder == i" class="btn btn-sm btn-outline-primary">
                       <fa-icon icon="minus"></fa-icon>
                     </button>
                   </td>
@@ -160,7 +160,7 @@
           </table>
         </tab>
         <tab heading="Orders" id="tab2">
-          <table class="table table-bordered mt-3">
+          <table class="table table-sm table-bordered mt-3">
             <thead>
             <tr>
               <th scope="col"></th>
