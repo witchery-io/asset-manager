@@ -28,8 +28,8 @@ export class TradingComponent implements OnInit {
   ticks: any[] = [];
   orders: any[] = [];
 
-  selectedGroup = '';
-  selectedAccount = '';
+  selectedGroup: string;
+  selectedAccount: string;
 
   slelectedOrder: number;
   selectedPosition: number;
@@ -79,12 +79,7 @@ export class TradingComponent implements OnInit {
       this.currentType = params['type'];
       this.currentTypeId = params['id'];
 
-      if (this.currentType === 'group') {
-        this.selectedGroup = this.currentTypeId;
-      } else {
-        this.selectedAccount = this.currentTypeId;
-      }
-
+      this.fetchSelect();
       this.fetchOrders();
     });
 
@@ -173,9 +168,20 @@ export class TradingComponent implements OnInit {
   }
 
   changeType(type, current_type_id) {
+    this.fetchSelect();
     this.currentTypeId = current_type_id;
     this.fetchOrders();
     this.router.navigate([`/trading/${ type }/${ current_type_id }`]);
+  }
+
+  fetchSelect() {
+    if (this.currentType === 'group') {
+      this.selectedGroup = this.currentTypeId;
+      this.selectedAccount = '';
+    } else {
+      this.selectedAccount = this.currentTypeId;
+      this.selectedGroup = '';
+    }
   }
 
   placeOrder(direction, type, model) {
