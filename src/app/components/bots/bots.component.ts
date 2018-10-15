@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Bots } from '../../models/bots';
 import { BotService } from '../../services/bot.service';
 import { GroupsService } from '../../services/groups.service';
-import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-bots',
