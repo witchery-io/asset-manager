@@ -1,19 +1,19 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {GroupsService} from '../../services/groups.service';
-import {AccountService} from '../../services/account.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {TickService} from '../../services/tick.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Margin} from '../../models/margin';
-import {Exchange} from '../../models/exchange';
-import {Order} from '../../models/order';
-import {OrderService} from '../../services/order.service';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { GroupsService } from '../../services/groups.service';
+import { AccountService } from '../../services/account.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TickService } from '../../services/tick.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Margin } from '../../models/margin';
+import { Exchange } from '../../models/exchange';
+import { Order } from '../../models/order';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-trading',
   templateUrl: './trading.component.html',
-  styleUrls: ['./trading.component.scss']
+  styleUrls: ['./trading.component.scss'],
 })
 export class TradingComponent implements OnInit {
 
@@ -28,10 +28,7 @@ export class TradingComponent implements OnInit {
   ticks: any[] = [];
   orders: any[] = [];
 
-  selectedGroup: string;
-  selectedAccount: string;
-
-  slelectedOrder: number;
+  selectedOrder: number;
   selectedPosition: number;
 
   public columns: Array<any> = [
@@ -39,15 +36,15 @@ export class TradingComponent implements OnInit {
       title: 'Instrument',
       className: ['office-header', 'text-success'],
       name: 'pair',
-      filtering: {sort: 'asc', placeholder: 'Filter by pair'}
+      filtering: { sort: 'asc', placeholder: 'Filter by pair' }
     },
-    {title: 'Last', name: 'last', filtering: {filterString: '', placeholder: 'Filter by pair'}},
-    {title: '24h%', name: 'daily_change', filtering: {filterString: '', placeholder: 'Filter by pair'}},
-    {title: 'Vol USD', name: 'volume', filtering: {filterString: '', placeholder: 'Filter by pair'}},
+    { title: 'Last', name: 'last', filtering: { filterString: '', placeholder: 'Filter by pair' } },
+    { title: '24h%', name: 'daily_change', filtering: { filterString: '', placeholder: 'Filter by pair' } },
+    { title: 'Vol USD', name: 'volume', filtering: { filterString: '', placeholder: 'Filter by pair' } },
   ];
 
   public config: any = {
-    sorting: {columns: this.columns},
+    sorting: { columns: this.columns },
     className: ['table-striped', 'table-bordered', 'table-sm']
   };
 
@@ -57,29 +54,29 @@ export class TradingComponent implements OnInit {
     'stop': 0,
     'market': 1,
     'limit': 2,
-    'exchnage': 0,
+    'exchange': 0,
     'margin': 1,
   };
 
   orderType = ['buy', 'sell'];
   orderOType = ['stop', 'market', 'limit'];
-  orderMType = ['exchnage', 'margin'];
+  orderMType = ['exchange', 'margin'];
 
-  constructor(private modalService: BsModalService,
-              private groupsService: GroupsService,
-              private accountService: AccountService,
-              private orderService: OrderService,
-              private tickService: TickService,
-              private route: ActivatedRoute,
-              private router: Router) {
-  }
+  constructor(
+    private modalService: BsModalService,
+    private groupsService: GroupsService,
+    private accountService: AccountService,
+    private orderService: OrderService,
+    private tickService: TickService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.currentType = params['type'];
       this.currentTypeId = params['id'];
 
-      this.fetchSelect();
       this.fetchOrders();
     });
 
@@ -168,20 +165,17 @@ export class TradingComponent implements OnInit {
   }
 
   changeType(type, current_type_id) {
-    this.fetchSelect();
     this.currentTypeId = current_type_id;
     this.fetchOrders();
     this.router.navigate([`/trading/${ type }/${ current_type_id }`]);
   }
 
-  fetchSelect() {
-    if (this.currentType === 'group') {
-      this.selectedGroup = this.currentTypeId;
-      this.selectedAccount = '';
-    } else {
-      this.selectedAccount = this.currentTypeId;
-      this.selectedGroup = '';
-    }
+  get selectedGroup() {
+    return this.currentType === 'group' ? this.currentTypeId : '';
+  }
+
+  get selectedAccount() {
+    return this.currentType === 'account' ? this.currentTypeId : '';
   }
 
   placeOrder(direction, type, model) {
@@ -216,14 +210,14 @@ export class TradingComponent implements OnInit {
 
   buyExchange(model: Exchange, isValid: boolean) {
     if (isValid) {
-      this.placeOrder('buy', 'exchnage', model);
+      this.placeOrder('buy', 'exchange', model);
     }
 
   }
 
   sellExchange(model: Exchange, isValid: boolean) {
     if (isValid) {
-      this.placeOrder('sell', 'exchnage', model);
+      this.placeOrder('sell', 'exchange', model);
     }
 
   }

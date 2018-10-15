@@ -3,12 +3,8 @@
     <div class="col-2">
       <div class="mt-4">
         <div class="form-group">
-          <select class="form-control" id="groups" [ngModel]="selectedGroup" (change)="changeType('group', $event.target.value)">
-            <option *ngFor="let group of groups"
-                    [value]="group.id"
-                    [attr.selected]="group.id == currentTypeId ? true : null">
-              {{ group.name }}
-            </option>
+          <select class="form-control" [ngModel]="selectedGroup" (change)="changeType('group', $event.target.value)">
+            <option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</option>
           </select>
         </div>
       </div>
@@ -16,12 +12,8 @@
     <div class="col-2">
       <div class="mt-4">
         <div class="form-group">
-          <select class="form-control" id="accounts" [ngModel]="selectedAccount" (change)="changeType('account', $event.target.value)">
-            <option *ngFor="let account of accounts"
-                    [value]="account.id"
-                    [attr.selected]="account.id == currentTypeId ? true : null">
-              {{ account.user_name }}
-            </option>
+          <select class="form-control" [ngModel]="selectedAccount" (change)="changeType('account', $event.target.value)">
+            <option *ngFor="let account of accounts" [value]="account.id">{{ account.user_name }}</option>
           </select>
         </div>
       </div>
@@ -87,10 +79,10 @@
             <ng-container *ngFor="let o of orders; let i = index">
                 <tr>
                   <td scope="row">
-                    <button (click)="slelectedOrder = i" *ngIf="slelectedOrder != i" class="btn btn-sm btn-primary">
+                    <button (click)="selectedOrder = i" *ngIf="selectedOrder != i" class="btn btn-sm btn-primary">
                       <fa-icon icon="plus"></fa-icon>
                     </button>
-                    <button (click)="slelectedOrder = i" disabled *ngIf="slelectedOrder == i" class="btn btn-sm btn-outline-primary">
+                    <button (click)="selectedOrder = i" disabled *ngIf="selectedOrder == i" class="btn btn-sm btn-outline-primary">
                       <fa-icon icon="minus"></fa-icon>
                     </button>
                   </td>
@@ -111,7 +103,7 @@
                     </button>
                   </td>
                 </tr>
-                <tr *ngIf="slelectedOrder == i">
+                <tr *ngIf="selectedOrder == i">
                   <td class="p-0" colspan="13">
                     <table class="table table-borderless border-white">
                       <thead>
