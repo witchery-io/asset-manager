@@ -28,7 +28,7 @@ export class TradingComponent implements OnInit {
   ticks: any[] = [];
   orders: any[] = [];
 
-  slelectedOrder: number;
+  selectedOrder: number;
   selectedPosition: number;
 
   public columns: Array<any> = [

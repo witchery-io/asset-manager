@@ -87,10 +87,10 @@
             <ng-container *ngFor="let o of orders; let i = index">
                 <tr>
                   <td scope="row">
-                    <button (click)="slelectedOrder = i" *ngIf="slelectedOrder != i" class="btn btn-sm btn-primary">
+                    <button (click)="selectedOrder = i" *ngIf="selectedOrder != i" class="btn btn-sm btn-primary">
                       <fa-icon icon="plus"></fa-icon>
                     </button>
-                    <button (click)="slelectedOrder = i" disabled *ngIf="slelectedOrder == i" class="btn btn-sm btn-outline-primary">
+                    <button (click)="selectedOrder = i" disabled *ngIf="selectedOrder == i" class="btn btn-sm btn-outline-primary">
                       <fa-icon icon="minus"></fa-icon>
                     </button>
                   </td>
@@ -111,7 +111,7 @@
                     </button>
                   </td>
                 </tr>
-                <tr *ngIf="slelectedOrder == i">
+                <tr *ngIf="selectedOrder == i">
                   <td class="p-0" colspan="13">
                     <table class="table table-borderless border-white">
                       <thead>
