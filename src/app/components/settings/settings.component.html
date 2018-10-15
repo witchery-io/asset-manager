@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid full-height">
   <div class="row">
     <div class="col-12 pt-3 pb-3">
       <tabset>
@@ -6,11 +6,13 @@
           <app-groups
             [groups]="groups"
             [accounts]="accounts"
+            (update)="update($event)"
           ></app-groups>
         </tab>
         <tab heading="Accounts">
           <app-accounts
             [accounts]="accounts"
+            (update)="update($event)"
           ></app-accounts>
         </tab>
         <!-- <tab heading="Basic Title 2">Basic content 2</tab> -->

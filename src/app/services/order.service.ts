@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Order} from '../models/order';
 import {environment} from '../../environments/environment';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
 
-  url = 'http://192.168.0.105:4443';
+  url = 'http://localhost:443';
 
   constructor(public http: HttpClient) { }
 
@@ -18,5 +19,9 @@ export class OrderService {
 
   placeAccountOrder(accountId: string, order: Order) {
     return this.http.post(`${ this.url }/exchange/accounts/${ accountId }/orders`, order);
+  }
+
+  getGroupOrders(groupId: string): Observable<any> {
+    return this.http.get(`${ this.url }/exchange/groups/${ groupId }/orders?groupby=pair`);
   }
 }

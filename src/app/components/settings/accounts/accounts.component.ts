@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Account } from '../../../models/account';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
@@ -12,9 +12,11 @@ import { AccountService } from '../../../services/account.service';
 export class AccountsComponent implements OnInit {
 
   @Input() accounts: any;
+  @Output() update: EventEmitter<any> = new EventEmitter();
   modalRef: BsModalRef;
   accountForm: FormGroup;
-  chooseAccount: any;
+  account: any;
+  balance: any;
 
   constructor(
     private modalService: BsModalService,
@@ -39,6 +41,7 @@ export class AccountsComponent implements OnInit {
     if (isValid) {
       this.accountService.createAccount({ ...model, ...{ risk: +model.risk } })
         .subscribe(() => {
+            this.update.emit();
             this.accountForm.reset({ risk: 0 });
             this.modalRef.hide();
           },
@@ -47,6 +50,7 @@ export class AccountsComponent implements OnInit {
   }
 
   currentAccount($event, i) {
-    this.chooseAccount = this.accounts[i];
+    this.account = this.accounts[i];
+    this.balance = this.account;
   }
 }

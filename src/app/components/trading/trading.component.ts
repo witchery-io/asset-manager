@@ -26,12 +26,21 @@ export class TradingComponent implements OnInit {
   groups: any[] = [];
   accounts: any[] = [];
   ticks: any[] = [];
+  orders: any[] = [];
 
-  selectedGroup = '';
-  selectedAccount = '';
+  selectedGroup: string;
+  selectedAccount: string;
+
+  slelectedOrder: number;
+  selectedPosition: number;
 
   public columns: Array<any> = [
-    {title: 'Instrument', className: ['office-header', 'text-success'], name: 'pair', filtering: {sort: 'asc',  placeholder: 'Filter by pair'}},
+    {
+      title: 'Instrument',
+      className: ['office-header', 'text-success'],
+      name: 'pair',
+      filtering: {sort: 'asc', placeholder: 'Filter by pair'}
+    },
     {title: 'Last', name: 'last', filtering: {filterString: '', placeholder: 'Filter by pair'}},
     {title: '24h%', name: 'daily_change', filtering: {filterString: '', placeholder: 'Filter by pair'}},
     {title: 'Vol USD', name: 'volume', filtering: {filterString: '', placeholder: 'Filter by pair'}},
@@ -52,6 +61,10 @@ export class TradingComponent implements OnInit {
     'margin': 1,
   };
 
+  orderType = ['buy', 'sell'];
+  orderOType = ['stop', 'market', 'limit'];
+  orderMType = ['exchnage', 'margin'];
+
   constructor(private modalService: BsModalService,
               private groupsService: GroupsService,
               private accountService: AccountService,
@@ -66,19 +79,19 @@ export class TradingComponent implements OnInit {
       this.currentType = params['type'];
       this.currentTypeId = params['id'];
 
-      if (this.currentType === 'group') {
-        this.selectedGroup = this.currentTypeId;
-      } else {
-        this.selectedAccount = this.currentTypeId;
-      }
+      this.fetchSelect();
+      this.fetchOrders();
     });
 
     this.fetchTicks();
 
     // @todo POXEL!
-    setInterval(() => {
-      this.fetchTicks();
-    }, 5000);
+    // setInterval(() => {
+    //   this.fetchTicks();
+    // }, 5000);
+    // setInterval(() => {
+    //   this.fetchOrders();
+    // }, 5000);
 
     this.groupsService.getGroups().subscribe(
       groups => {
@@ -106,6 +119,7 @@ export class TradingComponent implements OnInit {
   }
 
   tickSettings(template: TemplateRef<any>, tickId) {
+    console.log(tickId);
     this.currentTickId = tickId;
     this.openModal(template);
   }
@@ -123,7 +137,7 @@ export class TradingComponent implements OnInit {
   // }
 
   get tick() {
-    return this.tickService.getTick(this.currentTickId);
+    return this.ticks[this.currentTickId];
   }
 
   fetchTicks() {
@@ -144,16 +158,37 @@ export class TradingComponent implements OnInit {
     );
   }
 
+  fetchOrders() {
+    this.orderService.getGroupOrders(this.currentTypeId)
+      .subscribe(
+        orders => {
+          this.orders = orders;
+        }
+      );
+  }
+
   changeType(type, current_type_id) {
+    this.fetchSelect();
     this.currentTypeId = current_type_id;
+    this.fetchOrders();
     this.router.navigate([`/trading/${ type }/${ current_type_id }`]);
+  }
+
+  fetchSelect() {
+    if (this.currentType === 'group') {
+      this.selectedGroup = this.currentTypeId;
+      this.selectedAccount = '';
+    } else {
+      this.selectedAccount = this.currentTypeId;
+      this.selectedGroup = '';
+    }
   }
 
   placeOrder(direction, type, model) {
     const order: Order = {
       amount: model.amount,
       open_price: model.price,
-      pair: this.tick.instrument,
+      pair: this.tick.pair,
       type: {
         context: this.enums[type],
         direction: this.enums[direction],
@@ -165,14 +200,14 @@ export class TradingComponent implements OnInit {
       this.orderService.placeGroupOrder(this.currentTypeId, order)
         .subscribe(
           data => {
-
+            this.fetchOrders();
           }
         );
     } else {
       this.orderService.placeAccountOrder(this.currentTypeId, order)
         .subscribe(
           data => {
-
+            this.fetchOrders();
           }
         );
     }
