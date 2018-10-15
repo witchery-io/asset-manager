@@ -86,12 +86,12 @@ export class TradingComponent implements OnInit {
     this.fetchTicks();
 
     // @todo POXEL!
-    setInterval(() => {
-      this.fetchTicks();
-    }, 5000);
-    setInterval(() => {
-      this.fetchOrders();
-    }, 5000);
+    // setInterval(() => {
+    //   this.fetchTicks();
+    // }, 5000);
+    // setInterval(() => {
+    //   this.fetchOrders();
+    // }, 5000);
 
     this.groupsService.getGroups().subscribe(
       groups => {
@@ -188,7 +188,7 @@ export class TradingComponent implements OnInit {
     const order: Order = {
       amount: model.amount,
       open_price: model.price,
-      pair: this.tick.instrument,
+      pair: this.tick.pair,
       type: {
         context: this.enums[type],
         direction: this.enums[direction],

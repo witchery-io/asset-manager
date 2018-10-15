@@ -1,33 +1,36 @@
-<div class="row">
+<div class="row mh-100 h-100">
   <div class="col-3">
     <div class="pt-3 pb-3">
       <button (click)="openModal(groupModal)" class="btn btn-sm btn-primary">
-        <fa-icon icon="plus"></fa-icon> Create group
+        <fa-icon icon="plus"></fa-icon>
+        Create group
       </button>
     </div>
-    <table class="table table-hover table-borderless">
-      <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Status</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr
-        *ngFor="let g of groups; index as i"
-        class="cursor-pointer"
-        [class.table-active]="g.id === group?.id"
-        (click)="chooseGroup(i)">
-        <td>{{ g.name }}</td>
-        <td>
+    <div class="h-100 mh-100">
+      <table class="table table-sm table-scrollable table-hover header-fixed mb-0 table-borderless">
+        <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          *ngFor="let g of groups; index as i"
+          class="cursor-pointer"
+          [class.table-active]="g.id === group?.id"
+          (click)="chooseGroup(i)">
+          <td>{{ g.name }}</td>
+          <td class="text-align-right pr-2">
         <span class="switch switch-sm">
           <input type="checkbox" [checked]="g.active" class="switch" id="switch-{{g.id}}">
           <label for="switch-{{g.id}}"></label>
         </span>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <div class="col-3">
     <div class="pt-3 pb-3">
@@ -35,27 +38,32 @@
         class="btn btn-sm btn-outline-primary"
         [disabled]="!group"
         (click)="openModal(addAccountModal)">
-        <fa-icon icon="plus"></fa-icon> Add account
+        <fa-icon icon="plus"></fa-icon>
+        Add account
       </button>
     </div>
-    <table class="table table-hover table-borderless">
-      <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Risk</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr
-        *ngFor="let a of groupAccounts; index as i"
-        (click)="chooseAccount(i)"
-        [class.table-active]="a.id === account?.id"
-      >
-        <td>{{ a.user_name }}</td>
-        <td>{{ a.risk }}</td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="h-100 mh-100">
+      <table class="table table-hover table-borderless table-sm header-fixed mb-0 ">
+        <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Risk</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          *ngFor="let a of groupAccounts; index as i"
+          (click)="chooseAccount(i)"
+          class="cursor-pointer"
+          [class.table-active]="a.id === account?.id"
+        >
+          <td>{{ a.user_name }}</td>
+          <td>{{ a.risk }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 
   <div class="col-6">
@@ -107,7 +115,7 @@
           aria-label="Close"
           (click)="modalRef.hide()">Cancel
         </button>
-        <button type="submit" class="btn btn-primary float-right">Create</button>
+        <button type="submit" class="btn btn-primary float-right">Create group</button>
       </div>
     </form>
   </div>

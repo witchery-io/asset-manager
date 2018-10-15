@@ -5,12 +5,84 @@
     cursor: pointer;
 }
 
+.full-height{
+  height: calc(100vh - 90px);
+  max-height: calc(100vh - 90px);
+  >.row {
+    max-height: 100%;
+    height: 100%;
+    .col-12{
+      max-height: 100%;
+      height: 100%;
+    }
+    .tab-container{
+      max-height: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+}
+
+.tab-content{
+  max-height: 100%;
+  height: 100%;
+  display: block;
+  .tab-pane{
+    max-height: 100%;
+    height: 100%;
+  }
+}
+
+.table-scrollable{
+}
+
+.overflow-y-auto{
+  overflow-y: auto;
+}
+
+.text-align-right{
+  text-align: right;
+}
+
+
+.header-fixed {
+  width: 100%
+}
+
+.header-fixed > thead,
+.header-fixed > tbody,
+.header-fixed > thead > tr,
+.header-fixed > tbody > tr,
+.header-fixed > thead > tr > th,
+.header-fixed > tbody > tr > td {
+  display: block;
+}
+
+.header-fixed > tbody > tr:after,
+.header-fixed > thead > tr:after {
+  content: ' ';
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+.header-fixed > tbody {
+  overflow-y: auto;
+  height: calc(100vh - 160px);
+  max-height: calc(100vh - 160px);
+}
+
+.header-fixed > tbody > tr > td,
+.header-fixed > thead > tr > th {
+  width: 50%;
+  float: left;
+}
 
 $font-size-base: 1rem;
 $font-size-lg: ($font-size-base * 1.25);
-$font-size-sm: ($font-size-base * .875);
+$font-size-sm: ($font-size-base * .75);
 $input-height: 2.375rem;
-$input-height-sm: 1.9375rem;
+$input-height-sm: 1.25rem;
 $input-height-lg: 3rem;
 $input-btn-focus-width: .2rem;
 $custom-control-indicator-bg: #dee2e6;
