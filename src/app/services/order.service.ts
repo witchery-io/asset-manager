@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 })
 export class OrderService {
 
-  url = 'http://payments.vitanova.online:443';
+  url = 'http://localhost:443';
 
   constructor(public http: HttpClient) { }
 
@@ -22,6 +22,6 @@ export class OrderService {
   }
 
   getGroupOrders(groupId: string): Observable<any> {
-    return this.http.get(`${ this.url }/exchange/groups/${ groupId }/orders`);
+    return this.http.get(`${ this.url }/exchange/groups/${ groupId }/orders?groupby=pair`);
   }
 }

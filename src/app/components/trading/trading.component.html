@@ -65,10 +65,11 @@
     <div class="col-12">
       <tabset>
         <tab heading="Positions" id="tab1">
-          <table class="table table-bordered mt-3">
+          <table class="table table-bordered table-sm mt-3">
             <thead>
             <tr>
-              <th scope="col">Instruments</th>
+              <th scope="col"></th>
+              <th scope="col">Pair</th>
               <th scope="col">L/S</th>
               <th scope="col">Amount</th>
               <th scope="col">Open Price</th>
@@ -79,29 +80,43 @@
               <th scope="col">PL(BTC)</th>
               <th scope="col">PL %</th>
               <th scope="col">Exposure (BTC)</th>
+              <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-            <ng-container *ngFor="let o of orders">
+            <ng-container *ngFor="let o of orders; let i = index">
                 <tr>
+                  <td scope="row">
+                    <button (click)="slelectedOrder = i" *ngIf="slelectedOrder != i" class="btn btn-sm btn-primary">
+                      <fa-icon icon="plus"></fa-icon>
+                    </button>
+                    <button (click)="slelectedOrder = i" disabled *ngIf="slelectedOrder == i" class="btn btn-sm btn-outline-primary">
+                      <fa-icon icon="minus"></fa-icon>
+                    </button>
+                  </td>
                   <th scope="row">{{o.pair}}</th>
-                  <td>{{o.type.direaction}}</td>
-                  <td>3</td>
-                  <td>4</td>
-                  <td>5</td>
-                  <td>6</td>
-                  <td>7</td>
-                  <td>8</td>
-                  <td>9</td>
-                  <td>10</td>
-                  <td>11</td>
+                  <td>{{orderType[o.type.direction]}}</td>
+                  <td>{{o.amount}}</td>
+                  <td>{{o.open_price}}</td>
+                  <td>{{o.current_price}}</td>
+                  <td></td>
+                  <td></td>
+                  <td>{{o.pl}}</td>
+                  <td>{{o.plmain}}</td>
+                  <td>{{o.plmprc}}</td>
+                  <td></td>
+                  <td>
+                    <button class="btn btn-outline-danger btn-sm">
+                      close
+                    </button>
+                  </td>
                 </tr>
-                <tr>
-                  <td class="p-0" colspan="11">
+                <tr *ngIf="slelectedOrder == i">
+                  <td class="p-0" colspan="13">
                     <table class="table table-borderless border-white">
                       <thead>
                       <tr>
-                        <th scope="col">Instruments</th>
+                        <th scope="col">Pair</th>
                         <th scope="col">L/S</th>
                         <th scope="col">Amount</th>
                         <th scope="col">Open Price</th>
@@ -112,22 +127,28 @@
                         <th scope="col">PL(BTC)</th>
                         <th scope="col">PL %</th>
                         <th scope="col">Exposure (BTC)</th>
+                        <th scope="col"></th>
                       </tr>
                       </thead>
                       <tbody>
                       <ng-container *ngFor="let so of o.suborders">
                         <tr>
-                          <th scope="row">1</th>
-                          <td>2</td>
-                          <td>3</td>
-                          <td>4</td>
-                          <td>5</td>
-                          <td>6</td>
-                          <td>7</td>
-                          <td>8</td>
-                          <td>9</td>
-                          <td>10</td>
-                          <td>11</td>
+                          <th scope="row">{{so.pair}}</th>
+                          <td>{{orderType[so.type.direction]}}</td>
+                          <td>{{so.amount}}</td>
+                          <td>{{so.open_price}}</td>
+                          <td>{{so.current_price}}</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{so.pl}}</td>
+                          <td>{{so.plmain}}</td>
+                          <td>{{so.plmprc}}</td>
+                          <td></td>
+                          <td>
+                            <button class="btn btn-outline-danger btn-sm">
+                              close
+                            </button>
+                          </td>
                         </tr>
                       </ng-container>
                       </tbody>
@@ -139,30 +160,97 @@
           </table>
         </tab>
         <tab heading="Orders" id="tab2">
-          <table class="table mt-3">
+          <table class="table table-sm table-bordered mt-3">
             <thead>
             <tr>
-              <th scope="col">Instruments</th>
-              <th scope="col">Context</th>
-              <th scope="col">Type</th>
-              <th scope="col">B/S</th>
+              <th scope="col"></th>
+              <th scope="col">Pair</th>
+              <th scope="col">L/S</th>
               <th scope="col">Amount</th>
-              <th scope="col">Price</th>
-              <th scope="col">Duration</th>
-              <th scope="col">Created</th>
+              <th scope="col">Open Price</th>
+              <th scope="col">Market Price</th>
+              <th scope="col">Stop</th>
+              <th scope="col">Limit</th>
+              <th scope="col">PL</th>
+              <th scope="col">PL(BTC)</th>
+              <th scope="col">PL %</th>
+              <th scope="col">Exposure (BTC)</th>
+              <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>2</td>
-              <td>3</td>
-              <td>4</td>
-              <td>5</td>
-              <td>6</td>
-              <td>7</td>
-              <td>8</td>
-            </tr>
+            <ng-container *ngFor="let o of orders; let i = index">
+              <tr>
+                <td scope="row">
+                  <button (click)="selectedPosition = i" *ngIf="selectedPosition != i" class="btn btn-sm btn-primary">
+                    <fa-icon icon="plus"></fa-icon>
+                  </button>
+                  <button (click)="selectedPosition = i" *ngIf="selectedPosition == i" class="btn btn-sm btn-outline-primary">
+                    <fa-icon icon="minus"></fa-icon>
+                  </button>
+                </td>
+                <th scope="row">{{o.pair}}</th>
+                <td>{{orderType[o.type.direction]}}</td>
+                <td>{{o.amount}}</td>
+                <td>{{o.open_price}}</td>
+                <td>{{o.current_price}}</td>
+                <td></td>
+                <td></td>
+                <td>{{o.pl}}</td>
+                <td>{{o.plmain}}</td>
+                <td>{{o.plmprc}}</td>
+                <td></td>
+                <td>
+                  <button class="btn btn-outline-danger btn-sm">
+                    cancel
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="selectedPosition == i">
+                <td class="p-0" colspan="13">
+                  <table class="table table-borderless border-white">
+                    <thead>
+                    <tr>
+                      <th scope="col">Pair</th>
+                      <th scope="col">L/S</th>
+                      <th scope="col">Amount</th>
+                      <th scope="col">Open Price</th>
+                      <th scope="col">Market Price</th>
+                      <th scope="col">Stop</th>
+                      <th scope="col">Limit</th>
+                      <th scope="col">PL</th>
+                      <th scope="col">PL(BTC)</th>
+                      <th scope="col">PL %</th>
+                      <th scope="col">Exposure (BTC)</th>
+                      <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ng-container *ngFor="let so of o.suborders">
+                      <tr>
+                        <th scope="row">{{so.pair}}</th>
+                        <td>{{orderType[so.type.direction]}}</td>
+                        <td>{{so.amount}}</td>
+                        <td>{{so.open_price}}</td>
+                        <td>{{so.current_price}}</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{so.pl}}</td>
+                        <td>{{so.plmain}}</td>
+                        <td>{{so.plmprc}}</td>
+                        <td></td>
+                        <td>
+                          <button class="btn btn-outline-danger btn-sm">
+                            cancel
+                          </button>
+                        </td>
+                      </tr>
+                    </ng-container>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </ng-container>
             </tbody>
           </table>
         </tab>
