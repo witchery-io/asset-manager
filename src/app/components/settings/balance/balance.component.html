@@ -97,7 +97,7 @@
               <td>{{o.plmain}}</td>
               <td>{{o.plmprc}}</td>
               <td></td>
-              <td>
+                <td>
                 <button class="btn btn-outline-danger btn-sm">
                   close
                 </button>
@@ -106,22 +106,6 @@
             <tr *ngIf="selectedOrder == i">
               <td class="p-0" colspan="13">
                 <table class="table table-borderless border-white">
-                  <thead>
-                  <tr>
-                    <th scope="col">Pair</th>
-                    <th scope="col">L/S</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Open Price</th>
-                    <th scope="col">Market Price</th>
-                    <th scope="col">Stop</th>
-                    <th scope="col">Limit</th>
-                    <th scope="col">PL</th>
-                    <th scope="col">PL(BTC)</th>
-                    <th scope="col">PL %</th>
-                    <th scope="col">Exposure (BTC)</th>
-                    <th scope="col"></th>
-                  </tr>
-                  </thead>
                   <tbody>
                   <ng-container *ngFor="let so of o.suborders">
                     <tr>
@@ -201,22 +185,6 @@
             <tr *ngIf="selectedPosition == i">
               <td class="p-0" colspan="13">
                 <table class="table table-borderless border-white">
-                  <thead>
-                  <tr>
-                    <th scope="col">Pair</th>
-                    <th scope="col">L/S</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Open Price</th>
-                    <th scope="col">Market Price</th>
-                    <th scope="col">Stop</th>
-                    <th scope="col">Limit</th>
-                    <th scope="col">PL</th>
-                    <th scope="col">PL(BTC)</th>
-                    <th scope="col">PL %</th>
-                    <th scope="col">Exposure (BTC)</th>
-                    <th scope="col"></th>
-                  </tr>
-                  </thead>
                   <tbody>
                   <ng-container *ngFor="let so of o.suborders">
                     <tr>

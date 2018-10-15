@@ -23,10 +23,10 @@ export class TradingComponent implements OnInit {
   currentTickId: number;
   exchangeForm: FormGroup;
   marginForm: FormGroup;
-  groups: any[] = [];
-  accounts: any[] = [];
-  ticks: any[] = [];
-  orders: any[] = [];
+  groups = [];
+  accounts = [];
+  ticks = [];
+  orders = [];
 
   selectedOrder: number;
   selectedPosition: number;
@@ -116,7 +116,6 @@ export class TradingComponent implements OnInit {
   }
 
   tickSettings(template: TemplateRef<any>, tickId) {
-    console.log(tickId);
     this.currentTickId = tickId;
     this.openModal(template);
   }
@@ -156,7 +155,11 @@ export class TradingComponent implements OnInit {
   }
 
   fetchOrders() {
-    this.orderService.getGroupOrders(this.currentTypeId)
+    const order: any = {
+      groupby: 'pair',
+    };
+
+    this.orderService.getGroupOrders(this.currentTypeId, order)
       .subscribe(
         orders => {
           this.orders = orders;
@@ -211,6 +214,7 @@ export class TradingComponent implements OnInit {
   buyExchange(model: Exchange, isValid: boolean) {
     if (isValid) {
       this.placeOrder('buy', 'exchange', model);
+      this.modalRef.hide();
     }
 
   }
@@ -218,6 +222,7 @@ export class TradingComponent implements OnInit {
   sellExchange(model: Exchange, isValid: boolean) {
     if (isValid) {
       this.placeOrder('sell', 'exchange', model);
+      this.modalRef.hide();
     }
 
   }
@@ -225,6 +230,7 @@ export class TradingComponent implements OnInit {
   buyMargin(model: Margin, isValid: boolean) {
     if (isValid) {
       this.placeOrder('buy', 'margin', model);
+      this.modalRef.hide();
     }
 
   }
@@ -232,6 +238,7 @@ export class TradingComponent implements OnInit {
   sellMargin(model: Margin, isValid: boolean) {
     if (isValid) {
       this.placeOrder('sell', 'margin', model);
+      this.modalRef.hide();
     }
 
   }
