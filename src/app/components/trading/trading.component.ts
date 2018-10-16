@@ -165,11 +165,8 @@ export class TradingComponent implements OnInit {
   }
 
   fetchOrders() {
-    const order: any = {
-      groupby: 'pair',
-    };
 
-    this.orderService.getGroupOrders(this.currentTypeId, order)
+    this.orderService.getGroupOrders(this.currentTypeId, true)
       .subscribe(
         orders => {
           this.orders = orders;

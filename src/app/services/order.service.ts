@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Order } from '../models/order';
-import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Order} from '../models/order';
+import {environment} from '../../environments/environment';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,8 @@ export class OrderService {
 
   url = 'http://192.168.5.50:443';
 
-  constructor(
-    public http: HttpClient,
-  ) { }
+  constructor( public http: HttpClient ) {
+  }
 
   placeGroupOrder(groupId: string, order: Order) {
     return this.http.post(`${ this.url }/exchange/groups/${ groupId }/orders`, order);
@@ -23,11 +22,20 @@ export class OrderService {
     return this.http.post(`${ this.url }/exchange/accounts/${ accountId }/orders`, order);
   }
 
-  getGroupOrders(groupId: string, order: any): Observable<any> {
-    return this.http.get(`${ this.url }/exchange/groups/${ groupId }/orders`, order);
+  getGroupOrders(groupId: string, groupByPair: boolean = false): Observable<any> {
+    if (groupByPair) {
+      return this.http.get(`${ this.url }/exchange/groups/${ groupId }/orders?groupby=pair`);
+    } else {
+      return this.http.get(`${ this.url }/exchange/groups/${ groupId }/orders`);
+    }
   }
 
-  getAccountOrders(accountId: string, order: any): Observable<any> {
-    return this.http.get(`${ this.url }/exchange/accounts/${ accountId }/orders`, order);
+  getAccountOrders(accountId: string, groupByPair: boolean = false): Observable<any> {
+    if (groupByPair) {
+      return this.http.get(`${ this.url }/exchange/accounts/${ accountId }/orders?groupby=pair`);
+    } else {
+      return this.http.get(`${ this.url }/exchange/accounts/${ accountId }/orders`);
+    }
   }
+  
 }
