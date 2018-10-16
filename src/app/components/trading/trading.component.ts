@@ -117,6 +117,17 @@ export class TradingComponent implements OnInit {
     });
   }
 
+  get order() {
+    let array;
+    if (this.currentType === 'group') {
+      array = this.groups;
+    } else {
+      array = this.accounts;
+    }
+
+    return array.filter(item => item.id === this.currentTypeId)[0];
+  }
+
   tickSettings(template: TemplateRef<any>, tickId) {
     this.currentTickId = tickId;
     this.openModal(template);
