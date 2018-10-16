@@ -8,6 +8,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { GroupsComponent } from './components/settings/groups/groups.component';
 import { AccountsComponent } from './components/settings/accounts/accounts.component';
 import { BalanceComponent } from './components/settings/balance/balance.component';
+import { OrderComponent } from './components/settings/order/order.component';
 import { TradingComponent } from './components/trading/trading.component';
 import { BotsComponent } from './components/bots/bots.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -34,6 +35,7 @@ library.add(fas);
     GroupsComponent,
     AccountsComponent,
     BalanceComponent,
+    OrderComponent,
   ],
   imports: [
     BrowserModule,
