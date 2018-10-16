@@ -1,63 +1,71 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Bots} from '../../models/bots';
-import {BotService} from '../../services/bot.service';
-import {GroupsService} from '../../services/groups.service';
-
-
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BotService } from '../../services/bot.service';
+import { GroupsService } from '../../services/groups.service';
+import { Observable } from 'rxjs';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-bots',
   templateUrl: './bots.component.html',
-  styleUrls: ['./bots.component.scss']
+  styleUrls: ['./bots.component.scss'],
 })
 export class BotsComponent implements OnInit {
-  public items: Bots[] = [];
-  public group: any = [];
-  public groupExchange = [];
-  public exchanges: string;
   modalRef: BsModalRef;
+  botForm: FormGroup;
 
-  public botForm: FormGroup;
-  public editBotForm: FormGroup;
+  createFormStep1 = false;
+  createFormStep2 = false;
 
+  strategy$: Observable<any>;
 
-    constructor(
+  groups: any;
+  accounts: any;
+  editBotForm: FormGroup;
+
+  constructor(
     private modalService: BsModalService,
-    public botService: BotService,
-    public groupsService: GroupsService,
-
-  ) {
-
-
-    }
+    private botService: BotService,
+    private groupsService: GroupsService,
+    private accountService: AccountService,
+  ) { }
 
   ngOnInit() {
+    this.strategy$ = this.botService.getStrategy();
+    this.groupsService.getGroups()
+      .subscribe(groups => this.groups = groups);
 
 
+    this.accountService.getAccounts()
+      .subscribe(accounts => this.accounts = accounts);
 
     this.botForm = new FormGroup({
-      strategy: new FormControl(0, [<any>Validators.required]),
+      template: new FormControl('', [<any>Validators.required]),
+      strategy: new FormControl('', [<any>Validators.required]),
       active: new FormControl(true, [<any>Validators.required]),
       group: new FormControl('', [<any>Validators.required]),
       account: new FormControl('', [<any>Validators.required]),
       long_term_priority: new FormControl(0, [<any>Validators.required]),
-      exchange: new FormControl('', [<any>Validators.required]),
+      exchange: new FormControl('any', [<any>Validators.required]),
       pair: new FormControl('', [<any>Validators.required]),
       initial_volume: new FormControl('', [<any>Validators.required]),
       initial_volume_percent: new FormControl('', [<any>Validators.required]),
       max_amount: new FormControl('', [<any>Validators.required]),
+
       step_fix: new FormControl('', [<any>Validators.required]),
       step_calc: new FormControl('', [<any>Validators.required]),
-      trade_level: new FormControl('', [<any>Validators.required]),
-      priority1coefficient: new FormControl('', [<any>Validators.required]),
-      priority2coefficient: new FormControl('', [<any>Validators.required]),
+
+      trade_level_up: new FormControl('', [<any>Validators.required]),
+      trade_level_down: new FormControl('', [<any>Validators.required]),
+
+      priority_coefficient: new FormControl('', [<any>Validators.required]),
+
       volume_coeff_up: new FormControl('', [<any>Validators.required]),
       volume_coeff_down: new FormControl('', [<any>Validators.required]),
-      close_triger_below: new FormControl('', [<any>Validators.required]),
-      close_triger_above: new FormControl('', [<any>Validators.required]),
+      close_triger: new FormControl('', [<any>Validators.required]),
 
+      distribution_from_up: new FormControl('', [<any>Validators.required]),
     });
 
     this.editBotForm = new FormGroup({
@@ -65,56 +73,63 @@ export class BotsComponent implements OnInit {
       long_term_priority: new FormControl(0, [<any>Validators.required]),
       exchange: new FormControl(0, [<any>Validators.required]),
       group: new FormControl(0, [<any>Validators.required]),
-
     });
-
-
-    // this.items = this.botService.getData();
-
-    // this.group = this.groupsService.getAll();
-
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
-  // filterForeCasts(filterVal: any) {
-  //     console.log(filterVal);
-  //   if (filterVal == '0')
-  //     this.items = this.cacheItems;
-  //   else
-  //     this.items = this.cacheItems.filter((item) => item.exchanges_name == filterVal);
-  // }
-
-
-  getSelected(filterVal: any) {
-      console.log(typeof filterVal);
-    if (filterVal === '0') {
-      // this.groupExchange = this.groupsService.groups;
-    } else {
-      // this.groupExchange = this.groupsService.groups.filter((item) => item.id === 'group1');
+  createGroup(model: any, is_Valid: boolean) {
+    if (is_Valid) {
+      console.log(model);
+      console.log(is_Valid);
+      this.botForm.reset();
+      this.modalRef.hide();
     }
   }
 
-  // createAccount(modal: Account, isValid: boolean) {
-  //   if (isValid) {
-  //     this.accountService.createAccount(modal);
-  //     this.accountForm.reset({ risk: 0 });
-  //     this.modalRef.hide();
-  //   }
-  // }
+  saveAs(model: any, is_Valid: boolean) {
+    if (is_Valid) {
+      this.botService.saveAsTemplate(model);
+      this.botForm.reset();
+      this.modalRef.hide();
+    }
+  }
 
-  // currentAccount($event, id) {
-  //   this.account = this.accountService.getAccount(id);
-  // }
+  chooseValues(template_id, type) {
+    if (!template_id) {
+      return false;
+    }
 
-  // createGroup(model: Group, isValid: boolean) {
-  //   console.log(model);
-  //   if (isValid) {
-  //     this.groupsService.createaGroup(model);
-  //     this.groupForm.reset({allocation_method: 0, active: true});
-  //     this.modalRef.hide();
-  //   }
-  // }
+    switch (type) {
+      case 'strategy':
+        this.createFormStep1 = true;
+        break;
+      case 'template':
+        this.createFormStep2 = true;
+        break;
+    }
+
+    return false;
+  }
+
+  chooseExchange(exchange_id) {
+    this.groupsService.getGroups()
+      .subscribe(groups => this.groups = groups.filter(group => {
+        if (exchange_id === 'any') {
+          return group;
+        }
+
+        return group.exchange === exchange_id;
+      }));
+  }
+
+  changeSelect($event, type) {
+    if (type === 'group') {
+      this.botForm.patchValue({ account: '' });
+    } else {
+      this.botForm.patchValue({ group: '' });
+    }
+  }
 }
