@@ -75,6 +75,7 @@
               <th scope="col">PL(BTC)</th>
               <th scope="col">PL %</th>
               <th scope="col">Exposure (BTC)</th>
+              <th scope="col">Opened</th>
               <th scope="col"></th>
             </tr>
             </thead>
@@ -101,10 +102,10 @@
                 <td>{{o.plmain}}</td>
                 <td>{{o.plmprc}}</td>
                 <td></td>
+                <td>10/10/2018</td>
                 <td>
-                  <button class="btn btn-outline-danger btn-sm">
-                    close
-                  </button>
+                  <button class="btn btn-outline-warning btn-sm" (click)="modify()">modify</button>
+                  <button class="btn btn-outline-danger btn-sm ml-1">cancel</button>
                 </td>
               </tr>
               <tr *ngIf="selectedOrder == i">
@@ -124,10 +125,10 @@
                         <td>{{so.plmain}}</td>
                         <td>{{so.plmprc}}</td>
                         <td></td>
+                        <td>10/10/2018</td>
                         <td>
-                          <button class="btn btn-outline-danger btn-sm">
-                            close
-                          </button>
+                          <button class="btn btn-outline-warning btn-sm" (click)="modify()">modify</button>
+                          <button class="btn btn-outline-danger btn-sm ml-1">cancel</button>
                         </td>
                       </tr>
                     </ng-container>
@@ -155,6 +156,7 @@
               <th scope="col">PL(BTC)</th>
               <th scope="col">PL %</th>
               <th scope="col">Exposure (BTC)</th>
+              <th scope="col">Opened</th>
               <th scope="col"></th>
             </tr>
             </thead>
@@ -181,10 +183,10 @@
                 <td>{{o.plmain}}</td>
                 <td>{{o.plmprc}}</td>
                 <td></td>
+                <td>10/10/2018</td>
                 <td>
-                  <button class="btn btn-outline-danger btn-sm">
-                    cancel
-                  </button>
+                  <button class="btn btn-outline-warning btn-sm" (click)="modify()">modify</button>
+                  <button class="btn btn-outline-danger btn-sm ml-1">cancel</button>
                 </td>
               </tr>
               <tr *ngIf="selectedPosition == i">
@@ -204,10 +206,10 @@
                         <td>{{so.plmain}}</td>
                         <td>{{so.plmprc}}</td>
                         <td></td>
+                        <td>10/10/2018</td>
                         <td>
-                          <button class="btn btn-outline-danger btn-sm">
-                            cancel
-                          </button>
+                          <button class="btn btn-outline-warning btn-sm" (click)="modify()">modify</button>
+                          <button class="btn btn-outline-danger btn-sm ml-1">cancel</button>
                         </td>
                       </tr>
                     </ng-container>

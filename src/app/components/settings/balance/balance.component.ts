@@ -35,4 +35,8 @@ export class BalanceComponent implements OnInit, OnChanges {
         }
       );
   }
+
+  modify() {
+    // code ...
+  }
 }

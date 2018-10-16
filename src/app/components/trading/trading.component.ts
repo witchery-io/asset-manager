@@ -242,4 +242,8 @@ export class TradingComponent implements OnInit {
     }
 
   }
+
+  modify() {
+    // code ...
+  }
 }
