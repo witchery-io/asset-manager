@@ -63,14 +63,11 @@
         </tbody>
       </table>
     </div>
-
   </div>
 
   <div class="col-6">
-    <app-balance
-      *ngIf="balance"
-      [values]="balance"
-    ></app-balance>
+    <app-balance *ngIf="balance" [balance]="balance"></app-balance>
+    <app-order *ngIf="balance" [order]="balance"></app-order>
   </div>
 </div>
 

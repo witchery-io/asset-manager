@@ -1,0 +1,174 @@
+<div class="row">
+  <div class="col-12">
+    <tabset>
+      <tab heading="Positions" id="tab1" (click)="selectTab(0)">
+        <table class="table table-bordered table-sm mt-3">
+          <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Pair</th>
+            <th scope="col">L/S</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Open Price</th>
+            <th scope="col">Market Price</th>
+            <th scope="col">Stop</th>
+            <th scope="col">Limit</th>
+            <th scope="col">PL</th>
+            <th scope="col">PL(BTC)</th>
+            <th scope="col">PL %</th>
+            <th scope="col">Exposure (BTC)</th>
+            <th scope="col">Opened</th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngFor="let o of orders; let i = index">
+            <tr>
+              <td scope="row">
+                <button (click)="selectedOrder = i" *ngIf="selectedOrder != i" class="btn btn-sm btn-primary">
+                  <fa-icon icon="plus"></fa-icon>
+                </button>
+                <button (click)="selectedOrder = i" disabled *ngIf="selectedOrder == i" class="btn btn-sm btn-outline-primary">
+                  <fa-icon icon="minus"></fa-icon>
+                </button>
+              </td>
+              <th scope="row">{{o.pair}}</th>
+              <td>{{orderType[o.type.direction]}}</td>
+              <td>{{o.amount}}</td>
+              <td>{{o.open_price}}</td>
+              <td>{{o.current_price}}</td>
+              <td></td>
+              <td></td>
+              <td>{{o.pl}}</td>
+              <td>{{o.plmain}}</td>
+              <td>{{o.plmprc}}</td>
+              <td></td>
+              <td>10/10/2018</td>
+              <td>
+                <button class="btn btn-outline-warning btn-sm" (click)="modify()">modify</button>
+                <button class="btn btn-outline-danger btn-sm ml-1" (click)="openModal(confirmModal)">cancel</button>
+              </td>
+            </tr>
+            <tr *ngIf="selectedOrder == i">
+              <td class="p-0" colspan="13">
+                <table class="table table-borderless border-white">
+                  <tbody>
+                  <ng-container *ngFor="let so of o.suborders">
+                    <tr>
+                      <th scope="row">{{so.pair}}</th>
+                      <td>{{orderType[so.type.direction]}}</td>
+                      <td>{{so.amount}}</td>
+                      <td>{{so.open_price}}</td>
+                      <td>{{so.current_price}}</td>
+                      <td></td>
+                      <td></td>
+                      <td>{{so.pl}}</td>
+                      <td>{{so.plmain}}</td>
+                      <td>{{so.plmprc}}</td>
+                      <td></td>
+                      <td>10/10/2018</td>
+                      <td>
+                        <button class="btn btn-outline-warning btn-sm" (click)="modify()">modify</button>
+                        <button class="btn btn-outline-danger btn-sm ml-1" (click)="openModal(confirmModal)">cancel</button>
+                      </td>
+                    </tr>
+                  </ng-container>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+      </tab>
+      <tab heading="Orders" id="tab2" (click)="selectTab(1)">
+        <table class="table table-sm table-bordered mt-3">
+          <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Pair</th>
+            <th scope="col">L/S</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Open Price</th>
+            <th scope="col">Market Price</th>
+            <th scope="col">Stop</th>
+            <th scope="col">Limit</th>
+            <th scope="col">PL</th>
+            <th scope="col">PL(BTC)</th>
+            <th scope="col">PL %</th>
+            <th scope="col">Exposure (BTC)</th>
+            <th scope="col">Opened</th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngFor="let o of orders; let i = index">
+            <tr>
+              <td scope="row">
+                <button (click)="selectedPosition = i" *ngIf="selectedPosition != i" class="btn btn-sm btn-primary">
+                  <fa-icon icon="plus"></fa-icon>
+                </button>
+                <button (click)="selectedPosition = i" *ngIf="selectedPosition == i" class="btn btn-sm btn-outline-primary">
+                  <fa-icon icon="minus"></fa-icon>
+                </button>
+              </td>
+              <th scope="row">{{o.pair}}</th>
+              <td>{{orderType[o.type.direction]}}</td>
+              <td>{{o.amount}}</td>
+              <td>{{o.open_price}}</td>
+              <td>{{o.current_price}}</td>
+              <td></td>
+              <td></td>
+              <td>{{o.pl}}</td>
+              <td>{{o.plmain}}</td>
+              <td>{{o.plmprc}}</td>
+              <td></td>
+              <td>10/10/2018</td>
+              <td>
+                <button class="btn btn-outline-warning btn-sm" (click)="modify()">modify</button>
+                <button class="btn btn-outline-danger btn-sm ml-1" (click)="openModal(confirmModal)">cancel</button>
+              </td>
+            </tr>
+            <tr *ngIf="selectedPosition == i">
+              <td class="p-0" colspan="13">
+                <table class="table table-borderless border-white">
+                  <tbody>
+                  <ng-container *ngFor="let so of o.suborders">
+                    <tr>
+                      <th scope="row">{{so.pair}}</th>
+                      <td>{{orderType[so.type.direction]}}</td>
+                      <td>{{so.amount}}</td>
+                      <td>{{so.open_price}}</td>
+                      <td>{{so.current_price}}</td>
+                      <td></td>
+                      <td></td>
+                      <td>{{so.pl}}</td>
+                      <td>{{so.plmain}}</td>
+                      <td>{{so.plmprc}}</td>
+                      <td></td>
+                      <td>10/10/2018</td>
+                      <td>
+                        <button class="btn btn-outline-warning btn-sm" (click)="modify()">modify</button>
+                        <button class="btn btn-outline-danger btn-sm ml-1" (click)="openModal(confirmModal)">cancel</button>
+                      </td>
+                    </tr>
+                  </ng-container>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+      </tab>
+    </tabset>
+  </div>
+</div>
+
+<ng-template #confirmModal>
+  <div class="modal-body text-center">
+    <p>Do you want to confirm?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+  </div>
+</ng-template>
