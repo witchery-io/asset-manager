@@ -42,7 +42,7 @@ export class OrderComponent implements OnInit, OnChanges {
   }
 
   fetchOrders() {
-    this.orderService.getGroupOrders(this.order.id, {})
+    this.orderService.getGroupOrders(this.order.id, false)
       .subscribe(
         orders => {
           this.orders = orders;
