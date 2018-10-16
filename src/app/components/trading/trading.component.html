@@ -59,7 +59,7 @@
   <div class="row">
     <div class="col-12">
       <tabset>
-        <tab heading="Positions" id="tab1">
+        <tab heading="Positions" id="tab1" (click)="selectTab(0)">
           <table class="table table-bordered table-sm mt-3">
             <thead>
             <tr>
@@ -75,6 +75,7 @@
               <th scope="col">PL(BTC)</th>
               <th scope="col">PL %</th>
               <th scope="col">Exposure (BTC)</th>
+              <th scope="col">Opened</th>
               <th scope="col"></th>
             </tr>
             </thead>
@@ -101,10 +102,10 @@
                 <td>{{o.plmain}}</td>
                 <td>{{o.plmprc}}</td>
                 <td></td>
+                <td>10/10/2018</td>
                 <td>
-                  <button class="btn btn-outline-danger btn-sm">
-                    close
-                  </button>
+                  <button class="btn btn-outline-warning btn-sm" (click)="modify()">modify</button>
+                  <button class="btn btn-outline-danger btn-sm ml-1" (click)="openConfirmModal(confirmModal)">cancel</button>
                 </td>
               </tr>
               <tr *ngIf="selectedOrder == i">
@@ -124,10 +125,10 @@
                         <td>{{so.plmain}}</td>
                         <td>{{so.plmprc}}</td>
                         <td></td>
+                        <td>10/10/2018</td>
                         <td>
-                          <button class="btn btn-outline-danger btn-sm">
-                            close
-                          </button>
+                          <button class="btn btn-outline-warning btn-sm" (click)="modify()">modify</button>
+                          <button class="btn btn-outline-danger btn-sm ml-1" (click)="openConfirmModal(confirmModal)">cancel</button>
                         </td>
                       </tr>
                     </ng-container>
@@ -139,7 +140,7 @@
             </tbody>
           </table>
         </tab>
-        <tab heading="Orders" id="tab2">
+        <tab heading="Orders" id="tab2" (click)="selectTab(1)">
           <table class="table table-sm table-bordered mt-3">
             <thead>
             <tr>
@@ -155,6 +156,7 @@
               <th scope="col">PL(BTC)</th>
               <th scope="col">PL %</th>
               <th scope="col">Exposure (BTC)</th>
+              <th scope="col">Opened</th>
               <th scope="col"></th>
             </tr>
             </thead>
@@ -181,10 +183,10 @@
                 <td>{{o.plmain}}</td>
                 <td>{{o.plmprc}}</td>
                 <td></td>
+                <td>10/10/2018</td>
                 <td>
-                  <button class="btn btn-outline-danger btn-sm">
-                    cancel
-                  </button>
+                  <button class="btn btn-outline-warning btn-sm" (click)="modify()">modify</button>
+                  <button class="btn btn-outline-danger btn-sm ml-1" (click)="openConfirmModal(confirmModal)">cancel</button>
                 </td>
               </tr>
               <tr *ngIf="selectedPosition == i">
@@ -204,10 +206,10 @@
                         <td>{{so.plmain}}</td>
                         <td>{{so.plmprc}}</td>
                         <td></td>
+                        <td>10/10/2018</td>
                         <td>
-                          <button class="btn btn-outline-danger btn-sm">
-                            cancel
-                          </button>
+                          <button class="btn btn-outline-warning btn-sm" (click)="modify()">modify</button>
+                          <button class="btn btn-outline-danger btn-sm ml-1" (click)="openConfirmModal(confirmModal)">cancel</button>
                         </td>
                       </tr>
                     </ng-container>
@@ -309,5 +311,13 @@
         </tabset>
       </div>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #confirmModal>
+  <div class="modal-body text-center">
+    <p>Do you want to confirm?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
   </div>
 </ng-template>

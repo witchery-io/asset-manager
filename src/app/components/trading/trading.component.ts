@@ -30,6 +30,7 @@ export class TradingComponent implements OnInit {
 
   selectedOrder: number;
   selectedPosition: number;
+  currentOrderTab: number;
 
   public columns: Array<any> = [
     {
@@ -76,6 +77,7 @@ export class TradingComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.currentType = params['type'];
       this.currentTypeId = params['id'];
+      this.selectTab(0);
 
       this.fetchOrders();
     });
@@ -90,14 +92,14 @@ export class TradingComponent implements OnInit {
     //   this.fetchOrders();
     // }, 5000);
 
-    this.groupsService.getGroups().subscribe(
-      groups => {
+    this.groupsService.getGroups()
+      .subscribe(groups => {
         this.groups = groups;
       }
     );
 
-    this.accountService.getAccounts().subscribe(
-      accounts => {
+    this.accountService.getAccounts()
+      .subscribe(accounts => {
         this.accounts = accounts;
       }
     );
@@ -120,8 +122,16 @@ export class TradingComponent implements OnInit {
     this.openModal(template);
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  openModal(template: TemplateRef<any>, params = {}) {
+    this.modalRef = this.modalService.show(template, params);
+  }
+
+  openConfirmModal(template: TemplateRef<any>) {
+    this.openModal(template, { class: 'modal-sm' });
+  }
+
+  selectTab(tab_id: number) {
+    this.currentOrderTab = tab_id;
   }
 
   // get groups() {
@@ -241,5 +251,21 @@ export class TradingComponent implements OnInit {
       this.modalRef.hide();
     }
 
+  }
+
+  modify() {
+    // code ...
+  }
+
+  confirm(): void {
+    console.log('Confirmed!');
+    console.log(this.currentOrderTab);
+    this.modalRef.hide();
+  }
+
+  decline(): void {
+    console.log('Declined!');
+    console.log(this.currentOrderTab);
+    this.modalRef.hide();
   }
 }
