@@ -1,9 +1,8 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BotService } from '../../services/bot.service';
 import { GroupsService } from '../../services/groups.service';
-import { Observable } from 'rxjs';
 import { AccountService } from '../../services/account.service';
 
 @Component({
@@ -18,10 +17,14 @@ export class BotsComponent implements OnInit {
   createFormStep1 = false;
   createFormStep2 = false;
 
-  strategy$: Observable<any>;
+  strategy: any;
+  currentStrategy: any;
 
   groups: any;
   accounts: any;
+
+  model: any;
+
   editBotForm: FormGroup;
 
   constructor(
@@ -29,43 +32,23 @@ export class BotsComponent implements OnInit {
     private botService: BotService,
     private groupsService: GroupsService,
     private accountService: AccountService,
-  ) { }
+    private fb: FormBuilder,
+  ) {
+  }
 
   ngOnInit() {
-    this.strategy$ = this.botService.getStrategy();
-    this.groupsService.getGroups()
-      .subscribe(groups => this.groups = groups);
+    this.botService.getStrategy().subscribe(strategy => this.strategy = strategy);
+    this.groupsService.getGroups().subscribe(groups => this.groups = groups);
+    this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
 
-
-    this.accountService.getAccounts()
-      .subscribe(accounts => this.accounts = accounts);
-
-    this.botForm = new FormGroup({
-      template: new FormControl('', [<any>Validators.required]),
+    this.botForm = this.fb.group({
       strategy: new FormControl('', [<any>Validators.required]),
-      active: new FormControl(true, [<any>Validators.required]),
-      group: new FormControl('', [<any>Validators.required]),
-      account: new FormControl('', [<any>Validators.required]),
-      long_term_priority: new FormControl(0, [<any>Validators.required]),
+      template: new FormControl('', [<any>Validators.required]),
       exchange: new FormControl('any', [<any>Validators.required]),
-      pair: new FormControl('', [<any>Validators.required]),
-      initial_volume: new FormControl('', [<any>Validators.required]),
-      initial_volume_percent: new FormControl('', [<any>Validators.required]),
-      max_amount: new FormControl('', [<any>Validators.required]),
-
-      step_fix: new FormControl('', [<any>Validators.required]),
-      step_calc: new FormControl('', [<any>Validators.required]),
-
-      trade_level_up: new FormControl('', [<any>Validators.required]),
-      trade_level_down: new FormControl('', [<any>Validators.required]),
-
-      priority_coefficient: new FormControl('', [<any>Validators.required]),
-
-      volume_coeff_up: new FormControl('', [<any>Validators.required]),
-      volume_coeff_down: new FormControl('', [<any>Validators.required]),
-      close_triger: new FormControl('', [<any>Validators.required]),
-
-      distribution_from_up: new FormControl('', [<any>Validators.required]),
+      group: new FormControl('', []),
+      account: new FormControl('', []),
+      long_term_priority: new FormControl(0, [<any>Validators.required]),
+      items: this.fb.array([]),
     });
 
     this.editBotForm = new FormGroup({
@@ -76,42 +59,86 @@ export class BotsComponent implements OnInit {
     });
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  openModal(template: TemplateRef<any>, options = {}) {
+    this.modalRef = this.modalService.show(template, options);
   }
 
   createGroup(model: any, is_Valid: boolean) {
     if (is_Valid) {
       console.log(model);
       console.log(is_Valid);
-      this.botForm.reset();
+
+      // this.botForm.reset();
+
       this.modalRef.hide();
     }
   }
 
-  saveAs(model: any, is_Valid: boolean) {
+  save(model: any, is_Valid: boolean) {
+
     if (is_Valid) {
+      this.closeForm();
+
       this.botService.saveAsTemplate(model);
-      this.botForm.reset();
       this.modalRef.hide();
     }
   }
 
-  chooseValues(template_id, type) {
+  saveAs(model: any, is_Valid: boolean, template: TemplateRef<any>) {
+    if (is_Valid) {
+      this.model = model;
+      this.openModal(template, { class: 'modal-sm' });
+    }
+  }
+
+  confirmSaveAs(template_name) {
+    if (!template_name) {
+      return false;
+    }
+
+    console.log(template_name);
+    console.log(this.model);
+
+    this.modalRef.hide();
+  }
+
+  chooseStrategy(strategy_id) {
+    if (!strategy_id) {
+      return false;
+    }
+
+    this.items.removeAt(0);
+    this.items.removeAt(1);
+    this.items.removeAt(2);
+
+    this.currentStrategy = this.strategy[strategy_id];
+    this.createFormStep1 = true;
+  }
+
+  chooseTemplate(template_id) {
     if (!template_id) {
       return false;
     }
 
-    switch (type) {
-      case 'strategy':
-        this.createFormStep1 = true;
-        break;
-      case 'template':
-        this.createFormStep2 = true;
-        break;
-    }
+    this.items.removeAt(0);
+    this.items.removeAt(1);
+    this.items.removeAt(2);
 
-    return false;
+    this.createFormStep2 = true;
+    this.items.setControl(template_id, this.fb.group(this.currentStrategy.template[template_id].items[0]));
+  }
+
+  get items() {
+    return this.botForm.get('items') as FormArray;
+  }
+
+  resetForm() {
+    this.botForm.reset();
+    this.createFormStep1 = false;
+    this.createFormStep2 = false;
+    this.items.removeAt(0);
+    this.items.removeAt(1);
+    this.items.removeAt(2);
   }
 
   chooseExchange(exchange_id) {
@@ -127,9 +154,14 @@ export class BotsComponent implements OnInit {
 
   changeSelect($event, type) {
     if (type === 'group') {
-      this.botForm.patchValue({ account: '' });
+      this.botForm.patchValue({account: ''});
     } else {
-      this.botForm.patchValue({ group: '' });
+      this.botForm.patchValue({group: ''});
     }
+  }
+
+  closeForm() {
+    this.resetForm();
+    this.modalRef.hide();
   }
 }
