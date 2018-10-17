@@ -45,7 +45,7 @@
               <td>{{o.plmain}}</td>
               <td>{{o.plmprc}}</td>
               <td></td>
-              <td>{{ o.open_order_time | date:'medium'}}</td>
+              <td>{{ o.open_order_time | date:'short'}}</td>
               <td>
                 <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal)">close</button>
               </td>
@@ -92,7 +92,7 @@
                       <td>{{so.plmain}}</td>
                       <td>{{so.plmprc}}</td>
                       <td></td>
-                      <td>{{ so.open_order_time | date:'medium'}}</td>
+                      <td>{{ so.open_order_time | date:'short'}}</td>
                       <td>
                         <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal)">close</button>
                       </td>
@@ -140,9 +140,9 @@
               <td>{{o.amount}}</td>
               <td>{{o.open_price}}</td>
               <td>GTC</td>
-              <td>{{o.open_order_time | date:'medium'}}</td>
+              <td>{{o.open_order_time | date:'short'}}</td>
               <td>
-                <button class="btn btn-outline-warning btn-xs"  disabled (click)="modify()">modify</button>
+                <button class="btn btn-outline-warning btn-xs" style="opacity: 0;" disabled (click)="modify()">modify</button>
                 <button class="btn btn-outline-danger btn-xs ml-1" style="opacity: 0;" disabled (click)="openModal(confirmModal)">cancel</button>
               </td>
             </tr>
@@ -178,7 +178,7 @@
                       <td>{{so.amount}}</td>
                       <td>{{so.open_price}}</td>
                       <td>GTC</td>
-                      <td>{{so.open_order_time | date:'medium'}}</td>
+                      <td>{{so.open_order_time | date:'short'}}</td>
                       <td>
                         <button class="btn btn-outline-warning btn-xs" (click)="modify()">modify</button>
                         <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = so.order_number">cancel</button>

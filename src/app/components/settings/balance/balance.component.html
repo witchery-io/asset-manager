@@ -17,6 +17,12 @@
       <div>50</div>
     </h4>
   </div>
+  <div class="col">
+    <h4>
+      <small class="text-muted">Equity</small>
+      <div>500</div>
+    </h4>
+  </div>
 </div>
 <div class="row">
   <div class="col-12">
@@ -31,23 +37,11 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td scope="col">USD</td>
-        <td scope="col">1204</td>
-        <td scope="col">1204</td>
-        <td scope="col">1204</td>
-      </tr>
-      <tr>
-        <td scope="col">EUR</td>
-        <td scope="col">1204</td>
-        <td scope="col">1204</td>
-        <td scope="col">1204</td>
-      </tr>
-      <tr>
-        <td scope="col">XRP</td>
-        <td scope="col">1204</td>
-        <td scope="col">1204</td>
-        <td scope="col">1204</td>
+      <tr *ngFor="let b of balance.balances">
+        <td scope="col">{{b.currency}}</td>
+        <td scope="col">{{b.exchange | number}}</td>
+        <td scope="col">{{b.margin | number}}</td>
+        <td scope="col">{{b.funding | number}}</td>
       </tr>
       </tbody>
     </table>
