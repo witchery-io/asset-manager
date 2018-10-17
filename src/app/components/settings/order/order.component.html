@@ -13,6 +13,7 @@
             <th scope="col">Market Price</th>
             <th scope="col">Stop</th>
             <th scope="col">Limit</th>
+            <th scope="col">Swap</th>
             <th scope="col">PL</th>
             <th scope="col">PL(BTC)</th>
             <th scope="col">PL %</th>
@@ -39,6 +40,7 @@
               <td>{{o.current_price}}</td>
               <td><button (click)="openOrderModal(tradingModal, o, 'stop')" class="btn btn-xs btn-outline-danger">Add</button></td>
               <td><button (click)="openOrderModal(tradingModal, o, 'limit')" class="btn btn-xs btn-outline-warning">Add</button></td>
+              <td>{{o.swap}}</td>
               <td>{{o.pl}}</td>
               <td>{{o.plmain}}</td>
               <td>{{o.plmprc}}</td>
@@ -61,6 +63,7 @@
                     <th scope="col">Market Price</th>
                     <th scope="col">Stop</th>
                     <th scope="col">Limit</th>
+                    <th scope="col">Swap</th>
                     <th scope="col">PL</th>
                     <th scope="col">PL(BTC)</th>
                     <th scope="col">PL %</th>
@@ -84,6 +87,7 @@
                       <td>{{so.current_price}}</td>
                       <td><button (click)="openOrderModal(tradingModal, so, 'stop')" class="btn btn-xs btn-outline-danger">Add</button></td>
                       <td><button (click)="openOrderModal(tradingModal, so, 'limit')" class="btn btn-xs btn-outline-warning">Add</button></td>
+                      <td>{{so.swap}}</td>
                       <td>{{so.pl}}</td>
                       <td>{{so.plmain}}</td>
                       <td>{{so.plmprc}}</td>
