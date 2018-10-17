@@ -27,7 +27,7 @@
 <div class="row">
   <div class="col-12">
     <h5 class="mt-3">Balances</h5>
-    <table class="table">
+    <table class="table table-xs">
       <thead>
       <tr>
         <th scope="col">Currency</th>
@@ -39,8 +39,18 @@
       <tbody>
       <tr *ngFor="let b of balance.balances">
         <td scope="col">{{b.currency}}</td>
-        <td scope="col">{{b.exchange | number}}</td>
-        <td scope="col">{{b.margin | number}}</td>
+        <td scope="col">
+          <span *ngIf="b.exchange !== null && b.exchange.length === 2">
+            {{b.exchange[0] | number}} / {{b.exchange[1] | number}}
+          </span>
+          <span *ngIf="b.exchange === null || b.exchange.length !== 2">0</span>
+        </td>
+        <td scope="col">
+          <span *ngIf="b.margin !== null && b.margin.length === 2">
+            {{b.margin[0] | number}} / {{b.margin[1] | number}}
+          </span>
+          <span *ngIf="b.margin === null || b.margin.length !== 2">0</span>
+        </td>
         <td scope="col">{{b.funding | number}}</td>
       </tr>
       </tbody>
