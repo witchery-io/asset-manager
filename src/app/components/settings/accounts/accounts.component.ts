@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Account } from '../../../models/account';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { AccountService } from '../../../services/account.service';
+import {OrderService} from '../../../services/order.service';
 
 @Component({
   selector: 'app-accounts',
@@ -21,6 +22,7 @@ export class AccountsComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private accountService: AccountService,
+    public orderService: OrderService
   ) { }
 
   ngOnInit() {
@@ -52,5 +54,26 @@ export class AccountsComponent implements OnInit {
   currentAccount($event, i) {
     this.account = this.accounts[i];
     this.balance = this.account;
+
+    this.orderService.orders = [];
+    this.orderService.positions = [];
+    this.orderService.getAccountOrders(this.account.id, false)
+      .subscribe(
+        orders => {
+          if (orders !== null && orders.length > 0) {
+            this.orderService.orders = orders;
+          }
+        }
+      );
+
+
+    this.orderService.getAccountPositions(this.account.id, false)
+      .subscribe(
+        positions => {
+          if (positions !== null && positions.length > 0) {
+            this.orderService.positions = positions;
+          }
+        }
+      );
   }
 }

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Group } from '../../../models/group';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { GroupsService } from '../../../services/groups.service';
+import {OrderService} from '../../../services/order.service';
 
 @Component({
   selector: 'app-groups',
@@ -26,6 +27,7 @@ export class GroupsComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private groupsService: GroupsService,
+    public orderService: OrderService
   ) { }
 
   ngOnInit() {
@@ -72,6 +74,27 @@ export class GroupsComponent implements OnInit {
   chooseGroup(index) {
     this.group = this.groups[index];
     this.balance = this.group;
+    this.orderService.orders = [];
+    this.orderService.positions = [];
+    this.orderService.getGroupOrders(this.group.id, false)
+      .subscribe(
+        orders => {
+          if (orders !== null && orders.length > 0) {
+            this.orderService.orders = orders;
+          }
+        }
+      );
+
+
+    this.orderService.getGroupPositions(this.group.id, false)
+      .subscribe(
+        positions => {
+          if (positions !== null && positions.length > 0) {
+            this.orderService.positions = positions;
+          }
+        }
+      );
+
     this.updateGroupAccount(this.group.id);
   }
 

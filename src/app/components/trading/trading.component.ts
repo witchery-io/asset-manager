@@ -125,7 +125,11 @@ export class TradingComponent implements OnInit {
       array = this.accounts;
     }
 
-    return array.filter(item => item.id === this.currentTypeId)[0];
+    return {
+      id: this.currentTypeId,
+      type: this.currentType,
+      groupByPair: true,
+    };
   }
 
   tickSettings(template: TemplateRef<any>, tickId) {
@@ -177,16 +181,53 @@ export class TradingComponent implements OnInit {
 
   fetchOrders() {
 
-    this.orderService.getGroupOrders(this.currentTypeId, true)
-      .subscribe(
-        orders => {
-          this.orders = orders;
-        }
-      );
+    this.orderService.orders = [];
+    this.orderService.positions = [];
+
+    if (this.currentType === 'group') {
+      this.orderService.getGroupOrders(this.currentTypeId, this.order.groupByPair)
+        .subscribe(
+          orders => {
+            if (orders !== null && orders.length > 0) {
+              this.orderService.orders = orders;
+            }
+          }
+        );
+
+
+      this.orderService.getGroupPositions(this.currentTypeId, this.order.groupByPair)
+        .subscribe(
+          positions => {
+            if (positions !== null && positions.length > 0) {
+              this.orderService.positions = positions;
+            }
+          }
+        );
+
+    } else {
+      this.orderService.getAccountOrders(this.currentTypeId, this.order.groupByPair)
+        .subscribe(
+          orders => {
+            if (orders !== null && orders.length > 0) {
+              this.orderService.orders = orders;
+            }
+          }
+        );
+
+      this.orderService.getAccountPositions(this.currentTypeId, this.order.groupByPair)
+        .subscribe(
+          positions => {
+            if (positions !== null && positions.length > 0) {
+              this.orderService.positions = positions;
+            }
+          }
+        );
+    }
   }
 
   changeType(type, current_type_id) {
     this.currentTypeId = current_type_id;
+    this.currentType = type;
     this.fetchOrders();
     this.router.navigate([`/trading/${ type }/${ current_type_id }`]);
   }
