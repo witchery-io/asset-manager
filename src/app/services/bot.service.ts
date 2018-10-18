@@ -92,11 +92,11 @@ export class BotService {
             {
               open_trigger: '',
               open_trigger_volume_step: '',
-              close: '',
+              close_trigger: '',
               next_trade_timer_min: 0,
-              initial_trade_volume_usd: 0,
+              initial_trade_volume: 0,
               max_trades_cap: 0,
-              max_exposure_from_equity: 0,
+              max_exposure: 0,
             },
           ]
         }),
@@ -107,11 +107,11 @@ export class BotService {
             {
               open_trigger: '',
               open_trigger_volume_step: '',
-              close: '',
+              close_trigger: '',
               next_trade_timer_min: 0,
-              initial_trade_volume_usd: 0,
+              initial_trade_volume: 0,
               max_trades_cap: 0,
-              max_exposure_from_equity: 0,
+              max_exposure: 0,
             },
           ]
         }),
