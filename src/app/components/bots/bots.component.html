@@ -278,28 +278,28 @@
       <div>
         <button
           type="button"
-          class="btn btn-outline-primary float-left"
+          class="btn btn-outline-primary float-left btn-sm"
           aria-label="Close"
           (click)="resetForm()"
         >Cancel</button>
 
         <button
           type="submit"
-          class="btn btn-primary float-right"
+          class="btn btn-primary float-right btn-sm"
           [disabled]="!this.botForm.valid"
           (click)="createBot(botForm.value, botForm.valid)"
         >Run</button>
 
         <button
           type="submit"
-          class="btn btn-success float-right mr-1"
+          class="btn btn-success float-right mr-1 btn-sm"
           [disabled]="!this.botForm.valid"
           (click)="save(botForm.value, botForm.valid)"
         >Save</button>
 
         <button
           type="submit"
-          class="btn btn-success float-right mr-1"
+          class="btn btn-success float-right mr-1 btn-sm"
           [disabled]="!this.botForm.valid"
           (click)="saveAs(botForm.valid, saveModal)"
         >Save As</button>
