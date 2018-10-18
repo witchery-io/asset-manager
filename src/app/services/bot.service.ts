@@ -14,6 +14,7 @@ export class BotService {
         this.getEmptyTemplate({
           id: '0',
           name: 'Template 1',
+          template: '0',
           items: [
             {
               pair: '',
@@ -35,6 +36,7 @@ export class BotService {
         this.getEmptyTemplate({
           id: '1',
           name: 'Template 2',
+          template: '1',
           items: [
             {
               pair: '',
@@ -62,6 +64,7 @@ export class BotService {
         this.getEmptyTemplate({
           id: '0',
           name: 'Template 3',
+          template: '0',
           items: [
             {
               amount: '',
@@ -72,6 +75,7 @@ export class BotService {
         this.getEmptyTemplate({
           id: '1',
           name: 'Template 4',
+          template: '1',
           items: [
             {
               amount: '',
@@ -88,30 +92,32 @@ export class BotService {
         this.getEmptyTemplate({
           id: '0',
           name: 'Template 5',
+          template: '0',
           items: [
             {
               open_trigger: '',
               open_trigger_volume_step: '',
-              close: '',
+              close_trigger: '',
               next_trade_timer_min: 0,
-              initial_trade_volume_usd: 0,
+              initial_trade_volume: 0,
               max_trades_cap: 0,
-              max_exposure_from_equity: 0,
+              max_exposure: 0,
             },
           ]
         }),
         this.getEmptyTemplate({
           id: '1',
           name: 'Template 6',
+          template: '1',
           items: [
             {
               open_trigger: '',
               open_trigger_volume_step: '',
-              close: '',
+              close_trigger: '',
               next_trade_timer_min: 0,
-              initial_trade_volume_usd: 0,
+              initial_trade_volume: 0,
               max_trades_cap: 0,
-              max_exposure_from_equity: 0,
+              max_exposure: 0,
             },
           ]
         }),
