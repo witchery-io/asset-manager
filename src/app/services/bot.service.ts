@@ -14,6 +14,7 @@ export class BotService {
         this.getEmptyTemplate({
           id: '0',
           name: 'Template 1',
+          template: '0',
           items: [
             {
               pair: '',
@@ -35,6 +36,7 @@ export class BotService {
         this.getEmptyTemplate({
           id: '1',
           name: 'Template 2',
+          template: '1',
           items: [
             {
               pair: '',
@@ -62,6 +64,7 @@ export class BotService {
         this.getEmptyTemplate({
           id: '0',
           name: 'Template 3',
+          template: '0',
           items: [
             {
               amount: '',
@@ -72,6 +75,7 @@ export class BotService {
         this.getEmptyTemplate({
           id: '1',
           name: 'Template 4',
+          template: '1',
           items: [
             {
               amount: '',
@@ -88,6 +92,7 @@ export class BotService {
         this.getEmptyTemplate({
           id: '0',
           name: 'Template 5',
+          template: '0',
           items: [
             {
               open_trigger: '',
@@ -103,6 +108,7 @@ export class BotService {
         this.getEmptyTemplate({
           id: '1',
           name: 'Template 6',
+          template: '1',
           items: [
             {
               open_trigger: '',
