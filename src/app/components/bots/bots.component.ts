@@ -1,9 +1,10 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef } from 'ngx-bootstrap';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BotService } from '../../services/bot.service';
 import { GroupsService } from '../../services/groups.service';
 import { AccountService } from '../../services/account.service';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-bots',
@@ -21,7 +22,7 @@ export class BotsComponent implements OnInit {
   editBotForm: FormGroup;
 
   constructor(
-    private modalService: BsModalService,
+    private modalService: ModalService,
     private botService: BotService,
     private groupsService: GroupsService,
     private accountService: AccountService,
@@ -85,7 +86,7 @@ export class BotsComponent implements OnInit {
     console.log(template_name);
 
     this.resetForm();
-    this.closeAllModals();
+    this.modalService.closeAllModals();
   }
 
   chooseStrategy(strategy_id) {
@@ -137,9 +138,5 @@ export class BotsComponent implements OnInit {
     this.botForm.reset();
     this.items.removeAt(0);
     this.modalRef.hide();
-  }
-
-  closeAllModals() {
-    this.modalService.loaders.forEach( loader => { loader.instance.hide(); });
   }
 }
