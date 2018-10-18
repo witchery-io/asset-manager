@@ -42,7 +42,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let tick of ticks; index as i">
+        <tr *ngFor="let tick of tickService.ticks; index as i">
           <td scope="row">{{ tick.pair }}</td>
           <td>{{ tick.last | number }}</td>
           <td [class.text-success]="tick.daily_change > 0" [class.text-danger]="tick.daily_change < 0">{{
@@ -58,7 +58,14 @@
         </tbody>
       </table>
     </div>
-    <div class="col-9">Candlestick</div>
+    <div class="col-9">
+      <highcharts-chart
+        [Highcharts]="Highcharts"
+        [options]="chartOptions"
+
+        style="width: 100%; height: 400px; display: block;"
+      ></highcharts-chart>
+    </div>
   </div>
 
   <div class="row">

@@ -21,6 +21,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ArraySortPipe } from './pipes/array-sort.pipe';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 library.add(fas);
 
@@ -47,6 +48,7 @@ library.add(fas);
     FormsModule,
     HttpClientModule,
     Ng2TableModule,
+    HighchartsChartModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

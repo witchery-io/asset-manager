@@ -9,6 +9,15 @@ import { Margin } from '../../models/margin';
 import { Exchange } from '../../models/exchange';
 import { Order } from '../../models/order';
 import { OrderService } from '../../services/order.service';
+import * as Highcharts from 'highcharts/highstock';
+import * as HC_annotations from 'highcharts/modules/annotations';
+import * as HC_drag from 'highcharts/modules/drag-panes';
+import * as HC_data from 'highcharts/modules/annotations';
+import * as HC_avocado from 'highcharts/modules/annotations';
+HC_annotations(Highcharts);
+HC_drag(Highcharts);
+HC_data(Highcharts);
+HC_avocado(Highcharts);
 
 @Component({
   selector: 'app-trading',
@@ -17,9 +26,16 @@ import { OrderService } from '../../services/order.service';
 })
 export class TradingComponent implements OnInit {
 
+  Highcharts = Highcharts;
+  chartOptions = {
+    series: [{
+      data: []
+    }]
+  };
+
   modalRef: BsModalRef;
-  currentType: string;
-  currentTypeId: string;
+  // currentType: string;
+  // currentTypeId: string;
   currentTickId: number;
   exchangeForm: FormGroup;
   marginForm: FormGroup;
@@ -68,15 +84,15 @@ export class TradingComponent implements OnInit {
     private groupsService: GroupsService,
     private accountService: AccountService,
     private orderService: OrderService,
-    private tickService: TickService,
+    public tickService: TickService,
     private route: ActivatedRoute,
     private router: Router,
   ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.currentType = params['type'];
-      this.currentTypeId = params['id'];
+      this.orderService.tradeType = params['type'];
+      this.orderService.tradeTypeId = params['id'];
       this.selectTab(0);
 
       this.fetchOrders();
@@ -119,15 +135,15 @@ export class TradingComponent implements OnInit {
 
   get order() {
     let array;
-    if (this.currentType === 'group') {
+    if (this.orderService.tradeType === 'group') {
       array = this.groups;
     } else {
       array = this.accounts;
     }
 
     return {
-      id: this.currentTypeId,
-      type: this.currentType,
+      id: this.orderService.tradeTypeId,
+      type: this.orderService.tradeType,
       groupByPair: true,
     };
   }
@@ -184,8 +200,8 @@ export class TradingComponent implements OnInit {
     this.orderService.orders = [];
     this.orderService.positions = [];
 
-    if (this.currentType === 'group') {
-      this.orderService.getGroupOrders(this.currentTypeId, this.order.groupByPair)
+    if (this.orderService.tradeType === 'group') {
+      this.orderService.getGroupOrders(this.orderService.tradeTypeId, this.order.groupByPair)
         .subscribe(
           orders => {
             if (orders !== null && orders.length > 0) {
@@ -195,7 +211,7 @@ export class TradingComponent implements OnInit {
         );
 
 
-      this.orderService.getGroupPositions(this.currentTypeId, this.order.groupByPair)
+      this.orderService.getGroupPositions(this.orderService.tradeTypeId, this.order.groupByPair)
         .subscribe(
           positions => {
             if (positions !== null && positions.length > 0) {
@@ -205,7 +221,7 @@ export class TradingComponent implements OnInit {
         );
 
     } else {
-      this.orderService.getAccountOrders(this.currentTypeId, this.order.groupByPair)
+      this.orderService.getAccountOrders(this.orderService.tradeTypeId, this.order.groupByPair)
         .subscribe(
           orders => {
             if (orders !== null && orders.length > 0) {
@@ -214,7 +230,7 @@ export class TradingComponent implements OnInit {
           }
         );
 
-      this.orderService.getAccountPositions(this.currentTypeId, this.order.groupByPair)
+      this.orderService.getAccountPositions(this.orderService.tradeTypeId, this.order.groupByPair)
         .subscribe(
           positions => {
             if (positions !== null && positions.length > 0) {
@@ -226,18 +242,18 @@ export class TradingComponent implements OnInit {
   }
 
   changeType(type, current_type_id) {
-    this.currentTypeId = current_type_id;
-    this.currentType = type;
+    this.orderService.tradeTypeId = current_type_id;
+    this.orderService.tradeType = type;
     this.fetchOrders();
     this.router.navigate([`/trading/${ type }/${ current_type_id }`]);
   }
 
   get selectedGroup() {
-    return this.currentType === 'group' ? this.currentTypeId : '';
+    return this.orderService.tradeType === 'group' ? this.orderService.tradeTypeId : '';
   }
 
   get selectedAccount() {
-    return this.currentType === 'account' ? this.currentTypeId : '';
+    return this.orderService.tradeType === 'account' ? this.orderService.tradeTypeId : '';
   }
 
   placeOrder(direction, type, model) {
@@ -252,15 +268,15 @@ export class TradingComponent implements OnInit {
       }
     };
 
-    if (this.currentType === 'group') {
-      this.orderService.placeGroupOrder(this.currentTypeId, order)
+    if (this.orderService.tradeType === 'group') {
+      this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
         .subscribe(
           data => {
             this.fetchOrders();
           }
         );
     } else {
-      this.orderService.placeAccountOrder(this.currentTypeId, order)
+      this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
         .subscribe(
           data => {
             this.fetchOrders();

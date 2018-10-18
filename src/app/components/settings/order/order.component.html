@@ -47,7 +47,7 @@
               <td></td>
               <td>{{ o.open_order_time | date:'short'}}</td>
               <td>
-                <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal)">close</button>
+                <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = o; currentlyDeletingType = 'position';">close</button>
               </td>
             </tr>
             <tr *ngIf="selectedOrder == i">
@@ -94,7 +94,7 @@
                       <td></td>
                       <td>{{ so.open_order_time | date:'short'}}</td>
                       <td>
-                        <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal)">close</button>
+                        <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = so; currentlyDeletingType = 'position';">close</button>
                       </td>
                     </tr>
                   </ng-container>
@@ -142,8 +142,8 @@
               <td>GTC</td>
               <td>{{o.open_order_time | date:'short'}}</td>
               <td>
-                <button class="btn btn-outline-warning btn-xs" style="opacity: 0;" disabled (click)="modify()">modify</button>
-                <button class="btn btn-outline-danger btn-xs ml-1" style="opacity: 0;" disabled (click)="openModal(confirmModal)">cancel</button>
+                <button class="btn btn-outline-warning btn-xs" (click)="modify()">modify</button>
+                <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = o; currentlyDeletingType = 'order';">cancel</button>
               </td>
             </tr>
             <tr *ngIf="selectedPosition == i">
@@ -181,7 +181,7 @@
                       <td>{{so.open_order_time | date:'short'}}</td>
                       <td>
                         <button class="btn btn-outline-warning btn-xs" (click)="modify()">modify</button>
-                        <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = so.order_number">cancel</button>
+                        <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal);  currentlyDeleting = so; currentlyDeletingType = 'order';">cancel</button>
                       </td>
                     </tr>
                   </ng-container>

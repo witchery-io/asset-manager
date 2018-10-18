@@ -43,6 +43,7 @@ export class OrderComponent implements OnInit {
   currentOrderTab: number;
 
   currentlyDeleting: string;
+  currentlyDeletingType: string;
 
   constructor(public orderService: OrderService,
               private modalService: BsModalService) {
@@ -105,8 +106,24 @@ export class OrderComponent implements OnInit {
   }
 
   confirm(): void {
-    console.log('Confirmed!');
-    console.log(this.currentOrderTab);
+
+    if (this.currentlyDeletingType === 'position') {
+      this.orderService.closePositon(this.currentlyDeleting)
+        .subscribe(
+          data => {
+            this.fetchOrders();
+          }
+        );
+    } else {
+      this.orderService.cancelOrder(this.currentlyDeleting)
+        .subscribe(
+          data => {
+            this.fetchOrders();
+
+          }
+        );
+    }
+
     this.modalRef.hide();
   }
 
@@ -140,21 +157,21 @@ export class OrderComponent implements OnInit {
       }
     };
 
-    // if (this.currentType === 'group') {
-    //   this.orderService.placeGroupOrder(this.currentTypeId, order)
-    //     .subscribe(
-    //       data => {
-    //         this.fetchOrders();
-    //       }
-    //     );
-    // } else {
-    //   this.orderService.placeAccountOrder(this.currentTypeId, order)
-    //     .subscribe(
-    //       data => {
-    //         this.fetchOrders();
-    //       }
-    //     );
-    // }
+    if (this.orderService.tradeType === 'group') {
+      this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
+        .subscribe(
+          data => {
+            this.fetchOrders();
+          }
+        );
+    } else {
+      this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
+        .subscribe(
+          data => {
+            this.fetchOrders();
+          }
+        );
+    }
 
   }
 
