@@ -12,9 +12,13 @@ export class OrderService {
   public orders = [];
   public positions = [];
 
+  public tradeType;
+  public tradeTypeId;
+  public groupByPair;
+
   url = 'http://192.168.5.50:443';
 
-  constructor( public http: HttpClient ) {
+  constructor(public http: HttpClient) {
   }
 
   placeGroupOrder(groupId: string, order: Order) {
@@ -55,6 +59,14 @@ export class OrderService {
     } else {
       return this.http.get(`${ this.url }/exchange/accounts/${ accountId }/positions`);
     }
+  }
+
+  closePositon(position): Observable<any> {
+    return this.http.post(`${ this.url }/exchange/positions/delete`, position);
+  }
+
+  cancelOrder(order): Observable<any> {
+    return this.http.post(`${ this.url }/exchange/orders/delete`, order);
   }
 
   fetchGroupOrders(groupId: string, groupByPair: boolean = false) {
