@@ -1,10 +1,10 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild} from '@angular/core';
-import {OrderService} from '../../../services/order.service';
-import {BsModalRef, BsModalService, TabsetComponent} from 'ngx-bootstrap';
-import {Order} from '../../../models/order';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Margin} from '../../../models/margin';
-import {Exchange} from '../../../models/exchange';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { OrderService } from '../../../services/order.service';
+import { BsModalRef, BsModalService, TabsetComponent } from 'ngx-bootstrap';
+import { Order } from '../../../models/order';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Margin } from '../../../models/margin';
+import { Exchange } from '../../../models/exchange';
 
 @Component({
   selector: 'app-order',
