@@ -14,6 +14,7 @@ import { BotsComponent } from './components/bots/bots.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { HttpClientModule } from '@angular/common/http';
 import { Ng2TableModule } from 'ng2-table/ng2-table';
 
@@ -22,6 +23,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ArraySortPipe } from './pipes/array-sort.pipe';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { TemplateComponent } from './components/bots/templates/template.component';
+import { BotComponent } from './components/bots/templates/bot/bot.component';
 
 library.add(fas);
 
@@ -37,11 +40,14 @@ library.add(fas);
     AccountsComponent,
     BalanceComponent,
     OrderComponent,
+    TemplateComponent,
+    BotComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ModalModule.forRoot(),
+    CollapseModule.forRoot(),
     TabsModule.forRoot(),
     FontAwesomeModule,
     ReactiveFormsModule,

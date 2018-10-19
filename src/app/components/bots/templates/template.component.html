@@ -1,0 +1,6 @@
+<h6 class="card-header">
+  {{ template.name }}
+  <fa-icon (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" icon="plus" class="text-danger float-right"></fa-icon>
+</h6>
+
+<app-bot [collapse]="isCollapsed" *ngFor="let bot of template.bots" [bot]="bot"></app-bot>
