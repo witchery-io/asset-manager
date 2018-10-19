@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {BsModalService} from 'ngx-bootstrap';
-import {TickService} from './services/tick.service';
-import {AccountService} from './services/account.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {GroupsService} from './services/groups.service';
-import {OrderService} from './services/order.service';
+import { Component, OnInit } from '@angular/core';
+import { BsModalService } from 'ngx-bootstrap';
+import { TickService } from './services/tick.service';
+import { AccountService } from './services/account.service';
+import { ActivatedRoute , Router} from '@angular/router';
+import { GroupsService } from './services/groups.service';
+import { OrderService } from './services/order.service';
 
 @Component({
   selector: 'app-root',
@@ -14,14 +14,15 @@ import {OrderService} from './services/order.service';
 export class AppComponent implements OnInit {
   title = 'asset-manager';
 
-  constructor(private modalService: BsModalService,
-              private groupsService: GroupsService,
-              private accountService: AccountService,
-              private orderService: OrderService,
-              private tickService: TickService,
-              private route: ActivatedRoute,
-              private router: Router) {
-  }
+  constructor(
+    private modalService: BsModalService,
+    private groupsService: GroupsService,
+    private accountService: AccountService,
+    private orderService: OrderService,
+    private tickService: TickService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     this.fetchTicks();

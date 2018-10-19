@@ -101,10 +101,6 @@ export class OrderComponent implements OnInit {
 
   }
 
-  modify() {
-    // code ...
-  }
-
   confirm(): void {
 
     if (this.currentlyDeletingType === 'position') {

@@ -142,7 +142,7 @@
               <td>GTC</td>
               <td>{{ o.open_order_time | date:'short' }}</td>
               <td>
-                <button class="btn btn-outline-warning btn-xs" (click)="modify()">modify</button>
+                <button class="btn btn-outline-warning btn-xs" (click)="openOrderModal(tradingModal, o, orderTypeO[o.type.type])">modify</button>
                 <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = o; currentlyDeletingType = 'order';">cancel</button>
               </td>
             </tr>
@@ -180,7 +180,7 @@
                       <td>GTC</td>
                       <td>{{ so.open_order_time | date:'short' }}</td>
                       <td>
-                        <button class="btn btn-outline-warning btn-xs" (click)="modify()">modify</button>
+                        <button class="btn btn-outline-warning btn-xs" (click)="openOrderModal(tradingModal, so, orderTypeO[so.type.type])">modify</button>
                         <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal);  currentlyDeleting = so; currentlyDeletingType = 'order';">cancel</button>
                       </td>
                     </tr>
