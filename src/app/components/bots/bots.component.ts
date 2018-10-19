@@ -5,6 +5,7 @@ import { BotService } from '../../services/bot.service';
 import { GroupsService } from '../../services/groups.service';
 import { AccountService } from '../../services/account.service';
 import { ModalService } from '../../services/modal.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-bots',
@@ -16,6 +17,7 @@ export class BotsComponent implements OnInit {
   botForm: FormGroup;
 
   strategy: any;
+  templates$: Observable<any>;
   currentStrategy: any;
   groups: any;
   accounts: any;
@@ -31,6 +33,7 @@ export class BotsComponent implements OnInit {
 
   ngOnInit() {
     this.botService.getStrategy().subscribe(strategy => this.strategy = strategy);
+    this.templates$ = this.botService.getTemplates();
     this.groupsService.getGroups().subscribe(groups => this.groups = groups);
     this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
 
