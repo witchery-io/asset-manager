@@ -73,16 +73,11 @@ export class AppComponent implements OnInit {
 
   fetchOrders() {
 
-    this.orderService.orders = [];
-    this.orderService.positions = [];
-
     if (this.orderService.tradeType === 'group') {
       this.orderService.getGroupOrders(this.orderService.tradeTypeId, this.order.groupByPair)
         .subscribe(
           orders => {
-            if (orders !== null && orders.length > 0) {
-              this.orderService.orders = orders;
-            }
+            this.orderService.setOrders(orders);
           }
         );
 
@@ -90,9 +85,7 @@ export class AppComponent implements OnInit {
       this.orderService.getGroupPositions(this.orderService.tradeTypeId, this.order.groupByPair)
         .subscribe(
           positions => {
-            if (positions !== null && positions.length > 0) {
-              this.orderService.positions = positions;
-            }
+            this.orderService.setPositions(positions);
           }
         );
 
@@ -100,18 +93,14 @@ export class AppComponent implements OnInit {
       this.orderService.getAccountOrders(this.orderService.tradeTypeId, this.order.groupByPair)
         .subscribe(
           orders => {
-            if (orders !== null && orders.length > 0) {
-              this.orderService.orders = orders;
-            }
+            this.orderService.setOrders(orders);
           }
         );
 
       this.orderService.getAccountPositions(this.orderService.tradeTypeId, this.order.groupByPair)
         .subscribe(
           positions => {
-            if (positions !== null && positions.length > 0) {
-              this.orderService.positions = positions;
-            }
+            this.orderService.setPositions(positions);
           }
         );
     }

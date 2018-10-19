@@ -26,7 +26,6 @@ export class OrderComponent implements OnInit {
   orderType = ['buy', 'sell'];
   orderTypeO = ['stop', 'market', 'limit'];
   orderContext = ['exchange', 'margin'];
-  orders = [];
 
   currentOrder: any;
 
@@ -202,5 +201,13 @@ export class OrderComponent implements OnInit {
       this.modalRef.hide();
     }
 
+  }
+
+  get positions() {
+    return this.orderService.positions;
+  }
+
+  get orders() {
+    return this.orderService.orders;
   }
 }

@@ -23,7 +23,7 @@
           </tr>
           </thead>
           <tbody>
-          <ng-container *ngFor="let o of orderService.positions; let i = index">
+          <ng-container *ngFor="let o of positions; let i = index">
             <tr>
               <td scope="row">
                 <button (click)="selectedOrder = i" [disabled]="o.suborders === null || o.suborders.length == 0" *ngIf="selectedOrder != i" class="btn btn-xs btn-primary">
@@ -123,7 +123,7 @@
           </tr>
           </thead>
           <tbody>
-          <ng-container *ngFor="let o of orderService.orders; let i = index">
+          <ng-container *ngFor="let o of orders; let i = index">
             <tr>
               <td scope="row">
                 <button (click)="selectedPosition = i" [disabled]="o.suborders === null || o.suborders.length == 0" *ngIf="selectedPosition != i" class="btn btn-xs btn-primary">
