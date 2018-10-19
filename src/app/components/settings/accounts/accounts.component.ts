@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Account } from '../../../models/account';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { AccountService } from '../../../services/account.service';
-import {OrderService} from '../../../services/order.service';
+import { OrderService } from '../../../services/order.service';
 
 @Component({
   selector: 'app-accounts',

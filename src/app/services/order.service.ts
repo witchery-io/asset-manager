@@ -1,16 +1,16 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Order} from '../models/order';
-import {environment} from '../../environments/environment';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Order } from '../models/order';
+import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
 
-  public orders = [];
-  public positions = [];
+  orders = [];
+  positions = [];
 
   public tradeType;
   public tradeTypeId;
@@ -18,7 +18,16 @@ export class OrderService {
 
   url = 'http://192.168.5.50:443';
 
-  constructor(public http: HttpClient) {
+  constructor(
+    public http: HttpClient,
+  ) { }
+
+  setPositions(positions = []) {
+    this.positions = positions;
+  }
+
+  setOrders(orders = []) {
+    this.orders = orders;
   }
 
   placeGroupOrder(groupId: string, order: Order) {

@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {BsModalService} from 'ngx-bootstrap';
-import {TickService} from './services/tick.service';
-import {AccountService} from './services/account.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {GroupsService} from './services/groups.service';
-import {OrderService} from './services/order.service';
+import { Component, OnInit } from '@angular/core';
+import { BsModalService } from 'ngx-bootstrap';
+import { TickService } from './services/tick.service';
+import { AccountService } from './services/account.service';
+import { ActivatedRoute , Router} from '@angular/router';
+import { GroupsService } from './services/groups.service';
+import { OrderService } from './services/order.service';
 
 @Component({
   selector: 'app-root',
@@ -14,14 +14,15 @@ import {OrderService} from './services/order.service';
 export class AppComponent implements OnInit {
   title = 'asset-manager';
 
-  constructor(private modalService: BsModalService,
-              private groupsService: GroupsService,
-              private accountService: AccountService,
-              private orderService: OrderService,
-              private tickService: TickService,
-              private route: ActivatedRoute,
-              private router: Router) {
-  }
+  constructor(
+    private modalService: BsModalService,
+    private groupsService: GroupsService,
+    private accountService: AccountService,
+    private orderService: OrderService,
+    private tickService: TickService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     this.fetchTicks();
@@ -72,16 +73,11 @@ export class AppComponent implements OnInit {
 
   fetchOrders() {
 
-    this.orderService.orders = [];
-    this.orderService.positions = [];
-
     if (this.orderService.tradeType === 'group') {
       this.orderService.getGroupOrders(this.orderService.tradeTypeId, this.order.groupByPair)
         .subscribe(
           orders => {
-            if (orders !== null && orders.length > 0) {
-              this.orderService.orders = orders;
-            }
+            this.orderService.setOrders(orders);
           }
         );
 
@@ -89,9 +85,7 @@ export class AppComponent implements OnInit {
       this.orderService.getGroupPositions(this.orderService.tradeTypeId, this.order.groupByPair)
         .subscribe(
           positions => {
-            if (positions !== null && positions.length > 0) {
-              this.orderService.positions = positions;
-            }
+            this.orderService.setPositions(positions);
           }
         );
 
@@ -99,18 +93,14 @@ export class AppComponent implements OnInit {
       this.orderService.getAccountOrders(this.orderService.tradeTypeId, this.order.groupByPair)
         .subscribe(
           orders => {
-            if (orders !== null && orders.length > 0) {
-              this.orderService.orders = orders;
-            }
+            this.orderService.setOrders(orders);
           }
         );
 
       this.orderService.getAccountPositions(this.orderService.tradeTypeId, this.order.groupByPair)
         .subscribe(
           positions => {
-            if (positions !== null && positions.length > 0) {
-              this.orderService.positions = positions;
-            }
+            this.orderService.setPositions(positions);
           }
         );
     }
