@@ -1,9 +1,11 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef } from 'ngx-bootstrap';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BotService } from '../../services/bot.service';
 import { GroupsService } from '../../services/groups.service';
 import { AccountService } from '../../services/account.service';
+import { ModalService } from '../../services/modal.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-bots',
@@ -14,30 +16,24 @@ export class BotsComponent implements OnInit {
   modalRef: BsModalRef;
   botForm: FormGroup;
 
-  createFormStep1 = false;
-  createFormStep2 = false;
-
   strategy: any;
+  templates$: Observable<any>;
   currentStrategy: any;
-
   groups: any;
   accounts: any;
-
-  model: any;
-
   editBotForm: FormGroup;
 
   constructor(
-    private modalService: BsModalService,
+    private modalService: ModalService,
     private botService: BotService,
     private groupsService: GroupsService,
     private accountService: AccountService,
     private fb: FormBuilder,
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
     this.botService.getStrategy().subscribe(strategy => this.strategy = strategy);
+    this.templates$ = this.botService.getTemplates();
     this.groupsService.getGroups().subscribe(groups => this.groups = groups);
     this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
 
@@ -63,30 +59,23 @@ export class BotsComponent implements OnInit {
     this.modalRef = this.modalService.show(template, options);
   }
 
-  createGroup(model: any, is_Valid: boolean) {
+  createBot(model: any, is_Valid: boolean) {
     if (is_Valid) {
       console.log(model);
       console.log(is_Valid);
-
-      // this.botForm.reset();
-
-      this.modalRef.hide();
+      this.resetForm();
     }
   }
 
   save(model: any, is_Valid: boolean) {
-
     if (is_Valid) {
-      this.closeForm();
-
       this.botService.saveAsTemplate(model);
-      this.modalRef.hide();
+      this.resetForm();
     }
   }
 
-  saveAs(model: any, is_Valid: boolean, template: TemplateRef<any>) {
+  saveAs(is_Valid: boolean, template: TemplateRef<any>) {
     if (is_Valid) {
-      this.model = model;
       this.openModal(template, { class: 'modal-sm' });
     }
   }
@@ -96,10 +85,11 @@ export class BotsComponent implements OnInit {
       return false;
     }
 
+    console.log(this.botForm.value);
     console.log(template_name);
-    console.log(this.model);
 
-    this.modalRef.hide();
+    this.resetForm();
+    this.modalService.closeAllModals();
   }
 
   chooseStrategy(strategy_id) {
@@ -108,11 +98,10 @@ export class BotsComponent implements OnInit {
     }
 
     this.items.removeAt(0);
-    this.items.removeAt(1);
-    this.items.removeAt(2);
-
     this.currentStrategy = this.strategy[strategy_id];
-    this.createFormStep1 = true;
+    this.botForm.reset({
+      strategy: strategy_id,
+    });
   }
 
   chooseTemplate(template_id) {
@@ -121,24 +110,12 @@ export class BotsComponent implements OnInit {
     }
 
     this.items.removeAt(0);
-    this.items.removeAt(1);
-    this.items.removeAt(2);
-
-    this.createFormStep2 = true;
-    this.items.setControl(template_id, this.fb.group(this.currentStrategy.template[template_id].items[0]));
+    this.botForm.patchValue(this.currentStrategy.template[template_id]);
+    this.items.push(this.fb.group(this.currentStrategy.template[template_id].items[0]));
   }
 
   get items() {
     return this.botForm.get('items') as FormArray;
-  }
-
-  resetForm() {
-    this.botForm.reset();
-    this.createFormStep1 = false;
-    this.createFormStep2 = false;
-    this.items.removeAt(0);
-    this.items.removeAt(1);
-    this.items.removeAt(2);
   }
 
   chooseExchange(exchange_id) {
@@ -154,14 +131,15 @@ export class BotsComponent implements OnInit {
 
   changeSelect($event, type) {
     if (type === 'group') {
-      this.botForm.patchValue({account: ''});
+      this.botForm.patchValue({ account: '' });
     } else {
-      this.botForm.patchValue({group: ''});
+      this.botForm.patchValue({ group: '' });
     }
   }
 
-  closeForm() {
-    this.resetForm();
+  resetForm() {
+    this.botForm.reset();
+    this.items.removeAt(0);
     this.modalRef.hide();
   }
 }

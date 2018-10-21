@@ -12,6 +12,14 @@
 
       <div class="row">
         <div class="col-12 mt-3">
+          <div class="card">
+            <app-template *ngFor="let template of templates$ | async" [template]="template"></app-template>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 mt-3">
           <table class="table table-bordered table-sm">
             <thead>
             <tr>
@@ -105,9 +113,10 @@
 
   <div class="modal-body">
     <form novalidate [formGroup]="botForm">
+
       <div class="form-group">
         <label for="cr_strategy">Strategy</label>
-        <select class="form-control" id="cr_strategy" formControlName="strategy"
+        <select class="form-control form-control-sm" id="cr_strategy" formControlName="strategy"
                 (change)="chooseStrategy($event.target.value)">
           <option *ngFor="let item of strategy " [value]="item.id">
             {{ item.name }}
@@ -115,10 +124,11 @@
         </select>
       </div>
 
-      <ng-container *ngIf="createFormStep1">
+      <ng-container *ngIf="this.botForm.value.strategy">
         <div class="form-group">
           <label for="cr_template">Template</label>
-          <select class="form-control" id="cr_template" formControlName="template" (change)="chooseTemplate($event.target.value)">
+          <select class="form-control form-control-sm" id="cr_template" formControlName="template"
+                  (change)="chooseTemplate($event.target.value)">
             <option *ngFor="let item of currentStrategy.template" [value]="item.id">
               {{ item.name }}
             </option>
@@ -127,7 +137,7 @@
 
         <div class="form-group">
           <label for="account_exchange">Exchange</label>
-          <select id="account_exchange" class="form-control" formControlName="exchange"
+          <select id="account_exchange" class="form-control form-control-sm" formControlName="exchange"
                   (change)="chooseExchange($event.target.value)">
             <option selected value="any">Any</option>
             <option value="bitfinex">Bitfinex</option>
@@ -137,14 +147,17 @@
 
         <div class="form-group">
           <label for="cr_group">Groups</label>
-          <select id="cr_group" class="form-control" formControlName="group" (change)="changeSelect($event, 'group')">
-            <option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</option>
+          <select id="cr_group" class="form-control form-control-sm" formControlName="group"
+                  (change)="changeSelect($event, 'group')">
+            <option *ngFor="let group of groups" [value]="group.id">
+              {{ group.name }}
+            </option>
           </select>
         </div>
 
         <div class="form-group">
           <label for="cr_accounts">Accounts</label>
-          <select id="cr_accounts" class="form-control" formControlName="account"
+          <select id="cr_accounts" class="form-control form-control-sm" formControlName="account"
                   (change)="changeSelect($event, 'account')">
             <option *ngFor="let a of accounts" [value]="a.id">
               {{ a.user_name }}
@@ -154,149 +167,172 @@
 
         <div class="form-group">
           <label for="cr_long_term_priority">Long Term Priority</label>
-          <select class="form-control" id="cr_long_term_priority" formControlName="long_term_priority">
+          <select class="form-control form-control-sm" id="cr_long_term_priority" formControlName="long_term_priority">
             <option selected value="0">Long</option>
             <option value="1">Short</option>
           </select>
         </div>
       </ng-container>
 
-      <ng-container *ngIf="createFormStep2">
-        <div *ngIf="currentStrategy.id === '0'" formArrayName="items">
-          <div *ngFor="let item of items.controls; index as i" [formGroupName]="i">
-            <div class="form-group">
-              <label for="pair">Pair</label>
-              <input id="pair" class="form-control" formControlName="pair">
-            </div>
+      <div formArrayName="items">
+        <div *ngFor="let item of items.controls; index as i" [formGroupName]="i">
+          <div *ngIf="item.value.pair !== undefined" class="form-group">
+            <label for="pair">Pair</label>
+            <input id="pair" class="form-control form-control-sm" formControlName="pair">
+          </div>
 
-            <div class="form-group">
-              <label for="initial_volume">Initial Volume</label>
-              <input id="initial_volume" class="form-control" formControlName="initial_volume">
-            </div>
+          <div *ngIf="item.value.initial_volume !== undefined" class="form-group">
+            <label for="initial_volume">Initial Volume</label>
+            <input id="initial_volume" class="form-control form-control-sm" formControlName="initial_volume">
+          </div>
 
-            <div class="form-group">
-              <label for="initial_volume_percent">Initial Volume Percent</label>
-              <input id="initial_volume_percent" class="form-control" formControlName="initial_volume_percent">
-            </div>
+          <div *ngIf="item.value.initial_volume_percent !== undefined" class="form-group">
+            <label for="initial_volume_percent">Initial Volume Percent</label>
+            <input id="initial_volume_percent" class="form-control form-control-sm"
+                   formControlName="initial_volume_percent">
+          </div>
 
-            <div class="form-group">
-              <label for="max_amount">Max Amount</label>
-              <input id="max_amount" class="form-control" formControlName="max_amount">
-            </div>
+          <div *ngIf="item.value.max_amount !== undefined" class="form-group">
+            <label for="max_amount">Max Amount</label>
+            <input id="max_amount" class="form-control form-control-sm" formControlName="max_amount">
+          </div>
 
-            <div class="form-group">
-              <label for="step_fix">Step Fix</label>
-              <input id="step_fix" class="form-control" formControlName="step_fix">
-            </div>
+          <div *ngIf="item.value.step_fix !== undefined" class="form-group">
+            <label for="step_fix">Step Fix</label>
+            <input id="step_fix" class="form-control form-control-sm" formControlName="step_fix">
+          </div>
 
-            <div class="form-group">
-              <label for="step_calc">Step Calc</label>
-              <input id="step_calc" class="form-control" formControlName="step_calc">
-            </div>
+          <div *ngIf="item.value.step_calc !== undefined" class="form-group">
+            <label for="step_calc">Step Calc</label>
+            <input id="step_calc" class="form-control form-control-sm" formControlName="step_calc">
+          </div>
 
-            <div class="form-group">
-              <label for="trade_level_up">Trade Level Up</label>
-              <input id="trade_level_up" class="form-control" formControlName="trade_level_up">
-            </div>
+          <div *ngIf="item.value?.trade_level_up !== undefined" class="form-group">
+            <label for="trade_level_up">Trade Level Up</label>
+            <input id="trade_level_up" class="form-control form-control-sm" formControlName="trade_level_up">
+          </div>
 
-            <div class="form-group">
-              <label for="trade_level_down">Trade Level Down</label>
-              <input id="trade_level_down" class="form-control" formControlName="trade_level_down">
-            </div>
+          <div *ngIf="item.value.trade_level_down !== undefined" class="form-group">
+            <label for="trade_level_down">Trade Level Down</label>
+            <input id="trade_level_down" class="form-control form-control-sm" formControlName="trade_level_down">
+          </div>
 
-            <div class="form-group">
-              <label for="priority_coefficient">Priority Coefficient</label>
-              <input id="priority_coefficient" class="form-control" formControlName="priority_coefficient">
-            </div>
+          <div *ngIf="item.value.priority_coefficient !== undefined" class="form-group">
+            <label for="priority_coefficient">Priority Coefficient</label>
+            <input id="priority_coefficient" class="form-control form-control-sm"
+                   formControlName="priority_coefficient">
+          </div>
 
-            <div class="form-group">
-              <label for="volume_coeff_up">Volume Coefficient Up</label>
-              <input id="volume_coeff_up" class="form-control" formControlName="volume_coeff_up">
-            </div>
+          <div *ngIf="item.value?.volume_coeff_up !== undefined" class="form-group">
+            <label for="volume_coeff_up">Volume Coefficient Up</label>
+            <input id="volume_coeff_up" class="form-control form-control-sm" formControlName="volume_coeff_up">
+          </div>
 
-            <div class="form-group">
-              <label for="volume_coeff_down">Volume Coefficient Down</label>
-              <input id="volume_coeff_down" class="form-control" formControlName="volume_coeff_down">
-            </div>
+          <div *ngIf="item.value.volume_coeff_down !== undefined" class="form-group">
+            <label for="volume_coeff_down">Volume Coefficient Down</label>
+            <input id="volume_coeff_down" class="form-control form-control-sm" formControlName="volume_coeff_down">
+          </div>
 
-            <div class="form-group">
-              <label for="close_triger">Close Trigger</label>
-              <input id="close_triger" class="form-control" formControlName="close_triger">
-            </div>
+          <div *ngIf="item.value.close_triger !== undefined" class="form-group">
+            <label for="close_triger">Close Trigger</label>
+            <input id="close_triger" class="form-control form-control-sm" formControlName="close_triger">
+          </div>
 
-            <div class="form-group">
-              <label for="distribution_from_up">Distribution From Up</label>
-              <input id="distribution_from_up" class="form-control" formControlName="distribution_from_up">
-            </div>
+          <div *ngIf="item.value.distribution_from_up !== undefined" class="form-group">
+            <label for="distribution_from_up">Distribution From Up</label>
+            <input id="distribution_from_up" class="form-control form-control-sm"
+                   formControlName="distribution_from_up">
+          </div>
+
+          <div *ngIf="item.value.amount !== undefined" class="form-group">
+            <label for="amount">Amount</label>
+            <input id="amount" class="form-control form-control-sm" formControlName="amount">
+          </div>
+
+          <div *ngIf="item.value.revenue !== undefined" class="form-group">
+            <label for="revenue">Revenue (%)</label>
+            <input id="revenue" class="form-control form-control-sm" formControlName="revenue">
+          </div>
+
+          <div *ngIf="item.value.open_trigger !== undefined" class="form-group">
+            <label for="open_trigger">Open Trigger (%)</label>
+            <input id="open_trigger" class="form-control form-control-sm" formControlName="open_trigger">
+          </div>
+
+          <div *ngIf="item.value.open_trigger_volume_step !== undefined" class="form-group">
+            <label for="open_trigger_volume_step">Open Trigger & Volume Step (%)</label>
+            <input id="open_trigger_volume_step" class="form-control form-control-sm"
+                   formControlName="open_trigger_volume_step">
+          </div>
+
+          <div *ngIf="item.value.close_trigger !== undefined" class="form-group">
+            <label for="close_trigger">Close Trigger (%)</label>
+            <input id="close_trigger" class="form-control form-control-sm" formControlName="close_trigger">
+          </div>
+
+          <div *ngIf="item.value.next_trade_timer_min !== undefined" class="form-group">
+            <label for="next_trade_timer_min">Next Trade Timer (min)</label>
+            <input id="next_trade_timer_min" class="form-control form-control-sm"
+                   formControlName="next_trade_timer_min">
+          </div>
+
+          <div *ngIf="item.value.initial_trade_volume !== undefined" class="form-group">
+            <label for="initial_trade_volume">Initial Trade Volume (USD)</label>
+            <input id="initial_trade_volume" class="form-control form-control-sm"
+                   formControlName="initial_trade_volume">
+          </div>
+
+          <div *ngIf="item.value.max_trades_cap !== undefined" class="form-group">
+            <label for="max_trades_cap">Max Trades Cap</label>
+            <input id="max_trades_cap" class="form-control form-control-sm" formControlName="max_trades_cap">
+          </div>
+
+          <div *ngIf="item.value.max_exposure !== undefined" class="form-group">
+            <label for="max_exposure">Max Exposure (%, from Equity)</label>
+            <input id="max_exposure" class="form-control form-control-sm" formControlName="max_exposure">
           </div>
         </div>
+      </div>
 
-        <div *ngIf="currentStrategy.id === '1'" formArrayName="items">
-          <div *ngFor="let item of items.controls; index as i" [formGroupName]="i">
-            <div class="form-group">
-              <label for="amount">Amount</label>
-              <input id="amount" class="form-control" formControlName="amount">
-            </div>
+      <div>
+        <button
+          type="button"
+          class="btn btn-outline-primary float-left btn-sm"
+          aria-label="Close"
+          (click)="resetForm()"
+        >Cancel
+        </button>
 
-            <div class="form-group">
-              <label for="revenue">Revenue</label>
-              <input id="revenue" class="form-control" formControlName="revenue">
-            </div>
-          </div>
-        </div>
+        <button
+          type="submit"
+          class="btn btn-primary float-right btn-sm"
+          [disabled]="!this.botForm.valid"
+          (click)="createBot(botForm.value, botForm.valid)"
+        >Run
+        </button>
 
-        <div *ngIf="currentStrategy.id === '2'" formArrayName="items">
-          <div *ngFor="let item of items.controls; index as i" [formGroupName]="i">
-            <div class="form-group">
-              <label for="open_trigger">Open Trigger</label>
-              <input id="open_trigger" class="form-control" formControlName="open_trigger">
-            </div>
+        <button
+          type="submit"
+          class="btn btn-success float-right mr-1 btn-sm"
+          [disabled]="!this.botForm.valid"
+          (click)="save(botForm.value, botForm.valid)"
+        >Save
+        </button>
 
-            <div class="form-group">
-              <label for="open_trigger_volume_step">Open Trigger Volume Step</label>
-              <input id="open_trigger_volume_step" class="form-control" formControlName="open_trigger_volume_step">
-            </div>
-
-            <div class="form-group">
-              <label for="close">Close</label>
-              <input id="close" class="form-control" formControlName="close">
-            </div>
-
-            <div class="form-group">
-              <label for="next_trade_timer_min">Next Trade Timer Min</label>
-              <input id="next_trade_timer_min" class="form-control" formControlName="next_trade_timer_min">
-            </div>
-
-            <div class="form-group">
-              <label for="initial_trade_volume_usd">Initial Trade Volume usd</label>
-              <input id="initial_trade_volume_usd" class="form-control" formControlName="initial_trade_volume_usd">
-            </div>
-
-            <div class="form-group">
-              <label for="max_trades_cap">Max Trades Cap</label>
-              <input id="max_trades_cap" class="form-control" formControlName="max_trades_cap">
-            </div>
-
-            <div class="form-group">
-              <label for="max_exposure_from_equity">Max Exposure From Equity</label>
-              <input id="max_exposure_from_equity" class="form-control" formControlName="max_exposure_from_equity">
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <button type="button" class="btn btn-outline-primary float-left" aria-label="Close" (click)="closeForm()">Cancel</button>
-          <button type="submit" class="btn btn-primary float-right" (click)="createGroup(botForm.value, botForm.valid)">Run</button>
-          <button type="submit" class="btn btn-success float-right mr-1" (click)="save(botForm.value, botForm.valid)">Save</button>
-          <button type="submit" class="btn btn-success float-right mr-1" (click)="saveAs(botForm.value, botForm.valid, saveModal)">Save As</button>
-        </div>
-      </ng-container>
+        <button
+          type="submit"
+          class="btn btn-success float-right mr-1 btn-sm"
+          [disabled]="!this.botForm.valid"
+          (click)="saveAs(botForm.valid, saveModal)"
+        >Save As
+        </button>
+      </div>
     </form>
   </div>
 </ng-template>
 
 <!-- edit todo::mod -->
-<ng-template #editBotModal class="modal-sm">
+<ng-template #editBotModal>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Edit Bot</h4>
   </div>
@@ -324,14 +360,12 @@
 
       <div class="form-group">
         <label for="bot_exchange">Exchange</label>
-        <select class="form-control" id="bot_exchange"
-                (change)="getSelected($event.target.value)"
-                formControlName="exchange">
+        <select class="form-control" id="bot_exchange" formControlName="exchange">
           <option value="0">
             Any
           </option>
-          <option *ngFor="let b of botService.bots" [value]="b.id">
-            {{b.name}}
+          <option *ngFor="let b of []" [value]="b.id">
+            {{ b.name }}
           </option>
         </select>
       </div>
@@ -339,8 +373,8 @@
       <div class="form-group">
         <label for="group">Group</label>
         <select class="form-control" id="group" formControlName="group">
-          <option *ngFor="let g of groupExchange" [value]="g.name">
-            {{g.name}}
+          <option *ngFor="let g of []" [value]="g.name">
+            {{ g.name }}
           </option>
         </select>
       </div>
@@ -349,10 +383,8 @@
         <button type="button" class="btn btn-outline-primary float-left" aria-label="Close" (click)="modalRef.hide()">
           Cancel
         </button>
-        <button type="submit" class="btn btn-primary float-right">Run
-        </button>
-        <button type="submit" class="btn btn-success float-right mr-1">Save As
-        </button>
+        <button type="submit" class="btn btn-primary float-right">Run</button>
+        <button type="submit" class="btn btn-success float-right mr-1">Save As</button>
       </div>
 
     </form>

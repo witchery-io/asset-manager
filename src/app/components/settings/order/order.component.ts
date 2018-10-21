@@ -1,10 +1,10 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild} from '@angular/core';
-import {OrderService} from '../../../services/order.service';
-import {BsModalRef, BsModalService, TabsetComponent} from 'ngx-bootstrap';
-import {Order} from '../../../models/order';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Margin} from '../../../models/margin';
-import {Exchange} from '../../../models/exchange';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { OrderService } from '../../../services/order.service';
+import { BsModalRef, BsModalService, TabsetComponent } from 'ngx-bootstrap';
+import { Order } from '../../../models/order';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Margin } from '../../../models/margin';
+import { Exchange } from '../../../models/exchange';
 
 @Component({
   selector: 'app-order',
@@ -26,7 +26,6 @@ export class OrderComponent implements OnInit {
   orderType = ['buy', 'sell'];
   orderTypeO = ['stop', 'market', 'limit'];
   orderContext = ['exchange', 'margin'];
-  orders = [];
 
   currentOrder: any;
 
@@ -99,10 +98,6 @@ export class OrderComponent implements OnInit {
     //     );
     // }
 
-  }
-
-  modify() {
-    // code ...
   }
 
   confirm(): void {
@@ -206,5 +201,13 @@ export class OrderComponent implements OnInit {
       this.modalRef.hide();
     }
 
+  }
+
+  get positions() {
+    return this.orderService.positions;
+  }
+
+  get orders() {
+    return this.orderService.orders;
   }
 }
