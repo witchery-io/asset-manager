@@ -62,9 +62,16 @@ export class AccountsComponent implements OnInit {
       .subscribe(
         account => {
           this.account = account;
-          this.balance = this.account;
         }
       );
+
+    this.orderService.getAccountBalance(this.account.id)
+      .subscribe(
+        balance => {
+          this.balance = balance;
+        }
+      );
+
     this.orderService.getAccountOrders(this.account.id, false)
       .subscribe(
         orders => {
