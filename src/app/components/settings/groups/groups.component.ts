@@ -4,6 +4,7 @@ import { Group } from '../../../models/group';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { GroupsService } from '../../../services/groups.service';
 import {OrderService} from '../../../services/order.service';
+import {AccountService} from '../../../services/account.service';
 
 @Component({
   selector: 'app-groups',
@@ -27,7 +28,8 @@ export class GroupsComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private groupsService: GroupsService,
-    public orderService: OrderService
+    public orderService: OrderService,
+    private accountService: AccountService,
   ) { }
 
   ngOnInit() {
@@ -73,9 +75,18 @@ export class GroupsComponent implements OnInit {
 
   chooseGroup(index) {
     this.group = this.groups[index];
-    this.balance = this.group;
+
     this.orderService.orders = [];
     this.orderService.positions = [];
+
+    this.orderService.geGroupBalance(this.group.id)
+      .subscribe(
+        balance => {
+          this.balance = balance;
+        }
+      );
+
+
     this.orderService.getGroupOrders(this.group.id, false)
       .subscribe(
         orders => {
@@ -105,6 +116,41 @@ export class GroupsComponent implements OnInit {
 
   chooseAccount(index) {
     this.account = this.groupAccounts[index];
-    this.balance = this.group;
+
+    this.orderService.orders = [];
+    this.orderService.positions = [];
+
+    this.accountService.getAccount(this.account.id)
+      .subscribe(
+        account => {
+          this.account = account;
+        }
+      );
+
+    this.orderService.getAccountBalance(this.account.id)
+      .subscribe(
+        balance => {
+          this.balance = balance;
+        }
+      );
+
+    this.orderService.getAccountOrders(this.account.id, false)
+      .subscribe(
+        orders => {
+          if (orders !== null && orders.length > 0) {
+            this.orderService.orders = orders;
+          }
+        }
+      );
+
+
+    this.orderService.getAccountPositions(this.account.id, false)
+      .subscribe(
+        positions => {
+          if (positions !== null && positions.length > 0) {
+            this.orderService.positions = positions;
+          }
+        }
+      );
   }
 }

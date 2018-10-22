@@ -53,7 +53,6 @@ export class AccountsComponent implements OnInit {
 
   currentAccount($event, i) {
     this.account = this.accounts[i];
-    this.balance = this.account;
 
     this.orderService.orders = [];
     this.orderService.positions = [];

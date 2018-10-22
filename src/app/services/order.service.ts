@@ -16,7 +16,7 @@ export class OrderService {
   public tradeTypeId;
   public groupByPair;
 
-  url = 'http://localhost:50090/payments';
+  url = 'http://192.168.5.50:50090/payments';
 
   constructor(
     public http: HttpClient,
@@ -32,6 +32,10 @@ export class OrderService {
 
   getAccountBalance(accountId: string) {
     return this.http.get(`${ this.url }/exchange/accounts/${ accountId }/balance`);
+  }
+
+  geGroupBalance(groupId: string) {
+    return this.http.get(`${ this.url }/exchange/groups/${ groupId }/balance`);
   }
 
   placeGroupOrder(groupId: string, order: Order) {
