@@ -53,7 +53,6 @@ export class AccountsComponent implements OnInit {
 
   currentAccount($event, i) {
     this.account = this.accounts[i];
-    this.balance = this.account;
 
     this.orderService.orders = [];
     this.orderService.positions = [];
@@ -62,9 +61,16 @@ export class AccountsComponent implements OnInit {
       .subscribe(
         account => {
           this.account = account;
-          this.balance = this.account;
         }
       );
+
+    this.orderService.getAccountBalance(this.account.id)
+      .subscribe(
+        balance => {
+          this.balance = balance;
+        }
+      );
+
     this.orderService.getAccountOrders(this.account.id, false)
       .subscribe(
         orders => {

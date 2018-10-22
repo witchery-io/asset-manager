@@ -8,19 +8,19 @@
   <div class="col">
     <h4>
       <small class="text-muted">WSB</small>
-      <div>{{balance.exchange_status.wsb | number}}</div>
+      <div>{{balance.wsb | number}}</div>
     </h4>
   </div>
   <div class="col">
     <h4>
       <small class="text-muted">PL (%)</small>
-      <div>50</div>
+      <div>{{balance.pl | number}}</div>
     </h4>
   </div>
   <div class="col">
     <h4>
       <small class="text-muted">Equity</small>
-      <div>{{balance.exchange_status.equity | number}}</div>
+      <div>{{balance.equity | number}}</div>
     </h4>
   </div>
 </div>
@@ -37,7 +37,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let b of balance.balances">
+      <tr *ngFor="let b of balance.per_currency_balances">
         <td scope="col">{{b.currency}}</td>
         <td scope="col">
           <span *ngIf="b.exchange !== null && b.exchange.length === 2">

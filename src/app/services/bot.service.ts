@@ -7,6 +7,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class BotService {
 
+  url = 'https://bots.vitanova.online/';
+
   strategy = [
     this.getEmptyStrategy({
       id: '0',

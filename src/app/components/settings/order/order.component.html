@@ -41,7 +41,7 @@
               <td><button (click)="openOrderModal(tradingModal, o, 'stop')" class="btn btn-xs btn-outline-danger">Add</button></td>
               <td><button (click)="openOrderModal(tradingModal, o, 'limit')" class="btn btn-xs btn-outline-warning">Add</button></td>
               <td>{{ o.swap }}</td>
-              <td>{{ o.pl }}</td>
+              <td>{{ o.pl | number}}</td>
               <td>{{ o.plmain }}</td>
               <td>{{ o.plmprc }}</td>
               <td></td>
@@ -88,7 +88,7 @@
                       <td><button (click)="openOrderModal(tradingModal, so, 'stop')" class="btn btn-xs btn-outline-danger">Add</button></td>
                       <td><button (click)="openOrderModal(tradingModal, so, 'limit')" class="btn btn-xs btn-outline-warning">Add</button></td>
                       <td>{{ so.swap }}</td>
-                      <td>{{ so.pl }}</td>
+                      <td>{{ so.pl | number }}</td>
                       <td>{{ so.plmain }}</td>
                       <td>{{ so.plmprc }}</td>
                       <td></td>
