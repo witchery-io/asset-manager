@@ -26,10 +26,10 @@
           <ng-container *ngFor="let o of positions; let i = index">
             <tr>
               <td scope="row">
-                <button (click)="selectedOrder = i" [disabled]="o.suborders === null || o.suborders.length == 0" *ngIf="selectedOrder != i" class="btn btn-xs btn-primary">
+                <button (click)="selectOrder(i)" [disabled]="o.suborders === null || o.suborders.length == 0" *ngIf="selectedOrder != i" class="btn btn-xs btn-primary">
                   <fa-icon icon="plus"></fa-icon>
                 </button>
-                <button (click)="selectedOrder = i" disabled *ngIf="selectedOrder == i" class="btn btn-xs btn-outline-primary">
+                <button (click)="selectOrder(i)" *ngIf="selectedOrder == i" class="btn btn-xs btn-outline-primary">
                   <fa-icon icon="minus"></fa-icon>
                 </button>
               </td>
@@ -126,10 +126,10 @@
           <ng-container *ngFor="let o of orders; let i = index">
             <tr>
               <td scope="row">
-                <button (click)="selectedPosition = i" [disabled]="o.suborders === null || o.suborders.length == 0" *ngIf="selectedPosition != i" class="btn btn-xs btn-primary">
+                <button (click)="selectPosition(i)" [disabled]="o.suborders === null || o.suborders.length == 0" *ngIf="selectedPosition != i" class="btn btn-xs btn-primary">
                   <fa-icon icon="plus"></fa-icon>
                 </button>
-                <button (click)="selectedPosition = i" disabled *ngIf="selectedPosition == i" class="btn btn-xs btn-outline-primary">
+                <button (click)="selectPosition(i)" *ngIf="selectedPosition == i" class="btn btn-xs btn-outline-primary">
                   <fa-icon icon="minus"></fa-icon>
                 </button>
               </td>
