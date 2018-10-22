@@ -1,5 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -17,45 +18,41 @@ export class BotService {
           id: '0',
           name: 'Template 1',
           template: '0',
-          items: [
-            {
-              pair: '',
-              initial_volume: 0,
-              initial_volume_percent: 0,
-              max_amount: 0,
-              step_fix: 0,
-              step_calc: '',
-              trade_level_up: 0,
-              trade_level_down: 0,
-              priority_coefficient: '',
-              volume_coeff_up: 0,
-              volume_coeff_down: 0,
-              close_triger: 0,
-              distribution_from_up: '',
-            },
-          ]
+          grid: {
+            pair: '',
+            initial_volume: 0,
+            initial_volume_percent: 0,
+            max_amount: 0,
+            step_fix: 0,
+            step_calc: '',
+            trade_level_up: 0,
+            trade_level_down: 0,
+            priority_coefficient: '',
+            volume_coeff_up: 0,
+            volume_coeff_down: 0,
+            close_triger: 0,
+            distribution_from_up: '',
+          },
         }),
         this.getEmptyTemplate({
           id: '1',
           name: 'Template 2',
           template: '1',
-          items: [
-            {
-              pair: '',
-              initial_volume: 0,
-              initial_volume_percent: 0,
-              max_amount: 0,
-              step_fix: 0,
-              step_calc: '',
-              trade_level_up: 0,
-              trade_level_down: 0,
-              priority_coefficient: '',
-              volume_coeff_up: 0,
-              volume_coeff_down: 0,
-              close_triger: 0,
-              distribution_from_up: '',
-            },
-          ]
+          grid: {
+            pair: '',
+            initial_volume: 0,
+            initial_volume_percent: 0,
+            max_amount: 0,
+            step_fix: 0,
+            step_calc: '',
+            trade_level_up: 0,
+            trade_level_down: 0,
+            priority_coefficient: '',
+            volume_coeff_up: 0,
+            volume_coeff_down: 0,
+            close_triger: 0,
+            distribution_from_up: '',
+          },
         }),
       ],
     }),
@@ -67,23 +64,19 @@ export class BotService {
           id: '0',
           name: 'Template 3',
           template: '0',
-          items: [
-            {
-              amount: '',
-              revenue: '',
-            }
-          ],
+          ia: {
+            amount: '',
+            revenue: '',
+          },
         }),
         this.getEmptyTemplate({
           id: '1',
           name: 'Template 4',
           template: '1',
-          items: [
-            {
-              amount: '',
-              revenue: '',
-            },
-          ],
+          ia: {
+            amount: '',
+            revenue: '',
+          },
         }),
       ],
     }),
@@ -95,33 +88,29 @@ export class BotService {
           id: '0',
           name: 'Template 5',
           template: '0',
-          items: [
-            {
-              open_trigger: '',
-              open_trigger_volume_step: '',
-              close_trigger: '',
-              next_trade_timer_min: 0,
-              initial_trade_volume: 0,
-              max_trades_cap: 0,
-              max_exposure: 0,
-            },
-          ]
+          ea: {
+            open_trigger: '',
+            open_trigger_volume_step: '',
+            close_trigger: '',
+            next_trade_timer_min: 0,
+            initial_trade_volume: 0,
+            max_trades_cap: 0,
+            max_exposure: 0,
+          },
         }),
         this.getEmptyTemplate({
           id: '1',
           name: 'Template 6',
           template: '1',
-          items: [
-            {
-              open_trigger: '',
-              open_trigger_volume_step: '',
-              close_trigger: '',
-              next_trade_timer_min: 0,
-              initial_trade_volume: 0,
-              max_trades_cap: 0,
-              max_exposure: 0,
-            },
-          ]
+          ea: {
+            open_trigger: '',
+            open_trigger_volume_step: '',
+            close_trigger: '',
+            next_trade_timer_min: 0,
+            initial_trade_volume: 0,
+            max_trades_cap: 0,
+            max_exposure: 0,
+          },
         }),
       ],
     }),
@@ -229,7 +218,12 @@ export class BotService {
     }
   ];
 
-  constructor() {
+  constructor(
+    public http: HttpClient,
+  ) { }
+
+  create(body: any): Observable<any> {
+    return this.http.post(`https://bots.vitanova.online/api/start/${ body.strategy }`, body);
   }
 
   getStrategy(): Observable<any> {

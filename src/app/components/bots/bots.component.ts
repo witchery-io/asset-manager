@@ -6,6 +6,7 @@ import { GroupsService } from '../../services/groups.service';
 import { AccountService } from '../../services/account.service';
 import { ModalService } from '../../services/modal.service';
 import {Observable} from 'rxjs';
+import {log} from 'util';
 
 @Component({
   selector: 'app-bots',
@@ -15,6 +16,10 @@ import {Observable} from 'rxjs';
 export class BotsComponent implements OnInit {
   modalRef: BsModalRef;
   botForm: FormGroup;
+
+  gridForm: FormGroup;
+  iaForm: FormGroup;
+  eaForm: FormGroup;
 
   strategy: any;
   templates$: Observable<any>;
@@ -37,6 +42,37 @@ export class BotsComponent implements OnInit {
     this.groupsService.getGroups().subscribe(groups => this.groups = groups);
     this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
 
+    this.gridForm = this.fb.group({
+      pair: new FormControl(''),
+      initial_volume:  new FormControl(0),
+      initial_volume_percent:  new FormControl(0),
+      max_amount:  new FormControl(0),
+      step_fix:  new FormControl(0),
+      step_calc:  new FormControl(''),
+      trade_level_up:  new FormControl(0),
+      trade_level_down:  new FormControl(0),
+      priority_coefficient:  new FormControl(''),
+      volume_coeff_up:  new FormControl(0),
+      volume_coeff_down:  new FormControl(0),
+      close_triger:  new FormControl(0),
+      distribution_from_up:  new FormControl(''),
+    });
+
+    this.iaForm = this.fb.group({
+      amount:  new FormControl(''),
+      revenue:  new FormControl(''),
+    });
+
+    this.eaForm = this.fb.group({
+      open_trigger:  new FormControl(''),
+      open_trigger_volume_step:  new FormControl(''),
+      close_trigger:  new FormControl(''),
+      next_trade_timer_min:  new FormControl(0),
+      initial_trade_volume:  new FormControl(0),
+      max_trades_cap:  new FormControl(0),
+      max_exposure:  new FormControl(0),
+    });
+
     this.botForm = this.fb.group({
       strategy: new FormControl('', [<any>Validators.required]),
       template: new FormControl('', [<any>Validators.required]),
@@ -44,7 +80,9 @@ export class BotsComponent implements OnInit {
       group: new FormControl('', []),
       account: new FormControl('', []),
       long_term_priority: new FormControl(0, [<any>Validators.required]),
-      items: this.fb.array([]),
+      grid: this.gridForm,
+      ia: this.iaForm,
+      ea: this.eaForm,
     });
 
     this.editBotForm = new FormGroup({
@@ -61,8 +99,10 @@ export class BotsComponent implements OnInit {
 
   createBot(model: any, is_Valid: boolean) {
     if (is_Valid) {
-      console.log(model);
-      console.log(is_Valid);
+      this.botService.create(model)
+        .subscribe(res => {
+          console.log('Bot have created', res);
+        });
       this.resetForm();
     }
   }
@@ -97,7 +137,6 @@ export class BotsComponent implements OnInit {
       return false;
     }
 
-    this.items.removeAt(0);
     this.currentStrategy = this.strategy[strategy_id];
     this.botForm.reset({
       strategy: strategy_id,
@@ -109,13 +148,7 @@ export class BotsComponent implements OnInit {
       return false;
     }
 
-    this.items.removeAt(0);
     this.botForm.patchValue(this.currentStrategy.template[template_id]);
-    this.items.push(this.fb.group(this.currentStrategy.template[template_id].items[0]));
-  }
-
-  get items() {
-    return this.botForm.get('items') as FormArray;
   }
 
   chooseExchange(exchange_id) {
@@ -139,7 +172,6 @@ export class BotsComponent implements OnInit {
 
   resetForm() {
     this.botForm.reset();
-    this.items.removeAt(0);
     this.modalRef.hide();
   }
 }
