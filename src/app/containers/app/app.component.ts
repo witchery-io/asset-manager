@@ -6,13 +6,14 @@ import { Component } from '@angular/core';
     <div class="container-fluid">
       <div class="row">
           <div class="col-12">
-            <div class="wrapper" style="background: red; min-height: 100px;">
+            <div class="wrapper">
               <router-outlet></router-outlet>
             </div>
           </div>
       </div>
     </div>
   `,
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
 }
