@@ -30,12 +30,12 @@ export class AppComponent implements OnInit {
 
     setInterval(() => {
       this.fetchTicks();
-    }, 5000);
+    }, 3000);
     setInterval(() => {
       if (this.orderService.tradeTypeId && this.orderService.tradeType) {
         this.fetchOrders();
       }
-    }, 5000);
+    }, 3000);
   }
 
   fetchTicks() {
