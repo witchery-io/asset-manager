@@ -25,6 +25,8 @@ import { ArraySortPipe } from './pipes/array-sort.pipe';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { TemplateComponent } from './components/bots/templates/template.component';
 import { BotComponent } from './components/bots/templates/bot/bot.component';
+import { BotOrderComponent } from './components/bots/templates/bot/bot-order/bot-order.component';
+import { OrderItemComponent } from './components/bots/templates/bot/bot-order/active/order-item.component';
 
 library.add(fas);
 
@@ -42,6 +44,8 @@ library.add(fas);
     OrderComponent,
     TemplateComponent,
     BotComponent,
+    BotOrderComponent,
+    OrderItemComponent,
   ],
   imports: [
     BrowserModule,

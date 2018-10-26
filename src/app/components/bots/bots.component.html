@@ -2,104 +2,39 @@
   <div class="row">
     <div class="col-12 pt-3 pb-3">
       <div class="row">
-        <div class="col-12">
-          <button (click)="openModal(botModal)" class="btn btn-sm btn-success">
+        <div class="col-1">
+          <button (click)="openModal(botModal)" class="btn btn-xs btn-success">
             <fa-icon icon="plus"></fa-icon>
             New Bot
           </button>
         </div>
+
+        <div class="col-2">
+          <select class="form-control form-control-sm" (change)="changeFilter($event.target.value, 'pair')">
+            <option *ngFor="let tick of ticks$ | async" [value]="tick.pair">
+              {{ tick.pair }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-2">
+          <select class="form-control form-control-sm" (change)="changeFilter($event.target.value, 'group')">
+            <option *ngFor="let group of groups" [value]="group.id">
+              {{ group.name }}
+            </option>
+          </select>
+        </div>
+
       </div>
 
       <div class="row">
         <div class="col-12 mt-3">
-          <div class="card">
-            <app-template *ngFor="let template of templates$ | async" [template]="template"></app-template>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12 mt-3">
-          <table class="table table-bordered table-sm">
-            <thead>
-            <tr>
-              <th scope="col"></th>
-              <th scope="col"></th>
-              <th scope="col">Exchange</th>
-              <th scope="col">Pair</th>
-              <th scope="col">L/S</th>
-              <th scope="col">Date</th>
-              <th scope="col">Acc/Gr</th>
-              <th scope="col">P/L</th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>
-                <button (click)="openModal(editBotModal)" type="button" class="btn btn-icon btn-outline-primary btn-sm">
-                  <fa-icon icon="pencil-alt"></fa-icon>
-                </button>
-              </td>
-              <td>
-                <button class="btn btn btn-light dropbtn">bot1-gridrating</button>
-              </td>
-              <td>bitfinex</td>
-              <td>BTCUSD</td>
-              <td>Long</td>
-              <td>18/04/21</td>
-              <td>Group</td>
-              <td>55</td>
-              <td>
-                <div class="toggle-switch left">
-                  <span class="switch switch-sm">
-                    <input id="bot1" type="checkbox" class="switch" checked>
-                    <label for="bot1"></label>
-                  </span>
-                </div>
-              </td>
-              <td>
-                <button class="btn btn-outline-danger btn-sm">delete</button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12">
-          <table class="table table-bordered table-sm">
-            <thead>
-            <tr>
-              <th scope="col">Exchange Order</th>
-              <th scope="col">Date</th>
-              <th scope="col">Ticker</th>
-              <th scope="col">Amount</th>
-              <th scope="col">B/S</th>
-              <th scope="col">Open Price</th>
-              <th scope="col">P/L</th>
-              <th scope="col">P/L, BC</th>
-              <th scope="col">P/L, %</th>
-              <th scope="col"></th>
-            </tr>
-            </thead>
-            <tr>
-              <td>1265465466</td>
-              <td>18/04/21, 18:50:20</td>
-              <td>BTCUSD</td>
-              <td>10</td>
-              <td>Buy</td>
-              <td>6,321</td>
-              <td>2</td>
-              <td>2</td>
-              <td>0.2</td>
-              <td>
-                <button class="btn btn-sm btn-outline-danger btn-sm">close</button>
-              </td>
-            </tr>
-          </table>
+          <app-template
+            *ngFor="let bot of bots$ | async"
+            [bot]="bot"
+            [groups]="groups"
+            [accounts]="accounts"
+          ></app-template>
         </div>
       </div>
     </div>
@@ -116,7 +51,8 @@
 
       <div class="form-group">
         <label for="cr_strategy">Strategy</label>
-        <select class="form-control form-control-sm" id="cr_strategy" formControlName="strategy" (change)="chooseStrategy($event.target.value)">
+        <select class="form-control form-control-sm" id="cr_strategy" formControlName="strategy"
+                (change)="chooseStrategy($event.target.value)">
           <option *ngFor="let item of strategy" [value]="item.id">
             {{ item.name }}
           </option>
@@ -126,7 +62,8 @@
       <ng-container *ngIf="this.botForm.value.strategy">
         <div class="form-group">
           <label for="cr_template">Template</label>
-          <select class="form-control form-control-sm" id="cr_template" formControlName="template" (change)="chooseTemplate($event.target.value)">
+          <select class="form-control form-control-sm" id="cr_template" formControlName="template"
+                  (change)="chooseTemplate($event.target.value)">
             <option *ngFor="let item of currentStrategy.template" [value]="item.id">
               {{ item.name }}
             </option>
@@ -135,7 +72,8 @@
 
         <div class="form-group">
           <label for="account_exchange">Exchange</label>
-          <select id="account_exchange" class="form-control form-control-sm" formControlName="exchange" (change)="chooseExchange($event.target.value)">
+          <select id="account_exchange" class="form-control form-control-sm" formControlName="exchange"
+                  (change)="chooseExchange($event.target.value)">
             <option selected value="any">Any</option>
             <option value="bitfinex">Bitfinex</option>
             <option value="cexio">CEX.IO</option>
@@ -144,7 +82,8 @@
 
         <div class="form-group">
           <label for="cr_group">Groups</label>
-          <select id="cr_group" class="form-control form-control-sm" formControlName="group" (change)="changeSelect($event, 'group')">
+          <select id="cr_group" class="form-control form-control-sm" formControlName="group"
+                  (change)="changeSelect($event, 'group')">
             <option *ngFor="let group of groups" [value]="group.id">
               {{ group.name }}
             </option>
@@ -153,7 +92,8 @@
 
         <div class="form-group">
           <label for="cr_accounts">Accounts</label>
-          <select id="cr_accounts" class="form-control form-control-sm" formControlName="account" (change)="changeSelect($event, 'account')">
+          <select id="cr_accounts" class="form-control form-control-sm" formControlName="account"
+                  (change)="changeSelect($event, 'account')">
             <option *ngFor="let a of accounts" [value]="a.id">
               {{ a.user_name }}
             </option>
@@ -182,7 +122,8 @@
 
         <div class="form-group">
           <label for="initial_volume_percent">Initial Volume Percent</label>
-          <input id="initial_volume_percent" class="form-control form-control-sm" formControlName="initial_volume_percent">
+          <input id="initial_volume_percent" class="form-control form-control-sm"
+                 formControlName="initial_volume_percent">
         </div>
 
         <div class="form-group">
@@ -256,7 +197,8 @@
 
         <div class="form-group">
           <label for="open_trigger_volume_step">Open Trigger & Volume Step (%)</label>
-          <input id="open_trigger_volume_step" class="form-control form-control-sm" formControlName="open_trigger_volume_step">
+          <input id="open_trigger_volume_step" class="form-control form-control-sm"
+                 formControlName="open_trigger_volume_step">
         </div>
 
         <div class="form-group">
@@ -318,66 +260,6 @@
         >Save As
         </button>
       </div>
-    </form>
-  </div>
-</ng-template>
-
-<!-- edit todo::mod -->
-<ng-template #editBotModal>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Edit Bot</h4>
-  </div>
-
-  <div class="modal-body">
-    <form novalidate [formGroup]="editBotForm" (submit)="createBot(botForm.value, botForm.valid)">
-
-      <div class="form-group">
-        <label for="strategy">Strategy</label>
-        <select class="form-control" id="strategy" formControlName="strategy">
-          <option selected value="0">bot1-grid_a</option>
-          <option value="1">bot2-grid_a</option>
-          <option value="2">bot3-gridtrading</option>
-          <option value="3">bot5-grid_a</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="long_term_priority">Long Term Priority</label>
-        <select class="form-control" id="long_term_priority" formControlName="long_term_priority">
-          <option selected value="0">Long</option>
-          <option value="1">Short</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="bot_exchange">Exchange</label>
-        <select class="form-control" id="bot_exchange" formControlName="exchange">
-          <option value="0">
-            Any
-          </option>
-          <option *ngFor="let b of []" [value]="b.id">
-            {{ b.name }}
-          </option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="group">Group</label>
-        <select class="form-control" id="group" formControlName="group">
-          <option *ngFor="let g of []" [value]="g.name">
-            {{ g.name }}
-          </option>
-        </select>
-      </div>
-
-      <div class="mt-2">
-        <button type="button" class="btn btn-outline-primary float-left" aria-label="Close" (click)="modalRef.hide()">
-          Cancel
-        </button>
-        <button type="submit" class="btn btn-primary float-right">Run</button>
-        <button type="submit" class="btn btn-success float-right mr-1">Save As</button>
-      </div>
-
     </form>
   </div>
 </ng-template>

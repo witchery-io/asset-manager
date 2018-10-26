@@ -1,0 +1,191 @@
+<table class="table table-bordered table-xs mt-3">
+  <thead>
+  <tr>
+    <th scope="col"></th>
+    <th scope="col">Pair</th>
+    <th scope="col">L/S</th>
+    <th scope="col">Amount</th>
+    <th scope="col">Open Price</th>
+    <th scope="col">Market Price</th>
+    <th scope="col">Stop</th>
+    <th scope="col">Limit</th>
+    <th scope="col">Swap</th>
+    <th scope="col">PL</th>
+    <th scope="col">PL(BTC)</th>
+    <th scope="col">PL %</th>
+    <th scope="col">Exposure (BTC)</th>
+    <th scope="col">Opened</th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngFor="let d of data; let i = index">
+    <tr>
+      <td scope="row">
+        <button (click)="selectedOrder = i" [disabled]="d.suborders === null || d.suborders.length == 0" *ngIf="selectedOrder != i" class="btn btn-xs btn-primary">
+          <fa-icon icon="plus"></fa-icon>
+        </button>
+        <button (click)="selectedOrder = i" disabled *ngIf="selectedOrder == i" class="btn btn-xs btn-outline-primary">
+          <fa-icon icon="minus"></fa-icon>
+        </button>
+      </td>
+      <th scope="row">{{ d.pair }}</th>
+      <td>{{ orderType[d.type.direction] }}</td>
+      <td>{{ d.amount }}</td>
+      <td>{{ d.open_price }}</td>
+      <td>{{ d.current_price }}</td>
+      <td><button (click)="openOrderModal(tradingModal, d, 'stop')" class="btn btn-xs btn-outline-danger">Add</button></td>
+      <td><button (click)="openOrderModal(tradingModal, d, 'limit')" class="btn btn-xs btn-outline-warning">Add</button></td>
+      <td>{{ d.swap }}</td>
+      <td>{{ d.pl | number}}</td>
+      <td>{{ d.plmain }}</td>
+      <td>{{ d.plmprc }}</td>
+      <td></td>
+      <td>{{ d.open_order_time | date:'short' }}</td>
+      <td>
+        <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = d; currentlyDeletingType = 'position';">close</button>
+      </td>
+    </tr>
+    <tr *ngIf="selectedOrder == i">
+      <td class="p-0" colspan="15">
+        <table class="table table-xs">
+          <thead class="transparent-header">
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Pair</th>
+            <th scope="col">L/S</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Open Price</th>
+            <th scope="col">Market Price</th>
+            <th scope="col">Stop</th>
+            <th scope="col">Limit</th>
+            <th scope="col">Swap</th>
+            <th scope="col">PL</th>
+            <th scope="col">PL(BTC)</th>
+            <th scope="col">PL %</th>
+            <th scope="col">Exposure (BTC)</th>
+            <th scope="col">Opened</th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngFor="let sd of d.suborders">
+            <tr>
+              <td scope="row">
+                <button disabled style="opacity: 0;" class="btn btn-xs btn-primary">
+                  <fa-icon icon="plus"></fa-icon>
+                </button>
+              </td>
+              <th scope="row">{{ sd.pair }}</th>
+              <td>{{ orderType[sd.type.direction] }}</td>
+              <td>{{ sd.amount }}</td>
+              <td>{{ sd.open_price }}</td>
+              <td>{{ sd.current_price }}</td>
+              <td><button (click)="openOrderModal(tradingModal, sd, 'stop')" class="btn btn-xs btn-outline-danger">Add</button></td>
+              <td><button (click)="openOrderModal(tradingModal, sd, 'limit')" class="btn btn-xs btn-outline-warning">Add</button></td>
+              <td>{{ sd.swap }}</td>
+              <td>{{ sd.pl | number }}</td>
+              <td>{{ sd.plmain }}</td>
+              <td>{{ sd.plmprc }}</td>
+              <td></td>
+              <td>{{ sd.open_order_time | date:'short' }}</td>
+              <td>
+                <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = sd; currentlyDeletingType = 'position';">close</button>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </ng-container>
+  </tbody>
+</table>
+
+<ng-template #confirmModal>
+  <div class="modal-body text-center">
+    <p>Do you want to cancel {{ currentlyDeleting }}?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+  </div>
+</ng-template>
+
+<ng-template #tradingModal class="modal-sm">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <h3>{{ currentOrder.pair }}</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <tabset #staticTabs>
+          <tab heading="Exchange">
+            <form novalidate [formGroup]="exchangeForm" class="mt-3">
+              <div class="form-group">
+                <label for="exchange_o_type"></label>
+                <select class="form-control" id="exchange_o_type" formControlName="o_type">
+                  <option value="limit">Limit</option>
+                  <option value="market">Market</option>
+                  <option value="stop">Stop</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col">
+                  <input
+                    [attr.disabled]="exchangeForm.value.o_type === 'market' ? '' : null"
+                    type="number"
+                    class="form-control"
+                    placeholder="Price"
+                    formControlName="price"
+                  >
+                </div>
+                <div class="form-group col">
+                  <input type="number" class="form-control" placeholder="Amount" formControlName="amount">
+                </div>
+              </div>
+              <div>
+                <button type="submit" class="btn btn-success" (click)="buyExchange(exchangeForm.value, exchangeForm.valid)">BUY</button>
+                <button type="submit" class="btn btn-danger float-right" (click)="sellExchange(exchangeForm.value, exchangeForm.valid)">SELL</button>
+              </div>
+            </form>
+          </tab>
+
+          <tab heading="Margin" [active]="true">
+            <form novalidate [formGroup]="marginForm" class="mt-3">
+              <div class="form-group">
+                <label for="margin_o_type"></label>
+                <select class="form-control" id="margin_o_type" formControlName="o_type">
+                  <option value="limit">Limit</option>
+                  <option value="market">Market</option>
+                  <option value="stop">Stop</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col">
+                  <input
+                    [attr.disabled]="marginForm.value.o_type === 'market' ? '' : null"
+                    type="number"
+                    class="form-control"
+                    placeholder="Price"
+                    formControlName="price"
+                  >
+                </div>
+                <div class="form-group col">
+                  <input type="number" class="form-control" placeholder="Amount" formControlName="amount">
+                </div>
+              </div>
+
+              <div>
+                <button type="submit" class="btn btn-success" (click)="buyMargin(marginForm.value, marginForm.valid)">BUY</button>
+                <button type="submit" class="btn btn-danger float-right" (click)="sellMargin(marginForm.value, marginForm.valid)">SELL</button>
+              </div>
+            </form>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</ng-template>

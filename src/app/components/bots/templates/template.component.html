@@ -1,6 +1,308 @@
-<h6 class="card-header">
-  {{ template.name }}
-  <fa-icon (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" icon="plus" class="text-danger float-right"></fa-icon>
-</h6>
+<div class="row">
+  <div class="col-12">
+    <table class="table table-bordered table-xs m-0">
+      <thead>
+      <tr class="d-flex">
+        <th class="col-1">{{ bot.name }}</th>
+        <th class="col-1">Name</th>
+        <th class="col-1">Volume (in BC)</th>
+        <th class="col-1">Volume/Equity (%)</th>
+        <th class="col-2">Open Positions/Close Positions No - example 4/8</th>
+        <th class="col-1">Current P/L</th>
+        <th class="col-1">Close Positions P/L</th>
+        <th class="col-2">Bot P/L - (Current P/L+Close Positions P/L)</th>
+        <th class="col-2">
+          <fa-icon
+            (click)="isShowSub = !isShowSub"
+            [icon]="isShowSub ? 'plus' : 'minus'"
+            [title]="isShowSub? 'open' : 'close'"
+            class="float-right"
+          ></fa-icon>
+          <fa-icon
+            (click)="edit(editModal)"
+            icon="edit"
+            class="text-danger float-right mr-2"
+            title="Edit"
+          ></fa-icon>
+          <fa-icon
+            (click)="add(addModal)"
+            icon="plus-circle"
+            class="float-right mr-2 text-warning"
+            title="New"
+          ></fa-icon>
+          <fa-icon
+            (click)="pause()"
+            icon="pause-circle"
+            class="float-right mr-2 text-danger"
+            title="Pause"
+          ></fa-icon>
+          <fa-icon
+            (click)="stop()"
+            icon="stop-circle"
+            class="float-right mr-2 text-danger"
+            title="Stop"
+          ></fa-icon>
+        </th>
+      </tr>
+      </thead>
+      <tbody [hidden]="isShowSub">
+      <tr>
+        <th class="p-0" colspan="9">
+          <app-bot *ngFor="let bot of bot.bots" [bot]="bot"></app-bot>
+        </th>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-<app-bot [collapse]="isCollapsed" *ngFor="let bot of template.bots" [bot]="bot"></app-bot>
+<ng-template #editModal>
+  <div class="modal-body">
+    <form novalidate [formGroup]="editForm">
+      <div *ngIf="!isEmptyObject(this.template.grid)" formGroupName="grid">
+        <div class="form-group">
+          <label for="account_exchange">Exchange</label>
+          <select id="account_exchange" class="form-control form-control-sm" formControlName="exchange">
+            <option selected value="any">Any</option>
+            <option value="bitfinex">Bitfinex</option>
+            <option value="cexio">CEX.IO</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="grid_group">Groups</label>
+          <select id="grid_group" class="form-control form-control-sm" formControlName="group"
+                  (change)="changeSelect($event, 'grid', 'group')">
+            <option *ngFor="let group of groups" [value]="group.id">
+              {{ group.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="grid_accounts">Accounts</label>
+          <select id="grid_accounts" class="form-control form-control-sm" formControlName="account"
+                  (change)="changeSelect($event, 'grid', 'account')">
+            <option *ngFor="let a of accounts" [value]="a.id">
+              {{ a.user_name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="grid_long_term_priority">Long Term Priority</label>
+          <select class="form-control form-control-sm" id="grid_long_term_priority"
+                  formControlName="long_term_priority">
+            <option selected value="0">Long</option>
+            <option value="1">Short</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="pair">Pair</label>
+          <input id="pair" class="form-control form-control-sm" formControlName="pair">
+        </div>
+
+        <div class="form-group">
+          <label for="initial_volume">Initial Volume</label>
+          <input id="initial_volume" class="form-control form-control-sm" formControlName="initial_volume">
+        </div>
+
+        <div class="form-group">
+          <label for="initial_volume_percent">Initial Volume Percent</label>
+          <input id="initial_volume_percent" class="form-control form-control-sm"
+                 formControlName="initial_volume_percent">
+        </div>
+
+        <div class="form-group">
+          <label for="max_amount">Max Amount</label>
+          <input id="max_amount" class="form-control form-control-sm" formControlName="max_amount">
+        </div>
+
+        <div class="form-group">
+          <label for="step_fix">Step Fix</label>
+          <input id="step_fix" class="form-control form-control-sm" formControlName="step_fix">
+        </div>
+
+        <div class="form-group">
+          <label for="step_calc">Step Calc</label>
+          <input id="step_calc" class="form-control form-control-sm" formControlName="step_calc">
+        </div>
+
+        <div class="form-group">
+          <label for="trade_level_up">Trade Level Up</label>
+          <input id="trade_level_up" class="form-control form-control-sm" formControlName="trade_level_up">
+        </div>
+
+        <div class="form-group">
+          <label for="trade_level_down">Trade Level Down</label>
+          <input id="trade_level_down" class="form-control form-control-sm" formControlName="trade_level_down">
+        </div>
+
+        <div class="form-group">
+          <label for="priority_coefficient">Priority Coefficient</label>
+          <input id="priority_coefficient" class="form-control form-control-sm" formControlName="priority_coefficient">
+        </div>
+
+        <div class="form-group">
+          <label for="volume_coeff_up">Volume Coefficient Up</label>
+          <input id="volume_coeff_up" class="form-control form-control-sm" formControlName="volume_coeff_up">
+        </div>
+
+        <div class="form-group">
+          <label for="volume_coeff_down">Volume Coefficient Down</label>
+          <input id="volume_coeff_down" class="form-control form-control-sm" formControlName="volume_coeff_down">
+        </div>
+
+        <div class="form-group">
+          <label for="close_triger">Close Trigger</label>
+          <input id="close_triger" class="form-control form-control-sm" formControlName="close_triger">
+        </div>
+
+        <div class="form-group">
+          <label for="distribution_from_up">Distribution From Up</label>
+          <input id="distribution_from_up" class="form-control form-control-sm" formControlName="distribution_from_up">
+        </div>
+      </div>
+
+      <div *ngIf="!isEmptyObject(this.template.ia)" formGroupName="ia">
+        <div class="form-group">
+          <label for="ia_exchange">Exchange</label>
+          <select id="ia_exchange" class="form-control form-control-sm" formControlName="exchange">
+            <option selected value="any">Any</option>
+            <option value="bitfinex">Bitfinex</option>
+            <option value="cexio">CEX.IO</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="ia_group">Groups</label>
+          <select id="ia_group" class="form-control form-control-sm" formControlName="group"
+                  (change)="changeSelect($event, 'ia', 'group')">
+            <option *ngFor="let group of groups" [value]="group.id">
+              {{ group.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="ia_accounts">Accounts</label>
+          <select id="ia_accounts" class="form-control form-control-sm" formControlName="account"
+                  (change)="changeSelect($event, 'ia', 'account')">
+            <option *ngFor="let a of accounts" [value]="a.id">
+              {{ a.user_name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="ia_long_term_priority">Long Term Priority</label>
+          <select class="form-control form-control-sm" id="ia_long_term_priority" formControlName="long_term_priority">
+            <option selected value="0">Long</option>
+            <option value="1">Short</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input id="amount" class="form-control form-control-sm" formControlName="amount">
+        </div>
+
+        <div class="form-group">
+          <label for="revenue">Revenue (%)</label>
+          <input id="revenue" class="form-control form-control-sm" formControlName="revenue">
+        </div>
+      </div>
+
+      <div *ngIf="!isEmptyObject(this.template.ea)" formGroupName="ea">
+        <div class="form-group">
+          <label for="ea_exchange">Exchange</label>
+          <select id="ea_exchange" class="form-control form-control-sm" formControlName="exchange">
+            <option selected value="any">Any</option>
+            <option value="bitfinex">Bitfinex</option>
+            <option value="cexio">CEX.IO</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="ea_group">Groups</label>
+          <select id="ea_group" class="form-control form-control-sm" formControlName="group"
+                  (change)="changeSelect($event, 'ea', 'group')">
+            <option *ngFor="let group of groups" [value]="group.id">
+              {{ group.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="ea_accounts">Accounts</label>
+          <select id="ea_accounts" class="form-control form-control-sm" formControlName="account"
+                  (change)="changeSelect($event, 'ea', 'account')">
+            <option *ngFor="let a of accounts" [value]="a.id">
+              {{ a.user_name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="ea_long_term_priority">Long Term Priority</label>
+          <select class="form-control form-control-sm" id="ea_long_term_priority" formControlName="long_term_priority">
+            <option selected value="0">Long</option>
+            <option value="1">Short</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="open_trigger">Open Trigger (%)</label>
+          <input id="open_trigger" class="form-control form-control-sm" formControlName="open_trigger">
+        </div>
+
+        <div class="form-group">
+          <label for="open_trigger_volume_step">Open Trigger & Volume Step (%)</label>
+          <input id="open_trigger_volume_step" class="form-control form-control-sm"
+                 formControlName="open_trigger_volume_step">
+        </div>
+
+        <div class="form-group">
+          <label for="close_trigger">Close Trigger (%)</label>
+          <input id="close_trigger" class="form-control form-control-sm" formControlName="close_trigger">
+        </div>
+
+        <div class="form-group">
+          <label for="next_trade_timer_min">Next Trade Timer (min)</label>
+          <input id="next_trade_timer_min" class="form-control form-control-sm" formControlName="next_trade_timer_min">
+        </div>
+
+        <div class="form-group">
+          <label for="initial_trade_volume">Initial Trade Volume (USD)</label>
+          <input id="initial_trade_volume" class="form-control form-control-sm" formControlName="initial_trade_volume">
+        </div>
+
+        <div class="form-group">
+          <label for="max_trades_cap">Max Trades Cap</label>
+          <input id="max_trades_cap" class="form-control form-control-sm" formControlName="max_trades_cap">
+        </div>
+
+        <div class="form-group">
+          <label for="max_exposure">Max Exposure (%, from Equity)</label>
+          <input id="max_exposure" class="form-control form-control-sm" formControlName="max_exposure">
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary float-right btn-sm"
+        [disabled]="!this.editForm.valid"
+        (click)="update(editForm.value, editForm.valid)"
+      >Update
+      </button>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #addModal>
+  <div class="modal-body">
+    add
+  </div>
+</ng-template>
+
