@@ -31,6 +31,12 @@
             <input type="checkbox" [checked]="bot.statuson" class="switch" id="switch-status-{{bot.port}}">
             <label class="m-0" for="switch-status-{{bot.port}}"></label>
           </span>
+      <fa-icon
+        (click)="stop()"
+        icon="stop-circle"
+        class="float-right mr-2 text-danger"
+        title="Stop"
+      ></fa-icon>
     </td>
   </tr>
   </tbody>
