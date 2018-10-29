@@ -1,10 +1,10 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { OrderService } from '../../../services/order.service';
-import { BsModalRef, BsModalService, TabsetComponent } from 'ngx-bootstrap';
-import { Order } from '../../../models/order';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Margin } from '../../../models/margin';
-import { Exchange } from '../../../models/exchange';
+import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {OrderService} from '../../../services/order.service';
+import {BsModalRef, BsModalService, TabsetComponent} from 'ngx-bootstrap';
+import {Order} from '../../../models/order';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Margin} from '../../../models/margin';
+import {Exchange} from '../../../models/exchange';
 
 @Component({
   selector: 'app-order',
@@ -211,5 +211,21 @@ export class OrderComponent implements OnInit {
 
   get orders() {
     return this.orderService.orders;
+  }
+
+  selectOrder(i) {
+    if (this.selectedOrder === i) {
+      this.selectedOrder = undefined;
+    } else {
+      this.selectedOrder = i;
+    }
+  }
+
+  selectPosition(i) {
+    if (this.selectedPosition === i) {
+      this.selectedPosition = undefined;
+    } else {
+      this.selectedPosition = i;
+    }
   }
 }

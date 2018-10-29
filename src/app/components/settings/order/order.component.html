@@ -26,21 +26,21 @@
           <ng-container *ngFor="let o of positions; let i = index">
             <tr>
               <td scope="row">
-                <button (click)="selectedOrder = i" [disabled]="o.suborders === null || o.suborders.length == 0" *ngIf="selectedOrder != i" class="btn btn-xs btn-primary">
+                <button (click)="selectOrder(i)" [disabled]="o.suborders === null || o.suborders.length == 0" *ngIf="selectedOrder != i" class="btn btn-xs btn-primary">
                   <fa-icon icon="plus"></fa-icon>
                 </button>
-                <button (click)="selectedOrder = i" disabled *ngIf="selectedOrder == i" class="btn btn-xs btn-outline-primary">
+                <button (click)="selectOrder(i)" *ngIf="selectedOrder == i" class="btn btn-xs btn-outline-primary">
                   <fa-icon icon="minus"></fa-icon>
                 </button>
               </td>
               <th scope="row">{{ o.pair }}</th>
               <td>{{ orderType[o.type.direction] }}</td>
-              <td>{{ o.amount }}</td>
-              <td>{{ o.open_price }}</td>
-              <td>{{ o.current_price }}</td>
+              <td>{{ o.amount | number }}</td>
+              <td>{{ o.open_price | number }}</td>
+              <td>{{ o.current_price | number }}</td>
               <td><button (click)="openOrderModal(tradingModal, o, 'stop')" class="btn btn-xs btn-outline-danger">Add</button></td>
               <td><button (click)="openOrderModal(tradingModal, o, 'limit')" class="btn btn-xs btn-outline-warning">Add</button></td>
-              <td>{{ o.swap }}</td>
+              <td>{{ o.swap | number }}</td>
               <td>{{ o.pl | number}}</td>
               <td>{{ o.plmain }}</td>
               <td>{{ o.plmprc }}</td>
@@ -82,12 +82,12 @@
                       </td>
                       <th scope="row">{{ so.pair }}</th>
                       <td>{{ orderType[so.type.direction] }}</td>
-                      <td>{{ so.amount }}</td>
-                      <td>{{ so.open_price }}</td>
-                      <td>{{ so.current_price }}</td>
+                      <td>{{ so.amount | number }}</td>
+                      <td>{{ so.open_price | number }}</td>
+                      <td>{{ so.current_price | number }}</td>
                       <td><button (click)="openOrderModal(tradingModal, so, 'stop')" class="btn btn-xs btn-outline-danger">Add</button></td>
                       <td><button (click)="openOrderModal(tradingModal, so, 'limit')" class="btn btn-xs btn-outline-warning">Add</button></td>
-                      <td>{{ so.swap }}</td>
+                      <td>{{ so.swap | number }}</td>
                       <td>{{ so.pl | number }}</td>
                       <td>{{ so.plmain }}</td>
                       <td>{{ so.plmprc }}</td>
@@ -126,10 +126,10 @@
           <ng-container *ngFor="let o of orders; let i = index">
             <tr>
               <td scope="row">
-                <button (click)="selectedPosition = i" [disabled]="o.suborders === null || o.suborders.length == 0" *ngIf="selectedPosition != i" class="btn btn-xs btn-primary">
+                <button (click)="selectPosition(i)" [disabled]="o.suborders === null || o.suborders.length == 0" *ngIf="selectedPosition != i" class="btn btn-xs btn-primary">
                   <fa-icon icon="plus"></fa-icon>
                 </button>
-                <button (click)="selectedPosition = i" disabled *ngIf="selectedPosition == i" class="btn btn-xs btn-outline-primary">
+                <button (click)="selectPosition(i)" *ngIf="selectedPosition == i" class="btn btn-xs btn-outline-primary">
                   <fa-icon icon="minus"></fa-icon>
                 </button>
               </td>
@@ -137,8 +137,8 @@
               <td>{{ orderContext[o.type.context] }}</td>
               <td>{{ orderTypeO[o.type.type] }}</td>
               <td>{{ orderType[o.type.direction] }}</td>
-              <td>{{ o.amount }}</td>
-              <td>{{ o.open_price }}</td>
+              <td>{{ o.amount | number }}</td>
+              <td>{{ o.open_price | number }}</td>
               <td>GTC</td>
               <td>{{ o.open_order_time | date:'short' }}</td>
               <td>
@@ -175,8 +175,8 @@
                       <td>{{ orderContext[so.type.context] }}</td>
                       <td>{{ orderTypeO[so.type.type] }}</td>
                       <td>{{ orderType[so.type.direction] }}</td>
-                      <td>{{ so.amount }}</td>
-                      <td>{{ so.open_price }}</td>
+                      <td>{{ so.amount | number }}</td>
+                      <td>{{ so.open_price | number }}</td>
                       <td>GTC</td>
                       <td>{{ so.open_order_time | date:'short' }}</td>
                       <td>
