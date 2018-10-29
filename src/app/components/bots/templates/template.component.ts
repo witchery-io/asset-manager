@@ -93,10 +93,6 @@ export class TemplateComponent implements OnInit {
     this.openModal(template);
   }
 
-  stop(template) {
-    console.log('stop');
-  }
-
   pause(template) {
     console.log('pause');
   }

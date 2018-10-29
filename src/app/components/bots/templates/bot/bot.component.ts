@@ -16,4 +16,8 @@ export class BotComponent  {
   edit() {
     console.log(this);
   }
+
+  stop() {
+    console.log('stop');
+  }
 }
