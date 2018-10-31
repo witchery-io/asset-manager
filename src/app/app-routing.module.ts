@@ -8,9 +8,9 @@ import { BotsComponent } from './components/bots/bots.component';
 const routes: Routes = [
   { path: '', component: MainComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: 'trading', redirectTo: 'trading/group/b34f5a72-7692-42d8-b0ba-814116ca576a' },
-  { path: 'trading/:type/:id', component: TradingComponent },
   { path: 'bots', component: BotsComponent },
+  { path: 'trading', redirectTo: 'trading/group/a4fc2e73-8651-4caa-be9c-064df87b9aae' },
+  { path: 'trading/:type/:id', component: TradingComponent },
 ];
 
 @NgModule({
