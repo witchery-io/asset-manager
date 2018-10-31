@@ -1,1 +1,18 @@
-<router-outlet></router-outlet>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="/">Asset Manager</a>
+  <div class="navbar-toggleable-sm pull-md-right text-xs-center">
+    <ul class="nav navbar-nav">
+      <li class="nav-item"><a class="nav-link" routerLink="trading" routerLinkActive="active">Trading</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="settings" routerLinkActive="active">Settings</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="bots" routerLinkActive="active">Bots</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="col-12">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
