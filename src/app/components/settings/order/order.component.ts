@@ -44,8 +44,10 @@ export class OrderComponent implements OnInit {
   currentlyDeleting: string;
   currentlyDeletingType: string;
 
-  constructor(public orderService: OrderService,
-              private modalService: BsModalService) {
+  constructor(
+    public orderService: OrderService,
+    private modalService: BsModalService,
+  ) {
   }
 
   // ngOnChanges(changes: SimpleChanges) {

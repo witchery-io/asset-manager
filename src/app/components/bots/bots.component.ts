@@ -1,12 +1,12 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BotService } from '../../services/bot.service';
 import { GroupsService } from '../../services/groups.service';
 import { AccountService } from '../../services/account.service';
 import { ModalService } from '../../services/modal.service';
-import {Observable} from 'rxjs';
-import {log} from 'util';
+import { TickService } from '../../services/tick.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-bots',
@@ -22,25 +22,32 @@ export class BotsComponent implements OnInit {
   eaForm: FormGroup;
 
   strategy: any;
-  templates$: Observable<any>;
+  bots$: Observable<any>;
+  ticks$: Observable<any>;
   currentStrategy: any;
   groups: any;
   accounts: any;
-  editBotForm: FormGroup;
+
+  filter = {
+    pair: '',
+    group: '',
+  };
 
   constructor(
     private modalService: ModalService,
     private botService: BotService,
     private groupsService: GroupsService,
     private accountService: AccountService,
+    private tickService: TickService,
     private fb: FormBuilder,
   ) { }
 
   ngOnInit() {
     this.botService.getStrategy().subscribe(strategy => this.strategy = strategy);
-    this.templates$ = this.botService.getTemplates();
+    this.bots$ = this.botService.getBots();
     this.groupsService.getGroups().subscribe(groups => this.groups = groups);
     this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
+    this.ticks$ = this.tickService.getTicks();
 
     this.gridForm = this.fb.group({
       pair: new FormControl(''),
@@ -83,13 +90,6 @@ export class BotsComponent implements OnInit {
       grid: this.gridForm,
       ia: this.iaForm,
       ea: this.eaForm,
-    });
-
-    this.editBotForm = new FormGroup({
-      strategy: new FormControl(0, [<any>Validators.required]),
-      long_term_priority: new FormControl(0, [<any>Validators.required]),
-      exchange: new FormControl(0, [<any>Validators.required]),
-      group: new FormControl(0, [<any>Validators.required]),
     });
   }
 
@@ -173,5 +173,10 @@ export class BotsComponent implements OnInit {
   resetForm() {
     this.botForm.reset();
     this.modalRef.hide();
+  }
+
+  changeFilter(value, type): void {
+    this.filter[type] = value;
+    this.bots$ = this.botService.getBots(this.filter);
   }
 }

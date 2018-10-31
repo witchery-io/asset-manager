@@ -1,21 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-bot',
   templateUrl: './bot.component.html',
   styleUrls: ['./bot.component.scss'],
 })
-export class BotComponent implements OnInit {
-
-  isCollapsed = true;
+export class BotComponent  {
 
   @Input() bot: any;
+  isCollapsed = true;
 
   constructor(
   ) { }
 
-  ngOnInit(
-  ) {
+  edit() {
+    console.log(this);
   }
 
+  stop() {
+    console.log('stop');
+  }
 }

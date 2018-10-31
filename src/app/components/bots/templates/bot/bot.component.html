@@ -1,115 +1,45 @@
-<div style="padding: 5px 20px">
-  <div class="card">
-    <div class="card-header" style="padding: 5px 20px">
-        <small>ID: {{ bot.id }}</small>
-        <fa-icon (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" icon="plus" class="float-right text-danger"></fa-icon>
-    </div>
+<table class="table table-xs m-0">
+  <tbody>
+  <tr class="d-flex">
+    <th class="col-1" scope="row"></th>
+    <td class="col-1">{{ bot.botname }}</td>
+    <td class="col-1">{{ bot.volume }}</td>
+    <td class="col-1">{{ bot.ve }}</td>
+    <td class="col-2">{{ bot.countoc }}</td>
+    <td class="col-1">{{ bot.pl }}</td>
+    <td class="col-1">{{ bot.plclose }}</td>
+    <td class="col-2">{{ bot.pltotal }}</td>
+    <td class="col-2">
+      <fa-icon
+        (click)="isCollapsed = !isCollapsed"
+        [icon]="isCollapsed ? 'plus' : 'minus'"
+        [attr.aria-expanded]="!isCollapsed"
+        [title]="isCollapsed? 'open' : 'close'"
+        class="float-right"
+      ></fa-icon>
+      <fa-icon
+        (click)="edit()"
+        icon="edit"
+        class="text-danger float-right mr-2"
+        title="Edit"
+      ></fa-icon>
+      <span class="switch switch-sm float-right mr-2" title="Visible">
+            <input type="checkbox" [checked]="bot.visible" class="switch" id="switch-visible-{{bot.port}}">
+            <label class="m-0" for="switch-visible-{{bot.port}}"></label>
+          </span>
+      <span class="switch switch-sm float-right mr-2" title="Status On">
+            <input type="checkbox" [checked]="bot.statuson" class="switch" id="switch-status-{{bot.port}}">
+            <label class="m-0" for="switch-status-{{bot.port}}"></label>
+          </span>
+      <fa-icon
+        (click)="stop()"
+        icon="stop-circle"
+        class="float-right mr-2 text-danger"
+        title="Stop"
+      ></fa-icon>
+    </td>
+  </tr>
+  </tbody>
+</table>
 
-    <div [collapse]="isCollapsed" class="card-body">
-      <dl [hidden]="!bot.exchange" class="row">
-        <dt class="col-4">Exchange</dt>
-        <dd class="col-8">{{ bot.exchange }}</dd>
-      </dl>
-      <dl [hidden]="!bot.group" class="row">
-        <dt class="col-4">Groups</dt>
-        <dd class="col-8">{{ bot.group }}</dd>
-      </dl>
-      <dl [hidden]="!bot.account" class="row">
-        <dt class="col-4">Accounts</dt>
-        <dd class="col-8">{{ bot.account }}</dd>
-      </dl>
-      <dl [hidden]="!bot.long_term_priority" class="row">
-        <dt class="col-4">Long Term Priority</dt>
-        <dd class="col-8">{{ bot.long_term_priority }}</dd>
-      </dl>
-      <dl [hidden]="!bot.pair" class="row">
-        <dt class="col-4">Pair</dt>
-        <dd class="col-8">{{ bot.pair }}</dd>
-      </dl>
-      <dl [hidden]="!bot.initial_volume" class="row">
-        <dt class="col-4">Initial Volume</dt>
-        <dd class="col-8">{{ bot.initial_volume }}</dd>
-      </dl>
-      <dl [hidden]="!bot.initial_volume_percent" class="row">
-        <dt class="col-4">Initial Volume Percent</dt>
-        <dd class="col-8">{{ bot.initial_volume_percent }}</dd>
-      </dl>
-      <dl [hidden]="!bot.max_amount" class="row">
-        <dt class="col-4">Max Amount</dt>
-        <dd class="col-8">{{ bot.max_amount }}</dd>
-      </dl>
-      <dl [hidden]="!bot.step_fix" class="row">
-        <dt class="col-4">Step Fix</dt>
-        <dd class="col-8">{{ bot.step_fix }}</dd>
-      </dl>
-      <dl [hidden]="!bot.step_calc" class="row">
-        <dt class="col-4">Step Calc</dt>
-        <dd class="col-8">{{ bot.step_calc }}</dd>
-      </dl>
-      <dl [hidden]="!bot.trade_level_up" class="row">
-        <dt class="col-4">Trade Level Up</dt>
-        <dd class="col-8">{{ bot.trade_level_up }}</dd>
-      </dl>
-      <dl [hidden]="!bot.trade_level_down" class="row">
-        <dt class="col-4">Trade Level Down</dt>
-        <dd class="col-8">{{ bot.trade_level_down }}</dd>
-      </dl>
-      <dl [hidden]="!bot.priority_coefficient" class="row">
-        <dt class="col-4">Priority Coefficient</dt>
-        <dd class="col-8">{{ bot.priority_coefficient }}</dd>
-      </dl>
-      <dl [hidden]="!bot.volume_coeff_up" class="row">
-        <dt class="col-4">Volume Coefficient Up</dt>
-        <dd class="col-8">{{ bot.volume_coeff_up }}</dd>
-      </dl>
-      <dl [hidden]="!bot.volume_coeff_down" class="row">
-        <dt class="col-4">Volume Coefficient Down</dt>
-        <dd class="col-8">{{ bot.volume_coeff_down }}</dd>
-      </dl>
-      <dl [hidden]="!bot.close_triger" class="row">
-        <dt class="col-4">Close Trigger</dt>
-        <dd class="col-8">{{ bot.close_triger }}</dd>
-      </dl>
-      <dl [hidden]="!bot.distribution_from_up" class="row">
-        <dt class="col-4">Distribution From Up</dt>
-        <dd class="col-8">{{ bot.distribution_from_up }}</dd>
-      </dl>
-      <dl [hidden]="!bot.amount" class="row">
-        <dt class="col-4">Amount</dt>
-        <dd class="col-8">{{ bot.amount }}</dd>
-      </dl>
-      <dl [hidden]="!bot.revenue" class="row">
-        <dt class="col-4">Revenue (%)</dt>
-        <dd class="col-8">{{ bot.revenue }}</dd>
-      </dl>
-      <dl [hidden]="!bot.open_trigger" class="row">
-        <dt class="col-4">Open Trigger (%)</dt>
-        <dd class="col-8">{{ bot.open_trigger }}</dd>
-      </dl>
-      <dl [hidden]="!bot.open_trigger_volume_step" class="row">
-        <dt class="col-4">Open Trigger & Volume Step (%)</dt>
-        <dd class="col-8">{{ bot.open_trigger_volume_step }}</dd>
-      </dl>
-      <dl [hidden]="!bot.close_trigger" class="row">
-        <dt class="col-4">Close Trigger (%)</dt>
-        <dd class="col-8">{{ bot.close_trigger }}</dd>
-      </dl>
-      <dl [hidden]="!bot.next_trade_timer_min" class="row">
-        <dt class="col-4">Next Trade Timer (min)</dt>
-        <dd class="col-8">{{ bot.next_trade_timer_min }}</dd>
-      </dl>
-      <dl [hidden]="!bot.initial_trade_volume" class="row">
-        <dt class="col-4">Initial Trade Volume (USD)</dt>
-        <dd class="col-8">{{ bot.initial_trade_volume }}</dd>
-      </dl>
-      <dl [hidden]="!bot.max_trades_cap" class="row">
-        <dt class="col-4">Max Trades Cap</dt>
-        <dd class="col-8">{{ bot.max_trades_cap }}</dd>
-      </dl>
-      <dl [hidden]="!bot.max_exposure" class="row">
-        <dt class="col-4">Max Exposure (%, from Equity)</dt>
-        <dd class="col-8">{{ bot.max_exposure }}</dd>
-      </dl>
-    </div>
-  </div>
-</div>
+<app-bot-order [collapse]="isCollapsed" [active]="bot.activeorders" [history]="bot.closedorders"></app-bot-order>

@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-12">
+    <tabset>
+      <tab>
+        <ng-template tabHeading>
+          <span class="small">Active</span>
+        </ng-template>
+        <app-order-item [data]="active"></app-order-item>
+      </tab>
+      <tab>
+        <ng-template tabHeading>
+          <span class="small">History</span>
+        </ng-template>
+        <app-order-item [data]="history"></app-order-item>
+      </tab>
+    </tabset>
+  </div>
+</div>
