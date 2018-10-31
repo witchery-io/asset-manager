@@ -10,21 +10,18 @@ export class BotService {
   url = 'https://bots.vitanova.online/api';
 
   strategy = [
-    this.getEmptyStrategy({
+    {
       id: '0',
       name: 'Grid',
-      template: [],
-    }),
-    this.getEmptyStrategy({
+    },
+    {
       id: '1',
       name: 'Internal Arbitrage',
-      template: [],
-    }),
-    this.getEmptyStrategy({
+    },
+    {
       id: '2',
       name: 'External Arbitrage',
-      template: [],
-    }),
+    },
   ];
 
   orders = {
@@ -105,10 +102,20 @@ export class BotService {
     return of(this.strategy);
   }
 
-  getBots(filters = {}): Observable<any> {
-    // return this.http.get(`${ this.url }/bots`, filters);
+  getTemplates(filters = {}): Observable<any> {
+    // return this.http.get(`${ this.url }/templates`, filters);
 
-    return of([
+    return of(this.getTemplatesS);
+  }
+
+  getBotTemplates(strategy_id): Observable<any> {
+    // return this.http.get(`${ this.url }/template/${ strategy_id }`);
+
+    return of(this.getTemplatesS);
+  }
+
+  get getTemplatesS() {
+    return [
       {
         id: '0',
         name: 'Template 1',
@@ -126,6 +133,8 @@ export class BotService {
             pl: '2',
             plclose: '2',
             pltotal: '2',
+            active_orders: [],
+            closed_orders: [],
             ...this.orders,
           },
           {
@@ -141,6 +150,8 @@ export class BotService {
             pl: '2',
             plclose: '2',
             pltotal: '2',
+            active_orders: [],
+            closed_orders: [],
             ...this.orders,
           },
         ],
@@ -184,6 +195,8 @@ export class BotService {
             pl: '2',
             plclose: '2',
             pltotal: '2',
+            active_orders: [],
+            closed_orders: [],
             ...this.orders,
           },
           {
@@ -199,6 +212,8 @@ export class BotService {
             pl: '2',
             plclose: '2',
             pltotal: '2',
+            active_orders: [],
+            closed_orders: [],
             ...this.orders,
           },
         ],
@@ -237,6 +252,8 @@ export class BotService {
             pl: '2',
             plclose: '2',
             pltotal: '2',
+            activeorders: [],
+            closedorders: [],
             ...this.orders,
           },
           {
@@ -252,6 +269,8 @@ export class BotService {
             pl: '2',
             plclose: '2',
             pltotal: '2',
+            activeorders: [],
+            closedorders: [],
             ...this.orders,
           },
         ],
@@ -267,37 +286,15 @@ export class BotService {
         },
         ea: {},
       }
-    ]);
+    ];
   }
 
   saveAsTemplate(model: any) {
-    this.strategy[model.strategy].template[model.template] = {...this.strategy[model.strategy].template[model.template], ...model};
+    // this.strategy[model.strategy].template[model.template] = {...this.strategy[model.strategy].template[model.template], ...model};
   }
 
   getOrders(): Observable<any> {
     return of(this.orders);
-  }
-
-  getEmptyStrategy(strategy = {}) {
-    return {
-      id: '',
-      name: '',
-      template: [],
-      ...strategy,
-    };
-  }
-
-  getEmptyTemplate(template = {}) {
-    return {
-      id: '0',
-      name: '',
-      template: '',
-      exchange: '',
-      group: '',
-      account: '',
-      long_term_priority: 0,
-      ...template,
-    };
   }
 
   update(model: any): Observable<any> { // update method
