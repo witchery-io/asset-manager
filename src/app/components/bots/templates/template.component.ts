@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BotService } from '../../../services/bot.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { BotService } from '../../../services/bot.service';
   styleUrls: ['./template.component.scss'],
 })
 export class TemplateComponent implements OnInit {
-  @Input() bot: any;
+  @Input() template: any;
   @Input() groups: any;
   @Input() accounts: any;
 
@@ -77,8 +77,6 @@ export class TemplateComponent implements OnInit {
       ia: this.iaForm,
       ea: this.eaForm,
     });
-
-    console.log(this);
   }
 
   openModal(template: TemplateRef<any>, options = {}) {
@@ -100,7 +98,7 @@ export class TemplateComponent implements OnInit {
   edit(template) {
     this.editForm.reset();
     this.openModal(template);
-    this.editForm.patchValue(this.bot);
+    this.editForm.patchValue(this.template);
   }
 
   update(model: any, is_Valid: boolean) {

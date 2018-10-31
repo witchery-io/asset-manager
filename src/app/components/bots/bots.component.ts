@@ -22,11 +22,13 @@ export class BotsComponent implements OnInit {
   eaForm: FormGroup;
 
   strategy: any;
-  bots$: Observable<any>;
+  templates$: Observable<any>;
   ticks$: Observable<any>;
   currentStrategy: any;
   groups: any;
   accounts: any;
+
+  str_templates: any;
 
   filter = {
     pair: '',
@@ -44,12 +46,16 @@ export class BotsComponent implements OnInit {
 
   ngOnInit() {
     this.botService.getStrategy().subscribe(strategy => this.strategy = strategy);
-    this.bots$ = this.botService.getBots();
+    this.templates$ = this.botService.getTemplates();
     this.groupsService.getGroups().subscribe(groups => this.groups = groups);
     this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
     this.ticks$ = this.tickService.getTicks();
 
     this.gridForm = this.fb.group({
+      exchange: new FormControl('any'),
+      group: new FormControl('', []),
+      account: new FormControl('', []),
+      long_term_priority: new FormControl(0),
       pair: new FormControl(''),
       initial_volume:  new FormControl(0),
       initial_volume_percent:  new FormControl(0),
@@ -66,11 +72,19 @@ export class BotsComponent implements OnInit {
     });
 
     this.iaForm = this.fb.group({
+      exchange: new FormControl('any'),
+      group: new FormControl('', []),
+      account: new FormControl('', []),
+      long_term_priority: new FormControl(0),
       amount:  new FormControl(''),
       revenue:  new FormControl(''),
     });
 
     this.eaForm = this.fb.group({
+      exchange: new FormControl('any'),
+      group: new FormControl('', []),
+      account: new FormControl('', []),
+      long_term_priority: new FormControl(0),
       open_trigger:  new FormControl(''),
       open_trigger_volume_step:  new FormControl(''),
       close_trigger:  new FormControl(''),
@@ -83,10 +97,6 @@ export class BotsComponent implements OnInit {
     this.botForm = this.fb.group({
       strategy: new FormControl('', [<any>Validators.required]),
       template: new FormControl('', [<any>Validators.required]),
-      exchange: new FormControl('any', [<any>Validators.required]),
-      group: new FormControl('', []),
-      account: new FormControl('', []),
-      long_term_priority: new FormControl(0, [<any>Validators.required]),
       grid: this.gridForm,
       ia: this.iaForm,
       ea: this.eaForm,
@@ -138,17 +148,26 @@ export class BotsComponent implements OnInit {
     }
 
     this.currentStrategy = this.strategy[strategy_id];
+
+    console.log('this.currentStrategy', this.currentStrategy);
+
+    this.botService.getBotTemplates(strategy_id).subscribe(templates => {
+      this.str_templates = templates;
+    });
+
     this.botForm.reset({
       strategy: strategy_id,
     });
   }
 
-  chooseTemplate(template_id) {
-    if (!template_id) {
+  chooseTemplate(index) {
+    if (!index) {
       return false;
     }
 
-    this.botForm.patchValue(this.currentStrategy.template[template_id]);
+    console.log('this.str_templates[index]', this.str_templates[index]);
+
+    this.botForm.patchValue(this.str_templates[index]);
   }
 
   chooseExchange(exchange_id) {
@@ -171,12 +190,13 @@ export class BotsComponent implements OnInit {
   }
 
   resetForm() {
+    this.currentStrategy = [];
     this.botForm.reset();
     this.modalRef.hide();
   }
 
   changeFilter(value, type): void {
     this.filter[type] = value;
-    this.bots$ = this.botService.getBots(this.filter);
+    this.templates$ = this.botService.getTemplates(this.filter);
   }
 }

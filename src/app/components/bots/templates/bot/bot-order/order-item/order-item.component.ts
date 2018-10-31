@@ -37,7 +37,7 @@ export class OrderItemComponent implements OnInit {
       amount: this.currentOrder.amount,
     });*/
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
-    // this.staticTabs.tabs[1].active = true;
+    // this.staticTabs.tabs[1].order-item = true;
 
   }
 }
