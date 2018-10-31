@@ -12,16 +12,12 @@ import { OrderService } from '../../services/order.service';
 import * as Highcharts from 'highcharts/highstock';
 import * as HC_annotations from 'highcharts/modules/annotations';
 import * as HC_drag from 'highcharts/modules/drag-panes';
-import * as HC_data from 'highcharts/modules/annotations';
-import * as HC_avocado from 'highcharts/modules/annotations';
+// import * as HC_data from 'highcharts/modules/annotations';
+// import * as HC_avocado from 'highcharts/modules/annotations';
 HC_annotations(Highcharts);
 HC_drag(Highcharts);
-HC_data(Highcharts);
-HC_avocado(Highcharts);
-
-// Highcharts.stockChart(
-//   'chart',
-// );
+// HC_data(Highcharts);
+// HC_avocado(Highcharts);
 
 @Component({
   selector: 'app-trading',
