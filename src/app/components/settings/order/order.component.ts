@@ -20,6 +20,8 @@ export class OrderComponent implements OnInit {
   exchangeForm: FormGroup;
   marginForm: FormGroup;
 
+  modifyForm: FormGroup;
+
   @ViewChild('staticTabs') staticTabs: TabsetComponent;
 
   selectedOrder: number;
@@ -45,6 +47,8 @@ export class OrderComponent implements OnInit {
   currentlyDeleting: string;
   currentlyDeletingType: string;
 
+  curr_mod_ord: any;
+
   constructor(
     public orderService: OrderService,
     private modalService: BsModalService,
@@ -67,6 +71,11 @@ export class OrderComponent implements OnInit {
       amount: new FormControl('', [<any>Validators.required]),
     });
 
+    this.modifyForm = new FormGroup({
+      open_price: new FormControl(0),
+      amount: new FormControl('', [<any>Validators.required]),
+    });
+
     this.marginForm = new FormGroup({
       o_type: new FormControl('limit', [<any>Validators.required]),
       price: new FormControl(0),
@@ -74,8 +83,8 @@ export class OrderComponent implements OnInit {
     });
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  openModal(template: TemplateRef<any>, options = {}) {
+    this.modalRef = this.modalService.show(template, options);
   }
 
   selectTab(tab_id: number) {
@@ -145,6 +154,31 @@ export class OrderComponent implements OnInit {
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
     // this.staticTabs.tabs[1].active = true;
 
+  }
+
+  openModifyModal(template: TemplateRef<any>, parent_index, child_index) {
+    this.curr_mod_ord = child_index === undefined ? this.orders[parent_index] : this.orders[parent_index].suborders[child_index];
+    this.modifyForm.patchValue(this.curr_mod_ord);
+    this.openModal(template, { class: 'modal-sm' });
+  }
+
+  approveOrder(model: any, isValid: boolean) {
+    if (isValid) {
+      console.log(model);
+      /*      this.orderService.cancelOrder(this.curr_mod_ord).subscribe(() => {
+
+              this.orderService.
+
+            });*/
+
+      // order service -> cancle order
+
+      // subscribe
+
+      // order service -> open oprder
+
+      this.modalRef.hide();
+    }
   }
 
   placeOrder(direction, type, model) {
