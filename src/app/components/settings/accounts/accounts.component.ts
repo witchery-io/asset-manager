@@ -35,8 +35,8 @@ export class AccountsComponent implements OnInit {
     });
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  openModal(template: TemplateRef<any>, options = {}) {
+    this.modalRef = this.modalService.show(template, options);
   }
 
   createAccount(model: Account, isValid: boolean) {
@@ -89,5 +89,9 @@ export class AccountsComponent implements OnInit {
           }
         }
       );
+  }
+
+  edit(template: TemplateRef<any>) {
+    this.openModal(template);
   }
 }

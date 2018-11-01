@@ -46,8 +46,8 @@ export class GroupsComponent implements OnInit {
     });
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  openModal(template: TemplateRef<any>, options = {}) {
+    this.modalRef = this.modalService.show(template, options);
   }
 
   createGroup(model: Group, isValid: boolean) {
@@ -152,5 +152,9 @@ export class GroupsComponent implements OnInit {
           }
         }
       );
+  }
+
+  edit(template: TemplateRef<any>) {
+    this.openModal(template);
   }
 }

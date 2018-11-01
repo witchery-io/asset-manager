@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-6">
-    <button class="btn btn-primary btn-sm mt-3 mb-3" [disabled]="accountService.role == 'guest'" (click)="openModal(accountModal)">
+    <button class="btn btn-primary btn-xs mt-3 mb-3" [disabled]="accountService.role == 'guest'" (click)="openModal(accountModal)">
       <fa-icon icon="plus"></fa-icon> Create account
     </button>
-    <table class="table table-sm">
+    <table class="table table-xs">
       <thead>
       <tr>
         <th scope="col">#</th>
@@ -14,6 +14,7 @@
         <th scope="col">BC</th>
         <th scope="col">Rank</th>
         <th scope="col">Date</th>
+        <th scope="col"></th>
       </tr>
       </thead>
       <tbody>
@@ -22,19 +23,27 @@
         (click)="currentAccount($event, i)"
         [class.table-active]="a.id === account?.id"
       >
-        <th scope="col">{{ i + 1 }}</th>
-        <td scope="col">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>
           <span class="switch switch-sm">
           <input [disabled]="accountService.role == 'guest'" type="checkbox" [checked]="a.status" class="switch" id="switch-{{a.id}}">
-          <label for="switch-{{a.id}}"></label>
+          <label class="m-0" for="switch-{{a.id}}"></label>
         </span>
         </td>
-        <td scope="col">{{ a.acc_name }}</td>
-        <td scope="col">{{ a.user_name }}</td>
-        <td scope="col">{{ a.exchange }}</td>
-        <td scope="col">{{ a.base_currency }}</td>
-        <td scope="col">{{ a.risk }}</td>
-        <td scope="col">{{ a.created_at | date:'shortDate' }}</td>
+        <td>{{ a.acc_name }}</td>
+        <td>{{ a.user_name }}</td>
+        <td>{{ a.exchange }}</td>
+        <td>{{ a.base_currency }}</td>
+        <td>{{ a.risk }}</td>
+        <td>{{ a.created_at | date:'shortDate' }}</td>
+        <td>
+          <fa-icon
+            (click)="edit(editAccount)"
+            icon="edit"
+            class="text-danger float-right"
+            title="Edit"
+          ></fa-icon>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -90,5 +99,11 @@
         <button type="submit" class="btn btn-primary float-right">ADD</button>
       </div>
     </form>
+  </div>
+</ng-template>
+
+<ng-template #editAccount>
+  <div class="modal-body">
+    edit account
   </div>
 </ng-template>

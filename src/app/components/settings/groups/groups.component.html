@@ -1,13 +1,13 @@
 <div class="row mh-100 h-100">
   <div class="col-3">
     <div class="pt-3 pb-3">
-      <button (click)="openModal(groupModal)" [disabled]="accountService.role == 'guest'" class="btn btn-sm btn-primary">
+      <button (click)="openModal(groupModal)" [disabled]="accountService.role == 'guest'" class="btn btn-xs btn-primary">
         <fa-icon icon="plus"></fa-icon>
         Create group
       </button>
     </div>
     <div class="h-100 mh-100">
-      <table class="table table-sm table-scrollable table-hover header-fixed mb-0 table-borderless">
+      <table class="table table-xs">
         <thead>
         <tr>
           <th scope="col">Name</th>
@@ -19,13 +19,20 @@
           *ngFor="let g of groups; index as i"
           class="cursor-pointer"
           [class.table-active]="g.id === group?.id"
-          (click)="chooseGroup(i)">
+          (click)="chooseGroup(i)"
+        >
           <td>{{ g.name }}</td>
-          <td class="text-align-right pr-2">
-        <span class="switch switch-sm">
-          <input [disabled]="accountService.role == 'guest'" type="checkbox" [checked]="g.active" class="switch" id="switch-{{g.id}}">
-          <label for="switch-{{g.id}}"></label>
-        </span>
+          <td class="text-align-right">
+            <fa-icon
+              (click)="edit(editGroup)"
+              icon="edit"
+              class="text-danger float-right"
+              title="Edit"
+            ></fa-icon>
+            <span class="switch switch-sm mr-2">
+              <input [disabled]="accountService.role == 'guest'" type="checkbox" [checked]="g.active" class="switch" id="switch-{{g.id}}">
+              <label class="m-0" for="switch-{{g.id}}"></label>
+            </span>
           </td>
         </tr>
         </tbody>
@@ -35,7 +42,7 @@
   <div class="col-3">
     <div class="pt-3 pb-3">
       <button
-        class="btn btn-sm btn-outline-primary"
+        class="btn btn-xs btn-outline-primary"
         [disabled]="!group || accountService.role == 'guest'"
         (click)="openModal(addAccountModal)">
         <fa-icon icon="plus"></fa-icon>
@@ -43,7 +50,7 @@
       </button>
     </div>
     <div class="h-100 mh-100">
-      <table class="table table-hover table-borderless table-sm header-fixed mb-0 ">
+      <table class="table table-xs">
         <thead>
         <tr>
           <th scope="col">Name</th>
@@ -136,5 +143,11 @@
         <button type="submit" class="btn btn-primary float-right">ADD</button>
       </div>
     </form>
+  </div>
+</ng-template>
+
+<ng-template #editGroup>
+  <div class="modal-body">
+    edit group
   </div>
 </ng-template>
