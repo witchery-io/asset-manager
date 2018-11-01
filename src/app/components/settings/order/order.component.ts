@@ -1,11 +1,12 @@
-import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {OrderService} from '../../../services/order.service';
-import {BsModalRef, BsModalService, TabsetComponent} from 'ngx-bootstrap';
-import {Order} from '../../../models/order';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Margin} from '../../../models/margin';
-import {Exchange} from '../../../models/exchange';
-import {AccountService} from '../../../services/account.service';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { OrderService } from '../../../services/order.service';
+import { BsModalRef, BsModalService, TabsetComponent } from 'ngx-bootstrap';
+import { Order } from '../../../models/order';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Margin } from '../../../models/margin';
+import { Exchange } from '../../../models/exchange';
+import { AccountService } from '../../../services/account.service';
+import { MessageService } from '../../../services/message.service';
 
 @Component({
   selector: 'app-order',
@@ -54,6 +55,7 @@ export class OrderComponent implements OnInit {
     public orderService: OrderService,
     private modalService: BsModalService,
     public accountService: AccountService,
+    private messageService: MessageService,
   ) {
   }
 
@@ -169,13 +171,19 @@ export class OrderComponent implements OnInit {
         if (this.type === 'group') {
           this.orderService.placeGroupOrder(this.curr_mod_ord.group, { ...this.curr_mod_ord, ...model }).subscribe(() => {
             this.orderService.getGroupOrders(this.curr_mod_ord.group).subscribe(() => {
-              console.log('Success!!!');
+              this.messageService.sendMessage({
+                type: 'success',
+                msg: `Success modified!!!`,
+              });
             });
           });
         } else {
           this.orderService.placeAccountOrder(this.curr_mod_ord.account, { ...this.curr_mod_ord, ...model }).subscribe(() => {
             this.orderService.getAccountOrders(this.curr_mod_ord.account).subscribe(() => {
-              console.log('Success!!!');
+              this.messageService.sendMessage({
+                type: 'success',
+                msg: `Success modified!!!`,
+              });
             });
           });
         }
