@@ -91,10 +91,6 @@ export class TemplateComponent implements OnInit {
     this.openModal(template);
   }
 
-  pause(template) {
-    console.log('pause');
-  }
-
   edit(template) {
     this.editForm.reset();
     this.openModal(template);

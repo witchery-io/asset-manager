@@ -94,6 +94,22 @@ export class BotService {
   ) {
   }
 
+  restart(portId): Observable<any> {
+    return this.http.put(`${ this.url }/restart/${ portId }`, null);
+  }
+
+  stop(portId): Observable<any> {
+    return this.http.post(`${ this.url }/stop/${ portId }`, null);
+  }
+
+  visible(portId): Observable<any> {
+    return this.http.put(`${ this.url }/stop/${ portId }`, null);
+  }
+
+  kill(portId): Observable<any> {
+    return this.http.put(`${ this.url }/kill/${ portId }`, null);
+  }
+
   create(body: any): Observable<any> {
     return this.http.post(`https://bots.vitanova.online/api/start/${ body.strategy }`, body);
   }
