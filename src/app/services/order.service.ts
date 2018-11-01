@@ -16,7 +16,7 @@ export class OrderService {
   public tradeTypeId;
   public groupByPair;
 
-  url = 'http://localhost:50090/payments';
+  url = 'http://trade.vitanova.online:50090/payments';
 
   constructor(
     public http: HttpClient,
