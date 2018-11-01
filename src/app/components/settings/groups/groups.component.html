@@ -1,13 +1,13 @@
 <div class="row mh-100 h-100">
   <div class="col-3">
     <div class="pt-3 pb-3">
-      <button (click)="openModal(groupModal)" [disabled]="accountService.role == 'guest'" class="btn btn-sm btn-primary">
+      <button (click)="openModal(groupModal)" [disabled]="accountService.role == 'guest'" class="btn btn-xs btn-primary">
         <fa-icon icon="plus"></fa-icon>
         Create group
       </button>
     </div>
     <div class="h-100 mh-100">
-      <table class="table table-sm table-scrollable table-hover header-fixed mb-0 table-borderless">
+      <table class="table table-xs">
         <thead>
         <tr>
           <th scope="col">Name</th>
@@ -19,13 +19,20 @@
           *ngFor="let g of groups; index as i"
           class="cursor-pointer"
           [class.table-active]="g.id === group?.id"
-          (click)="chooseGroup(i)">
+          (click)="chooseGroup(i)"
+        >
           <td>{{ g.name }}</td>
-          <td class="text-align-right pr-2">
-        <span class="switch switch-sm">
-          <input [disabled]="accountService.role == 'guest'" type="checkbox" [checked]="g.active" class="switch" id="switch-{{g.id}}">
-          <label for="switch-{{g.id}}"></label>
-        </span>
+          <td class="text-align-right">
+            <fa-icon
+              (click)="edit(i, editGroupModal)"
+              icon="edit"
+              class="text-danger float-right"
+              title="Edit"
+            ></fa-icon>
+            <span class="switch switch-sm mr-2">
+              <input [disabled]="accountService.role == 'guest'" type="checkbox" [checked]="g.active" class="switch" id="switch-{{g.id}}">
+              <label class="m-0" for="switch-{{g.id}}"></label>
+            </span>
           </td>
         </tr>
         </tbody>
@@ -35,7 +42,7 @@
   <div class="col-3">
     <div class="pt-3 pb-3">
       <button
-        class="btn btn-sm btn-outline-primary"
+        class="btn btn-xs btn-outline-primary"
         [disabled]="!group || accountService.role == 'guest'"
         (click)="openModal(addAccountModal)">
         <fa-icon icon="plus"></fa-icon>
@@ -43,7 +50,7 @@
       </button>
     </div>
     <div class="h-100 mh-100">
-      <table class="table table-hover table-borderless table-sm header-fixed mb-0 ">
+      <table class="table table-xs">
         <thead>
         <tr>
           <th scope="col">Account</th>
@@ -134,6 +141,53 @@
       </div>
       <div>
         <button type="submit" class="btn btn-primary float-right">ADD</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #editGroupModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit group</h4>
+  </div>
+  <div class="modal-body">
+    <form novalidate [formGroup]="editGroupForm" (submit)="editGroup(editGroupForm.value, editGroupForm.valid)">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" formControlName="name" placeholder="Name">
+      </div>
+      <div class="form-group">
+        <label for="edit_allocation_method">Allocation method</label>
+        <select class="form-control" id="edit_allocation_method" formControlName="allocation_method">
+          <option selected value="0">Fix</option>
+          <option value="1">Percent</option>
+          <option value="2">Equity</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="edit_exchange">Exchange</label>
+        <select class="form-control" id="edit_exchange" formControlName="exchange">
+          <option selected value="bitfinex">Bitfinex</option>
+          <option value="cexio">CEX.IO</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="edit_base_currency">Base currency</label>
+        <select class="form-control" id="edit_base_currency" formControlName="base_currency">
+          <option selected value="usd">USD</option>
+          <option value="btc">BTC</option>
+          <option value="eth">ETH</option>
+          <option value="eur">EUR</option>
+        </select>
+      </div>
+      <div>
+        <button
+          type="button"
+          class="btn btn-outline-primary float-left"
+          aria-label="Close"
+          (click)="modalRef.hide()">Cancel
+        </button>
+        <button type="submit" class="btn btn-primary float-right">Edit group</button>
       </div>
     </form>
   </div>

@@ -3,8 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Group } from '../../../models/group';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { GroupsService } from '../../../services/groups.service';
-import {OrderService} from '../../../services/order.service';
-import {AccountService} from '../../../services/account.service';
+import { OrderService } from '../../../services/order.service';
+import { AccountService } from '../../../services/account.service';
+import { MessageService } from '../../../services/message.service';
 
 @Component({
   selector: 'app-groups',
@@ -20,6 +21,8 @@ export class GroupsComponent implements OnInit {
   groupForm: FormGroup;
   addAccountForm: FormGroup;
 
+  editGroupForm: FormGroup;
+
   group: any;
   groupAccounts: any;
   account: any;
@@ -28,12 +31,22 @@ export class GroupsComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private groupsService: GroupsService,
+    private messageService: MessageService,
     public orderService: OrderService,
     public accountService: AccountService,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.groupForm = new FormGroup({
+      name: new FormControl('', [<any>Validators.required]),
+      allocation_method: new FormControl(0, [<any>Validators.required]),
+      active: new FormControl(true, [<any>Validators.required]),
+      exchange: new FormControl('bitfinex', [<any>Validators.required]),
+      base_currency: new FormControl('usd', [<any>Validators.required]),
+    });
+
+    this.editGroupForm = new FormGroup({
       name: new FormControl('', [<any>Validators.required]),
       allocation_method: new FormControl(0, [<any>Validators.required]),
       active: new FormControl(true, [<any>Validators.required]),
@@ -46,17 +59,31 @@ export class GroupsComponent implements OnInit {
     });
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  openModal(template: TemplateRef<any>, options = {}) {
+    this.modalRef = this.modalService.show(template, options);
   }
 
   createGroup(model: Group, isValid: boolean) {
     if (isValid) {
-      this.groupsService.createGroup({ ...model, ...{ allocation_method: +model.allocation_method } })
+      this.groupsService.createGroup({...model, ...{allocation_method: +model.allocation_method}})
         .subscribe(() => {
-          this.update.emit(null);
-          this.groupForm.reset({ allocation_method: 0, active: true });
+            this.update.emit(null);
+            this.groupForm.reset({allocation_method: 0, active: true});
             this.modalRef.hide();
+          },
+        );
+    }
+  }
+
+  editGroup(model: Group, isValid: boolean) {
+    if (isValid) {
+      this.groupsService.editGroup(model)
+        .subscribe(() => {
+            this.modalRef.hide();
+            this.messageService.sendMessage({
+              type: 'success',
+              msg: `Group success edited`,
+            });
           },
         );
     }
@@ -152,5 +179,10 @@ export class GroupsComponent implements OnInit {
           }
         }
       );
+  }
+
+  edit(item_index, template: TemplateRef<any>) {
+    this.editGroupForm.patchValue(this.groups[item_index]);
+    this.openModal(template);
   }
 }

@@ -4,6 +4,7 @@ import { Account } from '../../../models/account';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { AccountService } from '../../../services/account.service';
 import { OrderService } from '../../../services/order.service';
+import { MessageService } from '../../../services/message.service';
 
 @Component({
   selector: 'app-accounts',
@@ -19,10 +20,13 @@ export class AccountsComponent implements OnInit {
   account: any;
   balance: any;
 
+  editAccountForm: FormGroup;
+
   constructor(
     private modalService: BsModalService,
     public accountService: AccountService,
-    public orderService: OrderService
+    public orderService: OrderService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit() {
@@ -33,10 +37,18 @@ export class AccountsComponent implements OnInit {
       exchange: new FormControl('bitfinex', [<any>Validators.required]),
       base_currency: new FormControl('usd', [<any>Validators.required]),
     });
+
+    this.editAccountForm = new FormGroup({
+      acc_name: new FormControl('', [<any>Validators.required]),
+      user_name: new FormControl('', [<any>Validators.required]),
+      risk: new FormControl(0, [<any>Validators.required]),
+      exchange: new FormControl('bitfinex', [<any>Validators.required]),
+      base_currency: new FormControl('usd', [<any>Validators.required]),
+    });
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  openModal(template: TemplateRef<any>, options = {}) {
+    this.modalRef = this.modalService.show(template, options);
   }
 
   createAccount(model: Account, isValid: boolean) {
@@ -46,6 +58,20 @@ export class AccountsComponent implements OnInit {
             this.update.emit();
             this.accountForm.reset({ risk: 0 });
             this.modalRef.hide();
+          },
+        );
+    }
+  }
+
+  editAccount(model: Account, isValid: boolean) {
+    if (isValid) {
+      this.accountService.editAccount(model)
+        .subscribe(() => {
+            this.modalRef.hide();
+            this.messageService.sendMessage({
+              type: 'success',
+              msg: `Success edited account`,
+            });
           },
         );
     }
@@ -89,5 +115,10 @@ export class AccountsComponent implements OnInit {
           }
         }
       );
+  }
+
+  edit(item_index, template: TemplateRef<any>) {
+    this.editAccountForm.patchValue(this.accounts[item_index]);
+    this.openModal(template);
   }
 }
