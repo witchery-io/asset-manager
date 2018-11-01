@@ -16,6 +16,7 @@ export class OrderComponent implements OnInit {
 
   modalRef: BsModalRef;
   @Input() order: any;
+  @Input() type: any;
 
   exchangeForm: FormGroup;
   marginForm: FormGroup;
@@ -164,18 +165,21 @@ export class OrderComponent implements OnInit {
 
   approveOrder(model: any, isValid: boolean) {
     if (isValid) {
-      console.log(model);
-      /*      this.orderService.cancelOrder(this.curr_mod_ord).subscribe(() => {
-
-              this.orderService.
-
-            });*/
-
-      // order service -> cancle order
-
-      // subscribe
-
-      // order service -> open oprder
+      this.orderService.cancelOrder(this.curr_mod_ord).subscribe(() => {
+        if (this.type === 'group') {
+          this.orderService.placeGroupOrder(this.curr_mod_ord.group, { ...this.curr_mod_ord, ...model }).subscribe(() => {
+            this.orderService.getGroupOrders(this.curr_mod_ord.group).subscribe(() => {
+              console.log('Success!!!');
+            });
+          });
+        } else {
+          this.orderService.placeAccountOrder(this.curr_mod_ord.account, { ...this.curr_mod_ord, ...model }).subscribe(() => {
+            this.orderService.getAccountOrders(this.curr_mod_ord.account).subscribe(() => {
+              console.log('Success!!!');
+            });
+          });
+        }
+      });
 
       this.modalRef.hide();
     }
