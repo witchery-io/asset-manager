@@ -79,6 +79,9 @@ export class OrderService {
   }
 
   closePositon(position): Observable<any> {
+    if (position.amount < 0) {
+      position.amount = position.amount * -1;
+    }
     return this.http.post(`${ this.url }/exchange/positions/delete`, position);
   }
 

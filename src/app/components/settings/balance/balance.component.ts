@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import {OrderService} from '../../../services/order.service';
 
 @Component({
   selector: 'app-balance',
@@ -8,4 +9,6 @@ import { Component, Input } from '@angular/core';
 export class BalanceComponent {
 
   @Input() balance: any;
+
+  constructor(public orderService: OrderService) {}
 }

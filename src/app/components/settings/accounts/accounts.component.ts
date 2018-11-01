@@ -83,6 +83,9 @@ export class AccountsComponent implements OnInit {
     this.orderService.orders = [];
     this.orderService.positions = [];
 
+    this.orderService.tradeType = 'account';
+    this.orderService.tradeTypeId = this.account.id;
+
     this.accountService.getAccount(this.account.id)
       .subscribe(
         account => {
