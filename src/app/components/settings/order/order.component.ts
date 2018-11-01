@@ -132,7 +132,10 @@ export class OrderComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  openOrderModal(template, order, type) {
+  public modify = false;
+
+  openOrderModal(template, order, type, modify) {
+    this.modify = modify;
     this.currentOrder = order;
     console.log(type);
     this.marginForm.patchValue({
@@ -145,32 +148,65 @@ export class OrderComponent implements OnInit {
   }
 
   placeOrder(direction, type, model) {
-    const order: Order = {
-      amount: model.amount,
-      open_price: model.price,
-      pair: this.currentOrder.pair,
-      type: {
-        context: this.enums[type],
-        direction: this.enums[direction],
-        type: this.enums[model.o_type],
-      }
-    };
+    if (this.modify) {
+      this.orderService.cancelOrder(this.currentOrder)
+        .subscribe((data) => {
+          const order: Order = {
+            amount: model.amount,
+            open_price: model.price,
+            pair: this.currentOrder.pair,
+            type: {
+              context: this.enums[type],
+              direction: this.enums[direction],
+              type: this.enums[model.o_type],
+            }
+          };
 
-    if (this.orderService.tradeType === 'group') {
-      this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
-        .subscribe(
-          data => {
-            this.fetchOrders();
+          if (this.orderService.tradeType === 'group') {
+            this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
+              .subscribe(
+                gdata => {
+                  this.fetchOrders();
+                }
+              );
+          } else {
+            this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
+              .subscribe(
+                gdata => {
+                  this.fetchOrders();
+                }
+              );
           }
-        );
+        });
     } else {
-      this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
-        .subscribe(
-          data => {
-            this.fetchOrders();
-          }
-        );
+      const order: Order = {
+        amount: model.amount,
+        open_price: model.price,
+        pair: this.currentOrder.pair,
+        type: {
+          context: this.enums[type],
+          direction: this.enums[direction],
+          type: this.enums[model.o_type],
+        }
+      };
+
+      if (this.orderService.tradeType === 'group') {
+        this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
+          .subscribe(
+            data => {
+              this.fetchOrders();
+            }
+          );
+      } else {
+        this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
+          .subscribe(
+            data => {
+              this.fetchOrders();
+            }
+          );
+      }
     }
+
 
   }
 
