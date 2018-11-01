@@ -42,12 +42,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
     setInterval(() => {
       this.fetchTicks();
-    }, 3000);
+    }, 9000);
     setInterval(() => {
       if (this.orderService.tradeTypeId && this.orderService.tradeType) {
         this.fetchOrders();
       }
-    }, 3000);
+    }, 9000);
 
     this.subscription = this.messageService.getMessage().subscribe(data => { this.alerts.push(data); });
   }

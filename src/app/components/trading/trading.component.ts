@@ -6163,7 +6163,7 @@ export class TradingComponent implements OnInit {
     this.orderService.tradeTypeId = current_type_id;
     this.orderService.tradeType = type;
     this.fetchOrders();
-    this.router.navigate([`/dashboard/dashboard/trading/${ type }/${ current_type_id }`]);
+    this.router.navigate([`/dashboard/trading/${ type }/${ current_type_id }`]);
   }
 
   get selectedGroup() {
