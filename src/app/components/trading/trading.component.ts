@@ -2,13 +2,14 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { GroupsService } from '../../services/groups.service';
 import { AccountService } from '../../services/account.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from '../../services/message.service';
 import { TickService } from '../../services/tick.service';
+import { OrderService } from '../../services/order.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Margin } from '../../models/margin';
 import { Exchange } from '../../models/exchange';
 import { Order } from '../../models/order';
-import { OrderService } from '../../services/order.service';
 import * as Highcharts from 'highcharts/highstock';
 import * as HC_annotations from 'highcharts/modules/annotations';
 import * as HC_drag from 'highcharts/modules/drag-panes';
@@ -6000,6 +6001,7 @@ export class TradingComponent implements OnInit {
     private groupsService: GroupsService,
     private accountService: AccountService,
     private orderService: OrderService,
+    private messageService: MessageService,
     public tickService: TickService,
     private route: ActivatedRoute,
     private router: Router,
@@ -6012,6 +6014,12 @@ export class TradingComponent implements OnInit {
       this.selectTab(0);
 
       this.fetchOrders();
+
+      // alert example
+/*      this.messageService.sendMessage({
+        type: 'success',
+        msg: `You successfully read this important alert message 1 .`,
+      });*/
     });
 
     this.fetchTicks();
@@ -6187,14 +6195,22 @@ export class TradingComponent implements OnInit {
     if (this.orderService.tradeType === 'group') {
       this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
         .subscribe(
-          data => {
+          () => {
+            this.messageService.sendMessage({
+              type: 'success',
+              msg: `You successfully read this important alert message 1 .`,
+            });
             this.fetchOrders();
           }
         );
     } else {
       this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
         .subscribe(
-          data => {
+          () => {
+            this.messageService.sendMessage({
+              type: 'success',
+              msg: `You successfully read this important alert message 2.`,
+            });
             this.fetchOrders();
           }
         );

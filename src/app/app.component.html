@@ -1,1 +1,9 @@
 <router-outlet></router-outlet>
+
+<div class="container-fluid fixed-bottom">
+  <div class="row justify-content-end">
+    <div *ngFor="let alert of alerts" class="offset-9 col-3">
+      <alert [type]="alert.type" [dismissible]="dismissible" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+    </div>
+  </div>
+</div>

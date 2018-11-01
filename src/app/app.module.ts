@@ -15,6 +15,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { AlertModule } from 'ngx-bootstrap/alert';
 import { HttpClientModule } from '@angular/common/http';
 import { Ng2TableModule } from 'ng2-table/ng2-table';
 
@@ -27,7 +28,7 @@ import { TemplateComponent } from './components/bots/templates/template.componen
 import { BotComponent } from './components/bots/templates/bot/bot.component';
 import { BotOrderComponent } from './components/bots/templates/bot/bot-order/bot-order.component';
 import { OrderItemComponent } from './components/bots/templates/bot/bot-order/order-item/order-item.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 library.add(fas);
 
@@ -55,6 +56,7 @@ library.add(fas);
     ModalModule.forRoot(),
     CollapseModule.forRoot(),
     TabsModule.forRoot(),
+    AlertModule.forRoot(),
     FontAwesomeModule,
     ReactiveFormsModule,
     FormsModule,
