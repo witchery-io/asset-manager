@@ -7,6 +7,7 @@ import { Margin } from '../../../models/margin';
 import { Exchange } from '../../../models/exchange';
 import { AccountService } from '../../../services/account.service';
 import { MessageService } from '../../../services/message.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-order',
@@ -56,6 +57,7 @@ export class OrderComponent implements OnInit {
     private modalService: BsModalService,
     public accountService: AccountService,
     private messageService: MessageService,
+    private spinner: NgxSpinnerService,
   ) {
   }
 
@@ -166,6 +168,7 @@ export class OrderComponent implements OnInit {
   }
 
   approveOrder(model: any, isValid: boolean) {
+    this.spinner.show();
     if (isValid) {
       this.orderService.cancelOrder(this.curr_mod_ord).subscribe(() => {
         if (this.type === 'group') {
@@ -175,6 +178,7 @@ export class OrderComponent implements OnInit {
                 type: 'success',
                 msg: `Success modified!!!`,
               });
+              this.spinner.hide();
             });
           });
         } else {
@@ -184,6 +188,7 @@ export class OrderComponent implements OnInit {
                 type: 'success',
                 msg: `Success modified!!!`,
               });
+              this.spinner.hide();
             });
           });
         }
