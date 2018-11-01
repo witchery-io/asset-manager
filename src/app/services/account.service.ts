@@ -1,19 +1,23 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Account } from '../models/account';
-import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Account} from '../models/account';
+import {Observable} from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
+  // @TODO remove
+  role = '';
+
   url = 'accounts';
 
   constructor(
     private http: HttpClient,
-  ) { }
+  ) {
+  }
 
   createAccount(account: Account): Observable<any> {
     return this.http.post(`${ environment.apiUrl }${ this.url }`, account);

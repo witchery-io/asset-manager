@@ -1,7 +1,7 @@
 <div class="row mh-100 h-100">
   <div class="col-3">
     <div class="pt-3 pb-3">
-      <button (click)="openModal(groupModal)" class="btn btn-sm btn-primary">
+      <button (click)="openModal(groupModal)" [disabled]="accountService.role == 'guest'" class="btn btn-sm btn-primary">
         <fa-icon icon="plus"></fa-icon>
         Create group
       </button>
@@ -23,7 +23,7 @@
           <td>{{ g.name }}</td>
           <td class="text-align-right pr-2">
         <span class="switch switch-sm">
-          <input type="checkbox" [checked]="g.active" class="switch" id="switch-{{g.id}}">
+          <input [disabled]="accountService.role == 'guest'" type="checkbox" [checked]="g.active" class="switch" id="switch-{{g.id}}">
           <label for="switch-{{g.id}}"></label>
         </span>
           </td>
@@ -36,7 +36,7 @@
     <div class="pt-3 pb-3">
       <button
         class="btn btn-sm btn-outline-primary"
-        [disabled]="!group"
+        [disabled]="!group || accountService.role == 'guest'"
         (click)="openModal(addAccountModal)">
         <fa-icon icon="plus"></fa-icon>
         Add account
@@ -47,7 +47,7 @@
         <thead>
         <tr>
           <th scope="col">Name</th>
-          <th scope="col">Risk</th>
+          <th scope="col">Rank</th>
         </tr>
         </thead>
         <tbody>

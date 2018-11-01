@@ -27,6 +27,7 @@ import { TemplateComponent } from './components/bots/templates/template.componen
 import { BotComponent } from './components/bots/templates/bot/bot.component';
 import { BotOrderComponent } from './components/bots/templates/bot/bot-order/bot-order.component';
 import { OrderItemComponent } from './components/bots/templates/bot/bot-order/order-item/order-item.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
 
 library.add(fas);
 
@@ -46,6 +47,7 @@ library.add(fas);
     BotComponent,
     BotOrderComponent,
     OrderItemComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

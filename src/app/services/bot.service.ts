@@ -11,15 +11,15 @@ export class BotService {
 
   strategy = [
     {
-      id: '0',
+      id: 'grid',
       name: 'Grid',
     },
     {
-      id: '1',
+      id: 'ia',
       name: 'Internal Arbitrage',
     },
     {
-      id: '2',
+      id: 'ea',
       name: 'External Arbitrage',
     },
   ];
@@ -103,15 +103,14 @@ export class BotService {
   }
 
   getTemplates(filters = {}): Observable<any> {
-    // return this.http.get(`${ this.url }/templates`, filters);
-
-    return of(this.getTemplatesS);
+    return this.http.get(`${ this.url }/bots`, filters);
+    // return of(this.getTemplatesS);
   }
 
   getBotTemplates(strategy_id): Observable<any> {
-    // return this.http.get(`${ this.url }/template/${ strategy_id }`);
+    return this.http.get(`${ this.url }/template/${ strategy_id }`);
 
-    return of(this.getTemplatesS);
+    // return of(this.getTemplatesS);
   }
 
   get getTemplatesS() {

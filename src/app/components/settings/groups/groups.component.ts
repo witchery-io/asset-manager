@@ -29,7 +29,7 @@ export class GroupsComponent implements OnInit {
     private modalService: BsModalService,
     private groupsService: GroupsService,
     public orderService: OrderService,
-    private accountService: AccountService,
+    public accountService: AccountService,
   ) { }
 
   ngOnInit() {

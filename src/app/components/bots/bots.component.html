@@ -66,14 +66,14 @@
                   (change)="chooseTemplate($event.target.value)">
             <option
               *ngFor="let item of str_templates; index as i"
-              [value]="i">
-              {{ item.name }}
+              [value]="item.template">
+              {{ item.template }}
             </option>
           </select>
         </div>
       </ng-container>
 
-      <div *ngIf="currentStrategy?.id === '0'" formGroupName="grid">
+      <div *ngIf="currentStrategy?.id === 'grid'" formGroupName="grid">
         <div class="form-group">
           <label for="grid_account_exchange">Exchange</label>
           <select id="grid_account_exchange" class="form-control form-control-sm" formControlName="exchange"
@@ -179,7 +179,7 @@
         </div>
       </div>
 
-      <div *ngIf="currentStrategy?.id === '1'" formGroupName="ia">
+      <div *ngIf="currentStrategy?.id === 'ia'" formGroupName="ia">
         <div class="form-group">
           <label for="ia_account_exchange">Exchange</label>
           <select id="ia_account_exchange" class="form-control form-control-sm" formControlName="exchange"
@@ -229,7 +229,7 @@
         </div>
       </div>
 
-      <div *ngIf="currentStrategy?.id === '2'" formGroupName="ea">
+      <div *ngIf="currentStrategy?.id === 'ea'" formGroupName="ea">
         <div class="form-group">
           <label for="ea_account_exchange">Exchange</label>
           <select id="ea_account_exchange" class="form-control form-control-sm" formControlName="exchange"

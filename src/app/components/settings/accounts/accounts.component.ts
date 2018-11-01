@@ -21,7 +21,7 @@ export class AccountsComponent implements OnInit {
 
   constructor(
     private modalService: BsModalService,
-    private accountService: AccountService,
+    public accountService: AccountService,
     public orderService: OrderService
   ) { }
 

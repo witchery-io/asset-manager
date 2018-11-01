@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-6">
-    <button class="btn btn-primary btn-sm mt-3 mb-3" (click)="openModal(accountModal)">
+    <button class="btn btn-primary btn-sm mt-3 mb-3" [disabled]="accountService.role == 'guest'" (click)="openModal(accountModal)">
       <fa-icon icon="plus"></fa-icon> Create account
     </button>
     <table class="table table-sm">
@@ -25,7 +25,7 @@
         <th scope="col">{{ i + 1 }}</th>
         <td scope="col">
           <span class="switch switch-sm">
-          <input type="checkbox" [checked]="a.status" class="switch" id="switch-{{a.id}}">
+          <input [disabled]="accountService.role == 'guest'" type="checkbox" [checked]="a.status" class="switch" id="switch-{{a.id}}">
           <label for="switch-{{a.id}}"></label>
         </span>
         </td>

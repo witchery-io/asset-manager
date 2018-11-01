@@ -25,6 +25,13 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (localStorage.getItem('role') === 'guest' || localStorage.getItem('role') === 'admin') {
+      this.accountService.role = localStorage.getItem('role');
+      this.router.navigate(['dashboard']);
+    } else {
+      this.router.navigate(['']);
+    }
+
     this.fetchTicks();
     this.fetchOrders();
 

@@ -50,7 +50,7 @@
           </td>
           <td>{{ tick.volume | number }}</td>
           <td>
-            <button class="btn btn-outline-warning btn-xs" (click)="tickSettings(tradingModal, i)">
+            <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-warning btn-xs" (click)="tickSettings(tradingModal, i)">
               <fa-icon icon="plus"></fa-icon>
             </button>
           </td>

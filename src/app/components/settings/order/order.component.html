@@ -38,8 +38,8 @@
               <td>{{ o.amount | number }}</td>
               <td>{{ o.open_price | number }}</td>
               <td>{{ o.current_price | number }}</td>
-              <td><button (click)="openOrderModal(tradingModal, o, 'stop')" class="btn btn-xs btn-outline-danger">Add</button></td>
-              <td><button (click)="openOrderModal(tradingModal, o, 'limit')" class="btn btn-xs btn-outline-warning">Add</button></td>
+              <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, o, 'stop')" class="btn btn-xs btn-outline-danger">Add</button></td>
+              <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, o, 'limit')" class="btn btn-xs btn-outline-warning">Add</button></td>
               <td>{{ o.swap | number }}</td>
               <td>{{ o.pl | number}}</td>
               <td>{{ o.plmain }}</td>
@@ -47,7 +47,7 @@
               <td></td>
               <td>{{ o.open_order_time | date:'short' }}</td>
               <td>
-                <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = o; currentlyDeletingType = 'position';">close</button>
+                <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = o; currentlyDeletingType = 'position';">close</button>
               </td>
             </tr>
             <tr *ngIf="selectedOrder == i">
@@ -142,8 +142,8 @@
               <td>GTC</td>
               <td>{{ o.open_order_time | date:'short' }}</td>
               <td>
-                <button class="btn btn-outline-warning btn-xs" (click)="openOrderModal(tradingModal, o, orderTypeO[o.type.type])">modify</button>
-                <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = o; currentlyDeletingType = 'order';">cancel</button>
+                <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-warning btn-xs" (click)="openOrderModal(tradingModal, o, orderTypeO[o.type.type])">modify</button>
+                <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = o; currentlyDeletingType = 'order';">cancel</button>
               </td>
             </tr>
             <tr *ngIf="selectedPosition == i">
@@ -180,8 +180,8 @@
                       <td>GTC</td>
                       <td>{{ so.open_order_time | date:'short' }}</td>
                       <td>
-                        <button class="btn btn-outline-warning btn-xs" (click)="openOrderModal(tradingModal, so, orderTypeO[so.type.type])">modify</button>
-                        <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal);  currentlyDeleting = so; currentlyDeletingType = 'order';">cancel</button>
+                        <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-warning btn-xs" (click)="openOrderModal(tradingModal, so, orderTypeO[so.type.type])">modify</button>
+                        <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal);  currentlyDeleting = so; currentlyDeletingType = 'order';">cancel</button>
                       </td>
                     </tr>
                   </ng-container>
@@ -242,8 +242,8 @@
                 </div>
               </div>
               <div>
-                <button type="submit" class="btn btn-success" (click)="buyExchange(exchangeForm.value, exchangeForm.valid)">BUY</button>
-                <button type="submit" class="btn btn-danger float-right" (click)="sellExchange(exchangeForm.value, exchangeForm.valid)">SELL</button>
+                <button [disabled]="accountService.role == 'guest'"  type="submit" class="btn btn-success" (click)="buyExchange(exchangeForm.value, exchangeForm.valid)">BUY</button>
+                <button [disabled]="accountService.role == 'guest'"  type="submit" class="btn btn-danger float-right" (click)="sellExchange(exchangeForm.value, exchangeForm.valid)">SELL</button>
               </div>
             </form>
           </tab>
@@ -275,8 +275,8 @@
               </div>
 
               <div>
-                <button type="submit" class="btn btn-success" (click)="buyMargin(marginForm.value, marginForm.valid)">BUY</button>
-                <button type="submit" class="btn btn-danger float-right" (click)="sellMargin(marginForm.value, marginForm.valid)">SELL</button>
+                <button [disabled]="accountService.role == 'guest'"  type="submit" class="btn btn-success" (click)="buyMargin(marginForm.value, marginForm.valid)">BUY</button>
+                <button [disabled]="accountService.role == 'guest'"  type="submit" class="btn btn-danger float-right" (click)="sellMargin(marginForm.value, marginForm.valid)">SELL</button>
               </div>
             </form>
           </tab>

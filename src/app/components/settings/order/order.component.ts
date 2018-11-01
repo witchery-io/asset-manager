@@ -5,6 +5,7 @@ import {Order} from '../../../models/order';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Margin} from '../../../models/margin';
 import {Exchange} from '../../../models/exchange';
+import {AccountService} from '../../../services/account.service';
 
 @Component({
   selector: 'app-order',
@@ -47,6 +48,7 @@ export class OrderComponent implements OnInit {
   constructor(
     public orderService: OrderService,
     private modalService: BsModalService,
+    public accountService: AccountService,
   ) {
   }
 
