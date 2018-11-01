@@ -27,6 +27,11 @@ export class GroupsService {
     return this.http.post(`${ environment.apiUrl }${ this.url }`, group);
   }
 
+  /* edit group */
+  editGroup(group: Group): Observable<any> {
+    return this.http.put(`${ environment.apiUrl }${ this.url }`, group);
+  }
+
   addAccount(group_id, params: any) {
     return this.http.post(`${ environment.apiUrl }${ this.url }/${ group_id }/accounts`, params);
   }

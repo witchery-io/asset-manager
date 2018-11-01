@@ -24,7 +24,7 @@
           <td>{{ g.name }}</td>
           <td class="text-align-right">
             <fa-icon
-              (click)="edit(editGroup)"
+              (click)="edit(i, editGroupModal)"
               icon="edit"
               class="text-danger float-right"
               title="Edit"
@@ -146,8 +146,49 @@
   </div>
 </ng-template>
 
-<ng-template #editGroup>
+<ng-template #editGroupModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit group</h4>
+  </div>
   <div class="modal-body">
-    edit group
+    <form novalidate [formGroup]="editGroupForm" (submit)="editGroup(editGroupForm.value, editGroupForm.valid)">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" formControlName="name" placeholder="Name">
+      </div>
+      <div class="form-group">
+        <label for="edit_allocation_method">Allocation method</label>
+        <select class="form-control" id="edit_allocation_method" formControlName="allocation_method">
+          <option selected value="0">Fix</option>
+          <option value="1">Percent</option>
+          <option value="2">Equity</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="edit_exchange">Exchange</label>
+        <select class="form-control" id="edit_exchange" formControlName="exchange">
+          <option selected value="bitfinex">Bitfinex</option>
+          <option value="cexio">CEX.IO</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="edit_base_currency">Base currency</label>
+        <select class="form-control" id="edit_base_currency" formControlName="base_currency">
+          <option selected value="usd">USD</option>
+          <option value="btc">BTC</option>
+          <option value="eth">ETH</option>
+          <option value="eur">EUR</option>
+        </select>
+      </div>
+      <div>
+        <button
+          type="button"
+          class="btn btn-outline-primary float-left"
+          aria-label="Close"
+          (click)="modalRef.hide()">Cancel
+        </button>
+        <button type="submit" class="btn btn-primary float-right">Edit group</button>
+      </div>
+    </form>
   </div>
 </ng-template>

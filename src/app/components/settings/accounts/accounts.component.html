@@ -38,7 +38,7 @@
         <td>{{ a.created_at | date:'shortDate' }}</td>
         <td>
           <fa-icon
-            (click)="edit(editAccount)"
+            (click)="edit(i, editAccountModal)"
             icon="edit"
             class="text-danger float-right"
             title="Edit"
@@ -102,8 +102,49 @@
   </div>
 </ng-template>
 
-<ng-template #editAccount>
+<ng-template #editAccountModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit account</h4>
+  </div>
   <div class="modal-body">
-    edit account
+    <form novalidate [formGroup]="editAccountForm" (submit)="editAccount(editAccountForm.value, editAccountForm.valid)">
+      <div class="form-group">
+        <label>Acc. Name</label>
+        <input type="text" class="form-control" placeholder="Acc. Name" formControlName="acc_name">
+      </div>
+      <div class="form-group">
+        <label>User Name</label>
+        <input type="text" class="form-control" placeholder="User Name" formControlName="user_name">
+      </div>
+      <div class="form-group">
+        <label>Risk</label>
+        <input type="text" class="form-control" placeholder="Risk" formControlName="risk">
+      </div>
+      <div class="form-group">
+        <label for="edit_account_exchange">Exchange</label>
+        <select id="edit_account_exchange" class="form-control" formControlName="exchange">
+          <option selected value="bitfinex">Bitfinex</option>
+          <option value="cexio">CEX.IO</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="edit_account_base_currency">Base currency</label>
+        <select id="edit_account_base_currency" class="form-control" formControlName="base_currency">
+          <option selected value="usd">USD</option>
+          <option value="BTC">BTC</option>
+          <option value="ETH">ETH</option>
+          <option value="EUR">EUR</option>
+        </select>
+      </div>
+      <div>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          aria-label="Close"
+          (click)="modalRef.hide()">CANCEL
+        </button>
+        <button type="submit" class="btn btn-primary float-right">ADD</button>
+      </div>
+    </form>
   </div>
 </ng-template>
