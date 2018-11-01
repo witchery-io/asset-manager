@@ -38,13 +38,13 @@
               <td>{{ o.amount | number }}</td>
               <td>{{ o.open_price | number }}</td>
               <td>{{ o.current_price | number }}</td>
-              <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, o, 'stop')" class="btn btn-xs btn-outline-danger">Add</button></td>
-              <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, o, 'limit')" class="btn btn-xs btn-outline-warning">Add</button></td>
+              <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, o, 'stop', false)" class="btn btn-xs btn-outline-danger">Add</button></td>
+              <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, o, 'limit', false)" class="btn btn-xs btn-outline-warning">Add</button></td>
               <td>{{ o.swap | number }}</td>
               <td>{{ o.pl | number}}</td>
-              <td>{{ o.plmain }}</td>
-              <td>{{ o.plmprc }}</td>
-              <td></td>
+              <td>{{ o.plmain | number}}</td>
+              <td>{{ o.plmprc | number}}</td>
+              <td>{{ o.exposure | number}}</td>
               <td>{{ o.open_order_time | date:'short' }}</td>
               <td>
                 <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = o; currentlyDeletingType = 'position';">close</button>
@@ -85,13 +85,13 @@
                       <td>{{ so.amount | number }}</td>
                       <td>{{ so.open_price | number }}</td>
                       <td>{{ so.current_price | number }}</td>
-                      <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, so, 'stop')" class="btn btn-xs btn-outline-danger">Add</button></td>
-                      <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, so, 'limit')" class="btn btn-xs btn-outline-warning">Add</button></td>
+                      <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, so, 'stop', false)" class="btn btn-xs btn-outline-danger">Add</button></td>
+                      <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, so, 'limit', false)" class="btn btn-xs btn-outline-warning">Add</button></td>
                       <td>{{ so.swap | number }}</td>
                       <td>{{ so.pl | number }}</td>
-                      <td>{{ so.plmain }}</td>
-                      <td>{{ so.plmprc }}</td>
-                      <td></td>
+                      <td>{{ so.plmain | number }}</td>
+                      <td>{{ so.plmprc | number }}</td>
+                      <td>{{ so.exposure | number}}</td>
                       <td>{{ so.open_order_time | date:'short' }}</td>
                       <td>
                         <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = so; currentlyDeletingType = 'position';">close</button>
@@ -142,7 +142,7 @@
               <td>GTC</td>
               <td>{{ o.open_order_time | date:'short' }}</td>
               <td>
-                <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-warning btn-xs" (click)="openOrderModal(tradingModal, o, orderTypeO[o.type.type])">modify</button>
+                <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-warning btn-xs" (click)="openOrderModal(tradingModal, o, orderTypeO[o.type.type], true)">modify</button>
                 <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = o; currentlyDeletingType = 'order';">cancel</button>
               </td>
             </tr>
@@ -180,7 +180,7 @@
                       <td>GTC</td>
                       <td>{{ so.open_order_time | date:'short' }}</td>
                       <td>
-                        <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-warning btn-xs" (click)="openOrderModal(tradingModal, so, orderTypeO[so.type.type])">modify</button>
+                        <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-warning btn-xs" (click)="openOrderModal(tradingModal, so, orderTypeO[so.type.type], true)">modify</button>
                         <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal);  currentlyDeleting = so; currentlyDeletingType = 'order';">cancel</button>
                       </td>
                     </tr>
