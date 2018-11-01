@@ -24,18 +24,25 @@
         title="Edit"
       ></fa-icon>
       <span class="switch switch-sm float-right mr-2" title="Visible">
-            <input type="checkbox" [checked]="bot.visible" class="switch" id="switch-visible-{{bot.port}}">
-            <label class="m-0" for="switch-visible-{{bot.port}}"></label>
-          </span>
+        <input type="checkbox" [checked]="bot.visible" class="switch" id="switch-visible-{{bot.port}}" (change)="botVisible()">
+        <label class="m-0" for="switch-visible-{{bot.port}}"></label>
+      </span>
       <span class="switch switch-sm float-right mr-2" title="Status On">
-            <input type="checkbox" [checked]="bot.statuson" class="switch" id="switch-status-{{bot.port}}">
-            <label class="m-0" for="switch-status-{{bot.port}}"></label>
-          </span>
+        <input type="checkbox" [checked]="bot.statuson" class="switch" id="switch-status-{{bot.port}}" (change)="botStatus()">
+        <label class="m-0" for="switch-status-{{bot.port}}"></label>
+      </span>
       <fa-icon
         (click)="stop()"
         icon="stop-circle"
         class="float-right mr-2 text-danger"
         title="Stop"
+      ></fa-icon>
+      <fa-icon
+        (click)="pause()"
+        [icon]="bot.status_on ? 'redo-alt' : 'pause-circle'"
+        [ngClass]="bot.status_on ? 'text-success' : 'text-danger'"
+        class="float-right mr-2"
+        title="Pause"
       ></fa-icon>
     </td>
   </tr>
