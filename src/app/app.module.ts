@@ -18,6 +18,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { HttpClientModule } from '@angular/common/http';
 import { Ng2TableModule } from 'ng2-table/ng2-table';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -63,6 +64,7 @@ library.add(fas);
     HttpClientModule,
     Ng2TableModule,
     HighchartsChartModule,
+    NgxSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
