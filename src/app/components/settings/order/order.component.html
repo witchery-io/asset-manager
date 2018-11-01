@@ -142,7 +142,7 @@
               <td>GTC</td>
               <td>{{ o.open_order_time | date:'short' }}</td>
               <td>
-                <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-warning btn-xs" (click)="openOrderModal(tradingModal, o, orderTypeO[o.type.type], true)">modify</button>
+                <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-warning btn-xs" (click)="openModifyModal(modifyModal, i, undefined)">modify</button>
                 <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = o; currentlyDeletingType = 'order';">cancel</button>
               </td>
             </tr>
@@ -164,7 +164,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <ng-container *ngFor="let so of o.suborders">
+                  <ng-container *ngFor="let so of o.suborders; index as sub_i">
                     <tr class="p-0">
                       <td>
                         <button disabled style="opacity: 0" class="btn btn-xs btn-outline-primary">
@@ -180,7 +180,7 @@
                       <td>GTC</td>
                       <td>{{ so.open_order_time | date:'short' }}</td>
                       <td>
-                        <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-warning btn-xs" (click)="openOrderModal(tradingModal, so, orderTypeO[so.type.type], true)">modify</button>
+                        <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-warning btn-xs" (click)="openModifyModal(modifyModal, i, sub_i)">modify</button>
                         <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal);  currentlyDeleting = so; currentlyDeletingType = 'order';">cancel</button>
                       </td>
                     </tr>
@@ -283,5 +283,54 @@
         </tabset>
       </div>
     </div>
+  </div>
+</ng-template>
+
+
+<ng-template #modifyModal>
+  <div class="modal-header">
+    {{ curr_mod_ord.pair }}
+  </div>
+  <div class="modal-body">
+    <dl class="row">
+      <dt class="col-sm-4">TYPE</dt>
+      <dd class="col-sm-8">{{ orderTypeO[curr_mod_ord.type.type] }}</dd>
+      <dt class="col-sm-4">CONTEXT</dt>
+      <dd class="col-sm-8">{{ orderContext[curr_mod_ord.type.context] }}</dd>
+    </dl>
+    <form novalidate [formGroup]="modifyForm" class="mt-3">
+      <div class="form-row">
+        <div class="form-group col">
+          <label for="edit_mod_open_price">Price</label>
+          <input
+            id="edit_mod_open_price"
+            [attr.disabled]="orderTypeO[curr_mod_ord.type.type] === 'market' ? '' : null"
+            type="number"
+            class="form-control"
+            placeholder="Price"
+            formControlName="open_price"
+          >
+        </div>
+        <div class="form-group col">
+          <label for="edit_amount">Amount</label>
+          <input id="edit_amount" type="number" class="form-control" placeholder="Amount" formControlName="amount">
+        </div>
+      </div>
+
+      <div>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          aria-label="Close"
+          (click)="modalRef.hide()">CANCEL
+        </button>
+        <button
+          [disabled]="accountService.role == 'guest'"
+          type="submit"
+          class="btn btn-success float-right"
+          (click)="approveOrder(modifyForm.value, modifyForm.valid)">APPROVE
+        </button>
+      </div>
+    </form>
   </div>
 </ng-template>

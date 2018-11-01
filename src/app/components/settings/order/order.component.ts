@@ -16,9 +16,12 @@ export class OrderComponent implements OnInit {
 
   modalRef: BsModalRef;
   @Input() order: any;
+  @Input() type: any;
 
   exchangeForm: FormGroup;
   marginForm: FormGroup;
+
+  modifyForm: FormGroup;
 
   @ViewChild('staticTabs') staticTabs: TabsetComponent;
 
@@ -45,6 +48,8 @@ export class OrderComponent implements OnInit {
   currentlyDeleting: string;
   currentlyDeletingType: string;
 
+  curr_mod_ord: any;
+
   constructor(
     public orderService: OrderService,
     private modalService: BsModalService,
@@ -67,6 +72,11 @@ export class OrderComponent implements OnInit {
       amount: new FormControl('', [<any>Validators.required]),
     });
 
+    this.modifyForm = new FormGroup({
+      open_price: new FormControl(0),
+      amount: new FormControl('', [<any>Validators.required]),
+    });
+
     this.marginForm = new FormGroup({
       o_type: new FormControl('limit', [<any>Validators.required]),
       price: new FormControl(0),
@@ -74,8 +84,8 @@ export class OrderComponent implements OnInit {
     });
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  openModal(template: TemplateRef<any>, options = {}) {
+    this.modalRef = this.modalService.show(template, options);
   }
 
   selectTab(tab_id: number) {
@@ -145,6 +155,34 @@ export class OrderComponent implements OnInit {
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
     // this.staticTabs.tabs[1].active = true;
 
+  }
+
+  openModifyModal(template: TemplateRef<any>, parent_index, child_index) {
+    this.curr_mod_ord = child_index === undefined ? this.orders[parent_index] : this.orders[parent_index].suborders[child_index];
+    this.modifyForm.patchValue(this.curr_mod_ord);
+    this.openModal(template, { class: 'modal-sm' });
+  }
+
+  approveOrder(model: any, isValid: boolean) {
+    if (isValid) {
+      this.orderService.cancelOrder(this.curr_mod_ord).subscribe(() => {
+        if (this.type === 'group') {
+          this.orderService.placeGroupOrder(this.curr_mod_ord.group, { ...this.curr_mod_ord, ...model }).subscribe(() => {
+            this.orderService.getGroupOrders(this.curr_mod_ord.group).subscribe(() => {
+              console.log('Success!!!');
+            });
+          });
+        } else {
+          this.orderService.placeAccountOrder(this.curr_mod_ord.account, { ...this.curr_mod_ord, ...model }).subscribe(() => {
+            this.orderService.getAccountOrders(this.curr_mod_ord.account).subscribe(() => {
+              console.log('Success!!!');
+            });
+          });
+        }
+      });
+
+      this.modalRef.hide();
+    }
   }
 
   placeOrder(direction, type, model) {
