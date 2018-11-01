@@ -85,8 +85,8 @@
                       <td>{{ so.amount | number }}</td>
                       <td>{{ so.open_price | number }}</td>
                       <td>{{ so.current_price | number }}</td>
-                      <td><button (click)="openOrderModal(tradingModal, so, 'stop')" class="btn btn-xs btn-outline-danger">Add</button></td>
-                      <td><button (click)="openOrderModal(tradingModal, so, 'limit')" class="btn btn-xs btn-outline-warning">Add</button></td>
+                      <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, so, 'stop')" class="btn btn-xs btn-outline-danger">Add</button></td>
+                      <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, so, 'limit')" class="btn btn-xs btn-outline-warning">Add</button></td>
                       <td>{{ so.swap | number }}</td>
                       <td>{{ so.pl | number }}</td>
                       <td>{{ so.plmain }}</td>
@@ -94,7 +94,7 @@
                       <td></td>
                       <td>{{ so.open_order_time | date:'short' }}</td>
                       <td>
-                        <button class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = so; currentlyDeletingType = 'position';">close</button>
+                        <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = so; currentlyDeletingType = 'position';">close</button>
                       </td>
                     </tr>
                   </ng-container>
