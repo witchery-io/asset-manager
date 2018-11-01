@@ -6014,12 +6014,6 @@ export class TradingComponent implements OnInit {
       this.selectTab(0);
 
       this.fetchOrders();
-
-      // alert example
-/*      this.messageService.sendMessage({
-        type: 'success',
-        msg: `You successfully read this important alert message 1 .`,
-      });*/
     });
 
     this.fetchTicks();
