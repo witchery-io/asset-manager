@@ -33,6 +33,7 @@ export class BotsComponent implements OnInit {
   filter = {
     pair: '',
     group: '',
+    strategy: '',
   };
 
   constructor(

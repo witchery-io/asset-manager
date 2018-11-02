@@ -13,7 +13,7 @@ const routes: Routes = [
       {path: '', redirectTo: 'settings', pathMatch: 'full'},
       {path: 'settings', component: SettingsComponent},
       {path: 'bots', component: BotsComponent},
-      {path: 'trading', redirectTo: 'trading/account/191308ab-1331-4cbb-8c70-48164e41ce40'},
+      {path: 'trading', redirectTo: 'trading/group/6a86df61-c190-4347-9b61-34cbd88d38a4'},
       {path: 'trading/:type/:id', component: TradingComponent},
     ]
   },
