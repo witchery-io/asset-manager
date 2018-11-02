@@ -1,0 +1,116 @@
+<div *ngIf="balance" class="container-fluid fixed-bottom bg-dark" (click)="openModal(statusBarModal)">
+  <div class="row text-white">
+    <div class="col">
+      <h6>
+        <small class="text-muted">BC</small>
+        <div>{{ balance.base_currency }}</div>
+      </h6>
+    </div>
+    <div class="col">
+      <h6>
+        <small class="text-muted">Balance</small>
+        <div>{{ balance.balance | number }}</div>
+      </h6>
+    </div>
+    <div class="col">
+      <h6>
+        <small class="text-muted">WSB</small>
+        <div>{{ balance.wsb | number }}</div>
+      </h6>
+    </div>
+    <div class="col">
+      <h6>
+        <small class="text-muted">Equity</small>
+        <div>{{ balance.equity | number }}</div>
+      </h6>
+    </div>
+    <div class="col">
+      <h6>
+        <small class="text-muted">PL (%)</small>
+        <div>{{ balance.pl | number }}</div>
+      </h6>
+    </div>
+    <div class="col">
+      <h6>
+        <small class="text-muted">Exposure</small>
+        <div>{{ balance.exposure | number }}</div>
+      </h6>
+    </div>
+    <div class="col">
+      <h6>
+        <small class="text-muted">PL</small>
+        <div>{{ balance.total_pl | number }}</div>
+      </h6>
+    </div>
+    <div class="col">
+      <h6>
+        <small class="text-muted">Exp/Eq</small>
+        <div>{{ balance.exposure / balance.equity * 100 | number }}</div>
+      </h6>
+    </div>
+  </div>
+</div>
+
+<ng-template #statusBarModal>
+  <div class="modal-body">
+    <form [formGroup]="transferForm" (ngSubmit)="onTransfer(transferForm.value, transferForm.valid)">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="groups">Groups</label>
+          <select id="groups" class="form-control form-control-sm"  formControlName="group">
+            <option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="accounts">Accounts</label>
+          <select id="accounts" class="form-control form-control-sm"  formControlName="account">
+            <option *ngFor="let account of accounts" [value]="account.id">{{ account.user_name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="market1">Market</label>
+        <select id="market1" class="form-control form-control-sm" (change)="chooseMarker($event.target.value)" formControlName="market1">
+          <option value="exchange">Exchange</option>
+          <option value="margin">Margin</option>
+          <option value="funding">Funding</option>
+        </select>
+      </div>
+
+      <table *ngIf="balance.per_currency_balances" class="table table-bordered table-xs">
+        <thead>
+        <tr>
+          <th scope="col">Currency</th>
+          <th *ngIf="curr_balance === 'exchange'" scope="col">Exchange</th>
+          <th *ngIf="curr_balance === 'margin'" scope="col">Margin</th>
+          <th *ngIf="curr_balance === 'funding'" scope="col">Funding</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let per of balance.per_currency_balances">
+            <th scope="row">{{ per.currency }}</th>
+            <td *ngIf="curr_balance === 'exchange'"><span *ngIf="per.exchange">{{ per.exchange[0] }} / {{ per.exchange[1] }}</span></td>
+            <td *ngIf="curr_balance === 'margin'"><span *ngIf="per.margin">{{ per.margin[0] }} / {{ per.margin[1] }}</span></td>
+            <td *ngIf="curr_balance === 'funding'"><span *ngIf="per.funding">{{ per.funding[0] }} / {{ per.funding[1] }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="form-group">
+        <label for="market2">Market</label>
+        <select id="market2" class="form-control form-control-sm" formControlName="market2">
+          <option value="exchange">Exchange</option>
+          <option value="margin">Margin</option>
+          <option value="funding">Funding</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <input type="number" class="form-control form-control-sm" formControlName="fee">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Transfer</button>
+    </form>
+  </div>
+</ng-template>

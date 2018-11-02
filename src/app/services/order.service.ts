@@ -11,6 +11,7 @@ export class OrderService {
 
   orders = [];
   positions = [];
+  balance = {};
 
   public tradeType;
   public tradeTypeId;
@@ -30,11 +31,15 @@ export class OrderService {
     this.orders = orders;
   }
 
+  setBalance(balance = {}) {
+    this.balance = balance;
+  }
+
   getAccountBalance(accountId: string) {
     return this.http.get(`${ this.url }/exchange/accounts/${ accountId }/balance`);
   }
 
-  geGroupBalance(groupId: string) {
+  getGroupBalance(groupId: string) {
     return this.http.get(`${ this.url }/exchange/groups/${ groupId }/balance`);
   }
 
@@ -107,4 +112,18 @@ export class OrderService {
       );
   }
 
+  fetchBalance() {
+    if (this.tradeType === 'group') {
+      this.getGroupBalance(this.tradeTypeId).subscribe(
+        balance => {
+          this.setBalance(balance);
+        });
+
+    } else if (this.tradeType === 'account') {
+      this.getAccountBalance(this.tradeTypeId).subscribe(
+        balance => {
+          this.setBalance(balance);
+        });
+    }
+  }
 }
