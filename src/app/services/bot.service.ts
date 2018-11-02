@@ -94,20 +94,22 @@ export class BotService {
   ) {
   }
 
-  restart(portId): Observable<any> {
-    return this.http.put(`${ this.url }/restart/${ portId }`, null);
-  }
-
   stop(portId): Observable<any> {
     return this.http.post(`${ this.url }/stop/${ portId }`, null);
   }
 
-  visible(portId): Observable<any> {
-    return this.http.put(`${ this.url }/stop/${ portId }`, null);
+  restart(portId): Observable<any> {
+    return this.http.put(`${ this.url }/restart/${ portId }`, null);
   }
 
-  kill(portId): Observable<any> {
-    return this.http.put(`${ this.url }/kill/${ portId }`, null);
+  pause(portId): Observable<any> {
+    return this.http.put(`${ this.url }/pause/${ portId }`, null);
+  }
+
+  visible(bot: any): Observable<any> {
+    return this.http.put(`${ this.url }/visible/${ bot.port }`, {
+      visible: bot.visible
+    });
   }
 
   create(body: any): Observable<any> {
