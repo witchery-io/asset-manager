@@ -73,6 +73,8 @@
       <app-order *ngIf="order" [order]="order" [type]="this.orderService.tradeType"></app-order>
     </div>
   </div>
+
+  <app-status-bar [groups]="groups" [accounts]="accounts"></app-status-bar>
 </div>
 
 <ng-template #tradingModal class="modal-sm">

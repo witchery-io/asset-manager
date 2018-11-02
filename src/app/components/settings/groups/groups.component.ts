@@ -108,7 +108,7 @@ export class GroupsComponent implements OnInit {
     this.orderService.tradeType = 'group';
     this.orderService.tradeTypeId = this.group.id;
 
-    this.orderService.geGroupBalance(this.group.id)
+    this.orderService.getGroupBalance(this.group.id)
       .subscribe(
         balance => {
           this.balance = balance;
