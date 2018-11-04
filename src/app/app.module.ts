@@ -30,6 +30,7 @@ import { BotComponent } from './components/bots/templates/bot/bot.component';
 import { BotOrderComponent } from './components/bots/templates/bot/bot-order/bot-order.component';
 import { OrderItemComponent } from './components/bots/templates/bot/bot-order/order-item/order-item.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { StatusBarComponent } from './components/trading/status-bar/status-bar.component';
 
 library.add(fas);
 
@@ -50,6 +51,7 @@ library.add(fas);
     BotOrderComponent,
     OrderItemComponent,
     DashboardComponent,
+    StatusBarComponent,
   ],
   imports: [
     BrowserModule,

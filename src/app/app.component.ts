@@ -39,13 +39,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.fetchTicks();
     this.fetchOrders();
+    this.orderService.fetchBalance();
 
     setInterval(() => {
       this.fetchTicks();
-    }, 9000);
-    setInterval(() => {
       if (this.orderService.tradeTypeId && this.orderService.tradeType) {
         this.fetchOrders();
+        this.orderService.fetchBalance();
       }
     }, 9000);
 
@@ -90,37 +90,27 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   fetchOrders() {
-
     if (this.orderService.tradeType === 'group') {
-      this.orderService.getGroupOrders(this.orderService.tradeTypeId, this.order.groupByPair)
-        .subscribe(
-          orders => {
-            this.orderService.setOrders(orders);
-          }
-        );
+      this.orderService.getGroupOrders(this.orderService.tradeTypeId, this.order.groupByPair).subscribe(
+        orders => {
+          this.orderService.setOrders(orders);
+        });
 
+      this.orderService.getGroupPositions(this.orderService.tradeTypeId, this.order.groupByPair).subscribe(
+        positions => {
+          this.orderService.setPositions(positions);
+        });
 
-      this.orderService.getGroupPositions(this.orderService.tradeTypeId, this.order.groupByPair)
-        .subscribe(
-          positions => {
-            this.orderService.setPositions(positions);
-          }
-        );
+    } else if (this.orderService.tradeType === 'account') {
+      this.orderService.getAccountOrders(this.orderService.tradeTypeId, this.order.groupByPair).subscribe(
+        orders => {
+          this.orderService.setOrders(orders);
+        });
 
-    } else {
-      this.orderService.getAccountOrders(this.orderService.tradeTypeId, this.order.groupByPair)
-        .subscribe(
-          orders => {
-            this.orderService.setOrders(orders);
-          }
-        );
-
-      this.orderService.getAccountPositions(this.orderService.tradeTypeId, this.order.groupByPair)
-        .subscribe(
-          positions => {
-            this.orderService.setPositions(positions);
-          }
-        );
+      this.orderService.getAccountPositions(this.orderService.tradeTypeId, this.order.groupByPair).subscribe(
+        positions => {
+          this.orderService.setPositions(positions);
+        });
     }
   }
 
