@@ -75,7 +75,12 @@
           </span>
           <span *ngIf="b.margin === null || b.margin.length !== 2">0</span>
         </td>
-        <td scope="col">{{b.funding | number}}</td>
+        <td scope="col">
+          <span *ngIf="b.funding !== null && b.funding.length === 2">
+            {{b.funding[0] | number}} / {{b.funding[1] | number}}
+          </span>
+          <span *ngIf="b.funding === null || b.funding.length !== 2">0</span>
+        </td>
       </tr>
       </tbody>
     </table>
