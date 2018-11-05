@@ -2,49 +2,49 @@
   <div class="row text-white">
     <div class="col">
       <h6>
-        <small class="text-muted">BC</small>
+        <small>BC</small>
         <div>{{ balance.base_currency }}</div>
       </h6>
     </div>
     <div class="col">
       <h6>
-        <small class="text-muted">Balance</small>
+        <small>Balance</small>
         <div>{{ balance.balance | number }}</div>
       </h6>
     </div>
     <div class="col">
       <h6>
-        <small class="text-muted">WSB</small>
+        <small>WSB</small>
         <div>{{ balance.wsb | number }}</div>
       </h6>
     </div>
     <div class="col">
       <h6>
-        <small class="text-muted">Equity</small>
+        <small>Equity</small>
         <div>{{ balance.equity | number }}</div>
       </h6>
     </div>
     <div class="col">
       <h6>
-        <small class="text-muted">PL (%)</small>
+        <small>PL (%)</small>
         <div>{{ balance.pl | number }}</div>
       </h6>
     </div>
     <div class="col">
       <h6>
-        <small class="text-muted">Exposure</small>
+        <small>Exposure</small>
         <div>{{ balance.exposure | number }}</div>
       </h6>
     </div>
     <div class="col">
       <h6>
-        <small class="text-muted">PL</small>
+        <small>PL</small>
         <div>{{ balance.total_pl | number }}</div>
       </h6>
     </div>
     <div class="col">
       <h6>
-        <small class="text-muted">Exp/Eq</small>
+        <small>Exp/Eq</small>
         <div>{{ balance.exposure / balance.equity * 100 | number }}</div>
       </h6>
     </div>
@@ -88,7 +88,11 @@
         </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let per of balance.per_currency_balances">
+          <tr
+            *ngFor="let per of balance.per_currency_balances"
+            (click)="chooseCurrency(per.currency)"
+            [class.table-active]="currency === per.currency"
+          >
             <th scope="row">{{ per.currency }}</th>
             <td *ngIf="curr_balance === 'exchange'"><span *ngIf="per.exchange">{{ per.exchange[0] }} / {{ per.exchange[1] }}</span></td>
             <td *ngIf="curr_balance === 'margin'"><span *ngIf="per.margin">{{ per.margin[0] }} / {{ per.margin[1] }}</span></td>
@@ -107,10 +111,10 @@
       </div>
 
       <div class="form-group">
-        <input type="number" class="form-control form-control-sm" formControlName="fee">
+        <input type="number" class="form-control form-control-sm" formControlName="amount">
       </div>
 
-      <button type="submit" class="btn btn-primary">Transfer</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!transferForm.valid">Transfer</button>
     </form>
   </div>
 </ng-template>
