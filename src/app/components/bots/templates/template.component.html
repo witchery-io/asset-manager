@@ -13,9 +13,9 @@
         <th class="col-2">Bot P/L - (Current P/L+Close Positions P/L)</th>
         <th class="col-2">
           <fa-icon
-            (click)="isShowSub = !isShowSub"
-            [icon]="isShowSub ? 'plus' : 'minus'"
-            [title]="isShowSub? 'open' : 'close'"
+            (click)="openBot(!isHideSub)"
+            [icon]="isHideSub ? 'plus' : 'minus'"
+            [title]="isHideSub? 'open' : 'close'"
             class="float-right"
           ></fa-icon>
           <fa-icon
@@ -33,7 +33,7 @@
         </th>
       </tr>
       </thead>
-      <tbody [hidden]="isShowSub">
+      <tbody [hidden]="isHideSub">
       <tr>
         <th class="p-0" colspan="9">
           <app-bot *ngFor="let bot of template.bots" [bot]="bot"></app-bot>

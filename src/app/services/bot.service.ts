@@ -89,6 +89,8 @@ export class BotService {
     ],
   };
 
+  bots = [];
+
   constructor(
     public http: HttpClient,
   ) {
@@ -320,5 +322,11 @@ export class BotService {
 
   updateBotSettings(model: any): Observable<any> { // update method
     return this.http.put(`${ this.url }`, model);
+  }
+
+  fetchBots() {
+    this.getTemplates().subscribe(bots => {
+      this.bots = bots;
+    });
   }
 }

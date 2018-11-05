@@ -14,7 +14,7 @@ export class TemplateComponent implements OnInit {
   @Input() accounts: any;
 
   modalRef: BsModalRef;
-  isShowSub = true;
+  isHideSub = false;
   editForm: FormGroup;
 
   gridForm: FormGroup;
@@ -77,6 +77,8 @@ export class TemplateComponent implements OnInit {
       ia: this.iaForm,
       ea: this.eaForm,
     });
+
+    this.isHideSub = JSON.parse(localStorage.getItem('template_collapse'))[this.template.name];
   }
 
   openModal(template: TemplateRef<any>, options = {}) {
@@ -118,5 +120,10 @@ export class TemplateComponent implements OnInit {
         }
       });
     }
+  }
+
+  openBot(status) {
+    this.isHideSub = status;
+    localStorage.setItem('template_collapse', JSON.stringify({ [this.template.name]: status } ));
   }
 }

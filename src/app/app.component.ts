@@ -1,10 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap';
 import { TickService } from './services/tick.service';
 import { AccountService } from './services/account.service';
 import { ActivatedRoute , Router} from '@angular/router';
 import { GroupsService } from './services/groups.service';
 import { OrderService } from './services/order.service';
+import { BotService } from './services/bot.service';
 import { MessageService } from './services/message.service';
 import { Subscription } from 'rxjs';
 
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private groupsService: GroupsService,
     private accountService: AccountService,
     private orderService: OrderService,
+    private botService: BotService,
     private messageService: MessageService,
     private tickService: TickService,
     private route: ActivatedRoute,
@@ -40,9 +42,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.fetchTicks();
     this.fetchOrders();
     this.orderService.fetchBalance();
+    this.botService.fetchBots();
 
     setInterval(() => {
       this.fetchTicks();
+      this.botService.fetchBots();
       if (this.orderService.tradeTypeId && this.orderService.tradeType) {
         this.fetchOrders();
         this.orderService.fetchBalance();
