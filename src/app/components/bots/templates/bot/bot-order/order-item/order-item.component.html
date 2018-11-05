@@ -24,8 +24,8 @@
       <td>{{ d.current_price }}</td>
       <td>{{ d.swap }}</td>
       <td>{{ d.pl | number}}</td>
-      <td>{{ d.plmain }}</td>
-      <td>{{ d.plmprc }}</td>
+      <td>{{ d.plmain | number:'1.0-4' }}</td>
+      <td>{{ d.plmprc | number:'1.0-4' }}</td>
       <td></td>
       <td>{{ d.open_order_time | date:'short' }}</td>
     </tr>

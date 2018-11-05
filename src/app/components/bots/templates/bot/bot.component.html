@@ -3,12 +3,12 @@
   <tr class="d-flex">
     <th class="col-1" scope="row"></th>
     <td class="col-1">{{ bot.port }}</td>
-    <td class="col-1">{{ bot.volume }}</td>
+    <td class="col-1">{{ bot.volume | number:'1.0-13' }}</td>
     <td class="col-1">{{ bot.ve }}</td>
-    <td class="col-2">{{ bot.countoc }}</td>
-    <td class="col-1">{{ bot.pl }}</td>
-    <td class="col-1">{{ bot.plclose }}</td>
-    <td class="col-2">{{ bot.pltotal }}</td>
+    <td class="col-2">{{ bot.Count_oc }}</td>
+    <td class="col-1">{{ bot.pl | number:'1.0-4' }}</td>
+    <td class="col-1">{{ bot.pl_close | number:'1.0-4' }}</td>
+    <td class="col-2">{{ bot.pl_total | number:'1.0-4' }}</td>
     <td class="col-2">
       <fa-icon
         (click)="isCollapsed = !isCollapsed"
@@ -42,4 +42,4 @@
   </tbody>
 </table>
 
-<app-bot-order [collapse]="isCollapsed" [active]="bot.activeorders" [history]="bot.closedorders"></app-bot-order>
+<app-bot-order [collapse]="isCollapsed" [active]="bot.active_orders" [history]="bot.closed_orders"></app-bot-order>
