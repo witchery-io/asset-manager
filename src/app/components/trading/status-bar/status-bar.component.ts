@@ -2,13 +2,12 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { OrderService } from '../../../services/order.service';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service'
-import {FormControl, FormGroup} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-status-bar',
   templateUrl: './status-bar.component.html',
   styleUrls: ['./status-bar.component.scss'],
-
 })
 export class StatusBarComponent implements OnInit {
 
@@ -17,21 +16,23 @@ export class StatusBarComponent implements OnInit {
   modalRef: BsModalRef;
   transferForm: FormGroup;
   curr_balance: any;
+  currency: any;
 
   constructor(
     private orderService: OrderService,
     private modalService: BsModalService,
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit() {
     this.orderService.fetchBalance();
 
-    this.transferForm = new FormGroup({
+    this.transferForm = this.fb.group({
       group: new FormControl(''),
       account: new FormControl(''),
-      market1: new FormControl(''),
-      market2: new FormControl(''),
-      fee: new FormControl(''),
+      market1: new FormControl('', [<any>Validators.required]),
+      market2: new FormControl('', [<any>Validators.required]),
+      amount: new FormControl(0, [<any>Validators.required]),
     });
   }
 
@@ -48,7 +49,13 @@ export class StatusBarComponent implements OnInit {
   }
 
   onTransfer(model: any, is_Valid: boolean) {
-    console.log(is_Valid);
-    console.log(model);
+    if (is_Valid) {
+      const model2 = {...model, ...{ currency: this.currency }};
+      this.modalRef.hide();
+    }
+  }
+
+  chooseCurrency(curr) {
+    this.currency = curr;
   }
 }
