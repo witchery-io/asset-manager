@@ -1,12 +1,12 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {BsModalRef} from 'ngx-bootstrap';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {BotService} from '../../services/bot.service';
-import {GroupsService} from '../../services/groups.service';
-import {AccountService} from '../../services/account.service';
-import {ModalService} from '../../services/modal.service';
-import {TickService} from '../../services/tick.service';
-import {Observable} from 'rxjs';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap';
+import { FormBuilder , FormControl, FormGroup, Validators} from '@angular/forms';
+import { BotService } from '../../services/bot.service';
+import { GroupsService } from '../../services/groups.service';
+import { AccountService } from '../../services/account.service';
+import { ModalService } from '../../services/modal.service';
+import { TickService } from '../../services/tick.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-bots',
@@ -22,7 +22,6 @@ export class BotsComponent implements OnInit {
   eaForm: FormGroup;
 
   strategy: any;
-  templates$: Observable<any>;
   ticks$: Observable<any>;
   currentStrategy: any;
   groups: any;
@@ -48,7 +47,6 @@ export class BotsComponent implements OnInit {
 
   ngOnInit() {
     this.botService.getStrategy().subscribe(strategy => this.strategy = strategy);
-    this.templates$ = this.botService.getTemplates();
     this.groupsService.getGroups().subscribe(groups => this.groups = groups);
     this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
     this.ticks$ = this.tickService.getTicks();
@@ -105,6 +103,10 @@ export class BotsComponent implements OnInit {
     });
   }
 
+  get templates() {
+    return this.botService.bots;
+  }
+
   openModal(template: TemplateRef<any>, options = {}) {
     this.modalRef = this.modalService.show(template, options);
   }
@@ -155,8 +157,6 @@ export class BotsComponent implements OnInit {
         break;
       }
     }
-    
-    console.log('this.currentStrategy', this.currentStrategy);
 
     this.botService.getBotTemplates(strategy_id).subscribe(templates => {
       this.str_templates = templates;
@@ -210,7 +210,7 @@ export class BotsComponent implements OnInit {
   }
 
   changeFilter(value, type): void {
-    this.filter[type] = value;
-    this.templates$ = this.botService.getTemplates(this.filter);
+    // this.filter[type] = value;
+    // this.templates$ = this.botService.getTemplates(this.filter);
   }
 }
