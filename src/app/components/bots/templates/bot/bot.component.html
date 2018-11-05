@@ -11,7 +11,7 @@
     <td class="col-2">{{ bot.pl_total | number:'1.0-4' }}</td>
     <td class="col-2">
       <fa-icon
-        (click)="isCollapsed = !isCollapsed"
+        (click)="openOrder(!isCollapsed)"
         [icon]="isCollapsed ? 'plus' : 'minus'"
         [attr.aria-expanded]="!isCollapsed"
         [title]="isCollapsed? 'open' : 'close'"
