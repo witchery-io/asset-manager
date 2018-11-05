@@ -71,9 +71,7 @@
             </option>
           </select>
         </div>
-      </ng-container>
 
-      <div *ngIf="currentStrategy?.id === 'grid'" formGroupName="grid">
         <div class="form-group">
           <label for="grid_account_exchange">Exchange</label>
           <select id="grid_account_exchange" class="form-control form-control-sm" formControlName="exchange"
@@ -111,7 +109,9 @@
             <option value="1">Short</option>
           </select>
         </div>
+      </ng-container>
 
+      <div *ngIf="currentStrategy?.id === 'grid'" formGroupName="grid">
         <div class="form-group">
           <label for="pair">Pair</label>
           <input id="pair" class="form-control form-control-sm" formControlName="pair">
@@ -181,44 +181,6 @@
 
       <div *ngIf="currentStrategy?.id === 'ia'" formGroupName="ia">
         <div class="form-group">
-          <label for="ia_account_exchange">Exchange</label>
-          <select id="ia_account_exchange" class="form-control form-control-sm" formControlName="exchange"
-                  (change)="chooseExchange($event.target.value)">
-            <option selected value="any">Any</option>
-            <option value="bitfinex">Bitfinex</option>
-            <option value="cexio">CEX.IO</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="ia_group">Groups</label>
-          <select id="ia_group" class="form-control form-control-sm" formControlName="group"
-                  (change)="changeSelect($event, 'group')">
-            <option *ngFor="let group of groups" [value]="group.id">
-              {{ group.name }}
-            </option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="ia_accounts">Accounts</label>
-          <select id="ia_accounts" class="form-control form-control-sm" formControlName="account"
-                  (change)="changeSelect($event, 'account')">
-            <option *ngFor="let a of accounts" [value]="a.id">
-              {{ a.user_name }}
-            </option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="ia_long_term_priority">Long Term Priority</label>
-          <select class="form-control form-control-sm" id="ia_long_term_priority" formControlName="long_term_priority">
-            <option selected value="0">Long</option>
-            <option value="1">Short</option>
-          </select>
-        </div>
-
-        <div class="form-group">
           <label for="amount">Amount</label>
           <input id="amount" class="form-control form-control-sm" formControlName="amount">
         </div>
@@ -230,44 +192,6 @@
       </div>
 
       <div *ngIf="currentStrategy?.id === 'ea'" formGroupName="ea">
-        <div class="form-group">
-          <label for="ea_account_exchange">Exchange</label>
-          <select id="ea_account_exchange" class="form-control form-control-sm" formControlName="exchange"
-                  (change)="chooseExchange($event.target.value)">
-            <option selected value="any">Any</option>
-            <option value="bitfinex">Bitfinex</option>
-            <option value="cexio">CEX.IO</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="ea_group">Groups</label>
-          <select id="ea_group" class="form-control form-control-sm" formControlName="group"
-                  (change)="changeSelect($event, 'group')">
-            <option *ngFor="let group of groups" [value]="group.id">
-              {{ group.name }}
-            </option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="ea_accounts">Accounts</label>
-          <select id="ea_accounts" class="form-control form-control-sm" formControlName="account"
-                  (change)="changeSelect($event, 'account')">
-            <option *ngFor="let a of accounts" [value]="a.id">
-              {{ a.user_name }}
-            </option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="ea_long_term_priority">Long Term Priority</label>
-          <select class="form-control form-control-sm" id="ea_long_term_priority" formControlName="long_term_priority">
-            <option selected value="0">Long</option>
-            <option value="1">Short</option>
-          </select>
-        </div>
-
         <div class="form-group">
           <label for="open_trigger">Open Trigger (%)</label>
           <input id="open_trigger" class="form-control form-control-sm" formControlName="open_trigger">
