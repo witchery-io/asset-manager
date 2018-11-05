@@ -6008,6 +6008,8 @@ export class TradingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.orderService.groupByPair = true;
+
     this.route.params.subscribe(params => {
       this.orderService.tradeType = params['type'];
       this.orderService.tradeTypeId = params['id'];

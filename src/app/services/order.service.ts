@@ -52,7 +52,7 @@ export class OrderService {
   }
 
   getGroupOrders(groupId: string, groupByPair: boolean = false): Observable<any> {
-    if (groupByPair) {
+    if (this.groupByPair) {
       return this.http.get(`${ this.url }/exchange/groups/${ groupId }/orders?groupby=pair`);
     } else {
       return this.http.get(`${ this.url }/exchange/groups/${ groupId }/orders`);
@@ -60,7 +60,7 @@ export class OrderService {
   }
 
   getGroupPositions(groupId: string, groupByPair: boolean = false): Observable<any> {
-    if (groupByPair) {
+    if (this.groupByPair) {
       return this.http.get(`${ this.url }/exchange/groups/${ groupId }/positions?groupby=pair`);
     } else {
       return this.http.get(`${ this.url }/exchange/groups/${ groupId }/positions`);
