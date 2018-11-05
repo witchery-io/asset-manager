@@ -18,7 +18,7 @@ export class BotComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // console.log(this);
+    this.isCollapsed = JSON.parse(localStorage.getItem(`template_collapse_order_${ this.bot.port }`));
   }
 
   edit() {
@@ -76,5 +76,10 @@ export class BotComponent implements OnInit {
         msg: `Error msg: ${ error1.message }`,
       });
     });
+  }
+
+  openOrder(status) {
+    this.isCollapsed = status;
+    localStorage.setItem(`template_collapse_order_${ this.bot.port }`, status);
   }
 }
