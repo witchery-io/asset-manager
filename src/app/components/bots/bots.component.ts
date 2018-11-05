@@ -52,10 +52,6 @@ export class BotsComponent implements OnInit {
     this.ticks$ = this.tickService.getTicks();
 
     this.gridForm = this.fb.group({
-      exchange: new FormControl('any'),
-      group: new FormControl('', []),
-      account: new FormControl('', []),
-      long_term_priority: new FormControl(0),
       pair: new FormControl(''),
       initial_volume: new FormControl(0),
       initial_volume_percent: new FormControl(0),
@@ -72,18 +68,11 @@ export class BotsComponent implements OnInit {
     });
 
     this.iaForm = this.fb.group({
-      exchange: new FormControl('any'),
-      group: new FormControl('', []),
-      account: new FormControl('', []),
-      long_term_priority: new FormControl(0),
       amount: new FormControl(''),
       revenue: new FormControl(''),
     });
 
     this.eaForm = this.fb.group({
-      exchange: new FormControl('any'),
-      group: new FormControl('', []),
-      account: new FormControl('', []),
       long_term_priority: new FormControl(0),
       open_trigger: new FormControl(''),
       open_trigger_volume_step: new FormControl(''),
@@ -97,6 +86,10 @@ export class BotsComponent implements OnInit {
     this.botForm = this.fb.group({
       strategy: new FormControl('', [<any>Validators.required]),
       template: new FormControl('', [<any>Validators.required]),
+      exchange: new FormControl('any'),
+      group: new FormControl('', []),
+      account: new FormControl('', []),
+      long_term_priority: new FormControl(0),
       grid: this.gridForm,
       ia: this.iaForm,
       ea: this.eaForm,

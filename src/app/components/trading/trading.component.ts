@@ -6026,17 +6026,13 @@ export class TradingComponent implements OnInit {
     //   this.fetchOrders();
     // }, 5000);
 
-    this.groupsService.getGroups()
-      .subscribe(groups => {
+    this.groupsService.getGroups().subscribe(groups => {
         this.groups = groups;
-      }
-    );
+      });
 
-    this.accountService.getAccounts()
-      .subscribe(accounts => {
+    this.accountService.getAccounts().subscribe(accounts => {
         this.accounts = accounts;
-      }
-    );
+      });
 
     this.exchangeForm = new FormGroup({
       o_type: new FormControl('limit', [<any>Validators.required]),
