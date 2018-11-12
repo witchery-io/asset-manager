@@ -12,10 +12,10 @@ import {
   styleUrls: ['./tv-chart.component.scss'],
 })
 export class TvChartComponent implements OnInit {
-  private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'AAPL';
-  private _interval: ChartingLibraryWidgetOptions['interval'] = 'D';
+  private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'Bitfinex:BTC/USD';
+  private _interval: ChartingLibraryWidgetOptions['interval'] = '15';
   // BEWARE: no trailing slash is expected in feed URL
-  private _datafeedUrl = 'https://demo_feed.tradingview.com';
+  private _datafeedUrl = 'http://192.168.5.60:4447/charts';
   private _libraryPath: ChartingLibraryWidgetOptions['library_path'] = '/assets/charting_library/';
   private _chartsStorageUrl: ChartingLibraryWidgetOptions['charts_storage_url'] = 'https://saveload.tradingview.com';
   private _chartsStorageApiVersion: ChartingLibraryWidgetOptions['charts_storage_api_version'] = '1.1';
@@ -81,48 +81,24 @@ export class TvChartComponent implements OnInit {
     this._containerId = containerId || this._containerId;
   }
 
+  constructor(
+  ) {
+  }
+
   ngOnInit() {
-    function getLanguageFromURL(): LanguageCode | null {
-      const regex = new RegExp('[\\?&]lang=([^&#]*)');
-      const results = regex.exec(location.search);
-
-      return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' ')) as LanguageCode;
-    }
-
-    const widgetOptions: ChartingLibraryWidgetOptions = {
+    new widget({
       symbol: this._symbol,
       datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl),
       interval: this._interval,
       container_id: this._containerId,
       library_path: this._libraryPath,
-      locale: getLanguageFromURL() || 'en',
       disabled_features: ['use_localstorage_for_settings'],
-      enabled_features: ['study_templates'],
-      charts_storage_url: this._chartsStorageUrl,
-      charts_storage_api_version: this._chartsStorageApiVersion,
+      enabled_features: [],
       client_id: this._clientId,
       user_id: this._userId,
+      locale: 'en',
       fullscreen: this._fullscreen,
       autosize: this._autosize,
-    };
-
-    const tvWidget = new widget(widgetOptions);
-    this._tvWidget = tvWidget;
-
-    tvWidget.onChartReady(() => {
-      const button = tvWidget.createButton()
-        .attr('title', 'Click to show a notification popup')
-        .addClass('apply-common-tooltip')
-        .on('click', () => tvWidget.showNoticeDialog({
-          title: 'Notification',
-          body: 'TradingView Charting Library API works correctly',
-          callback: () => {
-            console.log('Noticed!');
-          },
-        }));
-
-      button[0].innerHTML = 'Check API';
     });
   }
-
 }
