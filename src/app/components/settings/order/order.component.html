@@ -13,7 +13,10 @@
             <th scope="col">Market Price</th>
             <th scope="col">Stop</th>
             <th scope="col">Limit</th>
-            <th scope="col">Swap</th>
+            <th scope="col">
+              <span *ngIf="orderService.tradeType == 'group'">Fee</span>
+              <span *ngIf="orderService.tradeType != 'group'">Swap</span>
+            </th>
             <th scope="col">PL</th>
             <th scope="col">PL(BTC)</th>
             <th scope="col">PL %</th>
@@ -40,7 +43,10 @@
               <td>{{ o.current_price | number }}</td>
               <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, o, 'stop', false)" class="btn btn-xs btn-outline-danger">Add</button></td>
               <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, o, 'limit', false)" class="btn btn-xs btn-outline-warning">Add</button></td>
-              <td>{{ o.swap | number }}</td>
+              <td>
+                <span *ngIf="orderService.tradeType == 'group'">{{ o.fee | number }}</span>
+                <span *ngIf="orderService.tradeType != 'group'">{{ o.swap | number }}</span>
+              </td>
               <td>{{ o.pl | number}}</td>
               <td>{{ o.plmain | number}}</td>
               <td>{{ o.plmprc | number}}</td>
@@ -87,7 +93,10 @@
                       <td>{{ so.current_price | number }}</td>
                       <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, so, 'stop', false)" class="btn btn-xs btn-outline-danger">Add</button></td>
                       <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, so, 'limit', false)" class="btn btn-xs btn-outline-warning">Add</button></td>
-                      <td>{{ so.swap | number }}</td>
+                      <td>
+                        <span *ngIf="orderService.tradeType == 'group'">{{ o.fee | number }}</span>
+                        <span *ngIf="orderService.tradeType != 'group'">{{ o.swap | number }}</span>
+                      </td>
                       <td>{{ so.pl | number }}</td>
                       <td>{{ so.plmain | number }}</td>
                       <td>{{ so.plmprc | number }}</td>
