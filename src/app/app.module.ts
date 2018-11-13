@@ -24,7 +24,6 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ArraySortPipe } from './pipes/array-sort.pipe';
-import { HighchartsChartModule } from 'highcharts-angular';
 import { TemplateComponent } from './components/bots/templates/template.component';
 import { BotComponent } from './components/bots/templates/bot/bot.component';
 import { BotOrderComponent } from './components/bots/templates/bot/bot-order/bot-order.component';
@@ -67,7 +66,6 @@ library.add(fas);
     FormsModule,
     HttpClientModule,
     Ng2TableModule,
-    HighchartsChartModule,
     NgxSpinnerModule,
   ],
   providers: [],
