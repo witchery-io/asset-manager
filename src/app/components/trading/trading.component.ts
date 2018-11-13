@@ -3,7 +3,6 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { GroupsService } from '../../services/groups.service';
 import { AccountService } from '../../services/account.service';
 import { MessageService } from '../../services/message.service';
-import { TickService } from '../../services/tick.service';
 import { OrderService } from '../../services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -68,7 +67,6 @@ export class TradingComponent implements OnInit {
     private accountService: AccountService,
     private orderService: OrderService,
     private messageService: MessageService,
-    public tickService: TickService,
     private route: ActivatedRoute,
     private router: Router,
   ) { }

@@ -95,15 +95,7 @@ export class BotsComponent implements OnInit {
   }
 
   get ticks() {
-    return this.tickService.ticks.sort((a: any, b: any) => {
-      if (a.pair < b.pair) {
-        return -1;
-      } else if (a.pair > b.pair) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
+    return this.tickService.ticks;
   }
 
   get templates() {
