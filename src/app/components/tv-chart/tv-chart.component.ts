@@ -88,7 +88,7 @@ export class TvChartComponent implements OnInit {
   ngOnInit() {
     new widget({
       symbol: this._symbol,
-      datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl, 10000),
+      datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl, 20000),
       interval: this._interval,
       container_id: this._containerId,
       library_path: this._libraryPath,
