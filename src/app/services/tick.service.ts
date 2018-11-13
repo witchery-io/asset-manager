@@ -18,7 +18,9 @@ export class TickService {
     return this.http.get(this.ticksUrl);
   }
 
-  getTick(id = 0) {
-    return this.ticks[id];
+  fetchTicks() {
+    this.getTicks().subscribe(ticks => {
+      this.ticks = ticks;
+    });
   }
 }

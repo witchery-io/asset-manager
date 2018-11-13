@@ -39,13 +39,13 @@ export class AppComponent implements OnInit, OnDestroy {
       this.router.navigate(['']);
     }
 
-    this.fetchTicks();
+    this.tickService.fetchTicks();
     this.fetchOrders();
     this.orderService.fetchBalance();
     this.botService.fetchBots();
 
     setInterval(() => {
-      this.fetchTicks();
+      this.tickService.fetchTicks();
       this.botService.fetchBots();
       if (this.orderService.tradeTypeId && this.orderService.tradeType) {
         this.fetchOrders();
@@ -58,24 +58,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
-
-  fetchTicks() {
-    this.tickService.getTicks().subscribe(
-      ticks => {
-        ticks.sort((a: any, b: any) => {
-          if (a.pair < b.pair) {
-            return -1;
-          } else if (a.pair > b.pair) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
-
-        this.tickService.ticks = ticks;
-      }
-    );
   }
 
   get order() {

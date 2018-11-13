@@ -11,7 +11,7 @@
 
         <div class="col-2">
           <select class="form-control form-control-sm" (change)="changeFilter($event.target.value, 'pair')">
-            <option *ngFor="let tick of ticks$ | async" [value]="tick.pair">
+            <option *ngFor="let tick of ticks" [value]="tick.pair">
               {{ tick.pair }}
             </option>
           </select>
