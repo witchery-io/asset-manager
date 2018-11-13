@@ -24,13 +24,13 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ArraySortPipe } from './pipes/array-sort.pipe';
-import { HighchartsChartModule } from 'highcharts-angular';
 import { TemplateComponent } from './components/bots/templates/template.component';
 import { BotComponent } from './components/bots/templates/bot/bot.component';
 import { BotOrderComponent } from './components/bots/templates/bot/bot-order/bot-order.component';
 import { OrderItemComponent } from './components/bots/templates/bot/bot-order/order-item/order-item.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StatusBarComponent } from './components/trading/status-bar/status-bar.component';
+import { TvChartComponent } from './components/tv-chart/tv-chart.component';
 
 library.add(fas);
 
@@ -52,6 +52,7 @@ library.add(fas);
     OrderItemComponent,
     DashboardComponent,
     StatusBarComponent,
+    TvChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,7 +66,6 @@ library.add(fas);
     FormsModule,
     HttpClientModule,
     Ng2TableModule,
-    HighchartsChartModule,
     NgxSpinnerModule,
   ],
   providers: [],

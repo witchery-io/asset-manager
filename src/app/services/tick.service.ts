@@ -18,7 +18,17 @@ export class TickService {
     return this.http.get(this.ticksUrl);
   }
 
-  getTick(id = 0) {
-    return this.ticks[id];
+  fetchTicks() {
+    this.getTicks().subscribe(ticks => {
+      this.ticks = ticks.sort((a: any, b: any) => {
+        if (a.pair < b.pair) {
+          return -1;
+        } else if (a.pair > b.pair) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    });
   }
 }

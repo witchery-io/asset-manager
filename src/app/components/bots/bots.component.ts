@@ -22,7 +22,6 @@ export class BotsComponent implements OnInit {
   eaForm: FormGroup;
 
   strategy: any;
-  ticks$: Observable<any>;
   currentStrategy: any;
   groups: any;
   accounts: any;
@@ -49,7 +48,6 @@ export class BotsComponent implements OnInit {
     this.botService.getStrategy().subscribe(strategy => this.strategy = strategy);
     this.groupsService.getGroups().subscribe(groups => this.groups = groups);
     this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
-    this.ticks$ = this.tickService.getTicks();
 
     this.gridForm = this.fb.group({
       pair: new FormControl(''),
@@ -94,6 +92,10 @@ export class BotsComponent implements OnInit {
       ia: this.iaForm,
       ea: this.eaForm,
     });
+  }
+
+  get ticks() {
+    return this.tickService.ticks;
   }
 
   get templates() {
