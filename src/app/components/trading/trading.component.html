@@ -39,7 +39,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let tick of tickService.ticks; index as i">
+        <tr *ngFor="let tick of ticks; index as i">
           <td scope="row">{{ tick.pair }}</td>
           <td>{{ tick.last | number }}</td>
           <td [class.text-success]="tick.daily_change > 0" [class.text-danger]="tick.daily_change < 0">{{
