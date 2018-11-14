@@ -16,6 +16,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { HttpClientModule } from '@angular/common/http';
 import { Ng2TableModule } from 'ng2-table/ng2-table';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -61,6 +62,7 @@ library.add(fas);
     CollapseModule.forRoot(),
     TabsModule.forRoot(),
     AlertModule.forRoot(),
+    TooltipModule.forRoot(),
     FontAwesomeModule,
     ReactiveFormsModule,
     FormsModule,

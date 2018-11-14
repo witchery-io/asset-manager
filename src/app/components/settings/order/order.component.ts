@@ -7,7 +7,7 @@ import { Margin } from '../../../models/margin';
 import { Exchange } from '../../../models/exchange';
 import { AccountService } from '../../../services/account.service';
 import { MessageService } from '../../../services/message.service';
-import {NgxSpinnerService} from 'ngx-spinner';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-order',
@@ -19,6 +19,7 @@ export class OrderComponent implements OnInit {
   modalRef: BsModalRef;
   @Input() order: any;
   @Input() type: any;
+  @Input() accounts: any;
 
   exchangeForm: FormGroup;
   marginForm: FormGroup;
@@ -316,5 +317,13 @@ export class OrderComponent implements OnInit {
     } else {
       this.selectedPosition = i;
     }
+  }
+
+  tooltip(index) {
+    if (!this.accounts) {
+      return false;
+    }
+
+    return this.type === 'group' ? this.accounts[index].acc_name : '';
   }
 }
