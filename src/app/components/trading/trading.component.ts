@@ -24,7 +24,6 @@ export class TradingComponent implements OnInit {
   marginForm: FormGroup;
   groups = [];
   accounts = [];
-  ticks = [];
   orders = [];
 
   selectedOrder: number;
@@ -137,16 +136,12 @@ export class TradingComponent implements OnInit {
     this.currentOrderTab = tab_id;
   }
 
-  // get groups() {
-  //   return this.accountService.getAccounts();
-  // }
-
-  // get accounts() {
-  //   return this.accountService.getAccounts();
-  // }
+  get ticks() {
+    return this.tickService.ticks;
+  }
 
   get tick() {
-    return this.ticks[this.currentTickId];
+    return this.tickService.ticks[this.currentTickId];
   }
 
   fetchOrders() {
