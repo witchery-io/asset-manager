@@ -28,32 +28,7 @@
 
   <div class="row">
     <div class="col-3 ticks-container mb-3">
-      <table class="table table-bordered table-xs">
-        <thead>
-        <tr>
-          <th scope="col">Instrument</th>
-          <th scope="col">Last</th>
-          <th scope="col">24h%</th>
-          <th scope="col">Vol USD</th>
-          <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let tick of ticks; index as i">
-          <td scope="row">{{ tick.pair }}</td>
-          <td>{{ tick.last | number }}</td>
-          <td [class.text-success]="tick.daily_change > 0" [class.text-danger]="tick.daily_change < 0">{{
-            tick.daily_change * 100 | number }}
-          </td>
-          <td>{{ tick.volume | number }}</td>
-          <td>
-            <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-warning btn-xs" (click)="tickSettings(tradingModal, i)">
-              <fa-icon icon="plus"></fa-icon>
-            </button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <ng2-smart-table [settings]="settings" [source]="ticks"></ng2-smart-table>
     </div>
     <div class="col-9">
       <app-tv-chart></app-tv-chart>

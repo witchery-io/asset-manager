@@ -17,7 +17,6 @@ import { Order } from '../../models/order';
   styleUrls: ['./trading.component.scss'],
 })
 export class TradingComponent implements OnInit {
-
   modalRef: BsModalRef;
   currentTickId: number;
   exchangeForm: FormGroup;
@@ -25,28 +24,7 @@ export class TradingComponent implements OnInit {
   groups = [];
   accounts = [];
   orders = [];
-
-  selectedOrder: number;
-  selectedPosition: number;
   currentOrderTab: number;
-
-  public columns: Array<any> = [
-    {
-      title: 'Instrument',
-      className: ['office-header', 'text-success'],
-      name: 'pair',
-      filtering: { sort: 'asc', placeholder: 'Filter by pair' }
-    },
-    { title: 'Last', name: 'last', filtering: { filterString: '', placeholder: 'Filter by pair' } },
-    { title: '24h%', name: 'daily_change', filtering: { filterString: '', placeholder: 'Filter by pair' } },
-    { title: 'Vol USD', name: 'volume', filtering: { filterString: '', placeholder: 'Filter by pair' } },
-  ];
-
-  public config: any = {
-    sorting: { columns: this.columns },
-    className: ['table-striped', 'table-bordered', 'table-sm']
-  };
-
   enums = {
     'buy': 0,
     'sell': 1,
@@ -57,9 +35,26 @@ export class TradingComponent implements OnInit {
     'margin': 1,
   };
 
-  orderType = ['buy', 'sell'];
-  orderOType = ['stop', 'market', 'limit'];
-  orderMType = ['exchange', 'margin'];
+  settings = {
+    columns: {
+      pair: {
+        title: 'Instrument',
+        filter: true,
+      },
+      last: {
+        title: 'Last',
+        filter: false,
+      },
+      daily_change: {
+        title: '24h%',
+        filter: false,
+      },
+      volume: {
+        title: 'Vol USD',
+        filter: false,
+      },
+    }
+  };
 
   constructor(
     private modalService: BsModalService,
@@ -142,6 +137,10 @@ export class TradingComponent implements OnInit {
 
   get tick() {
     return this.tickService.ticks[this.currentTickId];
+  }
+
+  get tradeType() {
+    return this.orderService.tradeType;
   }
 
   fetchOrders() {

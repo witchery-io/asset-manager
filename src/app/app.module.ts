@@ -17,8 +17,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { HttpClientModule } from '@angular/common/http';
-import { Ng2TableModule } from 'ng2-table/ng2-table';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -65,8 +65,8 @@ library.add(fas);
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    Ng2TableModule,
     NgxSpinnerModule,
+    Ng2SmartTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
