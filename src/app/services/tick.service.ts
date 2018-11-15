@@ -24,12 +24,23 @@ export class TickService {
 
   fetchTicks() {
     this.getTicks().subscribe(ticks => {
-      this.source.load(ticks.map(function (tick, i) {
+
+      this.ticks = ticks.sort((a: any, b: any) => {
+        if (a.pair < b.pair) {
+          return -1;
+        } else if (a.pair > b.pair) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
+      this.source.load(this.ticks.map(function (tick, i) {
         return {
           ...tick,
           ...{
             daily_change: `<span class="${ tick.daily_change > 0 ? 'text-success' : 'text-danger' }">${ tick.daily_change * 100 }</span>`,
-            add: `<a class="btn btn-xs btn-outline-warning text-danger">+</a>`
+            add: i,
           }
         };
       }));

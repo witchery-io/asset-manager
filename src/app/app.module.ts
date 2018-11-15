@@ -11,6 +11,7 @@ import { BalanceComponent } from './components/settings/balance/balance.componen
 import { OrderComponent } from './components/settings/order/order.component';
 import { TradingComponent } from './components/trading/trading.component';
 import { BotsComponent } from './components/bots/bots.component';
+import { ButtonViewComponent } from './components/trading/button-view/button-view.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -53,6 +54,7 @@ library.add(fas);
     DashboardComponent,
     StatusBarComponent,
     TvChartComponent,
+    ButtonViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +70,7 @@ library.add(fas);
     NgxSpinnerModule,
     Ng2SmartTableModule,
   ],
+  entryComponents: [ButtonViewComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
