@@ -40,6 +40,7 @@ export class TradingComponent implements OnInit {
       pair: {
         title: 'Instrument',
         filter: true,
+        sortDirection: 'asc',
       },
       last: {
         title: 'Last',
@@ -48,11 +49,24 @@ export class TradingComponent implements OnInit {
       daily_change: {
         title: '24h%',
         filter: false,
+        type: 'html',
       },
       volume: {
         title: 'Vol USD',
         filter: false,
       },
+      add: {
+        title: '',
+        filter: false,
+        type: 'html',
+      },
+    },
+    pager: {
+      perPage: 100
+    },
+    actions: false,
+    attr: {
+      class: 'table table-bordered'
     }
   };
 
@@ -99,6 +113,10 @@ export class TradingComponent implements OnInit {
     });
   }
 
+  get source() {
+    return this.tickService.source;
+  }
+
   get order() {
     let array;
     if (this.orderService.tradeType === 'group') {
@@ -129,10 +147,6 @@ export class TradingComponent implements OnInit {
 
   selectTab(tab_id: number) {
     this.currentOrderTab = tab_id;
-  }
-
-  get ticks() {
-    return this.tickService.ticks;
   }
 
   get tick() {

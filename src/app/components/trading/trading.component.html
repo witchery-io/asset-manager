@@ -27,8 +27,8 @@
   </div>
 
   <div class="row">
-    <div class="col-3 ticks-container mb-3">
-      <ng2-smart-table [settings]="settings" [source]="ticks"></ng2-smart-table>
+    <div class="col-3 ticks-container mb-3 pr-0">
+      <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
     </div>
     <div class="col-9">
       <app-tv-chart></app-tv-chart>
@@ -37,7 +37,7 @@
 
   <div class="row">
     <div class="col-12">
-      <app-order *ngIf="order" [order]="order" [type]="this.orderService.tradeType"></app-order>
+      <app-order *ngIf="order" [order]="order" [type]="tradeType"></app-order>
     </div>
   </div>
 

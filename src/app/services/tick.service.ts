@@ -1,6 +1,7 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { LocalDataSource } from 'ng2-smart-table';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +9,13 @@ import {Observable} from 'rxjs';
 export class TickService {
 
   ticksUrl = 'https://tickers.vitanova.online/api/exchanges/bitfinex';
+  source: LocalDataSource;
+  ticks = [];
 
-  public ticks = [];
-
-  constructor(public http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+  ) {
+    this.source = new LocalDataSource();
   }
 
   getTicks(): Observable<any> {
@@ -20,15 +24,15 @@ export class TickService {
 
   fetchTicks() {
     this.getTicks().subscribe(ticks => {
-      this.ticks = ticks.sort((a: any, b: any) => {
-        if (a.pair < b.pair) {
-          return -1;
-        } else if (a.pair > b.pair) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+      this.source.load(ticks.map(function (tick, i) {
+        return {
+          ...tick,
+          ...{
+            daily_change: `<span class="${ tick.daily_change > 0 ? 'text-success' : 'text-danger' }">${ tick.daily_change * 100 }</span>`,
+            add: `<a class="btn btn-xs btn-outline-warning text-danger">+</a>`
+          }
+        };
+      }));
     });
   }
 }

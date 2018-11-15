@@ -1,4 +1,12 @@
-.ticks-container{
+.ticks-container {
   overflow-y: auto;
-  max-height: 350px;
+  max-height: 400px;
+}
+
+:host /deep/ ng2-smart-table {
+  font-size: 10px;
+
+  input {
+    height: 20px;
+  }
 }
