@@ -39,9 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.router.navigate(['']);
     }
 
-    console.log('AppComponent - ngOnInit');
     this.tickService.fetchTicks();
-    // this.orderService.fetchBalance();
     // this.botService.fetchBots();
 
     setInterval(() => {

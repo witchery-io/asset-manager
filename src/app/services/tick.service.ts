@@ -35,7 +35,6 @@ export class TickService {
 
   fetchTicks() {
     this.getTicks().subscribe(ticks => {
-
       this.ticks = ticks.sort((a: any, b: any) => {
         if (a.pair < b.pair) {
           return -1;

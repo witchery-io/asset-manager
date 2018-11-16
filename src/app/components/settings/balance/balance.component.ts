@@ -16,5 +16,11 @@ export class BalanceComponent {
 
   @Input() balance: any;
 
-  constructor(public orderService: OrderService) {}
+  constructor(
+    private orderService: OrderService,
+  ) { }
+
+  get tradeType() {
+    return this.orderService.tradeType;
+  }
 }

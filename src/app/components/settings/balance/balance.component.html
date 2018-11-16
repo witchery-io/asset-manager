@@ -14,41 +14,41 @@
   <div class="col">
     <h6>
       <small class="text-muted">WSB</small>
-      <div>{{balance.wsb | number}}</div>
+      <div>{{ balance.wsb | number }}</div>
     </h6>
   </div>
   <div class="col">
     <h6>
       <small class="text-muted">Equity</small>
-      <div>{{balance.equity | number}}</div>
+      <div>{{ balance.equity | number }}</div>
     </h6>
   </div>
   <div class="col">
     <h6>
       <small class="text-muted">PL (%)</small>
-      <div>{{balance.pl | number}}</div>
+      <div>{{ balance.pl | number }}</div>
     </h6>
   </div>
   <div class="col">
     <h6>
       <small class="text-muted">Exposure</small>
-      <div>{{balance.exposure | number }}</div>
+      <div>{{ balance.exposure | number }}</div>
     </h6>
   </div>
   <div class="col">
     <h6>
       <small class="text-muted">PL</small>
-      <div>{{balance.total_pl | number }}</div>
+      <div>{{ balance.total_pl | number }}</div>
     </h6>
   </div>
   <div class="col">
     <h6>
       <small class="text-muted">Exp/Eq</small>
-      <div>{{balance.exposure / balance.equity * 100  | number }}</div>
+      <div>{{ balance.exposure / balance.equity * 100  | number }}</div>
     </h6>
   </div>
 </div>
-<div *ngIf="orderService.tradeType === 'account'" class="row">
+<div *ngIf="tradeType === 'account'" class="row">
   <div class="col-12">
     <h5 class="mt-3">Balances</h5>
     <table class="table table-xs">
@@ -62,22 +62,22 @@
       </thead>
       <tbody>
       <tr *ngFor="let b of balance.per_currency_balances">
-        <td scope="col">{{b.currency}}</td>
+        <td scope="col">{{ b.currency }}</td>
         <td scope="col">
           <span *ngIf="b.exchange !== null && b.exchange.length === 2">
-            {{b.exchange[0] | number}} / {{b.exchange[1] | number}}
+            {{ b.exchange[0] | number }} / {{ b.exchange[1] | number }}
           </span>
           <span *ngIf="b.exchange === null || b.exchange.length !== 2">0</span>
         </td>
         <td scope="col">
           <span *ngIf="b.margin !== null && b.margin.length === 2">
-            {{b.margin[0] | number}} / {{b.margin[1] | number}}
+            {{ b.margin[0] | number }} / {{ b.margin[1] | number }}
           </span>
           <span *ngIf="b.margin === null || b.margin.length !== 2">0</span>
         </td>
         <td scope="col">
           <span *ngIf="b.funding !== null && b.funding.length === 2">
-            {{b.funding[0] | number}} / {{b.funding[1] | number}}
+            {{ b.funding[0] | number }} / {{ b.funding[1] | number }}
           </span>
           <span *ngIf="b.funding === null || b.funding.length !== 2">0</span>
         </td>

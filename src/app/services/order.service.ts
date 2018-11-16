@@ -23,9 +23,9 @@ export class OrderService {
   positions = [];
   balance = {};
 
-  public tradeType;
-  public tradeTypeId;
-  public groupByPair;
+  tradeType: any;
+  tradeTypeId: any;
+  groupByPair: any;
 
   url = 'http://trade.vitanova.online:50090/payments';
 
@@ -34,17 +34,23 @@ export class OrderService {
   ) { }
 
   setPositions(positions) {
-    console.log('positions', positions);
     this.positions = positions;
   }
 
   setOrders(orders) {
-    console.log('orders', orders);
     this.orders = orders;
   }
 
   setBalance(balance) {
-    console.log('balance', balance);
+    balance.per_currency_balances.sort((a: any, b: any) => {
+      if (a.currency < b.currency) {
+        return -1;
+      } else if (a.currency > b.currency) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
     this.balance = balance;
   }
 

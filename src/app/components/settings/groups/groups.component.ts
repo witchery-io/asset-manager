@@ -129,31 +129,25 @@ export class GroupsComponent implements OnInit {
     this.orderService.tradeTypeId = this.group.id;
 
     this.orderService.getGroupBalance(this.group.id)
-      .subscribe(
-        balance => {
-          this.balance = balance;
-        }
-      );
+      .subscribe(balance => {
+        this.balance = balance;
+      });
 
 
     this.orderService.getGroupOrders(this.group.id)
-      .subscribe(
-        orders => {
-          if (orders !== null && orders.length > 0) {
-            this.orderService.orders = orders;
-          }
+      .subscribe(orders => {
+        if (orders !== null && orders.length > 0) {
+          this.orderService.orders = orders;
         }
-      );
+      });
 
 
     this.orderService.getGroupPositions(this.group.id)
-      .subscribe(
-        positions => {
-          if (positions !== null && positions.length > 0) {
-            this.orderService.positions = positions;
-          }
+      .subscribe(positions => {
+        if (positions !== null && positions.length > 0) {
+          this.orderService.positions = positions;
         }
-      );
+      });
 
     this.updateGroupAccount(this.group.id);
   }
@@ -173,37 +167,28 @@ export class GroupsComponent implements OnInit {
     this.orderService.tradeTypeId = this.account.id;
 
     this.accountService.getAccount(this.account.id)
-      .subscribe(
-        account => {
-          this.account = account;
-        }
-      );
+      .subscribe(account => {
+        this.account = account;
+      });
 
     this.orderService.getAccountBalance(this.account.id)
-      .subscribe(
-        balance => {
-          this.balance = balance;
-        }
-      );
+      .subscribe(balance => {
+        this.balance = balance;
+      });
 
     this.orderService.getAccountOrders(this.account.id)
-      .subscribe(
-        orders => {
-          if (orders !== null && orders.length > 0) {
-            this.orderService.orders = orders;
-          }
+      .subscribe(orders => {
+        if (orders !== null && orders.length > 0) {
+          this.orderService.orders = orders;
         }
-      );
-
+      });
 
     this.orderService.getAccountPositions(this.account.id)
-      .subscribe(
-        positions => {
-          if (positions !== null && positions.length > 0) {
-            this.orderService.positions = positions;
-          }
+      .subscribe(positions => {
+        if (positions !== null && positions.length > 0) {
+          this.orderService.positions = positions;
         }
-      );
+      });
   }
 
   edit(item_index, template: TemplateRef<any>) {

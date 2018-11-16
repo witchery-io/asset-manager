@@ -77,10 +77,6 @@ export class OrderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    // console.log('OrderComponent - ngOnInit');
-    // this.orderService.fetchOrders();
-
     this.exchangeForm = new FormGroup({
       o_type: new FormControl('limit', [<any>Validators.required]),
       price: new FormControl(0),
@@ -111,14 +107,12 @@ export class OrderComponent implements OnInit {
     if (this.currentlyDeletingType === 'position') {
       this.orderService.closePosition(this.currentlyDeleting)
         .subscribe(() => {
-          console.log('===================== order component');
           this.orderService.fetchOrders();
           }
         );
     } else {
       this.orderService.cancelOrder(this.currentlyDeleting)
         .subscribe(() => {
-          console.log('===================== order component');
             this.orderService.fetchOrders();
           }
         );
@@ -200,14 +194,12 @@ export class OrderComponent implements OnInit {
           if (this.orderService.tradeType === 'group') {
             this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
               .subscribe(() => {
-                console.log('===================== order component');
                   this.orderService.fetchOrders();
                 }
               );
           } else if (this.orderService.tradeType === 'account') {
             this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
               .subscribe(() => {
-                console.log('===================== order component');
                   this.orderService.fetchOrders();
                 }
               );
@@ -228,14 +220,12 @@ export class OrderComponent implements OnInit {
       if (this.orderService.tradeType === 'group') {
         this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
           .subscribe(() => {
-            console.log('===================== order component');
               this.orderService.fetchOrders();
             }
           );
       } else if (this.orderService.tradeType === 'account') {
         this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
           .subscribe(() => {
-            console.log('===================== order component');
               this.orderService.fetchOrders();
             }
           );
@@ -297,5 +287,9 @@ export class OrderComponent implements OnInit {
 
   get role() {
     return this.accountService.role;
+  }
+
+  get tradeType() {
+    return this.orderService.tradeType;
   }
 }
