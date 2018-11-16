@@ -7,7 +7,7 @@ import { Margin } from '../../../models/margin';
 import { Exchange } from '../../../models/exchange';
 import { AccountService } from '../../../services/account.service';
 import { MessageService } from '../../../services/message.service';
-import {NgxSpinnerService} from 'ngx-spinner';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-order',
@@ -17,7 +17,6 @@ import {NgxSpinnerService} from 'ngx-spinner';
 export class OrderComponent implements OnInit {
 
   modalRef: BsModalRef;
-  @Input() order: any;
   @Input() type: any;
 
   exchangeForm: FormGroup;
@@ -51,24 +50,18 @@ export class OrderComponent implements OnInit {
   currentlyDeletingType: string;
 
   curr_mod_ord: any;
+  modify = false;
 
   constructor(
     public orderService: OrderService,
     private modalService: BsModalService,
-    public accountService: AccountService,
+    private accountService: AccountService,
     private messageService: MessageService,
     private spinner: NgxSpinnerService,
-  ) {
-  }
-
-  // ngOnChanges(changes: SimpleChanges) {
-  //   // console.log(changes);
-  //   // this.fetchOrders();
-  // }
+  ) { }
 
   ngOnInit() {
-    // this.selectTab(0);
-    this.fetchOrders();
+    this.orderService.fetchOrders();
 
     this.exchangeForm = new FormGroup({
       o_type: new FormControl('limit', [<any>Validators.required]),
@@ -96,43 +89,19 @@ export class OrderComponent implements OnInit {
     this.currentOrderTab = tab_id;
   }
 
-  fetchOrders() {
-
-    // this.orders = [];
-    //
-    // if (this.order.type === 'group') {
-    //   this.orderService.getGroupOrders(this.order.id, this.order.groupByPair)
-    //     .subscribe(
-    //       orders => {
-    //         this.orders = orders;
-    //       }
-    //     );
-    // } else {
-    //   this.orderService.getAccountOrders(this.order.id, this.order.groupByPair)
-    //     .subscribe(
-    //       orders => {
-    //         this.orders = orders;
-    //       }
-    //     );
-    // }
-
-  }
-
   confirm(): void {
-
     if (this.currentlyDeletingType === 'position') {
       this.orderService.closePositon(this.currentlyDeleting)
         .subscribe(
-          data => {
-            this.fetchOrders();
+          () => {
+            this.orderService.fetchOrders();
           }
         );
     } else {
       this.orderService.cancelOrder(this.currentlyDeleting)
         .subscribe(
-          data => {
-            this.fetchOrders();
-
+          () => {
+            this.orderService.fetchOrders();
           }
         );
     }
@@ -141,24 +110,17 @@ export class OrderComponent implements OnInit {
   }
 
   decline(): void {
-    console.log('Declined!');
-    console.log(this.currentOrderTab);
     this.modalRef.hide();
   }
-
-  public modify = false;
 
   openOrderModal(template, order, type, modify) {
     this.modify = modify;
     this.currentOrder = order;
-    console.log(type);
     this.marginForm.patchValue({
       o_type: type,
       amount: this.currentOrder.amount,
     });
-    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
-    // this.staticTabs.tabs[1].active = true;
-
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
 
   openModifyModal(template: TemplateRef<any>, parent_index, child_index) {
@@ -201,7 +163,7 @@ export class OrderComponent implements OnInit {
   placeOrder(direction, type, model) {
     if (this.modify) {
       this.orderService.cancelOrder(this.currentOrder)
-        .subscribe((data) => {
+        .subscribe(() => {
           const order: Order = {
             amount: model.amount,
             open_price: model.price,
@@ -216,15 +178,15 @@ export class OrderComponent implements OnInit {
           if (this.orderService.tradeType === 'group') {
             this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
               .subscribe(
-                gdata => {
-                  this.fetchOrders();
+                () => {
+                  this.orderService.fetchOrders();
                 }
               );
-          } else {
+          } else if (this.orderService.tradeType === 'account') {
             this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
               .subscribe(
-                gdata => {
-                  this.fetchOrders();
+                () => {
+                  this.orderService.fetchOrders();
                 }
               );
           }
@@ -244,30 +206,26 @@ export class OrderComponent implements OnInit {
       if (this.orderService.tradeType === 'group') {
         this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
           .subscribe(
-            data => {
-              this.fetchOrders();
+            () => {
+              this.orderService.fetchOrders();
             }
           );
-      } else {
+      } else if (this.orderService.tradeType === 'account') {
         this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
           .subscribe(
-            data => {
-              this.fetchOrders();
+            () => {
+              this.orderService.fetchOrders();
             }
           );
       }
     }
-
-
   }
-
 
   buyExchange(model: Exchange, isValid: boolean) {
     if (isValid) {
       this.placeOrder('buy', 'exchange', model);
       this.modalRef.hide();
     }
-
   }
 
   sellExchange(model: Exchange, isValid: boolean) {
@@ -275,7 +233,6 @@ export class OrderComponent implements OnInit {
       this.placeOrder('sell', 'exchange', model);
       this.modalRef.hide();
     }
-
   }
 
   buyMargin(model: Margin, isValid: boolean) {
@@ -283,7 +240,6 @@ export class OrderComponent implements OnInit {
       this.placeOrder('buy', 'margin', model);
       this.modalRef.hide();
     }
-
   }
 
   sellMargin(model: Margin, isValid: boolean) {
@@ -291,7 +247,6 @@ export class OrderComponent implements OnInit {
       this.placeOrder('sell', 'margin', model);
       this.modalRef.hide();
     }
-
   }
 
   get positions() {
@@ -316,5 +271,9 @@ export class OrderComponent implements OnInit {
     } else {
       this.selectedPosition = i;
     }
+  }
+
+  get role() {
+    return this.accountService.role;
   }
 }

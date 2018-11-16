@@ -94,22 +94,29 @@ export class OrderService {
     return this.http.post(`${ this.url }/exchange/orders/delete`, order);
   }
 
-  fetchGroupOrders(groupId: string, groupByPair: boolean = false) {
-    this.getGroupOrders(groupId, groupByPair)
-      .subscribe(
-        orders => {
-          this.orders = orders;
-        }
-      );
-  }
+  fetchOrders() {
+    if (this.tradeType === 'group') {
+      this.getGroupOrders(this.tradeTypeId, true)
+        .subscribe(orders => {
+          this.setOrders(orders);
+        });
 
-  fetchAccountOrders(accountId: string, groupByPair: boolean = false) {
-    this.getAccountOrders(accountId, groupByPair)
-      .subscribe(
-        orders => {
-          this.orders = orders;
-        }
-      );
+      this.getGroupPositions(this.tradeTypeId, true)
+        .subscribe(positions => {
+          this.setPositions(positions);
+        });
+
+    } else if (this.tradeType === 'account') {
+      this.getAccountOrders(this.tradeTypeId, true)
+        .subscribe(orders => {
+          this.setOrders(orders);
+        });
+
+      this.getAccountPositions(this.tradeTypeId, true)
+        .subscribe(positions => {
+          this.setPositions(positions);
+        });
+    }
   }
 
   fetchBalance() {

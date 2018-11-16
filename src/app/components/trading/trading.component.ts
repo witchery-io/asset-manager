@@ -14,7 +14,6 @@ import { ButtonViewComponent } from './button-view/button-view.component';
 export class TradingComponent implements OnInit {
   groups = [];
   accounts = [];
-
   settings = {
     columns: {
       pair: {
@@ -65,6 +64,7 @@ export class TradingComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.orderService.tradeType = params['type'];
       this.orderService.tradeTypeId = params['id'];
+      this.orderService.fetchOrders();
     });
 
     this.groupsService.getGroups().subscribe(groups => {
@@ -88,22 +88,15 @@ export class TradingComponent implements OnInit {
     return this.tickService.source;
   }
 
+  get tradeType() {
+    return this.orderService.tradeType;
+  }
+
   changeType(type, current_type_id) {
     this.orderService.tradeTypeId = current_type_id;
     this.orderService.tradeType = type;
     this.orderService.fetchBalance();
+    this.orderService.fetchOrders();
     this.router.navigate([`/dashboard/trading/${ type }/${ current_type_id }`]);
-  }
-
-  get order() {
-    return {
-      id: this.orderService.tradeTypeId,
-      type: this.orderService.tradeType,
-      groupByPair: true,
-    };
-  }
-
-  get tradeType() {
-    return this.orderService.tradeType;
   }
 }
