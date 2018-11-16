@@ -1,7 +1,18 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { LocalDataSource } from 'ng2-smart-table';
+import {
+  Injectable,
+} from '@angular/core';
+
+import {
+  HttpClient,
+} from '@angular/common/http';
+
+import {
+  Observable,
+} from 'rxjs';
+
+import {
+  LocalDataSource,
+} from 'ng2-smart-table';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +30,6 @@ export class TickService {
   }
 
   getTicks(): Observable<any> {
-    console.log('TickService - getTicks');
     return this.http.get(this.ticksUrl);
   }
 

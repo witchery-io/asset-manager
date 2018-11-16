@@ -1,7 +1,18 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Order } from '../models/order';
-import { Observable } from 'rxjs';
+import {
+  Injectable,
+} from '@angular/core';
+
+import {
+  HttpClient,
+} from '@angular/common/http';
+
+import {
+  Order,
+} from '../models';
+
+import {
+  Observable,
+} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,15 +33,18 @@ export class OrderService {
     public http: HttpClient,
   ) { }
 
-  setPositions(positions = []) {
+  setPositions(positions) {
+    console.log('positions', positions);
     this.positions = positions;
   }
 
-  setOrders(orders = []) {
+  setOrders(orders) {
+    console.log('orders', orders);
     this.orders = orders;
   }
 
-  setBalance(balance = {}) {
+  setBalance(balance) {
+    console.log('balance', balance);
     this.balance = balance;
   }
 
@@ -94,54 +108,40 @@ export class OrderService {
   }
 
   fetchOrders() {
-    // console.log('fetch Orders');
     if (this.tradeType === 'group') {
-      // console.log('fetch Orders - group');
-      // console.log('this.tradeTypeId', this.tradeTypeId);
       this.getGroupOrders(this.tradeTypeId, true)
         .subscribe(orders => {
-          console.log('orders', orders);
           this.setOrders(orders);
         });
 
       this.getGroupPositions(this.tradeTypeId, true)
         .subscribe(positions => {
-          console.log('positions', positions);
           this.setPositions(positions);
         });
 
     } else if (this.tradeType === 'account') {
-      // console.log('fetch Orders - account');
-      // console.log('this.tradeTypeId', this.tradeTypeId);
       this.getAccountOrders(this.tradeTypeId, true)
         .subscribe(orders => {
-          console.log('orders', orders);
           this.setOrders(orders);
         });
 
       this.getAccountPositions(this.tradeTypeId, true)
         .subscribe(positions => {
-          console.log('positions', positions);
           this.setPositions(positions);
         });
     }
   }
 
   fetchBalance() {
-    // console.log('fetch Balance');
     if (this.tradeType === 'group') {
-      // console.log('fetch Balance - group');
-      this.getGroupBalance(this.tradeTypeId).subscribe(
-        balance => {
-          // console.log('balance', balance);
+      this.getGroupBalance(this.tradeTypeId)
+        .subscribe(balance => {
           this.setBalance(balance);
         });
 
     } else if (this.tradeType === 'account') {
-      // console.log('fetch Balance - account');
-      this.getAccountBalance(this.tradeTypeId).subscribe(
-        balance => {
-          // console.log('balance', balance);
+      this.getAccountBalance(this.tradeTypeId)
+        .subscribe(balance => {
           this.setBalance(balance);
         });
     }

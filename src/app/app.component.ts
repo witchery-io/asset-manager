@@ -41,19 +41,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
     console.log('AppComponent - ngOnInit');
     this.tickService.fetchTicks();
-    // this.orderService.fetchOrders(); // r.
     // this.orderService.fetchBalance();
     // this.botService.fetchBots();
 
     setInterval(() => {
-
-      console.log('setInterval');
-      console.log('this.orderService', this.orderService);
       this.tickService.fetchTicks();
       // this.botService.fetchBots();
       if (this.orderService.tradeTypeId && this.orderService.tradeType) {
         this.orderService.fetchOrders();
-        // this.orderService.fetchBalance();
+        this.orderService.fetchBalance();
       }
     }, 9000);
 

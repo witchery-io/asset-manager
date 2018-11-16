@@ -1,5 +1,10 @@
-import { Injectable } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap';
+import {
+  Injectable,
+} from '@angular/core';
+
+import {
+  BsModalService,
+} from 'ngx-bootstrap';
 
 @Injectable({
   providedIn: 'root'

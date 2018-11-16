@@ -1,9 +1,22 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Account} from '../models/account';
-import {Observable} from 'rxjs';
-import {environment} from '../../environments/environment';
-import {Group} from '../models/group';
+import {
+  Injectable
+} from '@angular/core';
+
+import {
+  HttpClient
+} from '@angular/common/http';
+
+import {
+  Observable
+} from 'rxjs';
+
+import {
+  environment
+} from '../../environments/environment';
+
+import {
+  Account,
+} from '../models';
 
 @Injectable({
   providedIn: 'root'

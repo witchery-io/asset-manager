@@ -45,9 +45,6 @@ export class StatusBarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('StatusBarComponent - ngOnInit');
-    // this.orderService.fetchBalance();
-
     this.transferForm = this.fb.group({
       group: new FormControl(''),
       account: new FormControl(''),

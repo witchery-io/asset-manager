@@ -78,18 +78,19 @@ export class TradingComponent implements OnInit {
       this.orderService.tradeType = params['type'];
       this.orderService.tradeTypeId = params['id'];
 
-
-      console.log('TradingComponent - ngOnInit');
+      this.orderService.fetchBalance();
       this.orderService.fetchOrders();
     });
 
-    this.groupsService.getGroups().subscribe(groups => {
-      this.groups = groups;
-    });
+    this.groupsService.getGroups()
+      .subscribe(groups => {
+        this.groups = groups;
+      });
 
-    this.accountService.getAccounts().subscribe(accounts => {
-      this.accounts = accounts;
-    });
+    this.accountService.getAccounts()
+      .subscribe(accounts => {
+        this.accounts = accounts;
+      });
   }
 
   get selectedGroup() {
@@ -109,11 +110,6 @@ export class TradingComponent implements OnInit {
   }
 
   changeType(type, current_type_id) {
-    console.log('change type');
-    this.orderService.tradeTypeId = current_type_id;
-    this.orderService.tradeType = type;
-    this.orderService.fetchBalance();
-    this.orderService.fetchOrders();
     this.router.navigate([`/dashboard/trading/${ type }/${ current_type_id }`]);
   }
 }
