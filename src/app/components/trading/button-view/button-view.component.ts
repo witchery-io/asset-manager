@@ -1,14 +1,37 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
-import { ViewCell } from 'ng2-smart-table';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { OrderService } from '../../../services/order.service';
-import { MessageService } from '../../../services/message.service';
-import { TickService } from '../../../services/tick.service';
-import { AccountService } from '../../../services/account.service';
-import { Order } from '../../../models/order';
-import { Exchange } from '../../../models/exchange';
-import { Margin } from '../../../models/margin';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  Component,
+  Input,
+  OnInit,
+  TemplateRef,
+} from '@angular/core';
+
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+
+import {
+  ViewCell,
+} from 'ng2-smart-table';
+
+import {
+  BsModalRef,
+  BsModalService,
+} from 'ngx-bootstrap';
+
+import {
+  OrderService,
+  MessageService,
+  TickService,
+  AccountService,
+} from '../../../services';
+
+import {
+  Order,
+  Exchange,
+  Margin,
+} from '../../../models';
 
 @Component({
   selector: 'app-button-view, button-view',

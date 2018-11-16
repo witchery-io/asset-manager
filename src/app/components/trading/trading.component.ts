@@ -1,10 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { GroupsService } from '../../services/groups.service';
-import { AccountService } from '../../services/account.service';
-import { OrderService } from '../../services/order.service';
-import { TickService } from '../../services/tick.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ButtonViewComponent } from './button-view/button-view.component';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
+
+import {
+  ActivatedRoute,
+  Router,
+} from '@angular/router';
+
+import {
+  ButtonViewComponent
+} from './button-view/button-view.component';
+
+import {
+  GroupsService,
+  AccountService,
+  OrderService,
+  TickService,
+} from '../../services';
 
 @Component({
   selector: 'app-trading',
@@ -64,6 +77,9 @@ export class TradingComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.orderService.tradeType = params['type'];
       this.orderService.tradeTypeId = params['id'];
+
+
+      console.log('TradingComponent - ngOnInit');
       this.orderService.fetchOrders();
     });
 
@@ -93,6 +109,7 @@ export class TradingComponent implements OnInit {
   }
 
   changeType(type, current_type_id) {
+    console.log('change type');
     this.orderService.tradeTypeId = current_type_id;
     this.orderService.tradeType = type;
     this.orderService.fetchBalance();

@@ -1,9 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+} from '@angular/core';
+
 import {
   widget,
   IChartingLibraryWidget,
   ChartingLibraryWidgetOptions,
-  LanguageCode,
 } from '../../../assets/charting_library/charting_library.min';
 
 @Component({

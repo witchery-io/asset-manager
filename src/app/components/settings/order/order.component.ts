@@ -1,13 +1,38 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { OrderService } from '../../../services/order.service';
-import { BsModalRef, BsModalService, TabsetComponent } from 'ngx-bootstrap';
-import { Order } from '../../../models/order';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Margin } from '../../../models/margin';
-import { Exchange } from '../../../models/exchange';
-import { AccountService } from '../../../services/account.service';
-import { MessageService } from '../../../services/message.service';
-import { NgxSpinnerService } from 'ngx-spinner';
+import {
+  Component,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+
+import {
+  BsModalRef,
+  BsModalService,
+  TabsetComponent,
+} from 'ngx-bootstrap';
+
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+
+import {
+  Order,
+  Margin,
+  Exchange,
+} from '../../../models';
+
+import {
+  OrderService,
+  AccountService,
+  MessageService,
+} from '../../../services';
+
+import {
+  NgxSpinnerService,
+} from 'ngx-spinner';
 
 @Component({
   selector: 'app-order',
@@ -16,24 +41,18 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class OrderComponent implements OnInit {
 
-  modalRef: BsModalRef;
   @Input() type: any;
-
+  @ViewChild('staticTabs') staticTabs: TabsetComponent;
+  modalRef: BsModalRef;
   exchangeForm: FormGroup;
   marginForm: FormGroup;
-
   modifyForm: FormGroup;
-
-  @ViewChild('staticTabs') staticTabs: TabsetComponent;
-
   selectedOrder: number;
   selectedPosition: number;
   orderType = ['buy', 'sell'];
   orderTypeO = ['stop', 'market', 'limit'];
   orderContext = ['exchange', 'margin'];
-
   currentOrder: any;
-
   enums = {
     'buy': 0,
     'sell': 1,
@@ -43,12 +62,9 @@ export class OrderComponent implements OnInit {
     'exchange': 0,
     'margin': 1,
   };
-
   currentOrderTab: number;
-
   currentlyDeleting: string;
   currentlyDeletingType: string;
-
   curr_mod_ord: any;
   modify = false;
 
@@ -61,7 +77,9 @@ export class OrderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.orderService.fetchOrders();
+
+    // console.log('OrderComponent - ngOnInit');
+    // this.orderService.fetchOrders();
 
     this.exchangeForm = new FormGroup({
       o_type: new FormControl('limit', [<any>Validators.required]),
@@ -92,15 +110,15 @@ export class OrderComponent implements OnInit {
   confirm(): void {
     if (this.currentlyDeletingType === 'position') {
       this.orderService.closePosition(this.currentlyDeleting)
-        .subscribe(
-          () => {
-            this.orderService.fetchOrders();
+        .subscribe(() => {
+          console.log('===================== order component');
+          this.orderService.fetchOrders();
           }
         );
     } else {
       this.orderService.cancelOrder(this.currentlyDeleting)
-        .subscribe(
-          () => {
+        .subscribe(() => {
+          console.log('===================== order component');
             this.orderService.fetchOrders();
           }
         );
@@ -134,8 +152,10 @@ export class OrderComponent implements OnInit {
     if (isValid) {
       this.orderService.cancelOrder(this.curr_mod_ord).subscribe(() => {
         if (this.type === 'group') {
-          this.orderService.placeGroupOrder(this.curr_mod_ord.group, { ...this.curr_mod_ord, ...model }).subscribe(() => {
-            this.orderService.getGroupOrders(this.curr_mod_ord.group).subscribe(() => {
+          this.orderService.placeGroupOrder(this.curr_mod_ord.group, { ...this.curr_mod_ord, ...model })
+            .subscribe(() => {
+            this.orderService.getGroupOrders(this.curr_mod_ord.group)
+              .subscribe(() => {
               this.messageService.sendMessage({
                 type: 'success',
                 msg: `Success modified!!!`,
@@ -143,9 +163,11 @@ export class OrderComponent implements OnInit {
               this.spinner.hide();
             });
           });
-        } else {
-          this.orderService.placeAccountOrder(this.curr_mod_ord.account, { ...this.curr_mod_ord, ...model }).subscribe(() => {
-            this.orderService.getAccountOrders(this.curr_mod_ord.account).subscribe(() => {
+        } else if (this.type === 'account') {
+          this.orderService.placeAccountOrder(this.curr_mod_ord.account, { ...this.curr_mod_ord, ...model })
+            .subscribe(() => {
+            this.orderService.getAccountOrders(this.curr_mod_ord.account)
+              .subscribe(() => {
               this.messageService.sendMessage({
                 type: 'success',
                 msg: `Success modified!!!`,
@@ -177,15 +199,15 @@ export class OrderComponent implements OnInit {
 
           if (this.orderService.tradeType === 'group') {
             this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
-              .subscribe(
-                () => {
+              .subscribe(() => {
+                console.log('===================== order component');
                   this.orderService.fetchOrders();
                 }
               );
           } else if (this.orderService.tradeType === 'account') {
             this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
-              .subscribe(
-                () => {
+              .subscribe(() => {
+                console.log('===================== order component');
                   this.orderService.fetchOrders();
                 }
               );
@@ -205,15 +227,15 @@ export class OrderComponent implements OnInit {
 
       if (this.orderService.tradeType === 'group') {
         this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
-          .subscribe(
-            () => {
+          .subscribe(() => {
+            console.log('===================== order component');
               this.orderService.fetchOrders();
             }
           );
       } else if (this.orderService.tradeType === 'account') {
         this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
-          .subscribe(
-            () => {
+          .subscribe(() => {
+            console.log('===================== order component');
               this.orderService.fetchOrders();
             }
           );

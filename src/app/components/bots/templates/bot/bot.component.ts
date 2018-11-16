@@ -1,6 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { BotService } from '../../../../services/bot.service';
-import { MessageService } from '../../../../services/message.service';
+import {
+  Component,
+  Input,
+  OnInit
+} from '@angular/core';
+
+import {
+  BotService,
+  MessageService,
+} from '../../../../services';
 
 @Component({
   selector: 'app-bot',

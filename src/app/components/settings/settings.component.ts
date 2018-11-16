@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { AccountService } from '../../services/account.service';
-import { GroupsService } from '../../services/groups.service';
-import {OrderService} from '../../services/order.service';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
+
+import {
+  AccountService,
+  GroupsService,
+  OrderService,
+} from '../../services';
 
 @Component({
   selector: 'app-settings',
@@ -16,13 +22,13 @@ export class SettingsComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private groupsService: GroupsService,
-    private ordersService: OrderService,
+    private orderService: OrderService,
   ) { }
 
   ngOnInit() {
     this.fetchGroup();
     this.fetchAccount();
-    this.ordersService.groupByPair = false;
+    this.orderService.groupByPair = false;
   }
 
   update() {
@@ -31,14 +37,16 @@ export class SettingsComponent implements OnInit {
   }
 
   fetchGroup() {
-    this.groupsService.getGroups().subscribe(groups => {
+    this.groupsService.getGroups()
+      .subscribe(groups => {
         this.groups = groups;
       }
     );
   }
 
   fetchAccount() {
-    this.accountService.getAccounts().subscribe(accounts => {
+    this.accountService.getAccounts()
+      .subscribe(accounts => {
         this.accounts = accounts;
       }
     );

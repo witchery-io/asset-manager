@@ -1,6 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {AccountService} from '../../services/account.service';
-import {Router} from '@angular/router';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
+
+import {
+  Router,
+} from '@angular/router';
+
+import {
+  AccountService,
+} from '../../services';
 
 @Component({
   selector: 'app-main',
@@ -12,9 +21,10 @@ export class MainComponent implements OnInit {
   login = '';
   password = '';
 
-  constructor(public accountService: AccountService, public router: Router) {
-
-  }
+  constructor(
+    public accountService: AccountService,
+    public router: Router,
+  ) { }
 
   ngOnInit() {
   }

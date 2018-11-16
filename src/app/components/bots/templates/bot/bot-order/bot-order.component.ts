@@ -1,4 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 
 @Component({
   selector: 'app-bot-order',
@@ -6,13 +10,12 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./bot-order.component.scss'],
 })
 export class BotOrderComponent implements OnInit {
-
   @Input() active: any;
-
   @Input() history: any;
 
-  constructor() { }
+  constructor(
+  ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit(
+  ) {}
 }

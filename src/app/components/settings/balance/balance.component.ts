@@ -1,5 +1,11 @@
-import { Component, Input } from '@angular/core';
-import {OrderService} from '../../../services/order.service';
+import {
+  Component,
+  Input,
+} from '@angular/core';
+
+import {
+  OrderService,
+} from '../../../services';
 
 @Component({
   selector: 'app-balance',

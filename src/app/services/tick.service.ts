@@ -19,6 +19,7 @@ export class TickService {
   }
 
   getTicks(): Observable<any> {
+    console.log('TickService - getTicks');
     return this.http.get(this.ticksUrl);
   }
 

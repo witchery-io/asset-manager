@@ -1,10 +1,32 @@
-import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Account } from '../../../models/account';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { AccountService } from '../../../services/account.service';
-import { OrderService } from '../../../services/order.service';
-import { MessageService } from '../../../services/message.service';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  TemplateRef,
+} from '@angular/core';
+
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+
+import {
+  Account,
+} from '../../../models';
+
+import {
+  BsModalRef,
+  BsModalService,
+} from 'ngx-bootstrap';
+
+import {
+  AccountService,
+  OrderService,
+  MessageService,
+} from '../../../services';
 
 @Component({
   selector: 'app-accounts',
@@ -87,37 +109,28 @@ export class AccountsComponent implements OnInit {
     this.orderService.tradeTypeId = this.account.id;
 
     this.accountService.getAccount(this.account.id)
-      .subscribe(
-        account => {
-          this.account = account;
-        }
-      );
+      .subscribe(account => {
+        this.account = account;
+      });
 
     this.orderService.getAccountBalance(this.account.id)
-      .subscribe(
-        balance => {
-          this.balance = balance;
-        }
-      );
+      .subscribe(balance => {
+        this.balance = balance;
+      });
 
-    this.orderService.getAccountOrders(this.account.id, false)
-      .subscribe(
-        orders => {
-          if (orders !== null && orders.length > 0) {
-            this.orderService.orders = orders;
-          }
+    this.orderService.getAccountOrders(this.account.id)
+      .subscribe(orders => {
+        if (orders !== null && orders.length > 0) {
+          this.orderService.orders = orders;
         }
-      );
+      });
 
-
-    this.orderService.getAccountPositions(this.account.id, false)
-      .subscribe(
-        positions => {
-          if (positions !== null && positions.length > 0) {
-            this.orderService.positions = positions;
-          }
+    this.orderService.getAccountPositions(this.account.id)
+      .subscribe(positions => {
+        if (positions !== null && positions.length > 0) {
+          this.orderService.positions = positions;
         }
-      );
+      });
   }
 
   edit(item_index, template: TemplateRef<any>) {
