@@ -83,7 +83,7 @@ export class OrderService {
     }
   }
 
-  closePositon(position): Observable<any> {
+  closePosition(position): Observable<any> {
     if (position.amount < 0) {
       position.amount = position.amount * -1;
     }

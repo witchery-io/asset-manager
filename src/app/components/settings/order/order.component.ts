@@ -91,7 +91,7 @@ export class OrderComponent implements OnInit {
 
   confirm(): void {
     if (this.currentlyDeletingType === 'position') {
-      this.orderService.closePositon(this.currentlyDeleting)
+      this.orderService.closePosition(this.currentlyDeleting)
         .subscribe(
           () => {
             this.orderService.fetchOrders();
