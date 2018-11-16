@@ -26,9 +26,10 @@ export class SettingsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.orderService.groupByPair = false;
+    this.resetOrders();
     this.fetchGroup();
     this.fetchAccount();
-    this.orderService.groupByPair = false;
   }
 
   update() {
@@ -50,5 +51,14 @@ export class SettingsComponent implements OnInit {
         this.accounts = accounts;
       }
     );
+  }
+
+  changeTab() {
+    this.resetOrders();
+  }
+
+  resetOrders() {
+    this.orderService.setOrders();
+    this.orderService.setPositions();
   }
 }

@@ -18,26 +18,23 @@ import {
   providedIn: 'root'
 })
 export class OrderService {
-
   orders = [];
   positions = [];
   balance = {};
-
   tradeType: any;
   tradeTypeId: any;
   groupByPair: any;
-
   url = 'http://trade.vitanova.online:50090/payments';
 
   constructor(
     public http: HttpClient,
   ) { }
 
-  setPositions(positions) {
+  setPositions(positions = []) {
     this.positions = positions;
   }
 
-  setOrders(orders) {
+  setOrders(orders = []) {
     this.orders = orders;
   }
 
