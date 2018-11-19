@@ -49,9 +49,10 @@ export class TickService {
         return {
           ...tick,
           ...{
-            daily_change: `<span class="${ tick.daily_change > 0 ? 'text-success' : 'text-danger' }">${ tick.daily_change * 100 }</span>`,
+            daily_change: `<span class="${ tick.daily_change > 0 ? 'text-success' : 'text-danger' }">
+                          ${ (tick.daily_change * 100).toFixed(2) }%</span>`,
             add: i,
-          }
+          },
         };
       }));
     });

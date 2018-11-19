@@ -30,35 +30,31 @@ export class TradingComponent implements OnInit {
   settings = {
     columns: {
       pair: {
-        title: 'Instrument',
-        filter: true,
-        sortDirection: 'asc',
+        title: 'INS.', // INSTRUMENT
+        sortDirection: 'ASC',
       },
       last: {
-        title: 'Last',
-        filter: false,
+        title: 'LAST',
       },
       daily_change: {
-        title: '24h%',
-        filter: false,
+        title: '24HR',
         type: 'html',
       },
       volume: {
-        title: 'Vol USD',
-        filter: false,
+        title: 'VOL USD',
       },
       add: {
-        filter: false,
         type: 'custom',
         renderComponent: ButtonViewComponent,
       },
     },
+    hideSubHeader: true,
     pager: {
       perPage: 100
     },
     actions: false,
     attr: {
-      class: 'table table-bordered'
+      class: 'table table-dark table-xs table-hover'
     }
   };
 
@@ -111,5 +107,18 @@ export class TradingComponent implements OnInit {
 
   changeType(type, current_type_id) {
     this.router.navigate([`/dashboard/trading/${ type }/${ current_type_id }`]);
+  }
+
+  onSearch(query: string = '') {
+    if (query === '') {
+      return false;
+    }
+
+    this.source.setFilter([
+      {
+        field: 'pair',
+        search: query
+      },
+    ], false);
   }
 }

@@ -1,23 +1,19 @@
-<div class="container-fluid">
-  <div class="row">
+
+  <div class="row mt-3">
     <div class="col-3">
       <div class="row">
         <div class="col-6">
-          <div class="mt-4">
-            <div class="form-group">
-              <select class="form-control form-control-sm" [ngModel]="selectedGroup" (change)="changeType('group', $event.target.value)">
-                <option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <select class="form-control form-control-sm" [ngModel]="selectedGroup" (change)="changeType('group', $event.target.value)">
+              <option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</option>
+            </select>
           </div>
         </div>
         <div class="col-6">
-          <div class="mt-4">
-            <div class="form-group">
-              <select class="form-control form-control-sm" [ngModel]="selectedAccount" (change)="changeType('account', $event.target.value)">
-                <option *ngFor="let account of accounts" [value]="account.id">{{ account.user_name }}</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <select class="form-control form-control-sm" [ngModel]="selectedAccount" (change)="changeType('account', $event.target.value)">
+              <option *ngFor="let account of accounts" [value]="account.id">{{ account.user_name }}</option>
+            </select>
           </div>
         </div>
       </div>
@@ -25,7 +21,8 @@
   </div>
 
   <div class="row">
-    <div id="ticks" class="col-3 ticks-container mb-3 pr-0">
+    <div id="ticks" class="col-3 pr-0">
+      <input #search class="search" type="text" placeholder="Search..." (keyup)="onSearch(search.value)">
       <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
     </div>
     <div class="col-9 pl-0">
@@ -40,4 +37,3 @@
   </div>
 
   <app-status-bar [groups]="groups" [accounts]="accounts"></app-status-bar>
-</div>
