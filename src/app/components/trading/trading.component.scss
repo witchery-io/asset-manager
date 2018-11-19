@@ -1,30 +1,26 @@
-#ticks::-webkit-scrollbar-track
-{
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  background-color: #F5F5F5;
-}
-
-#ticks::-webkit-scrollbar
-{
-  width: 6px;
-  height: 6px;
-  background-color: #F5F5F5;
-}
-
-#ticks::-webkit-scrollbar-thumb
-{
-  background-color: #363C42;
-}
-
-.ticks-container {
+#ticks {
   overflow-y: auto;
-  max-height: 400px;
+  max-height: 550px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .search {
+    margin: 4px 0;
+  }
 }
 
 :host /deep/ ng2-smart-table {
-  font-size: 10px;
+  ng2-smart-table-title > a {
+    color: black;
+  }
 
-  input {
-    height: 20px;
+  font-size: 12px;
+
+  tr {
+    td {
+      padding: 0 6px!important;
+    }
   }
 }

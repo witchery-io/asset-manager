@@ -1,8 +1,6 @@
-<button [disabled]="role == 'guest'" class="btn btn-outline-warning btn-xs" (click)="tickSettings(tradingModal)">
-  <fa-icon icon="plus"></fa-icon>
-</button>
+<fa-icon [hidden]="role !== 'admin'" icon="plus" (click)="tickSettings(tradingModal)"></fa-icon>
 
-<ng-template #tradingModal class="modal-sm">
+<ng-template #tradingModal>
   <div class="modal-body">
     <div class="row">
       <div class="col-12">

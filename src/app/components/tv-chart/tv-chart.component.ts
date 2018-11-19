@@ -10,6 +10,10 @@ import {
   ChartingLibraryWidgetOptions,
 } from '../../../assets/charting_library/charting_library.min';
 
+import {
+  SharedService,
+} from '../../services';
+
 @Component({
   selector: 'app-tv-chart',
   templateUrl: './tv-chart.component.html',
@@ -86,10 +90,19 @@ export class TvChartComponent implements OnInit {
   }
 
   constructor(
+    private sharedService: SharedService,
   ) {
   }
 
   ngOnInit() {
+    this.initChart();
+
+    this.sharedService.subject.subscribe(() => {
+      this.initChart();
+    });
+  }
+
+  initChart() {
     new widget({
       symbol: this._symbol,
       datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl, 20000),
@@ -103,6 +116,7 @@ export class TvChartComponent implements OnInit {
       locale: 'en',
       fullscreen: this._fullscreen,
       autosize: this._autosize,
+      // theme: 'Dark',
     });
   }
 }
