@@ -14,8 +14,8 @@
             <th scope="col">Stop</th>
             <th scope="col">Limit</th>
             <th scope="col">
-              <span *ngIf="orderService.tradeType == 'group'">Fee</span>
-              <span *ngIf="orderService.tradeType != 'group'">Swap</span>
+              <span *ngIf="tradeType === 'group'">Fee</span>
+              <span *ngIf="tradeType !== 'group'">Swap</span>
             </th>
             <th scope="col">PL</th>
             <th scope="col">PL(BTC)</th>
@@ -29,11 +29,16 @@
           <ng-container *ngFor="let o of positions; let i = index">
             <tr>
               <td scope="row">
-                <button (click)="selectOrder(i)" [disabled]="o.suborders === null || o.suborders.length == 0" *ngIf="selectedOrder != i" class="btn btn-xs btn-primary">
-                  <fa-icon icon="plus"></fa-icon>
-                </button>
-                <button (click)="selectOrder(i)" *ngIf="selectedOrder == i" class="btn btn-xs btn-outline-primary">
-                  <fa-icon icon="minus"></fa-icon>
+                <button
+                  (click)="selectOrder(i)"
+                  [disabled]="o.suborders === null || o.suborders.length == 0" *ngIf="selectedOrder != i"
+                  class="btn btn-xs btn-primary"
+                ><fa-icon icon="plus"></fa-icon></button>
+                <button
+                  (click)="selectOrder(i)"
+                  *ngIf="selectedOrder == i"
+                  class="btn btn-xs btn-outline-primary"
+                ><fa-icon icon="minus"></fa-icon>
                 </button>
               </td>
               <th scope="row">{{ o.pair }}</th>
@@ -41,11 +46,23 @@
               <td>{{ o.amount | number }}</td>
               <td>{{ o.open_price | number }}</td>
               <td>{{ o.current_price | number }}</td>
-              <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, o, 'stop', false)" class="btn btn-xs btn-outline-danger">Add</button></td>
-              <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, o, 'limit', false)" class="btn btn-xs btn-outline-warning">Add</button></td>
               <td>
-                <span *ngIf="orderService.tradeType == 'group'">{{ o.fee | number }}</span>
-                <span *ngIf="orderService.tradeType != 'group'">{{ o.swap | number }}</span>
+                <button
+                  [disabled]="role == 'guest'"
+                  (click)="openOrderModal(tradingModal, o, 'stop', false)"
+                  class="btn btn-xs btn-outline-danger"
+                >Add</button>
+              </td>
+              <td>
+                <button
+                  [disabled]="role == 'guest'"
+                  (click)="openOrderModal(tradingModal, o, 'limit', false)"
+                  class="btn btn-xs btn-outline-warning"
+                >Add</button>
+              </td>
+              <td>
+                <span *ngIf="tradeType === 'group'">{{ o.fee | number }}</span>
+                <span *ngIf="tradeType !== 'group'">{{ o.swap | number }}</span>
               </td>
               <td>{{ o.pl | number}}</td>
               <td>{{ o.plmain | number}}</td>
@@ -53,7 +70,11 @@
               <td>{{ o.exposure | number}}</td>
               <td>{{ o.open_order_time | date:'short' }}</td>
               <td>
-                <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = o; currentlyDeletingType = 'position';">close</button>
+                <button
+                  [disabled]="role == 'guest'"
+                  class="btn btn-outline-danger btn-xs ml-1"
+                  (click)="openModal(confirmModal); currentlyDeleting = o; currentlyDeletingType = 'position';"
+                >close</button>
               </td>
             </tr>
             <tr *ngIf="selectedOrder == i">
@@ -91,11 +112,23 @@
                       <td>{{ so.amount | number }}</td>
                       <td>{{ so.open_price | number }}</td>
                       <td>{{ so.current_price | number }}</td>
-                      <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, so, 'stop', false)" class="btn btn-xs btn-outline-danger">Add</button></td>
-                      <td><button [disabled]="accountService.role == 'guest'" (click)="openOrderModal(tradingModal, so, 'limit', false)" class="btn btn-xs btn-outline-warning">Add</button></td>
                       <td>
-                        <span *ngIf="orderService.tradeType == 'group'">{{ o.fee | number }}</span>
-                        <span *ngIf="orderService.tradeType != 'group'">{{ o.swap | number }}</span>
+                        <button
+                          [disabled]="role == 'guest'"
+                          (click)="openOrderModal(tradingModal, so, 'stop', false)"
+                          class="btn btn-xs btn-outline-danger"
+                        >Add</button>
+                      </td>
+                      <td>
+                        <button
+                          [disabled]="role == 'guest'"
+                          (click)="openOrderModal(tradingModal, so, 'limit', false)"
+                          class="btn btn-xs btn-outline-warning"
+                        >Add</button>
+                      </td>
+                      <td>
+                        <span *ngIf="tradeType === 'group'">{{ o.fee | number }}</span>
+                        <span *ngIf="tradeType !== 'group'">{{ o.swap | number }}</span>
                       </td>
                       <td>{{ so.pl | number }}</td>
                       <td>{{ so.plmain | number }}</td>
@@ -103,7 +136,11 @@
                       <td>{{ so.exposure | number}}</td>
                       <td>{{ so.open_order_time | date:'short' }}</td>
                       <td>
-                        <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = so; currentlyDeletingType = 'position';">close</button>
+                        <button
+                          [disabled]="role == 'guest'"
+                          class="btn btn-outline-danger btn-xs ml-1"
+                          (click)="openModal(confirmModal); currentlyDeleting = so; currentlyDeletingType = 'position';"
+                        >close</button>
                       </td>
                     </tr>
                   </ng-container>
@@ -135,12 +172,17 @@
           <ng-container *ngFor="let o of orders; let i = index">
             <tr>
               <td scope="row">
-                <button (click)="selectPosition(i)" [disabled]="o.suborders === null || o.suborders.length == 0" *ngIf="selectedPosition != i" class="btn btn-xs btn-primary">
-                  <fa-icon icon="plus"></fa-icon>
-                </button>
-                <button (click)="selectPosition(i)" *ngIf="selectedPosition == i" class="btn btn-xs btn-outline-primary">
-                  <fa-icon icon="minus"></fa-icon>
-                </button>
+                <button
+                  (click)="selectPosition(i)"
+                  [disabled]="o.suborders === null || o.suborders.length == 0"
+                  *ngIf="selectedPosition != i"
+                  class="btn btn-xs btn-primary"
+                ><fa-icon icon="plus"></fa-icon></button>
+                <button
+                  (click)="selectPosition(i)"
+                  *ngIf="selectedPosition == i"
+                  class="btn btn-xs btn-outline-primary"
+                ><fa-icon icon="minus"></fa-icon></button>
               </td>
               <th scope="row">{{ o.pair }}</th>
               <td>{{ orderContext[o.type.context] }}</td>
@@ -151,8 +193,16 @@
               <td>GTC</td>
               <td>{{ o.open_order_time | date:'short' }}</td>
               <td>
-                <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-warning btn-xs" (click)="openModifyModal(modifyModal, i, undefined)">modify</button>
-                <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal); currentlyDeleting = o; currentlyDeletingType = 'order';">cancel</button>
+                <button
+                  [disabled]="role == 'guest'"
+                  class="btn btn-outline-warning btn-xs"
+                  (click)="openModifyModal(modifyModal, i, undefined)"
+                >modify</button>
+                <button
+                  [disabled]="role == 'guest'"
+                  class="btn btn-outline-danger btn-xs ml-1"
+                  (click)="openModal(confirmModal); currentlyDeleting = o; currentlyDeletingType = 'order';"
+                >cancel</button>
               </td>
             </tr>
             <tr *ngIf="selectedPosition == i">
@@ -189,8 +239,16 @@
                       <td>GTC</td>
                       <td>{{ so.open_order_time | date:'short' }}</td>
                       <td>
-                        <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-warning btn-xs" (click)="openModifyModal(modifyModal, i, sub_i)">modify</button>
-                        <button [disabled]="accountService.role == 'guest'" class="btn btn-outline-danger btn-xs ml-1" (click)="openModal(confirmModal);  currentlyDeleting = so; currentlyDeletingType = 'order';">cancel</button>
+                        <button
+                          [disabled]="role == 'guest'"
+                          class="btn btn-outline-warning btn-xs"
+                          (click)="openModifyModal(modifyModal, i, sub_i)"
+                        >modify</button>
+                        <button
+                          [disabled]="role == 'guest'"
+                          class="btn btn-outline-danger btn-xs ml-1"
+                          (click)="openModal(confirmModal);  currentlyDeleting = so; currentlyDeletingType = 'order';"
+                        >cancel</button>
                       </td>
                     </tr>
                   </ng-container>
@@ -243,16 +301,25 @@
                     type="number"
                     class="form-control"
                     placeholder="Price"
-                    formControlName="price"
-                  >
+                    formControlName="price">
                 </div>
                 <div class="form-group col">
                   <input type="number" class="form-control" placeholder="Amount" formControlName="amount">
                 </div>
               </div>
               <div>
-                <button [disabled]="accountService.role == 'guest'"  type="submit" class="btn btn-success" (click)="buyExchange(exchangeForm.value, exchangeForm.valid)">BUY</button>
-                <button [disabled]="accountService.role == 'guest'"  type="submit" class="btn btn-danger float-right" (click)="sellExchange(exchangeForm.value, exchangeForm.valid)">SELL</button>
+                <button
+                  [disabled]="role == 'guest'"
+                  type="submit"
+                  class="btn btn-success"
+                  (click)="buyExchange(exchangeForm.value, exchangeForm.valid)"
+                >BUY</button>
+                <button
+                  [disabled]="role == 'guest'"
+                  type="submit"
+                  class="btn btn-danger float-right"
+                  (click)="sellExchange(exchangeForm.value, exchangeForm.valid)"
+                >SELL</button>
               </div>
             </form>
           </tab>
@@ -284,8 +351,18 @@
               </div>
 
               <div>
-                <button [disabled]="accountService.role == 'guest'"  type="submit" class="btn btn-success" (click)="buyMargin(marginForm.value, marginForm.valid)">BUY</button>
-                <button [disabled]="accountService.role == 'guest'"  type="submit" class="btn btn-danger float-right" (click)="sellMargin(marginForm.value, marginForm.valid)">SELL</button>
+                <button
+                  [disabled]="role == 'guest'"
+                  type="submit"
+                  class="btn btn-success"
+                  (click)="buyMargin(marginForm.value, marginForm.valid)"
+                >BUY</button>
+                <button
+                  [disabled]="role == 'guest'"
+                  type="submit"
+                  class="btn btn-danger float-right"
+                  (click)="sellMargin(marginForm.value, marginForm.valid)"
+                >SELL</button>
               </div>
             </form>
           </tab>
@@ -294,7 +371,6 @@
     </div>
   </div>
 </ng-template>
-
 
 <ng-template #modifyModal>
   <div class="modal-header">
@@ -331,14 +407,14 @@
           type="button"
           class="btn btn-outline-primary"
           aria-label="Close"
-          (click)="modalRef.hide()">CANCEL
-        </button>
+          (click)="modalRef.hide()"
+        >CANCEL</button>
         <button
-          [disabled]="accountService.role == 'guest'"
+          [disabled]="role == 'guest'"
           type="submit"
           class="btn btn-success float-right"
-          (click)="approveOrder(modifyForm.value, modifyForm.valid)">APPROVE
-        </button>
+          (click)="approveOrder(modifyForm.value, modifyForm.valid)"
+        >APPROVE</button>
       </div>
     </form>
   </div>

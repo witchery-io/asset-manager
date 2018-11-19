@@ -1,22 +1,29 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Order } from '../models/order';
-import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
+import {
+  Injectable,
+} from '@angular/core';
+
+import {
+  HttpClient,
+} from '@angular/common/http';
+
+import {
+  Order,
+} from '../models';
+
+import {
+  Observable,
+} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-
   orders = [];
   positions = [];
   balance = {};
-
-  public tradeType;
-  public tradeTypeId;
-  public groupByPair;
-
+  tradeType: any;
+  tradeTypeId: any;
+  groupByPair: any;
   url = 'http://trade.vitanova.online:50090/payments';
 
   constructor(
@@ -31,7 +38,16 @@ export class OrderService {
     this.orders = orders;
   }
 
-  setBalance(balance = {}) {
+  setBalance(balance) {
+    balance.per_currency_balances.sort((a: any, b: any) => {
+      if (a.currency < b.currency) {
+        return -1;
+      } else if (a.currency > b.currency) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
     this.balance = balance;
   }
 
@@ -83,7 +99,7 @@ export class OrderService {
     }
   }
 
-  closePositon(position): Observable<any> {
+  closePosition(position): Observable<any> {
     if (position.amount < 0) {
       position.amount = position.amount * -1;
     }
@@ -94,34 +110,41 @@ export class OrderService {
     return this.http.post(`${ this.url }/exchange/orders/delete`, order);
   }
 
-  fetchGroupOrders(groupId: string, groupByPair: boolean = false) {
-    this.getGroupOrders(groupId, groupByPair)
-      .subscribe(
-        orders => {
-          this.orders = orders;
-        }
-      );
-  }
+  fetchOrders() {
+    if (this.tradeType === 'group') {
+      this.getGroupOrders(this.tradeTypeId, true)
+        .subscribe(orders => {
+          this.setOrders(orders);
+        });
 
-  fetchAccountOrders(accountId: string, groupByPair: boolean = false) {
-    this.getAccountOrders(accountId, groupByPair)
-      .subscribe(
-        orders => {
-          this.orders = orders;
-        }
-      );
+      this.getGroupPositions(this.tradeTypeId, true)
+        .subscribe(positions => {
+          this.setPositions(positions);
+        });
+
+    } else if (this.tradeType === 'account') {
+      this.getAccountOrders(this.tradeTypeId, true)
+        .subscribe(orders => {
+          this.setOrders(orders);
+        });
+
+      this.getAccountPositions(this.tradeTypeId, true)
+        .subscribe(positions => {
+          this.setPositions(positions);
+        });
+    }
   }
 
   fetchBalance() {
     if (this.tradeType === 'group') {
-      this.getGroupBalance(this.tradeTypeId).subscribe(
-        balance => {
+      this.getGroupBalance(this.tradeTypeId)
+        .subscribe(balance => {
           this.setBalance(balance);
         });
 
     } else if (this.tradeType === 'account') {
-      this.getAccountBalance(this.tradeTypeId).subscribe(
-        balance => {
+      this.getAccountBalance(this.tradeTypeId)
+        .subscribe(balance => {
           this.setBalance(balance);
         });
     }

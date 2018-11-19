@@ -1,7 +1,24 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { BotService } from '../../../services/bot.service';
+import {
+  Component,
+  Input,
+  OnInit,
+  TemplateRef,
+} from '@angular/core';
+
+import {
+  BsModalRef,
+  BsModalService,
+} from 'ngx-bootstrap';
+
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
+
+import {
+  BotService,
+} from '../../../services';
 
 @Component({
   selector: 'app-template',

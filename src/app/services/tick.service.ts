@@ -1,6 +1,18 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {
+  Injectable,
+} from '@angular/core';
+
+import {
+  HttpClient,
+} from '@angular/common/http';
+
+import {
+  Observable,
+} from 'rxjs';
+
+import {
+  LocalDataSource,
+} from 'ng2-smart-table';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +20,13 @@ import {Observable} from 'rxjs';
 export class TickService {
 
   ticksUrl = 'https://tickers.vitanova.online/api/exchanges/bitfinex';
+  source: LocalDataSource;
+  ticks = [];
 
-  public ticks = [];
-
-  constructor(public http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+  ) {
+    this.source = new LocalDataSource();
   }
 
   getTicks(): Observable<any> {
@@ -29,6 +44,16 @@ export class TickService {
           return 0;
         }
       });
+
+      this.source.load(this.ticks.map(function (tick, i) {
+        return {
+          ...tick,
+          ...{
+            daily_change: `<span class="${ tick.daily_change > 0 ? 'text-success' : 'text-danger' }">${ tick.daily_change * 100 }</span>`,
+            add: i,
+          }
+        };
+      }));
     });
   }
 }

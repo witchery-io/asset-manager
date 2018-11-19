@@ -51,7 +51,7 @@
 
   <div class="col-6">
     <app-balance *ngIf="balance" [balance]="balance"></app-balance>
-    <app-order *ngIf="balance" [order]="balance" [type]="'account'"></app-order>
+    <app-order *ngIf="account" type="account"></app-order>
   </div>
 </div>
 

@@ -11,6 +11,7 @@ import { BalanceComponent } from './components/settings/balance/balance.componen
 import { OrderComponent } from './components/settings/order/order.component';
 import { TradingComponent } from './components/trading/trading.component';
 import { BotsComponent } from './components/bots/bots.component';
+import { ButtonViewComponent } from './components/trading/button-view/button-view.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -18,8 +19,8 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { HttpClientModule } from '@angular/common/http';
-import { Ng2TableModule } from 'ng2-table/ng2-table';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -54,6 +55,7 @@ library.add(fas);
     DashboardComponent,
     StatusBarComponent,
     TvChartComponent,
+    ButtonViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,9 +69,10 @@ library.add(fas);
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    Ng2TableModule,
     NgxSpinnerModule,
+    Ng2SmartTableModule,
   ],
+  entryComponents: [ButtonViewComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -1,12 +1,27 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap';
-import { FormBuilder , FormControl, FormGroup, Validators} from '@angular/forms';
-import { BotService } from '../../services/bot.service';
-import { GroupsService } from '../../services/groups.service';
-import { AccountService } from '../../services/account.service';
-import { ModalService } from '../../services/modal.service';
-import { TickService } from '../../services/tick.service';
-import { Observable } from 'rxjs';
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+} from '@angular/core';
+
+import {
+  BsModalRef,
+} from 'ngx-bootstrap';
+
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+
+import {
+  BotService,
+  GroupsService,
+  AccountService,
+  ModalService,
+  TickService,
+} from '../../services';
 
 @Component({
   selector: 'app-bots',

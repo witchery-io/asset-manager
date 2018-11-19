@@ -4,7 +4,6 @@
 
 export const environment = {
   production: false,
-  // apiUrl: 'http://192.168.5.68:50089/accounts/',
   apiUrl: 'http://trade.vitanova.online:50089/accounts/',
 };
 
