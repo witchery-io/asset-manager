@@ -23,8 +23,8 @@
   </div>
 
   <div class="row">
-    <div id="ticks" class="col-3 pr-0">
-      <input #search class="search" type="text" placeholder="Search..." (keyup)="onSearch(search.value)">
+    <div id="ticks" class="col-3">
+      <input #search class="search form-control form-control-sm" type="text" placeholder="Search" (keyup)="onSearch(search.value)">
       <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
     </div>
     <div class="col-9 pl-0">

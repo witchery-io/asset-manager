@@ -1,13 +1,21 @@
 #ticks {
   overflow-y: auto;
-  max-height: 400px;
+  max-height: 550px;
 
   &::-webkit-scrollbar {
     display: none;
   }
+
+  .search {
+    margin: 4px 0;
+  }
 }
 
 :host /deep/ ng2-smart-table {
+  ng2-smart-table-title > a {
+    color: black;
+  }
+
   font-size: 12px;
 
   tr {

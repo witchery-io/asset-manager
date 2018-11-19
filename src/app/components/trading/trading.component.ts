@@ -54,7 +54,7 @@ export class TradingComponent implements OnInit {
     },
     actions: false,
     attr: {
-      class: 'table table-dark table-xs table-hover'
+      class: 'table table-xs table-hover'
     }
   };
 

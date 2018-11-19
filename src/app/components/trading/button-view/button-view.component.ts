@@ -89,7 +89,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
 
   tickSettings(template: TemplateRef<any>) {
     this.currentTickId = +this.value;
-    this.openModal(template);
+    this.openModal(template, { class: 'modal-sm' });
   }
 
   placeOrder(direction, type, model) {

@@ -103,6 +103,7 @@ export class TvChartComponent implements OnInit {
       locale: 'en',
       fullscreen: this._fullscreen,
       autosize: this._autosize,
+      // theme: 'Dark',
     });
   }
 }
