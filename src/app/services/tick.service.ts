@@ -49,6 +49,8 @@ export class TickService {
         return {
           ...tick,
           ...{
+            last: tick.last.toFixed(2),
+            volume: tick.volume.toFixed(2),
             daily_change: `<span class="${ tick.daily_change > 0 ? 'text-success' : 'text-danger' }">
                           ${ (tick.daily_change * 100).toFixed(2) }%</span>`,
             add: i,
