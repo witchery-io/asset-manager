@@ -17,6 +17,7 @@ import {
   AccountService,
   OrderService,
   TickService,
+  SharedService,
 } from '../../services';
 
 @Component({
@@ -25,6 +26,7 @@ import {
   styleUrls: ['./trading.component.scss'],
 })
 export class TradingComponent implements OnInit {
+  _symbol: any;
   groups = [];
   accounts = [];
   settings = {
@@ -63,6 +65,7 @@ export class TradingComponent implements OnInit {
     private accountService: AccountService,
     private orderService: OrderService,
     private tickService: TickService,
+    private sharedService: SharedService,
     private route: ActivatedRoute,
     private router: Router,
   ) { }
@@ -120,5 +123,10 @@ export class TradingComponent implements OnInit {
         },
       ], false);
     }
+  }
+
+  onUserRowSelect($event) {
+    this._symbol = `${ $event.data.exchangename }:${ $event.data.pair }`;
+    this.sharedService.subject.next();
   }
 }
