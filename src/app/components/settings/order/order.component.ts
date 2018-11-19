@@ -43,6 +43,7 @@ export class OrderComponent implements OnInit {
 
   @Input() type: any;
   @ViewChild('staticTabs') staticTabs: TabsetComponent;
+  @Input() accounts: any;
   modalRef: BsModalRef;
   exchangeForm: FormGroup;
   marginForm: FormGroup;
@@ -291,5 +292,13 @@ export class OrderComponent implements OnInit {
 
   get tradeType() {
     return this.orderService.tradeType;
+  }
+
+  tooltip(index) {
+    if (!this.accounts) {
+      return false;
+    }
+
+    return this.type === 'group' ? this.accounts[index].acc_name : '';
   }
 }
