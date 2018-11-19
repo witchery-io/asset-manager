@@ -111,14 +111,14 @@ export class TradingComponent implements OnInit {
 
   onSearch(query: string = '') {
     if (query === '') {
-      return false;
+      this.source.setFilter([]);
+    } else {
+      this.source.setFilter([
+        {
+          field: 'pair',
+          search: query
+        },
+      ], false);
     }
-
-    this.source.setFilter([
-      {
-        field: 'pair',
-        search: query
-      },
-    ], false);
   }
 }
