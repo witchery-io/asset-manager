@@ -299,6 +299,16 @@ export class OrderComponent implements OnInit {
       return false;
     }
 
-    return this.type === 'group' ? this.accounts[index].acc_name : '';
+    if (this.type === 'group') {
+      let i = 0;
+      for (const a of this.accounts) {
+        if (a.id === index) {
+          return this.accounts[i].acc_name;
+        }
+        i++;
+      }
+    }
+
+    return '';
   }
 }

@@ -101,7 +101,7 @@
                   </thead>
                   <tbody>
                   <ng-container *ngFor="let so of o.suborders; index as sub_i">
-                    <tr [tooltip]="tooltip(sub_i)" placement="left">
+                    <tr [tooltip]="tooltip(so.account)" placement="left">
                       <td scope="row">
                         <button disabled style="opacity: 0;" class="btn btn-xs btn-primary">
                           <fa-icon icon="plus"></fa-icon>
@@ -224,7 +224,7 @@
                   </thead>
                   <tbody>
                   <ng-container *ngFor="let so of o.suborders; index as sub_i">
-                    <tr class="p-0" [tooltip]="tooltip(sub_i)" placement="left">
+                    <tr class="p-0" [tooltip]="tooltip(so.account)" placement="left">
                       <td>
                         <button disabled style="opacity: 0" class="btn btn-xs btn-outline-primary">
                           <fa-icon icon="minus"></fa-icon>
