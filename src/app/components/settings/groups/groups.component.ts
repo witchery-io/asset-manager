@@ -24,7 +24,7 @@ import {
 
 import {
   AccountService,
-  MessageService,
+  NotifierService,
   OrderService,
   GroupsService
 } from '../../../services';
@@ -47,14 +47,16 @@ export class GroupsComponent implements OnInit {
   groupAccounts: any;
   account: any;
   balance: any;
+  private readonly notifier: NotifierService;
 
   constructor(
     private modalService: BsModalService,
     private groupsService: GroupsService,
-    private messageService: MessageService,
+    private notifierService: NotifierService,
     public orderService: OrderService,
     public accountService: AccountService,
   ) {
+    this.notifier = notifierService;
   }
 
   ngOnInit() {
@@ -99,13 +101,11 @@ export class GroupsComponent implements OnInit {
     if (isValid) {
       this.groupsService.editGroup(model)
         .subscribe(() => {
-            this.modalRef.hide();
-            this.messageService.sendMessage({
-              type: 'success',
-              msg: `Group success edited`,
-            });
-          },
-        );
+          this.modalRef.hide();
+          this.notifier.notify( 'success', `Group success edited`);
+        }, error1 => {
+          this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+        });
     }
   }
 

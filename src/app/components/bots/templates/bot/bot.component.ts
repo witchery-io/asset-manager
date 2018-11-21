@@ -6,7 +6,7 @@ import {
 
 import {
   BotService,
-  MessageService,
+  NotifierService,
 } from '../../../../services';
 
 @Component({
@@ -18,11 +18,14 @@ export class BotComponent implements OnInit {
 
   @Input() bot: any;
   isCollapsed = true;
+  private readonly notifier: NotifierService;
 
   constructor(
     private botService: BotService,
-    private messageService: MessageService,
-  ) { }
+    private notifierService: NotifierService,
+  ) {
+    this.notifier = notifierService;
+  }
 
   ngOnInit() {
     this.isCollapsed = JSON.parse(localStorage.getItem(`template_collapse_order_${ this.bot.port }`));
@@ -34,10 +37,7 @@ export class BotComponent implements OnInit {
 
   stop() {
     this.botService.stop(this.bot.port).subscribe(() => {
-      this.messageService.sendMessage({
-        type: 'success',
-        msg: `Bot on ${ this.bot.port } stopped successfully`,
-      });
+      this.notifier.notify( 'success', `Bot on ${ this.bot.port } stopped successfully`);
     });
   }
 
@@ -45,27 +45,15 @@ export class BotComponent implements OnInit {
     this.bot.status_on = !this.bot.status_on;
     if (this.bot.status_on) {
       this.botService.restart(this.bot.port).subscribe(() => {
-        this.messageService.sendMessage({
-          type: 'success',
-          msg: `Bot on ${ this.bot.port } restarted successfully`,
-        });
+        this.notifier.notify( 'success', `Bot on ${ this.bot.port } restarted successfully`);
       },error1 => {
-        this.messageService.sendMessage({
-          type: 'danger',
-          msg: `Error msg: ${ error1.message }`,
-        });
+        this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
       });
     } else {
       this.botService.pause(this.bot.port).subscribe(() => {
-        this.messageService.sendMessage({
-          type: 'success',
-          msg: `Bot on ${ this.bot.port } paused successfully`,
-        });
+        this.notifier.notify( 'success', `Bot on ${ this.bot.port } paused successfully`);
       },error1 => {
-        this.messageService.sendMessage({
-          type: 'danger',
-          msg: `Error msg: ${ error1.message }`,
-        });
+        this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
       });
     }
   }
@@ -73,15 +61,9 @@ export class BotComponent implements OnInit {
   botVisible() {
     this.bot.visible = !this.bot.visible;
     this.botService.visible(this.bot).subscribe(() => {
-      this.messageService.sendMessage({
-        type: 'success',
-        msg: `Bot on ${ this.bot.port } visible successfully`,
-      });
+      this.notifier.notify( 'warning', `Bot on ${ this.bot.port } visible successfully`);
     },error1 => {
-      this.messageService.sendMessage({
-        type: 'danger',
-        msg: `Error msg: ${ error1.message }`,
-      });
+      this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
     });
   }
 

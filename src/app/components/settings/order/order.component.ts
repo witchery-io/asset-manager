@@ -27,7 +27,7 @@ import {
 import {
   OrderService,
   AccountService,
-  MessageService,
+  NotifierService,
 } from '../../../services';
 
 import {
@@ -68,14 +68,17 @@ export class OrderComponent implements OnInit {
   currentlyDeletingType: string;
   curr_mod_ord: any;
   modify = false;
+  private readonly notifier: NotifierService;
 
   constructor(
     public orderService: OrderService,
     private modalService: BsModalService,
     private accountService: AccountService,
-    private messageService: MessageService,
+    private notifierService: NotifierService,
     private spinner: NgxSpinnerService,
-  ) { }
+  ) {
+    this.notifier = notifierService;
+  }
 
   ngOnInit() {
     this.exchangeForm = new FormGroup({
@@ -107,16 +110,22 @@ export class OrderComponent implements OnInit {
   confirm(): void {
     if (this.currentlyDeletingType === 'position') {
       this.orderService.closePosition(this.currentlyDeleting)
-        .subscribe(() => {
+        .subscribe((d: any) => {
+          const _msg = `Order cancelled, ${ d.type.type }, ${ d.type.direction } ${ d.amount } ${ d.pair } @ ${ d.open_price }.#112o`;
+          this.notifier.notify( 'success', _msg);
           this.orderService.fetchOrders();
-          }
-        );
-    } else {
+        }, error1 => {
+          this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+        });
+    } else if (this.currentlyDeletingType === 'order') {
       this.orderService.cancelOrder(this.currentlyDeleting)
-        .subscribe(() => {
-            this.orderService.fetchOrders();
-          }
-        );
+        .subscribe((d: any) => {
+          const _msg = `Order cancelled, ${ d.type.type }, ${ d.type.direction } ${ d.amount } ${ d.pair } @ ${ d.open_price }.#122o`;
+          this.notifier.notify( 'success', _msg);
+          this.orderService.fetchOrders();
+        }, error1 => {
+          this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+        });
     }
 
     this.modalRef.hide();
@@ -148,31 +157,26 @@ export class OrderComponent implements OnInit {
       this.orderService.cancelOrder(this.curr_mod_ord).subscribe(() => {
         if (this.type === 'group') {
           this.orderService.placeGroupOrder(this.curr_mod_ord.group, { ...this.curr_mod_ord, ...model })
-            .subscribe(() => {
-            this.orderService.getGroupOrders(this.curr_mod_ord.group)
-              .subscribe(() => {
-              this.messageService.sendMessage({
-                type: 'success',
-                msg: `Success modified!!!`,
-              });
+            .subscribe((d: any) => {
+              const _msg = `Order modified, ${ d.type.type }, to ${ d.type.direction } ${ d.amount } ${ d.pair } @ ${ d.open_price }.#164o`;
+              this.notifier.notify( 'success', _msg);
               this.spinner.hide();
+              this.orderService.getGroupOrders(this.curr_mod_ord.group).subscribe();
+            }, error1 => {
+              this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
             });
-          });
         } else if (this.type === 'account') {
           this.orderService.placeAccountOrder(this.curr_mod_ord.account, { ...this.curr_mod_ord, ...model })
-            .subscribe(() => {
-            this.orderService.getAccountOrders(this.curr_mod_ord.account)
-              .subscribe(() => {
-              this.messageService.sendMessage({
-                type: 'success',
-                msg: `Success modified!!!`,
-              });
+            .subscribe((d: any) => {
+              const _msg = `Order modified, ${ d.type.type }, to ${ d.type.direction } ${ d.amount } ${ d.pair } @ ${ d.open_price }.#164o`;
+              this.notifier.notify( 'success', _msg);
               this.spinner.hide();
+              this.orderService.getAccountOrders(this.curr_mod_ord.account).subscribe();
+            }, error1 => {
+              this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
             });
-          });
         }
       });
-
       this.modalRef.hide();
     }
   }
@@ -191,19 +195,24 @@ export class OrderComponent implements OnInit {
               type: this.enums[model.o_type],
             }
           };
-
           if (this.orderService.tradeType === 'group') {
             this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
-              .subscribe(() => {
-                  this.orderService.fetchOrders();
-                }
-              );
+              .subscribe((d: any) => {
+                const _msg = `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.amount } @ ${ d.open_price }.#205o`;
+                this.notifier.notify( 'success', _msg);
+                this.orderService.fetchOrders();
+              }, error1 => {
+                this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+              });
           } else if (this.orderService.tradeType === 'account') {
             this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
-              .subscribe(() => {
-                  this.orderService.fetchOrders();
-                }
-              );
+              .subscribe((d: any) => {
+                const _msg = `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.amount } @ ${ d.open_price }.#214o`;
+                this.notifier.notify( 'success', _msg);
+                this.orderService.fetchOrders();
+              }, error1 => {
+                this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+              });
           }
         });
     } else {
@@ -217,19 +226,24 @@ export class OrderComponent implements OnInit {
           type: this.enums[model.o_type],
         }
       };
-
       if (this.orderService.tradeType === 'group') {
         this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
-          .subscribe(() => {
-              this.orderService.fetchOrders();
-            }
-          );
+          .subscribe((d: any) => {
+            const _msg = `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.amount } @ ${ d.open_price }.#236o`;
+            this.notifier.notify( 'success', _msg);
+            this.orderService.fetchOrders();
+          }, error1 => {
+            this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+          });
       } else if (this.orderService.tradeType === 'account') {
         this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
-          .subscribe(() => {
-              this.orderService.fetchOrders();
-            }
-          );
+          .subscribe((d: any) => {
+            const _msg = `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.amount } @ ${ d.open_price }.#245o`;
+            this.notifier.notify( 'success', _msg);
+            this.orderService.fetchOrders();
+          }, error1 => {
+            this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+          });
       }
     }
   }
