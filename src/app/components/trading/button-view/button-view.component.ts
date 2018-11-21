@@ -22,7 +22,7 @@ import {
 
 import {
   OrderService,
-  MessageService,
+  NotifierService,
   TickService,
   AccountService,
 } from '../../../services';
@@ -55,14 +55,16 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     'exchange': 0,
     'margin': 1,
   };
+  private readonly notifier: NotifierService;
 
   constructor(
     private modalService: BsModalService,
     private orderService: OrderService,
-    private messageService: MessageService,
+    private notifierService: NotifierService,
     private tickService: TickService,
     private accountService: AccountService,
   ) {
+    this.notifier = notifierService;
   }
 
   ngOnInit() {
@@ -107,21 +109,19 @@ export class ButtonViewComponent implements ViewCell, OnInit {
       this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
         .subscribe((d: any) => {
           const _msg = `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.pair } @ ${ d.open_price }.#111`;
-          this.messageService.sendMessage({
-            type: 'success',
-            msg: _msg,
-          });
+          this.notifier.notify( 'success', _msg);
           this.orderService.fetchOrders();
+        }, error1 => {
+          this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
         });
     } else if (this.orderService.tradeType === 'account') {
       this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
         .subscribe((d: any) => {
           const _msg = `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.pair } @ ${ d.open_price }.#122`;
-          this.messageService.sendMessage({
-            type: 'success',
-            msg: _msg,
-          });
+          this.notifier.notify( 'success', _msg);
           this.orderService.fetchOrders();
+        }, error1 => {
+          this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
         });
     }
   }

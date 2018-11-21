@@ -25,7 +25,7 @@ import {
 import {
   AccountService,
   OrderService,
-  MessageService,
+  NotifierService
 } from '../../../services';
 
 @Component({
@@ -41,15 +41,17 @@ export class AccountsComponent implements OnInit {
   accountForm: FormGroup;
   account: any;
   balance: any;
-
   editAccountForm: FormGroup;
+  private readonly notifier: NotifierService;
 
   constructor(
     private modalService: BsModalService,
     public accountService: AccountService,
     public orderService: OrderService,
-    private messageService: MessageService,
-  ) { }
+    private notifierService: NotifierService,
+  ) {
+    this.notifier = notifierService;
+  }
 
   ngOnInit() {
     this.accountForm = new FormGroup({
@@ -90,10 +92,7 @@ export class AccountsComponent implements OnInit {
       this.accountService.editAccount(model)
         .subscribe(() => {
             this.modalRef.hide();
-            this.messageService.sendMessage({
-              type: 'success',
-              msg: `Success edited account`,
-            });
+            this.notifier.notify( 'success', `Success edited account`);
           },
         );
     }

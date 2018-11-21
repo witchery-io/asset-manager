@@ -21,6 +21,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { NotifierModule } from 'angular-notifier';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -71,6 +72,13 @@ library.add(fas);
     HttpClientModule,
     NgxSpinnerModule,
     Ng2SmartTableModule,
+    NotifierModule.withConfig({
+      position: {
+        horizontal: {
+          position: 'right',
+        },
+      },
+    }),
   ],
   entryComponents: [ButtonViewComponent],
   providers: [],
