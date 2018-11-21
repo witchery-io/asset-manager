@@ -103,29 +103,26 @@ export class ButtonViewComponent implements ViewCell, OnInit {
         type: this.enums[model.o_type],
       }
     };
-
     if (this.orderService.tradeType === 'group') {
       this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
-        .subscribe(
-          () => {
-            this.messageService.sendMessage({
-              type: 'success',
-              msg: `You successfully read this important alert message 1 .`,
-            });
-            this.orderService.fetchOrders();
-          }
-        );
+        .subscribe((d: any) => {
+          const _msg = `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.pair } @ ${ d.open_price }.#111`;
+          this.messageService.sendMessage({
+            type: 'success',
+            msg: _msg,
+          });
+          this.orderService.fetchOrders();
+        });
     } else if (this.orderService.tradeType === 'account') {
       this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
-        .subscribe(
-          () => {
-            this.messageService.sendMessage({
-              type: 'success',
-              msg: `You successfully read this important alert message 2.`,
-            });
-            this.orderService.fetchOrders();
-          }
-        );
+        .subscribe((d: any) => {
+          const _msg = `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.pair } @ ${ d.open_price }.#122`;
+          this.messageService.sendMessage({
+            type: 'success',
+            msg: _msg,
+          });
+          this.orderService.fetchOrders();
+        });
     }
   }
 

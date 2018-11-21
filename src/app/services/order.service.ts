@@ -24,7 +24,8 @@ export class OrderService {
   tradeType: any;
   tradeTypeId: any;
   groupByPair: any;
-  url = 'http://trade.vitanova.online:50090/payments';
+  url = 'http://192.168.5.60:50090/payments';
+  // url = 'http://trade.vitanova.online:50090/payments';
 
   constructor(
     public http: HttpClient,

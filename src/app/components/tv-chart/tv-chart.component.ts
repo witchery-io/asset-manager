@@ -20,10 +20,11 @@ import {
   styleUrls: ['./tv-chart.component.scss'],
 })
 export class TvChartComponent implements OnInit {
-  private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'Bitfinex:BTC/USD';
+  private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'Bitfinex:BTCUSD';
   private _interval: ChartingLibraryWidgetOptions['interval'] = '15';
   // BEWARE: no trailing slash is expected in feed URL
   private _datafeedUrl = 'http://trade.vitanova.online:50091/charts';
+  // private _datafeedUrl = 'http://192.168.5.60:4447/charts';
   private _libraryPath: ChartingLibraryWidgetOptions['library_path'] = '/assets/charting_library/';
   private _chartsStorageUrl: ChartingLibraryWidgetOptions['charts_storage_url'] = 'https://saveload.tradingview.com';
   private _chartsStorageApiVersion: ChartingLibraryWidgetOptions['charts_storage_api_version'] = '1.1';

@@ -62,13 +62,21 @@ export class AppComponent implements OnInit, OnDestroy {
     setInterval(() => {
       this.tickService.fetchTicks();
       this.botService.fetchBots();
+      this.messageService.clearMessage();
       if (this.orderService.tradeTypeId && this.orderService.tradeType) {
         this.orderService.fetchOrders();
         this.orderService.fetchBalance();
       }
     }, 9000);
 
-    this.subscription = this.messageService.getMessage().subscribe(data => { this.alerts.push(data); });
+    this.subscription = this.messageService.getMessage()
+      .subscribe(data => {
+        if (!data) {
+          this.alerts = [];
+        } else {
+          this.alerts.push(data);
+        }
+      });
   }
 
   ngOnDestroy() {
