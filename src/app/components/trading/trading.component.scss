@@ -1,26 +1,27 @@
-#ticks {
-  overflow-y: auto;
-  max-height: 550px;
+:host /deep/ {
+  .ticks {
+    overflow-y: auto;
+    max-height: 500px;
 
-  &::-webkit-scrollbar {
-    display: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .search {
     margin: 4px 0;
   }
-}
 
-:host /deep/ ng2-smart-table {
-  ng2-smart-table-title > a {
-    color: black;
-  }
+  ng2-smart-table {
+    font-size: 12px;
+    ng2-smart-table-title > a {
+      color: black;
+    }
 
-  font-size: 12px;
-
-  tr {
-    td {
-      padding: 0 6px!important;
+    tr {
+      td {
+        padding: 0 6px!important;
+      }
     }
   }
 }
