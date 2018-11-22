@@ -6,4 +6,4 @@ export * from './order.service';
 export * from './position.service';
 export * from './tick.service';
 export * from './shared.service';
-export * from 'angular-notifier';
+export { NotifierService } from 'angular-notifier';

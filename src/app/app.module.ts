@@ -1,49 +1,21 @@
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
+import { CoreModule } from './core/core.module';
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 import {
-  NgModule,
-} from '@angular/core';
-import {
-  BrowserModule,
-} from '@angular/platform-browser';
-import {
-  HttpClientModule,
-} from '@angular/common/http';
-import {
-  ReactiveFormsModule,
-  FormsModule,
-} from '@angular/forms';
-import {
-  AppRoutingModule,
-} from './app-routing.module';
-import {
-  FontAwesomeModule,
-} from '@fortawesome/angular-fontawesome';
-import {
-  TabsModule,
-} from 'ngx-bootstrap/tabs';
-import {
-  ModalModule,
-} from 'ngx-bootstrap/modal';
-import {
-  CollapseModule,
-} from 'ngx-bootstrap/collapse';
-import {
-  AlertModule,
-} from 'ngx-bootstrap/alert';
-import {
-  TooltipModule,
-} from 'ngx-bootstrap/tooltip';
-import {
-  NgxSpinnerModule,
-} from 'ngx-spinner';
-import {
-  Ng2SmartTableModule,
-} from 'ng2-smart-table';
-import {
-  NotifierModule,
-} from 'angular-notifier';
-import {
-  AppComponent,
-} from './app.component';
+  TabsModule, ModalModule, CollapseModule, AlertModule, TooltipModule
+} from 'ngx-bootstrap';
+
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { NotifierModule } from 'angular-notifier';
+
+import { AppComponent } from './app.component';
 import {
   MainComponent,
   SettingsComponent,
@@ -61,18 +33,13 @@ import {
   StatusBarComponent,
   TvChartComponent,
 } from './components';
+
 import {
   DashboardComponent,
 } from './containers';
-import {
-  ArraySortPipe,
-} from './pipes/array-sort.pipe';
-import {
-  library,
-} from '@fortawesome/fontawesome-svg-core';
-import {
-  fas,
-} from '@fortawesome/free-solid-svg-icons';
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 library.add(fas);
 
 @NgModule({
@@ -94,11 +61,11 @@ library.add(fas);
     StatusBarComponent,
     TvChartComponent,
     ButtonViewComponent,
-    ArraySortPipe,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    CoreModule,
     ModalModule.forRoot(),
     CollapseModule.forRoot(),
     TabsModule.forRoot(),
@@ -118,8 +85,10 @@ library.add(fas);
       },
     }),
   ],
-  entryComponents: [ButtonViewComponent],
+  entryComponents: [
+    ButtonViewComponent,
+  ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
