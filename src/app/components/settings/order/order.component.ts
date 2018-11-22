@@ -63,7 +63,6 @@ export class OrderComponent implements OnInit {
     'exchange': 0,
     'margin': 1,
   };
-  currentOrderTab: number;
   currentlyDeleting: string;
   currentlyDeletingType: string;
   curr_mod_ord: any;
@@ -101,10 +100,6 @@ export class OrderComponent implements OnInit {
 
   openModal(template: TemplateRef<any>, options = {}) {
     this.modalRef = this.modalService.show(template, options);
-  }
-
-  selectTab(tab_id: number) {
-    this.currentOrderTab = tab_id;
   }
 
   confirm(): void {
