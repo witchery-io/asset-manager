@@ -1,12 +1,14 @@
 <div class="row">
-  <div class="col-6">
-    <button class="btn btn-primary btn-xs mt-3 mb-3" [disabled]="accountService.role == 'guest'" (click)="openModal(accountModal)">
-      <fa-icon icon="plus"></fa-icon> Create account
-    </button>
+  <div class="col-4">
+    <div class="form-group">
+      <button class="btn btn-primary btn-xs" [disabled]="accountService.role == 'guest'" (click)="openModal(accountModal)">
+        <fa-icon icon="plus"></fa-icon> Create account
+      </button>
+    </div>
     <table class="table table-xs">
       <thead>
       <tr>
-        <th scope="col">#</th>
+        <th scope="col"></th>
         <th scope="col">Status</th>
         <th scope="col">Acc. Name</th>
         <th scope="col">User Name</th>
@@ -49,7 +51,7 @@
     </table>
   </div>
 
-  <div class="col-6">
+  <div class="col-8">
     <app-balance *ngIf="balance" [balance]="balance"></app-balance>
     <app-order *ngIf="account" type="account"></app-order>
   </div>
