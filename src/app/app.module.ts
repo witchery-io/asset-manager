@@ -16,27 +16,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NotifierModule } from 'angular-notifier';
 
 import { AppComponent } from './app.component';
-import {
-  MainComponent,
-  SettingsComponent,
-  GroupsComponent,
-  AccountsComponent,
-  BalanceComponent,
-  OrderComponent,
-  TradingComponent,
-  BotsComponent,
-  ButtonViewComponent,
-  TemplateComponent,
-  BotComponent,
-  BotOrderComponent,
-  OrderItemComponent,
-  StatusBarComponent,
-  TvChartComponent,
-} from './components';
-
-import {
-  DashboardComponent,
-} from './containers';
+import * as components from './components';
+import * as containers from './containers';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -44,23 +25,23 @@ library.add(fas);
 
 @NgModule({
   declarations: [
-    DashboardComponent,
     AppComponent,
-    MainComponent,
-    SettingsComponent,
-    TradingComponent,
-    BotsComponent,
-    GroupsComponent,
-    AccountsComponent,
-    BalanceComponent,
-    OrderComponent,
-    TemplateComponent,
-    BotComponent,
-    BotOrderComponent,
-    OrderItemComponent,
-    StatusBarComponent,
-    TvChartComponent,
-    ButtonViewComponent,
+    containers.DashboardComponent,
+    components.MainComponent,
+    components.SettingsComponent,
+    components.TradingComponent,
+    components.BotsComponent,
+    components.GroupsComponent,
+    components.AccountsComponent,
+    components.BalanceComponent,
+    components.OrderComponent,
+    components.TemplateComponent,
+    components.BotComponent,
+    components.BotOrderComponent,
+    components.OrderItemComponent,
+    components.StatusBarComponent,
+    components.TvChartComponent,
+    components.ButtonViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,7 +67,7 @@ library.add(fas);
     }),
   ],
   entryComponents: [
-    ButtonViewComponent,
+    components.ButtonViewComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],
