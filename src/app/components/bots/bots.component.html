@@ -1,41 +1,38 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12 pt-3 pb-3">
-      <div class="row">
-        <div class="col-1">
-          <button (click)="openModal(botModal)" class="btn btn-xs btn-success">
-            <fa-icon icon="plus"></fa-icon>
-            New Bot
-          </button>
-        </div>
-
-        <div class="col-2">
-          <select class="form-control form-control-sm" (change)="changeFilter($event.target.value, 'pair')">
-            <option *ngFor="let tick of ticks" [value]="tick.pair">
-              {{ tick.pair }}
-            </option>
-          </select>
-        </div>
-
-        <div class="col-2">
-          <select class="form-control form-control-sm" (change)="changeFilter($event.target.value, 'group')">
-            <option *ngFor="let group of groups" [value]="group.id">
-              {{ group.name }}
-            </option>
-          </select>
-        </div>
-
+<div class="row">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-1">
+        <button (click)="openModal(botModal)" class="btn btn-xs btn-success">
+          <fa-icon icon="plus"></fa-icon>
+          New Bot
+        </button>
       </div>
 
-      <div class="row">
-        <div class="col-12 mt-3">
-          <app-template
-            *ngFor="let template of templates"
-            [template]="template"
-            [groups]="groups"
-            [accounts]="accounts"
-          ></app-template>
-        </div>
+      <div class="col-2">
+        <select class="form-control form-control-sm" (change)="changeFilter($event.target.value, 'pair')">
+          <option *ngFor="let tick of ticks" [value]="tick.pair">
+            {{ tick.pair }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-2">
+        <select class="form-control form-control-sm" (change)="changeFilter($event.target.value, 'group')">
+          <option *ngFor="let group of groups" [value]="group.id">
+            {{ group.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 mt-3">
+        <app-template
+          *ngFor="let template of templates"
+          [template]="template"
+          [groups]="groups"
+          [accounts]="accounts"
+        ></app-template>
       </div>
     </div>
   </div>

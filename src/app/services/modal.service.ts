@@ -6,9 +6,7 @@ import {
   BsModalService,
 } from 'ngx-bootstrap';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ModalService extends BsModalService {
 
   closeAllModals() {

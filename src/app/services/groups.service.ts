@@ -18,9 +18,7 @@ import {
   Observable
 } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class GroupsService {
 
   url = 'groups';

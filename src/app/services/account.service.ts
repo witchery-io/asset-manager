@@ -18,9 +18,7 @@ import {
   Account,
 } from '../models';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AccountService {
 
   // @TODO remove

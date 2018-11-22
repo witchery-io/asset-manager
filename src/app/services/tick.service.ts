@@ -14,9 +14,7 @@ import {
   LocalDataSource,
 } from 'ng2-smart-table';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TickService {
 
   ticksUrl = 'https://tickers.vitanova.online/api/exchanges/bitfinex';

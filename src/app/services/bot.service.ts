@@ -11,9 +11,7 @@ import {
   HttpClient,
 } from '@angular/common/http';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class BotService {
 
   url = 'https://bots.vitanova.online/api';
