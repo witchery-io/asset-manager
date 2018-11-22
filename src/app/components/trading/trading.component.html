@@ -26,9 +26,20 @@
 </div>
 
 <div class="row">
-  <div id="ticks" class="col-3">
-    <input #search class="search form-control form-control-sm" type="text" placeholder="Search" (keyup)="onSearch(search.value)">
-    <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onUserRowSelect($event)"></ng2-smart-table>
+  <div class="col-3">
+    <input
+      #search
+      class="search form-control form-control-sm"
+      type="text"
+      placeholder="Search"
+      (keyup)="onSearch(search.value)">
+    <div class="ticks">
+      <ng2-smart-table
+        [settings]="settings"
+        [source]="source"
+        (userRowSelect)="onUserRowSelect($event)"
+      ></ng2-smart-table>
+    </div>
   </div>
   <div class="col-9 pl-0">
     <app-tv-chart
@@ -39,8 +50,13 @@
 
 <div class="row">
   <div class="col-12">
-    <app-order [type]="tradeType"></app-order>
+    <app-order
+      [type]="tradeType"
+    ></app-order>
   </div>
 </div>
 
-<app-status-bar [groups]="groups" [accounts]="accounts"></app-status-bar>
+<app-status-bar
+  [groups]="groups"
+  [accounts]="accounts"
+></app-status-bar>

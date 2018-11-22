@@ -1,14 +1,14 @@
 <div class="row">
-  <div class="col-12 pt-3 pb-3">
+  <div class="col-12">
     <tabset>
-      <tab heading="Groups" id="tab1" (select)="changeTab()">
+      <tab heading="GROUPS" id="tab1" (select)="changeTab()">
         <app-groups
           [groups]="groups"
           [accounts]="accounts"
           (update)="update($event)"
         ></app-groups>
       </tab>
-      <tab heading="Accounts" (select)="changeTab()">
+      <tab heading="ACCOUNTS" (select)="changeTab()">
         <app-accounts
           [accounts]="accounts"
           (update)="update($event)"

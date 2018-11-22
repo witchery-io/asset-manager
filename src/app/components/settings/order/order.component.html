@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-12">
     <tabset>
-      <tab heading="Positions" id="tab1">
-        <table class="table table-xs mt-3">
+      <tab heading="POSITIONS">
+        <table class="table table-xs">
           <thead>
           <tr>
             <th scope="col"></th>
@@ -72,7 +72,7 @@
               <td>
                 <button
                   [disabled]="role == 'guest'"
-                  class="btn btn-outline-danger btn-xs ml-1"
+                  class="btn btn-danger btn-xs ml-1"
                   (click)="openModal(confirmModal, { class: 'modal-sm' }); currentlyDeleting = o; currentlyDeletingType = 'position';"
                 >close</button>
               </td>
@@ -138,7 +138,7 @@
                       <td>
                         <button
                           [disabled]="role == 'guest'"
-                          class="btn btn-outline-danger btn-xs ml-1"
+                          class="btn btn-danger btn-xs ml-1"
                           (click)="openModal(confirmModal, { class: 'modal-sm' }); currentlyDeleting = so; currentlyDeletingType = 'position';"
                         >close</button>
                       </td>
@@ -152,8 +152,9 @@
           </tbody>
         </table>
       </tab>
-      <tab heading="Orders" id="tab2">
-        <table class="table table-xs mt-3">
+
+      <tab heading="ORDERS">
+        <table class="table table-xs">
           <thead>
           <tr>
             <th scope="col"></th>
@@ -200,7 +201,7 @@
                 >modify</button>
                 <button
                   [disabled]="role == 'guest'"
-                  class="btn btn-outline-danger btn-xs ml-1"
+                  class="btn btn-danger btn-xs ml-1"
                   (click)="openModal(confirmModal, { class: 'modal-sm' }); currentlyDeleting = o; currentlyDeletingType = 'order';"
                 >cancel</button>
               </td>
@@ -246,7 +247,7 @@
                         >modify</button>
                         <button
                           [disabled]="role == 'guest'"
-                          class="btn btn-outline-danger btn-xs ml-1"
+                          class="btn btn-danger btn-xs ml-1"
                           (click)="openModal(confirmModal, { class: 'modal-sm' });  currentlyDeleting = so; currentlyDeletingType = 'order';"
                         >cancel</button>
                       </td>
@@ -267,7 +268,7 @@
 <ng-template #confirmModal>
   <div class="modal-body text-center">
     <p>Do you want to cancel ?</p>
-    <button type="button" class="btn btn-default" (click)="confirm()">Yes</button>
+    <button type="button" class="btn btn-default" (click)="confirmCancel()">Yes</button>
     <button type="button" class="btn btn-primary ml-2" (click)="decline()">No</button>
   </div>
 </ng-template>
