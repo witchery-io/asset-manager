@@ -30,9 +30,7 @@ import {
   NotifierService,
 } from '../../../services';
 
-import {
-  NgxSpinnerService,
-} from 'ngx-spinner';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-order',
@@ -63,7 +61,7 @@ export class OrderComponent implements OnInit {
     'exchange': 0,
     'margin': 1,
   };
-  currentlyDeleting: string;
+  currentlyDeleting: any;
   currentlyDeletingType: string;
   curr_mod_ord: any;
   modify = false;
@@ -102,24 +100,31 @@ export class OrderComponent implements OnInit {
     this.modalRef = this.modalService.show(template, options);
   }
 
-  confirm(): void {
+  confirmCancel(): void {
+    this.spinner.show();
     if (this.currentlyDeletingType === 'position') {
       this.orderService.closePosition(this.currentlyDeleting)
-        .subscribe((d: any) => {
+        .subscribe(() => {
+          const d = this.currentlyDeleting;
           const _msg = `Order cancelled, ${ d.type.type }, ${ d.type.direction } ${ d.amount } ${ d.pair } @ ${ d.open_price }.#112o`;
           this.notifier.notify( 'success', _msg);
-          this.orderService.fetchOrders();
         }, error1 => {
           this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+        }, () => {
+          this.orderService.fetchOrders();
+          this.spinner.hide();
         });
     } else if (this.currentlyDeletingType === 'order') {
       this.orderService.cancelOrder(this.currentlyDeleting)
-        .subscribe((d: any) => {
+        .subscribe(() => {
+          const d = this.currentlyDeleting;
           const _msg = `Order cancelled, ${ d.type.type }, ${ d.type.direction } ${ d.amount } ${ d.pair } @ ${ d.open_price }.#122o`;
           this.notifier.notify( 'success', _msg);
-          this.orderService.fetchOrders();
         }, error1 => {
           this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+        }, () => {
+          this.orderService.fetchOrders();
+          this.spinner.hide();
         });
     }
 
@@ -155,20 +160,22 @@ export class OrderComponent implements OnInit {
             .subscribe((d: any) => {
               const _msg = `Order modified, ${ d.type.type }, to ${ d.type.direction } ${ d.amount } ${ d.pair } @ ${ d.open_price }.#164o`;
               this.notifier.notify( 'success', _msg);
-              this.spinner.hide();
-              this.orderService.getGroupOrders(this.curr_mod_ord.group).subscribe();
             }, error1 => {
               this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+            }, () => {
+              this.orderService.getGroupOrders(this.curr_mod_ord.group).subscribe();
+              this.spinner.hide();
             });
         } else if (this.type === 'account') {
           this.orderService.placeAccountOrder(this.curr_mod_ord.account, { ...this.curr_mod_ord, ...model })
             .subscribe((d: any) => {
               const _msg = `Order modified, ${ d.type.type }, to ${ d.type.direction } ${ d.amount } ${ d.pair } @ ${ d.open_price }.#164o`;
               this.notifier.notify( 'success', _msg);
-              this.spinner.hide();
-              this.orderService.getAccountOrders(this.curr_mod_ord.account).subscribe();
             }, error1 => {
               this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+            }, () => {
+              this.orderService.getAccountOrders(this.curr_mod_ord.account).subscribe();
+              this.spinner.hide();
             });
         }
       });
@@ -177,6 +184,7 @@ export class OrderComponent implements OnInit {
   }
 
   placeOrder(direction, type, model) {
+    this.spinner.show();
     if (this.modify) {
       this.orderService.cancelOrder(this.currentOrder)
         .subscribe(() => {
@@ -195,18 +203,22 @@ export class OrderComponent implements OnInit {
               .subscribe((d: any) => {
                 const _msg = `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.amount } @ ${ d.open_price }.#205o`;
                 this.notifier.notify( 'success', _msg);
-                this.orderService.fetchOrders();
               }, error1 => {
                 this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+              }, () => {
+                this.orderService.fetchOrders();
+                this.spinner.hide();
               });
           } else if (this.orderService.tradeType === 'account') {
             this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
               .subscribe((d: any) => {
                 const _msg = `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.amount } @ ${ d.open_price }.#214o`;
                 this.notifier.notify( 'success', _msg);
-                this.orderService.fetchOrders();
               }, error1 => {
                 this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+              }, () => {
+                this.orderService.fetchOrders();
+                this.spinner.hide();
               });
           }
         });
@@ -226,18 +238,22 @@ export class OrderComponent implements OnInit {
           .subscribe((d: any) => {
             const _msg = `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.amount } @ ${ d.open_price }.#236o`;
             this.notifier.notify( 'success', _msg);
-            this.orderService.fetchOrders();
           }, error1 => {
             this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+          }, () => {
+            this.orderService.fetchOrders();
+            this.spinner.hide();
           });
       } else if (this.orderService.tradeType === 'account') {
         this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
           .subscribe((d: any) => {
             const _msg = `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.amount } @ ${ d.open_price }.#245o`;
             this.notifier.notify( 'success', _msg);
-            this.orderService.fetchOrders();
           }, error1 => {
             this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+          }, () => {
+            this.orderService.fetchOrders();
+            this.spinner.hide();
           });
       }
     }
