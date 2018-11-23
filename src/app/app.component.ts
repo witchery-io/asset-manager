@@ -1,21 +1,9 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
-
-import {
-  ActivatedRoute,
-  Router,
-} from '@angular/router';
-
-import {
-  BsModalService,
-} from 'ngx-bootstrap';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import {
   TickService,
   AccountService,
-  GroupsService,
   OrderService,
   BotService,
 } from './services';
@@ -23,13 +11,11 @@ import {
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
 
   constructor(
-    private modalService: BsModalService,
-    private groupsService: GroupsService,
     private accountService: AccountService,
     private orderService: OrderService,
     private botService: BotService,
@@ -47,16 +33,16 @@ export class AppComponent implements OnInit {
       this.router.navigate(['']);
     }
 
+    this.fetchData();
+    setInterval(() => this.fetchData(), 9000);
+  }
+
+  fetchData() {
     this.tickService.fetchTicks();
     this.botService.fetchBots();
-
-    setInterval(() => {
-      this.tickService.fetchTicks();
-      this.botService.fetchBots();
-      if (this.orderService.tradeTypeId && this.orderService.tradeType) {
-        this.orderService.fetchOrders();
-        this.orderService.fetchBalance();
-      }
-    }, 9000);
+    if (this.orderService.tradeTypeId && this.orderService.tradeType) {
+      this.orderService.fetchOrders();
+      this.orderService.fetchBalance();
+    }
   }
 }

@@ -1,9 +1,11 @@
 <div class="row">
-  <div class="col-3">
+  <div class="col-12">
     <div class="row">
-      <div class="col-6">
+      <div class="col-2">
         <div class="form-group">
+          <label for="groups" class="small">Groups</label>
           <select
+            id="groups"
             class="form-control form-control-sm"
             [ngModel]="selectedGroup"
             (change)="changeType('group', $event.target.value)">
@@ -11,9 +13,11 @@
           </select>
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-2">
         <div class="form-group">
+          <label for="accounts" class="small">Accounts</label>
           <select
+            id="accounts"
             class="form-control form-control-sm"
             [ngModel]="selectedAccount"
             (change)="changeType('account', $event.target.value)">

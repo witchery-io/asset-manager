@@ -44,7 +44,7 @@ export class AccountService {
     return this.http.get(`${ environment.apiUrl }${ this.url }`);
   }
 
-  getAccount(id = 0) {
+  getAccount(id) {
     return this.http.get(`${ environment.apiUrl }${ this.url }/${ id }`);
   }
 }

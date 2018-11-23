@@ -1,17 +1,6 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
-
-import {
-  ActivatedRoute,
-  Router,
-} from '@angular/router';
-
-import {
-  ButtonViewComponent
-} from './button-view/button-view.component';
-
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ButtonViewComponent } from './button-view/button-view.component';
 import {
   GroupsService,
   AccountService,
