@@ -1,17 +1,6 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
-
-import {
-  ActivatedRoute,
-  Router,
-} from '@angular/router';
-
-import {
-  ButtonViewComponent
-} from './button-view/button-view.component';
-
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ButtonViewComponent } from './button-view/button-view.component';
 import {
   GroupsService,
   AccountService,
@@ -26,6 +15,7 @@ import {
   styleUrls: ['./trading.component.scss'],
 })
 export class TradingComponent implements OnInit {
+  isCollapsed = true;
   _symbol: any;
   groups = [];
   accounts = [];
@@ -109,6 +99,7 @@ export class TradingComponent implements OnInit {
   }
 
   changeType(type, current_type_id) {
+    this.isCollapsed = true;
     this.router.navigate([`/dashboard/trading/${ type }/${ current_type_id }`]);
   }
 

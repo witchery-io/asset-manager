@@ -1,24 +1,45 @@
 <div class="row">
-  <div class="col-3">
+  <div class="col-12">
     <div class="row">
-      <div class="col-6">
-        <div class="form-group">
-          <select
-            class="form-control form-control-sm"
-            [ngModel]="selectedGroup"
-            (change)="changeType('group', $event.target.value)">
-            <option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</option>
-          </select>
-        </div>
+      <div class="col-1">
+        <button
+          type="button"
+          title="Filter"
+          (click)="isCollapsed = !isCollapsed"
+          [attr.aria-expanded]="!isCollapsed"
+          class="btn btn-outline-primary"
+        ><fa-icon icon="sliders-h"></fa-icon></button>
       </div>
-      <div class="col-6">
-        <div class="form-group">
-          <select
-            class="form-control form-control-sm"
-            [ngModel]="selectedAccount"
-            (change)="changeType('account', $event.target.value)">
-            <option *ngFor="let account of accounts" [value]="account.id">{{ account.user_name }}</option>
-          </select>
+    </div>
+    <div [collapse]="isCollapsed" class="row">
+      <div class="col-12">
+        <div class="card mt-2 mb-2 p-2">
+          <div class="row">
+            <div class="col-2">
+              <div class="form-group">
+                <label for="groups">Groups</label>
+                <select
+                  id="groups"
+                  class="form-control form-control-sm"
+                  [ngModel]="selectedGroup"
+                  (change)="changeType('group', $event.target.value)">
+                  <option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form-group">
+                <label for="accounts">Accounts</label>
+                <select
+                  id="accounts"
+                  class="form-control form-control-sm"
+                  [ngModel]="selectedAccount"
+                  (change)="changeType('account', $event.target.value)">
+                  <option *ngFor="let account of accounts" [value]="account.id">{{ account.user_name }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
