@@ -9,6 +9,9 @@ import { DashboardComponent } from './containers';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+
+import { BsDropdownModule, CollapseModule } from 'ngx-bootstrap';
+
 library.add(fas);
 
 @NgModule({
@@ -27,6 +30,8 @@ library.add(fas);
         },
       },
     }),
+    BsDropdownModule.forRoot(),
+    CollapseModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
