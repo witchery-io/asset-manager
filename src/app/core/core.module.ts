@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import * as services from '../services';
 import * as components from '../components';
+import * as guards from '../guards';
 import {
   TabsModule,
   ModalModule,
@@ -13,6 +14,7 @@ import {
 } from 'ngx-bootstrap';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ErrorInterceptor, fakeBackendProvider, JwtInterceptor } from '../helpers';
 
 @NgModule({
   imports: [
@@ -52,6 +54,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     components.OrderItemComponent,
     components.StatusBarComponent,
     components.TvChartComponent,
+    components.LoginComponent,
   ],
   providers: [
     services.AccountService,
@@ -63,6 +66,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     services.ModalService,
     services.BotService,
     services.NotifierService,
+    services.AuthenticationService,
+    services.UserService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    fakeBackendProvider,
+    guards.AuthGuard,
   ],
   entryComponents: [
     components.ButtonViewComponent,

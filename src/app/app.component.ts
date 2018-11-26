@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 
 import {
   TickService,
@@ -20,19 +19,10 @@ export class AppComponent implements OnInit {
     private orderService: OrderService,
     private botService: BotService,
     private tickService: TickService,
-    private route: ActivatedRoute,
-    private router: Router,
   ) {
   }
 
   ngOnInit() {
-    if (localStorage.getItem('role') === 'guest' || localStorage.getItem('role') === 'admin') {
-      this.accountService.role = localStorage.getItem('role');
-      this.router.navigate(['dashboard']);
-    } else {
-      this.router.navigate(['']);
-    }
-
     this.fetchData();
     setInterval(() => this.fetchData(), 9000);
   }

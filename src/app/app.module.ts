@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotifierModule } from 'angular-notifier';
 
@@ -22,6 +23,7 @@ library.add(fas);
   imports: [
     AppRoutingModule,
     CoreModule,
+    SharedModule,
     NgxSpinnerModule,
     NotifierModule.withConfig({
       position: {
