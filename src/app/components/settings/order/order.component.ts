@@ -69,7 +69,7 @@ export class OrderComponent implements OnInit {
   private readonly notifier: NotifierService;
 
   constructor(
-    public orderService: OrderService,
+    private orderService: OrderService,
     private modalService: BsModalService,
     private accountService: AccountService,
     private notifierService: NotifierService,
