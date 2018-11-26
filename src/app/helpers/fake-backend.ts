@@ -39,7 +39,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         firstName: 'first 2',
         lastName: 'last 2',
         role: 'guest',
-      }
+      },
     ];
 
     return of(null).pipe(mergeMap(() => {
