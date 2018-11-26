@@ -4,7 +4,9 @@ import { User } from '../models';
 
 @Injectable()
 export class UserService {
+
   url = '';
+
   constructor(
     private http: HttpClient,
   ) { }
