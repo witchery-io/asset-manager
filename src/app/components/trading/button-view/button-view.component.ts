@@ -30,7 +30,7 @@ import {
 import {
   Order,
   Exchange,
-  Margin,
+  Margin, User,
 } from '../../../models';
 
 @Component({
@@ -41,6 +41,7 @@ import {
 export class ButtonViewComponent implements ViewCell, OnInit {
   @Input() value: string | number;
   @Input() rowData: any;
+  user: User;
 
   exchangeForm: FormGroup;
   marginForm: FormGroup;
@@ -62,12 +63,13 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     private orderService: OrderService,
     private notifierService: NotifierService,
     private tickService: TickService,
-    private accountService: AccountService,
   ) {
     this.notifier = notifierService;
   }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+
     this.exchangeForm = new FormGroup({
       o_type: new FormControl('limit', [<any>Validators.required]),
       price: new FormControl(0),
@@ -155,6 +157,6 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   }
 
   get role() {
-    return this.accountService.role;
+    return this.user.role;
   }
 }

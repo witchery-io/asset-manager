@@ -4,8 +4,6 @@ export * from './bots/templates/bot/bot.component';
 export * from './bots/templates/bot/bot-order/bot-order.component';
 export * from './bots/templates/bot/bot-order/order-item/order-item.component';
 
-export * from './main/main.component';
-
 export * from './settings/settings.component';
 export * from './settings/order/order.component';
 export * from './settings/accounts/accounts.component';

@@ -38,19 +38,11 @@ export class SettingsComponent implements OnInit {
   }
 
   fetchGroup() {
-    this.groupsService.getGroups()
-      .subscribe(groups => {
-        this.groups = groups;
-      }
-    );
+    this.groupsService.getGroups().subscribe(groups => this.groups = groups);
   }
 
   fetchAccount() {
-    this.accountService.getAccounts()
-      .subscribe(accounts => {
-        this.accounts = accounts;
-      }
-    );
+    this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
   }
 
   changeTab() {

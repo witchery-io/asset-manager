@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import {
   TickService,
-  AccountService,
   OrderService,
   BotService,
 } from './services';
@@ -15,7 +14,6 @@ import {
 export class AppComponent implements OnInit {
 
   constructor(
-    private accountService: AccountService,
     private orderService: OrderService,
     private botService: BotService,
     private tickService: TickService,

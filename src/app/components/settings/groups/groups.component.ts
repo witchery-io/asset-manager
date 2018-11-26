@@ -19,7 +19,7 @@ import {
 } from 'ngx-bootstrap';
 
 import {
-  Group
+  Group, User
 } from '../../../models';
 
 import {
@@ -39,6 +39,7 @@ export class GroupsComponent implements OnInit {
   @Input() groups: any;
   @Input() accounts: any;
   @Output() update: EventEmitter<any> = new EventEmitter();
+  user: User;
   modalRef: BsModalRef;
   groupForm: FormGroup;
   addAccountForm: FormGroup;
@@ -60,6 +61,8 @@ export class GroupsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+
     this.groupForm = new FormGroup({
       name: new FormControl('', [<any>Validators.required]),
       allocation_method: new FormControl(0, [<any>Validators.required]),
@@ -194,5 +197,9 @@ export class GroupsComponent implements OnInit {
   edit(item_index, template: TemplateRef<any>) {
     this.editGroupForm.patchValue(this.groups[item_index]);
     this.openModal(template);
+  }
+
+  get role() {
+    return this.user.role;
   }
 }

@@ -70,15 +70,8 @@ export class TradingComponent implements OnInit {
       this.orderService.fetchOrders();
     });
 
-    this.groupsService.getGroups()
-      .subscribe(groups => {
-        this.groups = groups;
-      });
-
-    this.accountService.getAccounts()
-      .subscribe(accounts => {
-        this.accounts = accounts;
-      });
+    this.groupsService.getGroups().subscribe(groups => this.groups = groups);
+    this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
   }
 
   get selectedGroup() {

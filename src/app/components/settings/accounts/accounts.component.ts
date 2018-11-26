@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 
 import {
-  Account,
+  Account, User,
 } from '../../../models';
 
 import {
@@ -37,6 +37,7 @@ export class AccountsComponent implements OnInit {
 
   @Input() accounts: any;
   @Output() update: EventEmitter<any> = new EventEmitter();
+  user: User;
   modalRef: BsModalRef;
   accountForm: FormGroup;
   account: any;
@@ -54,6 +55,8 @@ export class AccountsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+
     this.accountForm = new FormGroup({
       acc_name: new FormControl('', [<any>Validators.required]),
       user_name: new FormControl('', [<any>Validators.required]),
@@ -135,5 +138,9 @@ export class AccountsComponent implements OnInit {
   edit(item_index, template: TemplateRef<any>) {
     this.editAccountForm.patchValue(this.accounts[item_index]);
     this.openModal(template);
+  }
+
+  get role() {
+    return this.user.role;
   }
 }

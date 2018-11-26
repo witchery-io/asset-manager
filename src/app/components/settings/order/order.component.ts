@@ -22,6 +22,7 @@ import {
   Order,
   Margin,
   Exchange,
+  User,
 } from '../../../models';
 
 import {
@@ -38,7 +39,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./order.component.scss'],
 })
 export class OrderComponent implements OnInit {
-
+  user: User;
   @Input() type: any;
   @ViewChild('staticTabs') staticTabs: TabsetComponent;
   @Input() accounts: any;
@@ -78,6 +79,8 @@ export class OrderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+
     this.exchangeForm = new FormGroup({
       o_type: new FormControl('limit', [<any>Validators.required]),
       price: new FormControl(0),
@@ -312,7 +315,7 @@ export class OrderComponent implements OnInit {
   }
 
   get role() {
-    return this.accountService.role;
+    return this.user.role;
   }
 
   get tradeType() {

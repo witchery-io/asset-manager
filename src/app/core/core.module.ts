@@ -39,7 +39,6 @@ import { ErrorInterceptor, fakeBackendProvider, JwtInterceptor } from '../helper
     FontAwesomeModule,
   ],
   declarations: [
-    components.MainComponent,
     components.ButtonViewComponent,
     components.SettingsComponent,
     components.TradingComponent,
