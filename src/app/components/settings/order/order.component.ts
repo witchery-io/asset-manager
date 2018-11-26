@@ -32,6 +32,7 @@ import {
 } from '../../../services';
 
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Role } from '../../../enums';
 
 @Component({
   selector: 'app-order',
@@ -40,6 +41,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class OrderComponent implements OnInit {
   user: User;
+  ROLE = Role;
   @Input() type: any;
   @ViewChild('staticTabs') staticTabs: TabsetComponent;
   @Input() accounts: any;
@@ -54,11 +56,14 @@ export class OrderComponent implements OnInit {
   orderContext = ['exchange', 'margin'];
   currentOrder: any;
   enums = {
+    //direction
     'buy': 0,
     'sell': 1,
+    //type
     'stop': 0,
     'market': 1,
     'limit': 2,
+    //context
     'exchange': 0,
     'margin': 1,
   };

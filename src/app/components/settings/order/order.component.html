@@ -48,14 +48,14 @@
               <td>{{ o.current_price | number }}</td>
               <td>
                 <button
-                  [disabled]="role !== 'admin'"
+                  [disabled]="role !== ROLE.ADMIN"
                   (click)="openOrderModal(tradingModal, o, 'stop', false)"
                   class="btn btn-xs btn-outline-danger"
                 >Add</button>
               </td>
               <td>
                 <button
-                  [disabled]="role !== 'admin'"
+                  [disabled]="role !== ROLE.ADMIN"
                   (click)="openOrderModal(tradingModal, o, 'limit', false)"
                   class="btn btn-xs btn-outline-warning"
                 >Add</button>
@@ -71,7 +71,7 @@
               <td>{{ o.open_order_time | date:'short' }}</td>
               <td>
                 <button
-                  [disabled]="role !== 'admin'"
+                  [disabled]="role !== ROLE.ADMIN"
                   class="btn btn-danger btn-xs ml-1"
                   (click)="openModal(confirmModal, { class: 'modal-sm' }); currentlyDeleting = o; currentlyDeletingType = 'position';"
                 >close</button>
@@ -114,14 +114,14 @@
                       <td>{{ so.current_price | number }}</td>
                       <td>
                         <button
-                          [disabled]="role !== 'admin'"
+                          [disabled]="role !== ROLE.ADMIN"
                           (click)="openOrderModal(tradingModal, so, 'stop', false)"
                           class="btn btn-xs btn-outline-danger"
                         >Add</button>
                       </td>
                       <td>
                         <button
-                          [disabled]="role !== 'admin'"
+                          [disabled]="role !== ROLE.ADMIN"
                           (click)="openOrderModal(tradingModal, so, 'limit', false)"
                           class="btn btn-xs btn-outline-warning"
                         >Add</button>
@@ -137,7 +137,7 @@
                       <td>{{ so.open_order_time | date:'short' }}</td>
                       <td>
                         <button
-                          [disabled]="role !== 'admin'"
+                          [disabled]="role !== ROLE.ADMIN"
                           class="btn btn-danger btn-xs ml-1"
                           (click)="openModal(confirmModal, { class: 'modal-sm' }); currentlyDeleting = so; currentlyDeletingType = 'position';"
                         >close</button>
@@ -195,12 +195,12 @@
               <td>{{ o.open_order_time | date:'short' }}</td>
               <td>
                 <button
-                  [disabled]="role !== 'admin'"
+                  [disabled]="role !== ROLE.ADMIN"
                   class="btn btn-outline-warning btn-xs"
                   (click)="openModifyModal(modifyModal, i, undefined)"
                 >modify</button>
                 <button
-                  [disabled]="role !== 'admin'"
+                  [disabled]="role !== ROLE.ADMIN"
                   class="btn btn-danger btn-xs ml-1"
                   (click)="openModal(confirmModal, { class: 'modal-sm' }); currentlyDeleting = o; currentlyDeletingType = 'order';"
                 >cancel</button>
@@ -241,12 +241,12 @@
                       <td>{{ so.open_order_time | date:'short' }}</td>
                       <td>
                         <button
-                          [disabled]="role !== 'admin'"
+                          [disabled]="role !== ROLE.ADMIN"
                           class="btn btn-outline-warning btn-xs"
                           (click)="openModifyModal(modifyModal, i, sub_i)"
                         >modify</button>
                         <button
-                          [disabled]="role !== 'admin'"
+                          [disabled]="role !== ROLE.ADMIN"
                           class="btn btn-danger btn-xs ml-1"
                           (click)="openModal(confirmModal, { class: 'modal-sm' });  currentlyDeleting = so; currentlyDeletingType = 'order';"
                         >cancel</button>
@@ -309,13 +309,13 @@
               </div>
               <div>
                 <button
-                  [disabled]="role !== 'admin'"
+                  [disabled]="role !== ROLE.ADMIN"
                   type="submit"
                   class="btn btn-success"
                   (click)="buyExchange(exchangeForm.value, exchangeForm.valid)"
                 >BUY</button>
                 <button
-                  [disabled]="role !== 'admin'"
+                  [disabled]="role !== ROLE.ADMIN"
                   type="submit"
                   class="btn btn-danger float-right"
                   (click)="sellExchange(exchangeForm.value, exchangeForm.valid)"
@@ -352,13 +352,13 @@
 
               <div>
                 <button
-                  [disabled]="role !== 'admin'"
+                  [disabled]="role !== ROLE.ADMIN"
                   type="submit"
                   class="btn btn-success"
                   (click)="buyMargin(marginForm.value, marginForm.valid)"
                 >BUY</button>
                 <button
-                  [disabled]="role !== 'admin'"
+                  [disabled]="role !== ROLE.ADMIN"
                   type="submit"
                   class="btn btn-danger float-right"
                   (click)="sellMargin(marginForm.value, marginForm.valid)"
@@ -410,7 +410,7 @@
           (click)="modalRef.hide()"
         >CANCEL</button>
         <button
-          [disabled]="role !== 'admin'"
+          [disabled]="role !== ROLE.ADMIN"
           type="submit"
           class="btn btn-success float-right"
           (click)="approveOrder(modifyForm.value, modifyForm.valid)"
