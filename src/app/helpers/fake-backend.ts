@@ -1,7 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HttpRequest,
+  HttpResponse,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
+import {
+  delay,
+  mergeMap,
+  materialize,
+  dematerialize,
+} from 'rxjs/operators';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -48,7 +60,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     }))
 
-    // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
+    // call materialize and dematerialize to ensure delay even if an error is thrown
       .pipe(materialize())
       .pipe(delay(500))
       .pipe(dematerialize());
