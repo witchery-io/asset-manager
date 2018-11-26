@@ -21,8 +21,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   constructor() { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let testUser = { id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' };
-
     const users = [
       {
         id: 1,
@@ -69,7 +67,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       // get users
       if (request.url.endsWith('/users') && request.method === 'GET') {
         if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
-          return of(new HttpResponse({ status: 200, body: [testUser] }));
+          return of(new HttpResponse({ status: 200, body: [] }));
         } else {
           return throwError({ error: { message: 'Unauthorised' } });
         }
