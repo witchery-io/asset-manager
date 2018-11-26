@@ -22,13 +22,8 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.groupsService.getGroups().subscribe(groups => {
-      this.groups = groups;
-    });
-
-    this.accountService.getAccounts().subscribe(accounts => {
-      this.accounts = accounts;
-    });
+    this.groupsService.getGroups().subscribe(groups => this.groups = groups);
+    this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
   }
 
   get n() {

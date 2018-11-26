@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-4">
     <div class="form-group">
-      <button class="btn btn-primary btn-xs" [disabled]="accountService.role == 'guest'" (click)="openModal(accountModal)">
+      <button class="btn btn-primary btn-xs" [disabled]="role !== 'admin'" (click)="openModal(accountModal)">
         <fa-icon icon="plus"></fa-icon> Create account
       </button>
     </div>
@@ -28,7 +28,7 @@
         <th scope="row">{{ i + 1 }}</th>
         <td>
           <span class="switch switch-sm">
-          <input [disabled]="accountService.role == 'guest'" type="checkbox" [checked]="a.status" class="switch" id="switch-{{a.id}}">
+          <input [disabled]="role !== 'admin'" type="checkbox" [checked]="a.status" class="switch" id="switch-{{a.id}}">
           <label class="m-0" for="switch-{{a.id}}"></label>
         </span>
         </td>

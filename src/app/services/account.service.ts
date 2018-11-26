@@ -20,10 +20,6 @@ import {
 
 @Injectable()
 export class AccountService {
-
-  // @TODO remove
-  role = '';
-
   url = 'accounts';
 
   constructor(

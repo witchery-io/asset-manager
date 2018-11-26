@@ -3,7 +3,7 @@
     <div class="form-group">
       <button
         (click)="openModal(groupModal)"
-        [disabled]="accountService.role == 'guest'"
+        [disabled]="role !== 'admin'"
         class="btn btn-xs btn-primary">
         <fa-icon icon="plus"></fa-icon>
         Create group
@@ -32,7 +32,13 @@
             title="Edit"
           ></fa-icon>
           <span class="switch switch-sm mr-2">
-            <input [disabled]="accountService.role == 'guest'" type="checkbox" [checked]="g.active" class="switch" id="switch-{{g.id}}">
+            <input
+              [disabled]="role !== 'admin'"
+              type="checkbox"
+              [checked]="g.active"
+              class="switch"
+              id="switch-{{g.id}}"
+            >
             <label class="m-0" for="switch-{{g.id}}"></label>
           </span>
         </td>
@@ -44,7 +50,7 @@
     <div class="form-group">
       <button
         class="btn btn-xs btn-outline-primary"
-        [disabled]="!group || accountService.role == 'guest'"
+        [disabled]="!group || role !== 'admin'"
         (click)="openModal(addAccountModal)">
         <fa-icon icon="plus"></fa-icon>
         Add account

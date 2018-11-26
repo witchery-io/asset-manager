@@ -22,6 +22,7 @@ import {
   Order,
   Margin,
   Exchange,
+  User,
 } from '../../../models';
 
 import {
@@ -31,6 +32,7 @@ import {
 } from '../../../services';
 
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Role } from '../../../enums';
 
 @Component({
   selector: 'app-order',
@@ -38,7 +40,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./order.component.scss'],
 })
 export class OrderComponent implements OnInit {
-
+  user: User;
+  ROLE = Role;
   @Input() type: any;
   @ViewChild('staticTabs') staticTabs: TabsetComponent;
   @Input() accounts: any;
@@ -53,11 +56,14 @@ export class OrderComponent implements OnInit {
   orderContext = ['exchange', 'margin'];
   currentOrder: any;
   enums = {
+    //direction
     'buy': 0,
     'sell': 1,
+    //type
     'stop': 0,
     'market': 1,
     'limit': 2,
+    //context
     'exchange': 0,
     'margin': 1,
   };
@@ -68,7 +74,7 @@ export class OrderComponent implements OnInit {
   private readonly notifier: NotifierService;
 
   constructor(
-    public orderService: OrderService,
+    private orderService: OrderService,
     private modalService: BsModalService,
     private accountService: AccountService,
     private notifierService: NotifierService,
@@ -78,6 +84,8 @@ export class OrderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+
     this.exchangeForm = new FormGroup({
       o_type: new FormControl('limit', [<any>Validators.required]),
       price: new FormControl(0),
@@ -312,7 +320,7 @@ export class OrderComponent implements OnInit {
   }
 
   get role() {
-    return this.accountService.role;
+    return this.user.role;
   }
 
   get tradeType() {

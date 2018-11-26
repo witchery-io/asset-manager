@@ -8,3 +8,4 @@ export * from './order-type';
 export * from './position';
 export * from './strategy';
 export * from './template';
+export * from './user';
