@@ -8,7 +8,11 @@ import {
   OrderDirection,
 } from '../../../../../enums';
 import { PARENT } from '../../../..';
-import { ModalService, OrderService } from '../../../../../services';
+import {
+  AccountService,
+  ModalService,
+  OrderService,
+} from '../../../../../services';
 import { BsModalRef } from 'ngx-bootstrap';
 import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -31,18 +35,21 @@ export class OrderItemComponent implements OnInit {
   modalRef: BsModalRef;
   modifyForm: FormGroup;
   private readonly notifier: NotifierService;
+  account_name: string;
 
   constructor(
     private modalService: ModalService,
     private orderService: OrderService,
     private notifierService: NotifierService,
     private spinner: NgxSpinnerService,
+    private accountService: AccountService,
   ) {
     this.notifier = notifierService;
   }
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.accountService.getAccount(this.order.account).subscribe((res: any) => this.account_name = res.name);
 
     this.modifyForm = new FormGroup({
       open_price: new FormControl(0),
@@ -56,6 +63,14 @@ export class OrderItemComponent implements OnInit {
 
   get tradeType() {
     return this.orderService.tradeType;
+  }
+
+  get tooltip() {
+    if (this.permission === 'parent' || this.tradeType !== 'group') {
+      return false;
+    }
+
+    return this.account_name;
   }
 
   openModal(template: TemplateRef<any>, options = {}) {
@@ -128,11 +143,7 @@ export class OrderItemComponent implements OnInit {
   }
 
   collapse() {
+    console.log('collapse');
     // todo : set position id -> localStorage
-  }
-
-  tooltip() {
-    // todo : return group`s account
-    return 'tooltip';
   }
 }

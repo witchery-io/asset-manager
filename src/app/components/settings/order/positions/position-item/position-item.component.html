@@ -1,6 +1,6 @@
-<table class="table table-xs m-0">
+<table class="table table-xs m-0" [tooltip]="tooltip">
   <tbody>
-  <tr class="d-flex" [tooltip]="tooltip">
+  <tr class="d-flex">
     <td class="col">{{ position.pair }}</td>
     <td class="col">{{ OrderDirection[position.type.direction] }}</td>
     <td class="col">{{ position.amount | number }}</td>

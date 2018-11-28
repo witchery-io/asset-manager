@@ -13,7 +13,11 @@ import {
   OrderType
 } from '../../../../../enums';
 import { BsModalRef } from 'ngx-bootstrap';
-import { ModalService, OrderService } from '../../../../../services';
+import {
+  AccountService,
+  ModalService,
+  OrderService,
+} from '../../../../../services';
 import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -36,18 +40,22 @@ export class PositionItemComponent implements OnInit {
   exchangeForm: FormGroup;
   marginForm: FormGroup;
   private readonly notifier: NotifierService;
+  account_name: string;
 
   constructor(
     private orderService: OrderService,
     private modalService: ModalService,
     private notifierService: NotifierService,
     private spinner: NgxSpinnerService,
+    private accountService: AccountService,
   ) {
     this.notifier = notifierService;
   }
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
+
+    this.accountService.getAccount(this.position.account).subscribe((res: any) => this.account_name = res.acc_name);
 
     this.exchangeForm = new FormGroup({
       o_type: new FormControl('limit', [<any>Validators.required]),
@@ -72,6 +80,18 @@ export class PositionItemComponent implements OnInit {
 
   get tradeTypeId() {
     return this.orderService.tradeTypeId;
+  }
+
+  get role() {
+    return this.user.role;
+  }
+
+  get tooltip() {
+    if (this.permission === 'parent' || this.tradeType !== 'group') {
+      return false;
+    }
+
+    return this.account_name;
   }
 
   openModal(template: TemplateRef<any>, options = {}) {
@@ -197,16 +217,8 @@ export class PositionItemComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  get role() {
-    return this.user.role;
-  }
-
-  get tooltip() {
-    // todo : return group`s account
-    return 'Tooltip';
-  }
-
   collapse() {
-    // todo : set position id -> localStorage
+    console.log('collapse');
+    // console.log('collapse');
   }
 }
