@@ -31,8 +31,6 @@ export class PositionItemComponent implements OnInit {
   @Input() permission: string;
   PARENT = PARENT;
   OrderDirection = OrderDirection;
-  OrderContext = OrderContext;
-  OrderType = OrderType;
   isCollapsed = true;
   modalRef: BsModalRef;
   exchangeForm: FormGroup;
@@ -81,7 +79,6 @@ export class PositionItemComponent implements OnInit {
   }
 
   orderStop(template) {
-    console.log('order Stop');
     this.marginForm.patchValue({
       o_type: 'stop',
       amount: this.position.amount,
@@ -91,7 +88,6 @@ export class PositionItemComponent implements OnInit {
   }
 
   orderLimit(template) {
-    console.log('order Limit');
     this.marginForm.patchValue({
       o_type: 'limit',
       amount: this.position.amount,
@@ -101,13 +97,14 @@ export class PositionItemComponent implements OnInit {
   }
 
   orderClose() {
-    console.log('order Close');
+    this.spinner.show();
+    this.modalRef.hide();
     this.orderService.closePosition(this.position)
       .subscribe(() => {
 
         this.notifier.notify( 'success',
-          `Order cancelled, ${ this.position.type.type }, ${ this.position.type.direction }
-           ${ this.position.amount } ${ this.position.pair } @ ${ this.position.open_price }.#112o`);
+          `Order cancelled, ${ OrderType[this.position.type.type] }, ${ OrderDirection[this.position.type.direction] }
+           ${ this.position.amount } ${ this.position.pair } @ ${ this.position.open_price }.#o109o`);
       }, error1 => {
 
         this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
@@ -158,9 +155,9 @@ export class PositionItemComponent implements OnInit {
       open_price: model.price,
       pair: this.position.pair,
       type: {
-        context: +this.OrderContext[context],
-        direction: +this.OrderDirection[direction],
-        type: +this.OrderType[model.o_type],
+        context: +OrderContext[context],
+        direction: +OrderDirection[direction],
+        type: +OrderType[model.o_type],
       }
     };
 
@@ -169,7 +166,8 @@ export class PositionItemComponent implements OnInit {
         .subscribe((d: any) => {
 
           this.notifier.notify( 'success',
-            `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.amount } @ ${ d.open_price }.#236o`);
+            `Placed ${ OrderType[d.type.type] } order to ${ OrderDirection[d.type.direction] }
+             ${ d.amount } ${ d.amount } @ ${ d.open_price }.#236o`);
         }, error1 => {
 
           this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
@@ -184,7 +182,8 @@ export class PositionItemComponent implements OnInit {
         .subscribe((d: any) => {
 
           this.notifier.notify( 'success',
-            `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.amount } @ ${ d.open_price }.#245o`);
+            `Placed ${ OrderType[d.type.type] } order to ${ OrderDirection[d.type.direction] }
+             ${ d.amount } ${ d.amount } @ ${ d.open_price }.#245o`);
         }, error1 => {
 
           this.notifier.notify( 'error', `Error msg: ${ error1.message }`);

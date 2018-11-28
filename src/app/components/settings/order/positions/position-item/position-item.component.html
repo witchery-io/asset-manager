@@ -33,7 +33,7 @@
         (click)="openModal(closeOrderModal, { class: 'modal-sm' })"
       >CLOSE</button>
     </td>
-    <th scope="row" class="col">
+    <th class="col">
       <button
         [hidden]="permission !== PARENT || position.suborders === null"
         (click)="collapse(); isCollapsed = !isCollapsed"
@@ -157,6 +157,6 @@
   <div class="modal-body text-center">
     <p>Do you want to close ?</p>
     <button type="button" class="btn btn-default" (click)="orderClose()">Yes</button>
-    <button type="button" class="btn btn-primary ml-2" (click)="modalRef.hide()">No</button>
+    <button type="button" class="btn btn-primary ml-1" (click)="modalRef.hide()">No</button>
   </div>
 </ng-template>
