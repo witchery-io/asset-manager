@@ -39,6 +39,11 @@ export class OrderService {
   }
 
   setBalance(balance) {
+    if (!balance.per_currency_balances) {
+      this.balance = balance;
+      return;
+    }
+
     balance.per_currency_balances.sort((a: any, b: any) => {
       if (a.currency < b.currency) {
         return -1;

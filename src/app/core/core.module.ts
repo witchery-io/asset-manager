@@ -46,11 +46,19 @@ import { ErrorInterceptor, fakeBackendProvider, JwtInterceptor } from '../helper
     components.GroupsComponent,
     components.AccountsComponent,
     components.BalanceComponent,
+
     components.OrderComponent,
+    components.PositionsComponent,
+    components.PositionItemComponent,
+    components.OrdersComponent,
+    components.OrderItemComponent,
+
     components.TemplateComponent,
+
     components.BotComponent,
     components.BotOrderComponent,
-    components.OrderItemComponent,
+    components.BotOrderItemComponent,
+
     components.StatusBarComponent,
     components.TvChartComponent,
     components.LoginComponent,
