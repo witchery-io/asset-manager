@@ -4,13 +4,13 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthenticationService {
-  url = '';
+  url = 'https://cber.witchery.io';
   constructor(
     private http: HttpClient,
   ) { }
 
   login(username: string, password: string) {
-    return this.http.post<any>(`${this.url}/users/authenticate`, { username, password })
+    return this.http.post<any>(`${this.url}/users/authenticate`, { email_address: username, password: password })
       .pipe(map(user => {
         if (user && user.token) {
           localStorage.setItem('currentUser', JSON.stringify(user));
