@@ -31,7 +31,7 @@
   </tr>
   <tr [hidden]="isCollapsed" *ngIf="permission === PARENT">
     <th colspan="15" class="p-0">
-      <table class="table table-bordered table-xs m-0">
+      <table class="table table-xs m-0">
         <app-order-item
           *ngFor="let order of order.suborders"
           [order]="order"
