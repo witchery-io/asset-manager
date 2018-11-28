@@ -1,0 +1,41 @@
+<table class="table table-xs m-0">
+  <tbody>
+  <tr class="d-flex">
+    <td class="col">{{ order.pair }}</td>
+    <td class="col">{{ OrderContext[order.type.context] }}</td>
+    <td class="col">{{ OrderType[order.type.type] }}</td>
+    <td class="col">{{ OrderDirection[order.type.direction] }}</td>
+    <td class="col">{{ order.amount | number }}</td>
+    <td class="col">{{ order.open_price | number }}</td>
+    <td class="col">GTC</td>
+    <td class="col">{{ order.open_order_time | date: 'short' }}</td>
+    <td class="col">
+      <button
+        [disabled]="role !== ROLE.ADMIN"
+        class="btn btn-outline-warning btn-xs"
+      >MODIFY</button>
+      <button
+        [disabled]="role !== ROLE.ADMIN"
+        class="btn btn-danger btn-xs ml-1"
+      >CANCEL</button>
+    </td>
+    <th scope="row" class="col">
+      <button
+        [hidden]="order !== PARENT || order.suborders === null"
+        (click)="collapse(); isCollapsed = !isCollapsed"
+        [attr.aria-expanded]="!isCollapsed"
+        class="btn btn-xs btn-light"><fa-icon [icon]="isCollapsed ? 'plus' : 'minus'"></fa-icon></button>
+    </th>
+  </tr>
+  <tr [hidden]="isCollapsed" *ngIf="permission === PARENT">
+    <th colspan="15" class="p-0">
+      <table class="table table-bordered table-xs m-0">
+        <app-order-item
+          *ngFor="let order of order.suborders"
+          [order]="order"
+        ></app-order-item>
+      </table>
+    </th>
+  </tr>
+  </tbody>
+</table>

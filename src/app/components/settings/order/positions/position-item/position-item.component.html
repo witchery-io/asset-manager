@@ -1,0 +1,52 @@
+<table class="table table-xs m-0">
+  <tbody>
+  <tr class="d-flex" [tooltip]="tooltip">
+    <td class="col">{{ position.pair }}</td>
+    <td class="col">{{ OrderDirection[position.type.direction] }}</td>
+    <td class="col">{{ position.amount | number }}</td>
+    <td class="col">{{ position.open_price | number }}</td>
+    <td class="col">{{ position.current_price | number }}</td>
+    <td class="col">
+      <button
+        [disabled]="role !== ROLE.ADMIN"
+        class="btn btn-xs btn-outline-danger"
+      >ADD</button>
+    </td>
+    <td class="col">
+      <button
+        [disabled]="role !== ROLE.ADMIN"
+        class="btn btn-xs btn-outline-warning"
+      >ADD</button>
+    </td>
+    <td class="col">{{ feeOrSwap | number }}</td>
+    <td class="col">{{ position.pl | number }}</td>
+    <td class="col">{{ position.plmain | number }}</td>
+    <td class="col">{{ position.plmprc | number }}</td>
+    <td class="col">{{ position.exposure | number }}</td>
+    <td class="col">{{ position.open_order_time | date:'short' }}</td>
+    <td class="col">
+      <button
+        [disabled]="role !== ROLE.ADMIN"
+        class="btn btn-danger btn-xs"
+      >CLOSE</button>
+    </td>
+    <th scope="row" class="col">
+      <button
+        [hidden]="permission !== PARENT || position.suborders === null"
+        (click)="collapse(); isCollapsed = !isCollapsed"
+        [attr.aria-expanded]="!isCollapsed"
+        class="btn btn-xs btn-light"><fa-icon [icon]="isCollapsed ? 'plus' : 'minus'"></fa-icon></button>
+    </th>
+  </tr>
+  <tr [hidden]="isCollapsed" *ngIf="permission === PARENT">
+    <th colspan="15" class="p-0">
+      <table class="table table-bordered table-xs m-0">
+        <app-position-item
+          *ngFor="let position of position.suborders"
+          [position]="position"
+        ></app-position-item>
+      </table>
+    </th>
+  </tr>
+  </tbody>
+</table>
