@@ -4,34 +4,31 @@ import {
   OnInit,
   TemplateRef,
 } from '@angular/core';
-
 import {
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-
-import {
-  ViewCell,
-} from 'ng2-smart-table';
-
+import { ViewCell } from 'ng2-smart-table';
 import {
   BsModalRef,
   BsModalService,
 } from 'ngx-bootstrap';
-
 import {
   OrderService,
   NotifierService,
   TickService,
-  AccountService,
 } from '../../../services';
-
 import {
   Order,
   Exchange,
   Margin, User,
 } from '../../../models';
+import {
+  OrderContext,
+  OrderDirection,
+  OrderType,
+} from '../../../enums';
 
 @Component({
   selector: 'app-button-view, button-view',
@@ -47,15 +44,6 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   marginForm: FormGroup;
   modalRef: BsModalRef;
   currentTickId: number;
-  enums = {
-    'buy': 0,
-    'sell': 1,
-    'stop': 0,
-    'market': 1,
-    'limit': 2,
-    'exchange': 0,
-    'margin': 1,
-  };
   private readonly notifier: NotifierService;
 
   constructor(
@@ -96,64 +84,83 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     this.openModal(template, { class: 'modal-sm' });
   }
 
-  placeOrder(direction, type, model) {
+  get tradeType() {
+    return this.orderService.tradeType;
+  }
+
+  get tradeTypeId() {
+    return this.orderService.tradeTypeId;
+  }
+
+  placeOrder(direction, context, model) {
     const order: Order = {
       amount: model.amount,
       open_price: model.price,
       pair: this.tick.pair,
       type: {
-        context: this.enums[type],
-        direction: this.enums[direction],
-        type: this.enums[model.o_type],
+        context: +OrderContext[context],
+        direction: +OrderDirection[direction],
+        type: +OrderType[model.o_type],
       }
     };
-    if (this.orderService.tradeType === 'group') {
-      this.orderService.placeGroupOrder(this.orderService.tradeTypeId, order)
+    if (this.tradeType === 'group') {
+      this.orderService.placeGroupOrder(this.tradeTypeId, order)
         .subscribe((d: any) => {
-          const _msg = `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.pair } @ ${ d.open_price }.#111`;
-          this.notifier.notify( 'success', _msg);
+
+          this.notifier.notify( 'success',
+            `Placed ${ OrderType[d.type.type] } order to ${ OrderDirection[d.type.direction] }
+             ${ d.amount } ${ d.pair } @ ${ d.open_price }.#111`);
           this.orderService.fetchOrders();
         }, error1 => {
+
           this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
         });
-    } else if (this.orderService.tradeType === 'account') {
-      this.orderService.placeAccountOrder(this.orderService.tradeTypeId, order)
+    } else if (this.tradeType === 'account') {
+      this.orderService.placeAccountOrder(this.tradeTypeId, order)
         .subscribe((d: any) => {
-          const _msg = `Placed ${ d.type.type } order to ${ d.type.direction } ${ d.amount } ${ d.pair } @ ${ d.open_price }.#122`;
-          this.notifier.notify( 'success', _msg);
+
+          this.notifier.notify( 'success',
+            `Placed ${ OrderType[d.type.type] } order to ${ OrderDirection[d.type.direction] }
+             ${ d.amount } ${ d.pair } @ ${ d.open_price }.#122`);
           this.orderService.fetchOrders();
         }, error1 => {
+
           this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
         });
     }
+    this.modalRef.hide();
   }
 
   buyExchange(model: Exchange, isValid: boolean) {
-    if (isValid) {
-      this.placeOrder('buy', 'exchange', model);
-      this.modalRef.hide();
+    if (!isValid) {
+      return false;
     }
+
+    this.placeOrder('buy', 'exchange', model);
   }
 
   sellExchange(model: Exchange, isValid: boolean) {
-    if (isValid) {
-      this.placeOrder('sell', 'exchange', model);
-      this.modalRef.hide();
+    if (!isValid) {
+      return false;
     }
+
+    this.placeOrder('sell', 'exchange', model);
   }
 
   buyMargin(model: Margin, isValid: boolean) {
-    if (isValid) {
-      this.placeOrder('buy', 'margin', model);
-      this.modalRef.hide();
+    if (!isValid) {
+      return false;
     }
+
+    this.placeOrder('buy', 'margin', model);
   }
 
   sellMargin(model: Margin, isValid: boolean) {
-    if (isValid) {
-      this.placeOrder('sell', 'margin', model);
-      this.modalRef.hide();
+    if (!isValid) {
+      return false;
     }
+
+    this.placeOrder('sell', 'margin', model);
   }
 
   get role() {
