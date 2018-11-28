@@ -49,6 +49,7 @@ export class OrderItemComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.isCollapsed = JSON.parse(localStorage.getItem(`collapse.position.${ this.order.pair }`));
     this.accountService.getAccount(this.order.account).subscribe((res: any) => this.account_name = res.name);
 
     this.modifyForm = new FormGroup({
@@ -143,7 +144,7 @@ export class OrderItemComponent implements OnInit {
   }
 
   collapse() {
-    console.log('collapse');
-    // todo : set position id -> localStorage
+    this.isCollapsed = !this.isCollapsed;
+    localStorage.setItem(`collapse.position.${ this.order.pair }`, this.isCollapsed ? 'true' : 'false');
   }
 }

@@ -24,7 +24,7 @@
     <th class="col">
       <button
         [hidden]="order !== PARENT || order.suborders === null"
-        (click)="collapse(); isCollapsed = !isCollapsed"
+        (click)="collapse()"
         [attr.aria-expanded]="!isCollapsed"
         class="btn btn-xs btn-light"><fa-icon [icon]="isCollapsed ? 'plus' : 'minus'"></fa-icon></button>
     </th>

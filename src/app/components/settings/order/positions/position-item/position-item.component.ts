@@ -54,6 +54,7 @@ export class PositionItemComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.isCollapsed = JSON.parse(localStorage.getItem(`collapse.position.${ this.position.pair }`));
 
     this.accountService.getAccount(this.position.account).subscribe((res: any) => this.account_name = res.acc_name);
 
@@ -218,7 +219,7 @@ export class PositionItemComponent implements OnInit {
   }
 
   collapse() {
-    console.log('collapse');
-    // console.log('collapse');
+    this.isCollapsed = !this.isCollapsed;
+    localStorage.setItem(`collapse.position.${ this.position.pair }`, this.isCollapsed ? 'true' : 'false');
   }
 }

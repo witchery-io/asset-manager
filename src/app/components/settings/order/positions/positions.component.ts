@@ -15,7 +15,6 @@ export class PositionsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // console.log('PositionsComponent - ngOnInit', this);
   }
 
   get tradeType() {
