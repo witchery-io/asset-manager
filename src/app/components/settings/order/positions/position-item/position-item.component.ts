@@ -35,7 +35,7 @@ export class PositionItemComponent implements OnInit {
   @Input() permission: string;
   PARENT = PARENT;
   OrderDirection = OrderDirection;
-  isCollapsed = true;
+  isCollapsed: boolean;
   modalRef: BsModalRef;
   exchangeForm: FormGroup;
   marginForm: FormGroup;
@@ -54,7 +54,9 @@ export class PositionItemComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
-    this.isCollapsed = JSON.parse(localStorage.getItem(`collapse.position.${ this.position.pair }`));
+
+    const collapse = JSON.parse(localStorage.getItem(`collapse.position.${ this.position.pair }`));
+    this.isCollapsed = collapse === null ? true : collapse;
 
     this.accountService.getAccount(this.position.account).subscribe((res: any) => this.account_name = res.acc_name);
 

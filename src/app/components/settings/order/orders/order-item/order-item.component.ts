@@ -31,7 +31,7 @@ export class OrderItemComponent implements OnInit {
   OrderDirection = OrderDirection;
   OrderType = OrderType;
   OrderContext = OrderContext;
-  isCollapsed = true;
+  isCollapsed: boolean;
   modalRef: BsModalRef;
   modifyForm: FormGroup;
   private readonly notifier: NotifierService;
@@ -49,7 +49,10 @@ export class OrderItemComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
-    this.isCollapsed = JSON.parse(localStorage.getItem(`collapse.position.${ this.order.pair }`));
+
+    const collapse = JSON.parse(localStorage.getItem(`collapse.position.${ this.order.pair }`));
+    this.isCollapsed = collapse === null ? true : collapse;
+
     this.accountService.getAccount(this.order.account).subscribe((res: any) => this.account_name = res.name);
 
     this.modifyForm = new FormGroup({
