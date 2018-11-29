@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonViewComponent } from './button-view/button-view.component';
 import {
@@ -14,7 +14,7 @@ import {
   templateUrl: './trading.component.html',
   styleUrls: ['./trading.component.scss'],
 })
-export class TradingComponent implements OnInit {
+export class TradingComponent implements OnInit, OnDestroy {
   _symbol: any;
   groups = [];
   accounts = [];
@@ -72,6 +72,10 @@ export class TradingComponent implements OnInit {
 
     this.groupsService.getGroups().subscribe(groups => this.groups = groups);
     this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
+  }
+
+  ngOnDestroy() {
+    this.source.setFilter([]);
   }
 
   get selectedGroup() {
