@@ -13,6 +13,8 @@ export class AuthenticationService {
     return this.http.post<any>(`${this.url}/users/auth`, { email_address: username, password: password })
       .pipe(map(user => {
         if (user && user.token) {
+          /* default admin */
+          user.role = 'admin';
           localStorage.setItem('currentUser', JSON.stringify(user));
         }
 
