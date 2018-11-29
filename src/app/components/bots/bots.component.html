@@ -9,7 +9,8 @@
       </div>
 
       <div class="col-2">
-        <select class="form-control form-control-sm" (change)="changeFilter($event.target.value, 'pair')">
+        <label for="ticks" class="small">Ticks</label>
+        <select id="ticks" class="form-control form-control-sm" (change)="changeFilter($event.target.value, 'pair')">
           <option *ngFor="let tick of ticks" [value]="tick.pair">
             {{ tick.pair }}
           </option>
@@ -17,7 +18,8 @@
       </div>
 
       <div class="col-2">
-        <select class="form-control form-control-sm" (change)="changeFilter($event.target.value, 'group')">
+        <label for="groups" class="small">Groups</label>
+        <select id="groups" class="form-control form-control-sm" (change)="changeFilter($event.target.value, 'group')">
           <option *ngFor="let group of groups" [value]="group.id">
             {{ group.name }}
           </option>
