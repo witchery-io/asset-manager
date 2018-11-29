@@ -9,13 +9,13 @@
       <thead>
       <tr>
         <th scope="col"></th>
-        <th scope="col">Status</th>
         <th scope="col">Acc. Name</th>
         <th scope="col">User Name</th>
         <th scope="col">Exchange</th>
         <th scope="col">BC</th>
         <th scope="col">Rank</th>
         <th scope="col">Date</th>
+        <th scope="col">Status</th>
         <th scope="col"></th>
       </tr>
       </thead>
@@ -26,18 +26,18 @@
         [class.table-active]="a.id === account?.id"
       >
         <th scope="row">{{ i + 1 }}</th>
-        <td>
-          <span class="switch switch-sm">
-          <input [disabled]="role !== 'admin'" type="checkbox" [checked]="a.status" class="switch" id="switch-{{a.id}}">
-          <label class="m-0" for="switch-{{a.id}}"></label>
-        </span>
-        </td>
         <td>{{ a.acc_name }}</td>
         <td>{{ a.user_name }}</td>
         <td>{{ a.exchange }}</td>
         <td>{{ a.base_currency }}</td>
         <td>{{ a.risk }}</td>
         <td>{{ a.created_at | date:'shortDate' }}</td>
+        <td>
+          <span class="switch switch-sm">
+          <input [disabled]="role !== 'admin'" type="checkbox" [checked]="a.status" class="switch" id="switch-{{a.id}}">
+          <label class="m-0" for="switch-{{a.id}}"></label>
+        </span>
+        </td>
         <td>
           <fa-icon
             (click)="edit(i, editAccountModal)"
@@ -53,6 +53,11 @@
 
   <div class="col-8">
     <app-balance *ngIf="balance" [balance]="balance"></app-balance>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
     <app-order *ngIf="account"></app-order>
   </div>
 </div>
