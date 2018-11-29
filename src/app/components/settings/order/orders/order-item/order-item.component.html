@@ -35,6 +35,7 @@
         <app-order-item
           *ngFor="let order of order.suborders"
           [order]="order"
+          [accounts]="accounts"
         ></app-order-item>
       </table>
     </th>

@@ -19,7 +19,9 @@
       <app-order-item
         *ngFor="let order of orders"
         [order]="order"
-        [permission]="permission"></app-order-item>
+        [permission]="permission"
+        [accounts]="accounts"
+      ></app-order-item>
     </th>
   </tr>
   </tbody>
