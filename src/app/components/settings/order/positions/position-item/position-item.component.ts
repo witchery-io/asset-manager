@@ -10,7 +10,8 @@ import {
   Role,
   OrderDirection,
   OrderContext,
-  OrderType
+  OrderType,
+  PARENT,
 } from '../../../../../enums';
 import { BsModalRef } from 'ngx-bootstrap';
 import {
@@ -20,8 +21,6 @@ import {
 } from '../../../../../services';
 import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
-
-export const PARENT = 'parent';
 
 @Component({
   selector: 'app-position-item',

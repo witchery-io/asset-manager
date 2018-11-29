@@ -6,8 +6,8 @@ import {
   OrderType,
   OrderContext,
   OrderDirection,
+  PARENT,
 } from '../../../../../enums';
-import { PARENT } from '../../../..';
 import {
   AccountService,
   ModalService,
