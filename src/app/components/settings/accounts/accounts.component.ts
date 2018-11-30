@@ -32,7 +32,6 @@ export class AccountsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.orderService.groupByPair = false;
     this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -90,6 +89,7 @@ export class AccountsComponent implements OnInit {
 
   currentAccount($event, i) {
     this.account = this.accounts[i];
+    this.orderService.groupByPair = false;
     this.orderService.tradeType = 'account';
     this.orderService.tradeTypeId = this.account.id;
     this.orderService.fetchBalance();

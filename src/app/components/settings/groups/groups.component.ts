@@ -38,7 +38,6 @@ export class GroupsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.orderService.groupByPair = false;
     this.groupsService.getGroups().subscribe(groups => this.groups = groups);
     this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
     this.user = JSON.parse(localStorage.getItem('currentUser'));
@@ -110,6 +109,7 @@ export class GroupsComponent implements OnInit {
 
   chooseGroup(index) {
     this.group = this.groups[index];
+    this.orderService.groupByPair = false;
     this.orderService.tradeType = 'group';
     this.orderService.tradeTypeId = this.group.id;
     this.orderService.fetchBalance();
@@ -124,6 +124,7 @@ export class GroupsComponent implements OnInit {
 
   chooseAccount(index) {
     this.account = this.groupAccounts[index];
+    this.orderService.groupByPair = false;
     this.orderService.tradeType = 'account';
     this.orderService.tradeTypeId = this.account.id;
     this.orderService.fetchBalance();
