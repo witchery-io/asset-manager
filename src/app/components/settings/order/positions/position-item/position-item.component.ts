@@ -138,8 +138,8 @@ export class PositionItemComponent implements OnInit {
   orderLimit(template) {
 
     let amount = this.position.amount;
-    if (this.position.suborders.length > 0) {
-      if (this.position.suborders[0].suborders.length) {
+    if (this.position.suborders != null && this.position.suborders.length > 0) {
+      if (this.position.suborders[0].suborders != null && this.position.suborders[0].suborders.length) {
         for (const account of this.accounts) {
           if (account.id === this.position.suborders[0].suborders[0].account) {
             amount = this.position.suborders[0].suborders[0].amount / account.risk;
