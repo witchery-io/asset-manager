@@ -38,7 +38,13 @@ export class GroupsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.groupsService.getGroups().subscribe(groups => this.groups = groups);
+    this.groupsService.getGroups().subscribe(groups => {
+      this.groups = groups;
+      /*
+      * select default group
+      * */
+      this.chooseGroup(0);
+    });
     this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
