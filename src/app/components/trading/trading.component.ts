@@ -61,10 +61,10 @@ export class TradingComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
+      this.orderService.groupByPair = true;
       this.orderService.tradeType = params['type'];
       this.orderService.tradeTypeId = params['id'];
 
-      this.orderService.groupByPair = true;
       this.orderService.fetchOrders();
       this.orderService.fetchPositions();
     });
