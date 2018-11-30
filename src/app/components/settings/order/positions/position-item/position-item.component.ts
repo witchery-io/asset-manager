@@ -105,18 +105,54 @@ export class PositionItemComponent implements OnInit {
   }
 
   orderStop(template) {
+
+    let amount = this.position.amount;
+    if (this.position.suborders.length > 0) {
+      if (this.position.suborders[0].suborders.length) {
+        for (const account of this.accounts) {
+          if (account.id === this.position.suborders[0].suborders[0].account) {
+            amount = this.position.suborders[0].suborders[0].amount / account.risk;
+          }
+        }
+      } else {
+        for (const account of this.accounts) {
+          if (account.id === this.position.suborders[0].account) {
+            amount = this.position.suborders[0].amount / account.risk;
+          }
+        }
+      }
+    }
+
     this.marginForm.patchValue({
       o_type: 'stop',
-      amount: this.position.amount,
+      amount: amount,
     });
 
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
 
   orderLimit(template) {
+
+    let amount = this.position.amount;
+    if (this.position.suborders.length > 0) {
+      if (this.position.suborders[0].suborders.length) {
+        for (const account of this.accounts) {
+          if (account.id === this.position.suborders[0].suborders[0].account) {
+            amount = this.position.suborders[0].suborders[0].amount / account.risk;
+          }
+        }
+      } else {
+        for (const account of this.accounts) {
+          if (account.id === this.position.suborders[0].account) {
+            amount = this.position.suborders[0].amount / account.risk;
+          }
+        }
+      }
+    }
+
     this.marginForm.patchValue({
       o_type: 'limit',
-      amount: this.position.amount,
+      amount: amount,
     });
 
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
