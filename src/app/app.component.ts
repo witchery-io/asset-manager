@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import {
   TickService,
   OrderService,
@@ -30,6 +29,7 @@ export class AppComponent implements OnInit {
     this.botService.fetchBots();
     if (this.orderService.tradeTypeId && this.orderService.tradeType) {
       this.orderService.fetchOrders();
+      this.orderService.fetchPositions();
       this.orderService.fetchBalance();
     }
   }

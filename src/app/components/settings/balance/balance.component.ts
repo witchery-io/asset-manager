@@ -1,11 +1,5 @@
-import {
-  Component,
-  Input,
-} from '@angular/core';
-
-import {
-  OrderService,
-} from '../../../services';
+import { Component } from '@angular/core';
+import { OrderService } from '../../../services';
 
 @Component({
   selector: 'app-balance',
@@ -14,13 +8,15 @@ import {
 })
 export class BalanceComponent {
 
-  @Input() balance: any;
-
   constructor(
     private orderService: OrderService,
   ) { }
 
   get tradeType() {
     return this.orderService.tradeType;
+  }
+
+  get balance() {
+    return this.orderService.balance;
   }
 }

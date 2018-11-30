@@ -101,6 +101,7 @@ export class OrderItemComponent implements OnInit {
       }, () => {
 
         this.orderService.fetchOrders();
+        this.orderService.fetchPositions();
         this.spinner.hide();
       });
   }

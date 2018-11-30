@@ -1,27 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  TemplateRef,
-} from '@angular/core';
-
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-
-import {
-  Account, User,
-} from '../../../models';
-
-import {
-  BsModalRef,
-  BsModalService,
-} from 'ngx-bootstrap';
-
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Account, User } from '../../../models';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import {
   AccountService,
   OrderService,
@@ -34,14 +14,11 @@ import {
   styleUrls: ['./accounts.component.scss'],
 })
 export class AccountsComponent implements OnInit {
-
-  @Input() accounts: any;
-  @Output() update: EventEmitter<any> = new EventEmitter();
+  accounts: any[];
   user: User;
   modalRef: BsModalRef;
   accountForm: FormGroup;
   account: any;
-  balance: any;
   editAccountForm: FormGroup;
   private readonly notifier: NotifierService;
 
@@ -55,6 +32,8 @@ export class AccountsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.orderService.groupByPair = false;
+    this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
     this.accountForm = new FormGroup({
@@ -74,6 +53,14 @@ export class AccountsComponent implements OnInit {
     });
   }
 
+  get role() {
+    return this.user.role;
+  }
+
+  get balance() {
+    return this.orderService.balance;
+  }
+
   openModal(template: TemplateRef<any>, options = {}) {
     this.modalRef = this.modalService.show(template, options);
   }
@@ -82,7 +69,7 @@ export class AccountsComponent implements OnInit {
     if (isValid) {
       this.accountService.createAccount({ ...model, ...{ risk: +model.risk } })
         .subscribe(() => {
-            this.update.emit();
+          this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
             this.accountForm.reset({ risk: 0 });
             this.modalRef.hide();
           },
@@ -103,44 +90,15 @@ export class AccountsComponent implements OnInit {
 
   currentAccount($event, i) {
     this.account = this.accounts[i];
-
-    this.orderService.orders = [];
-    this.orderService.positions = [];
-
     this.orderService.tradeType = 'account';
     this.orderService.tradeTypeId = this.account.id;
-
-    this.accountService.getAccount(this.account.id)
-      .subscribe(account => {
-        this.account = account;
-      });
-
-    this.orderService.getAccountBalance(this.account.id)
-      .subscribe(balance => {
-        this.balance = balance;
-      });
-
-    this.orderService.getAccountOrders(this.account.id)
-      .subscribe(orders => {
-        if (orders !== null && orders.length > 0) {
-          this.orderService.orders = orders;
-        }
-      });
-
-    this.orderService.getAccountPositions(this.account.id)
-      .subscribe(positions => {
-        if (positions !== null && positions.length > 0) {
-          this.orderService.positions = positions;
-        }
-      });
+    this.orderService.fetchBalance();
+    this.orderService.fetchOrders();
+    this.orderService.fetchPositions();
   }
 
   edit(item_index, template: TemplateRef<any>) {
     this.editAccountForm.patchValue(this.accounts[item_index]);
     this.openModal(template);
-  }
-
-  get role() {
-    return this.user.role;
   }
 }

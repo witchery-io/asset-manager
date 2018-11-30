@@ -1,18 +1,11 @@
 <div class="row">
   <div class="col-12">
     <tabset>
-      <tab heading="GROUPS" id="tab1" (select)="changeTab()">
-        <app-groups
-          [groups]="groups"
-          [accounts]="accounts"
-          (update)="update($event)"
-        ></app-groups>
+      <tab heading="GROUPS" id="tab1">
+        <app-groups></app-groups>
       </tab>
-      <tab heading="ACCOUNTS" (select)="changeTab()">
-        <app-accounts
-          [accounts]="accounts"
-          (update)="update($event)"
-        ></app-accounts>
+      <tab heading="ACCOUNTS">
+        <app-accounts></app-accounts>
       </tab>
     </tabset>
   </div>

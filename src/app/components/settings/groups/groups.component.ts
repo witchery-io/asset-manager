@@ -1,27 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  TemplateRef,
-} from '@angular/core';
-
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-
-import {
-  BsModalRef,
-  BsModalService,
-} from 'ngx-bootstrap';
-
-import {
-  Group, User
-} from '../../../models';
-
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { Group, User } from '../../../models';
 import {
   AccountService,
   NotifierService,
@@ -35,10 +15,8 @@ import {
   styleUrls: ['./groups.component.scss'],
 })
 export class GroupsComponent implements OnInit {
-
-  @Input() groups: any;
-  @Input() accounts: any;
-  @Output() update: EventEmitter<any> = new EventEmitter();
+  groups: any[];
+  accounts: any[];
   user: User;
   modalRef: BsModalRef;
   groupForm: FormGroup;
@@ -47,7 +25,6 @@ export class GroupsComponent implements OnInit {
   group: any;
   groupAccounts: any;
   account: any;
-  balance: any;
   private readonly notifier: NotifierService;
 
   constructor(
@@ -61,6 +38,9 @@ export class GroupsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.orderService.groupByPair = false;
+    this.groupsService.getGroups().subscribe(groups => this.groups = groups);
+    this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
     this.groupForm = new FormGroup({
@@ -84,19 +64,23 @@ export class GroupsComponent implements OnInit {
     });
   }
 
+  get balance() {
+    return this.orderService.balance;
+  }
+
   openModal(template: TemplateRef<any>, options = {}) {
     this.modalRef = this.modalService.show(template, options);
   }
 
   createGroup(model: Group, isValid: boolean) {
     if (isValid) {
-      this.groupsService.createGroup({...model, ...{allocation_method: +model.allocation_method}})
+      this.groupsService.createGroup({ ...model, ...{ allocation_method: +model.allocation_method } })
         .subscribe(() => {
-            this.update.emit(null);
-            this.groupForm.reset({allocation_method: 0, active: true});
-            this.modalRef.hide();
-          },
-        );
+          this.groupsService.getGroups().subscribe(groups => this.groups = groups);
+          this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
+          this.groupForm.reset({allocation_method: 0, active: true});
+          this.modalRef.hide();
+        });
     }
   }
 
@@ -116,7 +100,8 @@ export class GroupsComponent implements OnInit {
     if (isValid) {
       this.groupsService.addAccount(this.group.id, model)
         .subscribe((result: { group_id: string }) => {
-          this.update.emit(null);
+          this.groupsService.getGroups().subscribe(groups => this.groups = groups);
+          this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
           this.updateGroupAccount(result.group_id);
           this.modalRef.hide();
         });
@@ -125,73 +110,25 @@ export class GroupsComponent implements OnInit {
 
   chooseGroup(index) {
     this.group = this.groups[index];
-
-    this.orderService.orders = [];
-    this.orderService.positions = [];
     this.orderService.tradeType = 'group';
     this.orderService.tradeTypeId = this.group.id;
-
-    this.orderService.getGroupBalance(this.group.id)
-      .subscribe(balance => {
-        this.balance = balance;
-      });
-
-
-    this.orderService.getGroupOrders(this.group.id)
-      .subscribe(orders => {
-        if (orders !== null && orders.length > 0) {
-          this.orderService.orders = orders;
-        }
-      });
-
-
-    this.orderService.getGroupPositions(this.group.id)
-      .subscribe(positions => {
-        if (positions !== null && positions.length > 0) {
-          this.orderService.positions = positions;
-        }
-      });
-
+    this.orderService.fetchBalance();
+    this.orderService.fetchOrders();
+    this.orderService.fetchPositions();
     this.updateGroupAccount(this.group.id);
   }
 
   updateGroupAccount(id) {
-    this.groupsService.getGroup(id)
-      .subscribe(group => this.groupAccounts = group.accounts);
+    this.groupsService.getGroup(id).subscribe(group => this.groupAccounts = group.accounts);
   }
 
   chooseAccount(index) {
     this.account = this.groupAccounts[index];
-
-    this.orderService.orders = [];
-    this.orderService.positions = [];
-
     this.orderService.tradeType = 'account';
     this.orderService.tradeTypeId = this.account.id;
-
-    this.accountService.getAccount(this.account.id)
-      .subscribe(account => {
-        this.account = account;
-      });
-
-    this.orderService.getAccountBalance(this.account.id)
-      .subscribe(balance => {
-        this.balance = balance;
-      });
-
-    this.orderService.getAccountOrders(this.account.id)
-      .subscribe(orders => {
-        if (orders !== null && orders.length > 0) {
-          this.orderService.orders = orders;
-        }
-      });
-
-    this.orderService.getAccountPositions(this.account.id)
-      .subscribe(positions => {
-        if (positions !== null && positions.length > 0) {
-          this.orderService.positions = positions;
-        }
-      });
+    this.orderService.fetchBalance();
+    this.orderService.fetchOrders();
+    this.orderService.fetchPositions();
   }
 
   edit(item_index, template: TemplateRef<any>) {

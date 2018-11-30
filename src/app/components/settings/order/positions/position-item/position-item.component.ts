@@ -137,6 +137,7 @@ export class PositionItemComponent implements OnInit {
       }, () => {
 
         this.orderService.fetchOrders();
+        this.orderService.fetchPositions();
         this.spinner.hide();
       });
   }
@@ -200,6 +201,7 @@ export class PositionItemComponent implements OnInit {
         }, () => {
 
           this.orderService.fetchOrders();
+          this.orderService.fetchPositions();
           this.spinner.hide();
         });
     } else if (this.tradeType === 'account') {
@@ -216,6 +218,7 @@ export class PositionItemComponent implements OnInit {
         }, () => {
 
           this.orderService.fetchOrders();
+          this.orderService.fetchPositions();
           this.spinner.hide();
         });
     }

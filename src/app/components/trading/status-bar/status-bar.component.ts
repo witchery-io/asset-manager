@@ -4,25 +4,15 @@ import {
   OnInit,
   TemplateRef,
 } from '@angular/core';
-
-import {
-  BsModalService,
-} from 'ngx-bootstrap/modal';
-
-import {
-  OrderService,
-} from '../../../services';
-
-import {
-  BsModalRef,
-} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { OrderService } from '../../../services';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
   selector: 'app-status-bar',
@@ -45,6 +35,7 @@ export class StatusBarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.orderService.fetchBalance();
     this.transferForm = this.fb.group({
       group: new FormControl(''),
       account: new FormControl(''),
