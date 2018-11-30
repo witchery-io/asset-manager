@@ -38,7 +38,7 @@
         [hidden]="permission !== PARENT || position.suborders === null"
         (click)="collapse()"
         [attr.aria-expanded]="!isCollapsed"
-        class="btn btn-xs btn-light"><fa-icon [icon]="isCollapsed ? 'plus' : 'minus'"></fa-icon></button>
+        class="btn btn-xs btn-primary"><fa-icon [icon]="isCollapsed ? 'plus' : 'minus'"></fa-icon></button>
     </th>
   </tr>
   <tr [hidden]="isCollapsed" *ngIf="permission === PARENT">
