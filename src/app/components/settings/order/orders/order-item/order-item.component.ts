@@ -66,12 +66,16 @@ export class OrderItemComponent implements OnInit {
     return this.orderService.tradeType;
   }
 
+  get groupByPair() {
+    return this.orderService.groupByPair;
+  }
+
   get tooltip() {
     return this.account_name;
   }
 
   setAccountName() {
-    if (this.permission !== 'parent' && this.tradeType === 'group' && this.accounts) {
+    if (this.permission !== 'parent' && this.tradeType === 'group' && this.accounts && !this.groupByPair) {
       for (const account of this.accounts) {
         if (account.id === this.order.account) {
           this.account_name = account.name;

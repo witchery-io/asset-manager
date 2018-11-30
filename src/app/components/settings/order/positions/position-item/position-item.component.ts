@@ -81,6 +81,10 @@ export class PositionItemComponent implements OnInit {
     return this.orderService.tradeTypeId;
   }
 
+  get groupByPair() {
+    return this.orderService.groupByPair;
+  }
+
   get role() {
     return this.user.role;
   }
@@ -90,7 +94,7 @@ export class PositionItemComponent implements OnInit {
   }
 
   setAccountName() {
-    if (this.permission !== 'parent' && this.tradeType === 'group' && this.accounts) {
+    if (this.permission !== 'parent' && this.tradeType === 'group' && this.accounts && !this.groupByPair) {
       for (const account of this.accounts) {
         if (account.id === this.position.account) {
           this.account_name = account.acc_name;
