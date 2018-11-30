@@ -111,6 +111,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
             `Placed ${ OrderType[d.type.type] } order to ${ OrderDirection[d.type.direction] }
              ${ d.amount } ${ d.pair } @ ${ d.open_price }.#111`);
           this.orderService.fetchOrders();
+          this.orderService.fetchPositions();
         }, error1 => {
 
           this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
@@ -123,6 +124,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
             `Placed ${ OrderType[d.type.type] } order to ${ OrderDirection[d.type.direction] }
              ${ d.amount } ${ d.pair } @ ${ d.open_price }.#122`);
           this.orderService.fetchOrders();
+          this.orderService.fetchPositions();
         }, error1 => {
 
           this.notifier.notify( 'error', `Error msg: ${ error1.message }`);

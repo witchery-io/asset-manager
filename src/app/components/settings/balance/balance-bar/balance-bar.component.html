@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col">
+    <h6>
+      <small class="text-muted">BC</small>
+      <div>{{ balance?.base_currency }}</div>
+    </h6>
+  </div>
+  <div class="col">
+    <h6>
+      <small class="text-muted">Balance</small>
+      <div>{{ balance?.balance | number }}</div>
+    </h6>
+  </div>
+  <div class="col">
+    <h6>
+      <small class="text-muted">WSB</small>
+      <div>{{ balance?.wsb | number }}</div>
+    </h6>
+  </div>
+  <div class="col">
+    <h6>
+      <small class="text-muted">Equity</small>
+      <div>{{ balance?.equity | number }}</div>
+    </h6>
+  </div>
+  <div class="col">
+    <h6>
+      <small class="text-muted">PL (%)</small>
+      <div>{{ balance?.pl | number }}</div>
+    </h6>
+  </div>
+  <div class="col">
+    <h6>
+      <small class="text-muted">Exposure</small>
+      <div>{{ balance?.exposure | number }}</div>
+    </h6>
+  </div>
+  <div class="col">
+    <h6>
+      <small class="text-muted">PL</small>
+      <div>{{ balance?.total_pl | number }}</div>
+    </h6>
+  </div>
+  <div class="col">
+    <h6>
+      <small class="text-muted">Exp/Eq</small>
+      <div>{{ balance?.exposure / balance?.equity * 100  | number }}</div>
+    </h6>
+  </div>
+</div>

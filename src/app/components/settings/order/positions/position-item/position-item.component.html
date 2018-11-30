@@ -43,10 +43,11 @@
   </tr>
   <tr [hidden]="isCollapsed" *ngIf="permission === PARENT">
     <th colspan="15" class="p-0">
-      <table class="table table-xs m-0">
+      <table class="table table-hover table-xs m-0">
         <app-position-item
           *ngFor="let position of position.suborders"
           [position]="position"
+          [accounts]="accounts"
         ></app-position-item>
       </table>
     </th>

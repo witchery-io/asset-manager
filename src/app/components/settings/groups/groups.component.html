@@ -9,10 +9,11 @@
         Create group
       </button>
     </div>
-    <table class="table table-xs">
+    <table class="table table-hover table-xs">
       <thead>
       <tr>
         <th scope="col">Name</th>
+        <th scope="col">Status</th>
         <th scope="col"></th>
       </tr>
       </thead>
@@ -24,13 +25,7 @@
         (click)="chooseGroup(i)"
       >
         <td>{{ g.name }}</td>
-        <td class="text-align-right">
-          <fa-icon
-            (click)="edit(i, editGroupModal)"
-            icon="edit"
-            class="text-danger float-right"
-            title="Edit"
-          ></fa-icon>
+        <td>
           <span class="switch switch-sm mr-2">
             <input
               [disabled]="role !== 'admin'"
@@ -41,6 +36,14 @@
             >
             <label class="m-0" for="switch-{{g.id}}"></label>
           </span>
+        </td>
+        <td>
+          <fa-icon
+            (click)="edit(i, editGroupModal)"
+            icon="edit"
+            class="text-danger float-right"
+            title="Edit"
+          ></fa-icon>
         </td>
       </tr>
       </tbody>
@@ -56,7 +59,7 @@
         Add account
       </button>
     </div>
-    <table class="table table-xs">
+    <table class="table table-hover table-xs">
       <thead>
       <tr>
         <th scope="col">Account</th>
@@ -78,8 +81,13 @@
   </div>
 
   <div class="col-8">
-    <app-balance *ngIf="balance" [balance]="balance"></app-balance>
-    <app-order *ngIf="group || account"></app-order>
+    <app-balance></app-balance>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <app-order></app-order>
   </div>
 </div>
 

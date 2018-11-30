@@ -45,7 +45,9 @@ import { ErrorInterceptor, fakeBackendProvider, JwtInterceptor } from '../helper
     components.BotsComponent,
     components.GroupsComponent,
     components.AccountsComponent,
+
     components.BalanceComponent,
+    components.BalanceBarComponent,
 
     components.OrderComponent,
     components.PositionsComponent,

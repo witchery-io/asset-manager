@@ -1,27 +1,26 @@
-import {
-  Injectable,
-} from '@angular/core';
-
-import {
-  HttpClient,
-} from '@angular/common/http';
-
-import {
-  Order,
-} from '../models';
-
-import {
-  Observable,
-} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Order } from '../models';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class OrderService {
-  orders = [];
-  positions = [];
-  balance = {};
-  tradeType: any;
-  tradeTypeId: any;
-  groupByPair: any;
+  orders: any[];
+  positions: any[];
+  balance: {
+    balance: number,
+    base_currency: string,
+    equity: number,
+    exposure: number,
+    last_updated: Date,
+    per_currency_balances: any[],
+    pl: number,
+    total_pl: number,
+    wsb: number,
+  };
+  tradeType: string; // group or account
+  tradeTypeId: string; // "6a86df61-c190-4347-9b61-34cbd88d38a4"
+  groupByPair: boolean; // bool : true or false
 
   // url = 'http://192.168.5.60:50090/payments';
   url = 'http://trade.vitanova.online:50090/payments';
@@ -72,23 +71,23 @@ export class OrderService {
     return this.http.post(`${ this.url }/exchange/accounts/${ accountId }/orders`, order);
   }
 
-  getGroupOrders(groupId: string, groupByPair: boolean = false): Observable<any> {
-    if (this.groupByPair) {
+  getGroupOrders(groupId: string, groupByPair: boolean): Observable<any> {
+    if (groupByPair) {
       return this.http.get(`${ this.url }/exchange/groups/${ groupId }/orders?groupby=pair`);
     } else {
       return this.http.get(`${ this.url }/exchange/groups/${ groupId }/orders`);
     }
   }
 
-  getGroupPositions(groupId: string, groupByPair: boolean = false): Observable<any> {
-    if (this.groupByPair) {
+  getGroupPositions(groupId: string, groupByPair: boolean): Observable<any> {
+    if (groupByPair) {
       return this.http.get(`${ this.url }/exchange/groups/${ groupId }/positions?groupby=pair`);
     } else {
       return this.http.get(`${ this.url }/exchange/groups/${ groupId }/positions`);
     }
   }
 
-  getAccountOrders(accountId: string, groupByPair: boolean = false): Observable<any> {
+  getAccountOrders(accountId: string, groupByPair: boolean): Observable<any> {
     if (groupByPair) {
       return this.http.get(`${ this.url }/exchange/accounts/${ accountId }/orders?groupby=pair`);
     } else {
@@ -96,7 +95,7 @@ export class OrderService {
     }
   }
 
-  getAccountPositions(accountId: string, groupByPair: boolean = false): Observable<any> {
+  getAccountPositions(accountId: string, groupByPair: boolean): Observable<any> {
     if (groupByPair) {
       return this.http.get(`${ this.url }/exchange/accounts/${ accountId }/positions?groupby=pair`);
     } else {
@@ -117,23 +116,28 @@ export class OrderService {
 
   fetchOrders() {
     if (this.tradeType === 'group') {
-      this.getGroupOrders(this.tradeTypeId, true)
+      this.getGroupOrders(this.tradeTypeId, this.groupByPair)
         .subscribe(orders => {
           this.setOrders(orders);
         });
+    } else if (this.tradeType === 'account') {
 
-      this.getGroupPositions(this.tradeTypeId, true)
+      this.getAccountOrders(this.tradeTypeId, this.groupByPair)
+        .subscribe(orders => {
+          this.setOrders(orders);
+        });
+    }
+  }
+
+  fetchPositions() {
+    if (this.tradeType === 'group') {
+      this.getGroupPositions(this.tradeTypeId, this.groupByPair)
         .subscribe(positions => {
           this.setPositions(positions);
         });
-
     } else if (this.tradeType === 'account') {
-      this.getAccountOrders(this.tradeTypeId, true)
-        .subscribe(orders => {
-          this.setOrders(orders);
-        });
 
-      this.getAccountPositions(this.tradeTypeId, true)
+      this.getAccountPositions(this.tradeTypeId, this.groupByPair)
         .subscribe(positions => {
           this.setPositions(positions);
         });

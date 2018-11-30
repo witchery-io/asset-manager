@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderService } from '../../../../services';
+import { AccountService, OrderService } from '../../../../services';
 
 @Component({
   selector: 'app-orders',
@@ -9,12 +9,15 @@ import { OrderService } from '../../../../services';
 export class OrdersComponent implements OnInit {
 
   permission = 'parent';
+  accounts: any;
 
   constructor(
     private orderService: OrderService,
+    private accountService: AccountService,
   ) { }
 
   ngOnInit() {
+    this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
   }
 
   get orders() {

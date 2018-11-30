@@ -15,6 +15,7 @@ export * from './settings/order/orders/order-item/order-item.component';
 export * from './settings/accounts/accounts.component';
 export * from './settings/groups/groups.component';
 export * from './settings/balance/balance.component';
+export * from './settings/balance/balance-bar/balance-bar.component';
 
 export * from './trading/trading.component';
 export * from './trading/status-bar/status-bar.component';

@@ -15,7 +15,6 @@ import {
 } from '../../../../../enums';
 import { BsModalRef } from 'ngx-bootstrap';
 import {
-  AccountService,
   ModalService,
   OrderService,
 } from '../../../../../services';
@@ -32,6 +31,7 @@ export class PositionItemComponent implements OnInit {
   ROLE = Role;
   @Input() position: any;
   @Input() permission: string;
+  @Input() accounts: any;
   PARENT = PARENT;
   OrderDirection = OrderDirection;
   isCollapsed: boolean;
@@ -46,7 +46,6 @@ export class PositionItemComponent implements OnInit {
     private modalService: ModalService,
     private notifierService: NotifierService,
     private spinner: NgxSpinnerService,
-    private accountService: AccountService,
   ) {
     this.notifier = notifierService;
   }
@@ -54,11 +53,9 @@ export class PositionItemComponent implements OnInit {
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
-    const collapse = JSON.parse(localStorage.getItem(`collapse.position.${ this.position.pair }`));
+    const collapse = JSON.parse(localStorage.getItem(`collapse.position.${ this.position.order_number }`));
     this.isCollapsed = collapse === null ? true : collapse;
-
-    this.accountService.getAccount(this.position.account).subscribe((res: any) => this.account_name = res.acc_name);
-
+    this.setAccountName();
     this.exchangeForm = new FormGroup({
       o_type: new FormControl('limit', [<any>Validators.required]),
       price: new FormControl(0),
@@ -89,11 +86,18 @@ export class PositionItemComponent implements OnInit {
   }
 
   get tooltip() {
-    if (this.permission === 'parent' || this.tradeType !== 'group') {
-      return false;
-    }
-
     return this.account_name;
+  }
+
+  setAccountName() {
+    if (this.permission !== 'parent' && this.tradeType === 'group' && this.accounts) {
+      for (const account of this.accounts) {
+        if (account.id === this.position.account) {
+          this.account_name = account.acc_name;
+          break;
+        }
+      }
+    }
   }
 
   openModal(template: TemplateRef<any>, options = {}) {
@@ -133,6 +137,7 @@ export class PositionItemComponent implements OnInit {
       }, () => {
 
         this.orderService.fetchOrders();
+        this.orderService.fetchPositions();
         this.spinner.hide();
       });
   }
@@ -196,6 +201,7 @@ export class PositionItemComponent implements OnInit {
         }, () => {
 
           this.orderService.fetchOrders();
+          this.orderService.fetchPositions();
           this.spinner.hide();
         });
     } else if (this.tradeType === 'account') {
@@ -212,6 +218,7 @@ export class PositionItemComponent implements OnInit {
         }, () => {
 
           this.orderService.fetchOrders();
+          this.orderService.fetchPositions();
           this.spinner.hide();
         });
     }
@@ -221,6 +228,6 @@ export class PositionItemComponent implements OnInit {
 
   collapse() {
     this.isCollapsed = !this.isCollapsed;
-    localStorage.setItem(`collapse.position.${ this.position.pair }`, this.isCollapsed ? 'true' : 'false');
+    localStorage.setItem(`collapse.position.${ this.position.order_number }`, this.isCollapsed ? 'true' : 'false');
   }
 }

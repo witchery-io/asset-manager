@@ -60,14 +60,13 @@ export class TradingComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.orderService.groupByPair = true;
-
     this.route.params.subscribe(params => {
+      this.orderService.groupByPair = true;
       this.orderService.tradeType = params['type'];
       this.orderService.tradeTypeId = params['id'];
 
-      this.orderService.fetchBalance();
       this.orderService.fetchOrders();
+      this.orderService.fetchPositions();
     });
 
     this.groupsService.getGroups().subscribe(groups => this.groups = groups);
@@ -79,11 +78,11 @@ export class TradingComponent implements OnInit, OnDestroy {
   }
 
   get selectedGroup() {
-    return this.orderService.tradeType === 'group' ? this.orderService.tradeTypeId : '';
+    return this.tradeType === 'group' ? this.tradeTypeId : '';
   }
 
   get selectedAccount() {
-    return this.orderService.tradeType === 'account' ? this.orderService.tradeTypeId : '';
+    return this.tradeType === 'account' ? this.tradeTypeId : '';
   }
 
   get source() {
@@ -92,6 +91,10 @@ export class TradingComponent implements OnInit, OnDestroy {
 
   get tradeType() {
     return this.orderService.tradeType;
+  }
+
+  get tradeTypeId() {
+    return this.orderService.tradeTypeId;
   }
 
   changeType(type, current_type_id) {

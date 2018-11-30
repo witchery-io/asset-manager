@@ -9,7 +9,6 @@ import {
   PARENT,
 } from '../../../../../enums';
 import {
-  AccountService,
   ModalService,
   OrderService,
 } from '../../../../../services';
@@ -28,6 +27,7 @@ export class OrderItemComponent implements OnInit {
   PARENT = PARENT;
   @Input() order: any;
   @Input() permission: string;
+  @Input() accounts: any;
   OrderDirection = OrderDirection;
   OrderType = OrderType;
   OrderContext = OrderContext;
@@ -42,7 +42,6 @@ export class OrderItemComponent implements OnInit {
     private orderService: OrderService,
     private notifierService: NotifierService,
     private spinner: NgxSpinnerService,
-    private accountService: AccountService,
   ) {
     this.notifier = notifierService;
   }
@@ -50,11 +49,9 @@ export class OrderItemComponent implements OnInit {
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
-    const collapse = JSON.parse(localStorage.getItem(`collapse.position.${ this.order.pair }`));
+    const collapse = JSON.parse(localStorage.getItem(`collapse.position.${ this.order.order_number }`));
     this.isCollapsed = collapse === null ? true : collapse;
-
-    this.accountService.getAccount(this.order.account).subscribe((res: any) => this.account_name = res.name);
-
+    this.setAccountName();
     this.modifyForm = new FormGroup({
       open_price: new FormControl(0),
       amount: new FormControl('', [<any>Validators.required]),
@@ -70,11 +67,18 @@ export class OrderItemComponent implements OnInit {
   }
 
   get tooltip() {
-    if (this.permission === 'parent' || this.tradeType !== 'group') {
-      return false;
-    }
-
     return this.account_name;
+  }
+
+  setAccountName() {
+    if (this.permission !== 'parent' && this.tradeType === 'group' && this.accounts) {
+      for (const account of this.accounts) {
+        if (account.id === this.order.account) {
+          this.account_name = account.name;
+          break;
+        }
+      }
+    }
   }
 
   openModal(template: TemplateRef<any>, options = {}) {
@@ -96,6 +100,7 @@ export class OrderItemComponent implements OnInit {
       }, () => {
 
         this.orderService.fetchOrders();
+        this.orderService.fetchPositions();
         this.spinner.hide();
       });
   }
@@ -122,7 +127,8 @@ export class OrderItemComponent implements OnInit {
               this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
             }, () => {
 
-              this.orderService.getGroupOrders(this.order.group).subscribe();
+              this.orderService.fetchOrders();
+              this.orderService.fetchPositions();
               this.spinner.hide();
             });
         } else if (this.tradeType === 'account') {
@@ -138,7 +144,8 @@ export class OrderItemComponent implements OnInit {
               this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
             }, () => {
 
-              this.orderService.getAccountOrders(this.order.account).subscribe();
+              this.orderService.fetchOrders();
+              this.orderService.fetchPositions();
               this.spinner.hide();
             });
         }
@@ -148,6 +155,6 @@ export class OrderItemComponent implements OnInit {
 
   collapse() {
     this.isCollapsed = !this.isCollapsed;
-    localStorage.setItem(`collapse.position.${ this.order.pair }`, this.isCollapsed ? 'true' : 'false');
+    localStorage.setItem(`collapse.position.${ this.order.order_number }`, this.isCollapsed ? 'true' : 'false');
   }
 }
