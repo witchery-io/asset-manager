@@ -9,7 +9,6 @@ import {
   PARENT,
 } from '../../../../../enums';
 import {
-  AccountService,
   ModalService,
   OrderService,
 } from '../../../../../services';
@@ -128,7 +127,8 @@ export class OrderItemComponent implements OnInit {
               this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
             }, () => {
 
-              this.orderService.getGroupOrders(this.order.group).subscribe();
+              this.orderService.fetchOrders();
+              this.orderService.fetchPositions();
               this.spinner.hide();
             });
         } else if (this.tradeType === 'account') {
@@ -144,7 +144,8 @@ export class OrderItemComponent implements OnInit {
               this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
             }, () => {
 
-              this.orderService.getAccountOrders(this.order.account).subscribe();
+              this.orderService.fetchOrders();
+              this.orderService.fetchPositions();
               this.spinner.hide();
             });
         }
