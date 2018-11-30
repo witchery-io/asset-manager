@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.fetchData();
-    setInterval(() => this.fetchData(), 9000);
+    setInterval(() => this.fetchData(), 16000);
   }
 
   fetchData() {
