@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { User } from '../../../../../models';
+import {Component, Input, OnInit, TemplateRef} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {User} from '../../../../../models';
 import {
   Role,
   OrderType,
@@ -12,9 +12,9 @@ import {
   ModalService,
   OrderService,
 } from '../../../../../services';
-import { BsModalRef } from 'ngx-bootstrap';
-import { NotifierService } from 'angular-notifier';
-import { NgxSpinnerService } from 'ngx-spinner';
+import {BsModalRef} from 'ngx-bootstrap';
+import {NotifierService} from 'angular-notifier';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-order-item',
@@ -95,12 +95,12 @@ export class OrderItemComponent implements OnInit {
     this.orderService.cancelOrder(this.order)
       .subscribe(() => {
 
-        this.notifier.notify( 'success',
+        this.notifier.notify('success',
           `Order cancelled, ${ this.OrderType[this.order.type.type] }, ${ this.OrderDirection[this.order.type.direction] }
            ${ this.order.amount } ${ this.order.pair } @ ${ this.order.open_price }.#p57o`);
       }, error1 => {
 
-        this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+        this.notifier.notify('error', `Error msg: ${ error1.message }`);
       }, () => {
 
         this.orderService.fetchOrders();
@@ -110,8 +110,22 @@ export class OrderItemComponent implements OnInit {
   }
 
   orderModify(template) {
-    this.modifyForm.patchValue(this.order);
-    this.openModal(template, { class: 'modal-sm' });
+
+    let amount = this.order.amount;
+    if (this.order.suborders != null && this.order.suborders.length > 0) {
+      for (const account of this.accounts) {
+        if (account.id === this.order.suborders[0].account) {
+          amount = this.order.suborders[0].amount / account.risk;
+        }
+      }
+    }
+
+    const order = JSON.parse(JSON.stringify(this.order));
+
+    order.amount = amount;
+
+    this.modifyForm.patchValue(order);
+    this.openModal(template, {class: 'modal-sm'});
   }
 
   orderApprove(model: any, isValid: boolean) {
@@ -120,15 +134,18 @@ export class OrderItemComponent implements OnInit {
       this.modalRef.hide();
       this.orderService.cancelOrder(this.order).subscribe(() => {
         if (this.tradeType === 'group') {
-          this.orderService.placeGroupOrder(this.order.group, { ...this.order, ...model })
+          model.type = this.order.type;
+          model.pair = this.order.pair;
+          // this.orderService.placeGroupOrder(this.order.group, {...this.order, ...model})
+          this.orderService.placeGroupOrder(this.order.group, model)
             .subscribe((d: any) => {
 
-              this.notifier.notify( 'success',
+              this.notifier.notify('success',
                 `Order modified, ${ OrderType[d.type.type] }, to ${ OrderDirection[d.type.direction] }
                  ${ d.amount } ${ d.pair } @ ${ d.open_price }.#164o`);
             }, error1 => {
 
-              this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+              this.notifier.notify('error', `Error msg: ${ error1.message }`);
             }, () => {
 
               this.orderService.fetchOrders();
@@ -137,15 +154,17 @@ export class OrderItemComponent implements OnInit {
             });
         } else if (this.tradeType === 'account') {
 
-          this.orderService.placeAccountOrder(this.order.account, { ...this.order, ...model })
+          model.type = this.order.type;
+          model.pair = this.order.pair;
+          this.orderService.placeAccountOrder(this.order.account, model)
             .subscribe((d: any) => {
 
-              this.notifier.notify( 'success',
+              this.notifier.notify('success',
                 `Order modified, ${ OrderType[d.type.type] }, to ${ OrderDirection[d.type.direction] }
                  ${ d.amount } ${ d.pair } @ ${ d.open_price }.#164o`);
             }, error1 => {
 
-              this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+              this.notifier.notify('error', `Error msg: ${ error1.message }`);
             }, () => {
 
               this.orderService.fetchOrders();
