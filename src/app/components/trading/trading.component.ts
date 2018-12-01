@@ -27,7 +27,7 @@ export class TradingComponent implements OnInit, OnDestroy {
       last: {
         title: 'LAST',
       },
-      daily_change: {
+      daily_change_prc: {
         title: '24HR',
         type: 'html',
       },
