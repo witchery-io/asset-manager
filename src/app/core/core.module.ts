@@ -1,17 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import * as services from '../services';
 import * as components from '../components';
 import * as guards from '../guards';
 import {
-  TabsModule,
   ModalModule,
   CollapseModule,
-  AlertModule,
-  TooltipModule,
+  BsDropdownModule,
 } from 'ngx-bootstrap';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -20,19 +17,17 @@ import { ErrorInterceptor, fakeBackendProvider, JwtInterceptor } from '../helper
 @NgModule({
   imports: [
     BrowserModule,
-    SharedModule,
     HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
+    SharedModule,
     Ng2SmartTableModule,
-    FontAwesomeModule,
-    TabsModule.forRoot(),
-    TooltipModule.forRoot(),
     ModalModule.forRoot(),
+    BsDropdownModule.forRoot(),
     CollapseModule.forRoot(),
-    AlertModule.forRoot(),
   ],
   exports: [
+    CollapseModule,
+    BsDropdownModule,
+    FontAwesomeModule,
   ],
   declarations: [
     components.BotsComponent,

@@ -13,9 +13,9 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
+    FontAwesomeModule,
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
     [RouterModule.forRoot(routes)],
@@ -30,6 +30,11 @@ const routes: Routes = [
     components.BalanceBarComponent,
   ],
   exports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TabsModule,
+    FontAwesomeModule,
     components.TvChartComponent,
     components.OrdersComponent,
     components.OrderItemComponent,
