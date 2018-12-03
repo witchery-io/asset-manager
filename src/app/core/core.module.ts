@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import * as services from '../services';
 import * as components from '../components';
@@ -19,6 +20,7 @@ import { ErrorInterceptor, fakeBackendProvider, JwtInterceptor } from '../helper
 @NgModule({
   imports: [
     BrowserModule,
+    SharedModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
@@ -62,7 +64,6 @@ import { ErrorInterceptor, fakeBackendProvider, JwtInterceptor } from '../helper
     components.BotOrderItemComponent,
 
     components.StatusBarComponent,
-    components.TvChartComponent,
     components.LoginComponent,
   ],
   providers: [

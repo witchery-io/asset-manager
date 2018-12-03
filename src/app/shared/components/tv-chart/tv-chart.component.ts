@@ -8,11 +8,11 @@ import {
   widget,
   IChartingLibraryWidget,
   ChartingLibraryWidgetOptions,
-} from '../../../assets/charting_library/charting_library.min';
+} from '../../../../assets/charting_library/charting_library.min';
 
 import {
   SharedService,
-} from '../../services';
+} from '../../../services';
 
 @Component({
   selector: 'app-tv-chart',
@@ -25,7 +25,7 @@ export class TvChartComponent implements OnInit {
   // BEWARE: no trailing slash is expected in feed URL
 
   private _datafeedUrl = 'http://trade.vitanova.online:50091/charts';
-  //private _datafeedUrl = 'http://192.168.5.60:4447/charts';
+  // private _datafeedUrl = 'http://192.168.5.60:4447/charts';
 
   private _libraryPath: ChartingLibraryWidgetOptions['library_path'] = '/assets/charting_library/';
   private _chartsStorageUrl: ChartingLibraryWidgetOptions['charts_storage_url'] = 'https://saveload.tradingview.com';

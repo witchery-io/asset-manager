@@ -12,6 +12,10 @@ const routes: Routes = [
   ],
   declarations: [
     components.NotFoundComponent,
-  ]
+    components.TvChartComponent,
+  ],
+  exports: [
+    components.TvChartComponent,
+  ],
 })
 export class SharedModule { }

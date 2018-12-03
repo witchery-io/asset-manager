@@ -21,6 +21,4 @@ export * from './trading/trading.component';
 export * from './trading/status-bar/status-bar.component';
 export * from './trading/button-view/button-view.component';
 
-export * from './tv-chart/tv-chart.component';
-
 export * from './login/login.component';
