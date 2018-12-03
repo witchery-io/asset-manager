@@ -12,6 +12,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
 import { BsDropdownModule, CollapseModule } from 'ngx-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 library.add(fas);
 
@@ -25,6 +26,7 @@ library.add(fas);
     CoreModule,
     SharedModule,
     NgxSpinnerModule,
+    FontAwesomeModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {

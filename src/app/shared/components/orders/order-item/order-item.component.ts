@@ -1,20 +1,20 @@
-import {Component, Input, OnInit, TemplateRef} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {User} from '../../../../../models';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { User } from '../../../../models';
 import {
   Role,
   OrderType,
   OrderContext,
   OrderDirection,
   PARENT,
-} from '../../../../../enums';
+} from '../../../../enums';
 import {
   ModalService,
   OrderService,
-} from '../../../../../services';
-import {BsModalRef} from 'ngx-bootstrap';
-import {NotifierService} from 'angular-notifier';
-import {NgxSpinnerService} from 'ngx-spinner';
+} from '../../../../services';
+import { BsModalRef } from 'ngx-bootstrap';
+import { NotifierService } from 'angular-notifier';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-order-item',

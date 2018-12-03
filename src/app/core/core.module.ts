@@ -33,38 +33,26 @@ import { ErrorInterceptor, fakeBackendProvider, JwtInterceptor } from '../helper
     AlertModule.forRoot(),
   ],
   exports: [
-    BrowserModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    Ng2SmartTableModule,
-    FontAwesomeModule,
   ],
   declarations: [
-    components.ButtonViewComponent,
-    components.SettingsComponent,
-    components.TradingComponent,
     components.BotsComponent,
-    components.GroupsComponent,
-    components.AccountsComponent,
-
-    components.BalanceComponent,
-    components.BalanceBarComponent,
-
-    components.OrderComponent,
-    components.PositionsComponent,
-    components.PositionItemComponent,
-    components.OrdersComponent,
-    components.OrderItemComponent,
-
-    components.TemplateComponent,
-
     components.BotComponent,
     components.BotOrderComponent,
     components.BotOrderItemComponent,
+    components.TemplateComponent,
 
-    components.StatusBarComponent,
     components.LoginComponent,
+
+    components.OrderComponent,
+
+    components.SettingsComponent,
+    components.AccountsComponent,
+    components.GroupsComponent,
+    components.BalanceComponent,
+
+    components.TradingComponent,
+    components.StatusBarComponent,
+    components.ButtonViewComponent,
   ],
   providers: [
     services.AccountService,

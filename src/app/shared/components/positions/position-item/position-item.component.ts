@@ -5,19 +5,19 @@ import {
   Margin,
   Order,
   User
-} from '../../../../../models';
+} from '../../../../models';
 import {
   Role,
   OrderDirection,
   OrderContext,
   OrderType,
   PARENT,
-} from '../../../../../enums';
+} from '../../../../enums';
 import { BsModalRef } from 'ngx-bootstrap';
 import {
   ModalService,
   OrderService,
-} from '../../../../../services';
+} from '../../../../services';
 import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
 
