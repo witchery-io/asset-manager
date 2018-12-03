@@ -16,7 +16,6 @@ const routes: Routes = [
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
-    FontAwesomeModule,
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
     [RouterModule.forRoot(routes)],
