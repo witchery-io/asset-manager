@@ -40,16 +40,12 @@ import { ErrorInterceptor, fakeBackendProvider, JwtInterceptor } from '../helper
     components.BotOrderComponent,
     components.BotOrderItemComponent,
     components.TemplateComponent,
-
     components.LoginComponent,
-
     components.OrderComponent,
-
     components.SettingsComponent,
     components.AccountsComponent,
     components.GroupsComponent,
     components.BalanceComponent,
-
     components.TradingComponent,
     components.StatusBarComponent,
     components.ButtonViewComponent,
