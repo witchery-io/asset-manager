@@ -33,7 +33,6 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    TabsModule,
     FontAwesomeModule,
     components.TvChartComponent,
     components.OrdersComponent,

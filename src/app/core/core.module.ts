@@ -9,6 +9,7 @@ import {
   ModalModule,
   CollapseModule,
   BsDropdownModule,
+  TabsModule,
 } from 'ngx-bootstrap';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -23,10 +24,9 @@ import { ErrorInterceptor, fakeBackendProvider, JwtInterceptor } from '../helper
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
     CollapseModule.forRoot(),
+    TabsModule.forRoot(),
   ],
   exports: [
-    CollapseModule,
-    BsDropdownModule,
     FontAwesomeModule,
   ],
   declarations: [
