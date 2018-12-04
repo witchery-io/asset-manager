@@ -5,6 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { TradingModule } from '../manager/trading/trading.module';
 import { BotsModule } from '../manager/bots/bots.module';
 import { SettingsModule } from '../manager/settings/settings.module';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { AccountService } from './services';
 
 @NgModule({
   declarations: [],
@@ -12,10 +15,16 @@ import { SettingsModule } from '../manager/settings/settings.module';
     BrowserModule,
     HttpClientModule,
 
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
+
     TradingModule,
     BotsModule,
     SettingsModule,
-  ]
+  ],
+  providers: [
+    AccountService,
+  ],
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {

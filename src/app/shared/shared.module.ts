@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AccountService, GroupService } from './services';
 
 @NgModule({
   declarations: [],
@@ -10,9 +9,6 @@ import { AccountService, GroupService } from './services';
   exports: [
     CommonModule,
   ],
-  providers: [
-    GroupService,
-    AccountService,
-  ],
+  providers: [],
 })
 export class SharedModule { }
