@@ -6,7 +6,11 @@ import { TradingComponent } from './containers';
 import { AccountsComponent, GroupsComponent } from './components';
 
 @NgModule({
-  declarations: [TradingComponent, AccountsComponent, GroupsComponent],
+  declarations: [
+    TradingComponent,
+    AccountsComponent,
+    GroupsComponent,
+  ],
   imports: [
     SharedModule,
     TradingRoutingModule,
