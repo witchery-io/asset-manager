@@ -24,7 +24,6 @@ import { AccountService } from '@app/core/services';
       maxAge: 30,
     }),
 
-
     TradingModule,
     BotsModule,
     SettingsModule,
