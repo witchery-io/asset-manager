@@ -12,20 +12,24 @@ import { Observable } from 'rxjs';
 })
 export class TradingComponent implements OnInit {
 
-  state$: Observable<any>;
+  accounts$: Observable<any>;
+  isLoading$: Observable<any>;
+  error$: Observable<any>;
 
   constructor(
     public store: Store<any>,
   ) {
-    this.state$ = this.store.pipe(select(Select.getAccounts));
+    this.accounts$ = this.store.pipe(select(Select.getAccounts));
+    this.isLoading$ = this.store.pipe(select(Select.isLoading));
+    this.error$ = this.store.pipe(select(Select.getError));
   }
 
   ngOnInit() {
     this.store.dispatch(new LoadAccounts());
 
-    this.state$.subscribe(state => {
-      console.log(state);
-    });
+    this.accounts$.subscribe(accounts => console.log('state', accounts));
+    this.isLoading$.subscribe(isLoading => console.log('isLoading', isLoading));
+    this.error$.subscribe(error => console.log('error', error));
   }
 
 }
