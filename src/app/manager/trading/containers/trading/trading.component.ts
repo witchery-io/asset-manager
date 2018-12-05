@@ -4,6 +4,7 @@ import { select, Store } from '@ngrx/store';
 import * as Select from '@trading/state/account.selectors';
 import { LoadAccounts } from '@app/core/actions';
 import { Observable } from 'rxjs';
+import { Account } from '@app/core/intefaces';
 
 @Component({
   selector: 'app-trading',
@@ -12,7 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class TradingComponent implements OnInit {
 
-  accounts$: Observable<any>;
+  accounts$: Observable<Account[]>;
   isLoading$: Observable<any>;
   error$: Observable<any>;
 
