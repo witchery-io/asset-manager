@@ -4,15 +4,8 @@ import { SettingsComponent } from '@settings/containers';
 
 const routes: Routes = [
   {
-    path: 'settings',
-    data: { title: 'Settings' },
-    children: [
-      {
-        path: '',
-        component: SettingsComponent,
-        pathMatch: 'full',
-      }
-    ],
+    path: '',
+    component: SettingsComponent,
   }
 ];
 

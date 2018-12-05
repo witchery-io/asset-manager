@@ -4,15 +4,8 @@ import { BotsComponent } from '@bots/containers';
 
 const routes: Routes = [
   {
-    path: 'bots',
-    data: { title: 'Bots' },
-    children: [
-      {
-        path: '',
-        component: BotsComponent,
-        pathMatch: 'full',
-      }
-    ],
+    path: '',
+    component: BotsComponent,
   }
 ];
 

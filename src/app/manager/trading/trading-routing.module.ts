@@ -4,15 +4,8 @@ import { TradingComponent } from '@trading/containers';
 
 const routes: Routes = [
   {
-    path: 'trading',
-    data: { title: 'Trading' },
-    children: [
-      {
-        path: '',
-        component: TradingComponent,
-        pathMatch: 'full',
-      }
-    ],
+    path: '',
+    component: TradingComponent,
   }
 ];
 
