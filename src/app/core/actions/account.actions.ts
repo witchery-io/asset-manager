@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Account } from '../intefaces';
+import { Account } from '@app/core/intefaces';
 
 export const LOAD_ACCOUNTS = '[CORE] Load Accounts';
 export const ACCOUNTS_LOADED = '[CORE] Accounts Loaded';

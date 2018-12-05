@@ -17,6 +17,12 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@trading/*": ["src/app/manager/trading/*"],
+      "@bots/*": ["src/app/manager/bots/*"],
+      "@settings/*": ["src/app/manager/settings/*"]
+    }
   }
 }

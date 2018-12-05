@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
-import { PageNotFoundComponent } from './pages/page-not-found.component';
-import { ServerErrorComponent } from './pages/server-error.component';
+import { AppRoutingModule } from '@app/app-routing.module';
+import { CoreModule } from '@app/core/core.module';
+import { SharedModule } from '@app/shared/shared.module';
+
+import { AppComponent } from '@app/app.component';
+import { PageNotFoundComponent } from '@app/pages/page-not-found.component';
+import { ServerErrorComponent } from '@app/pages/server-error.component';
 
 @NgModule({
   declarations: [

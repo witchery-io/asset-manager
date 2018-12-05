@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import * as fromAccount from '../actions/account.actions';
-import { AccountService } from '../services';
+import * as fromAccount from '@app/core/actions/account.actions';
+import { AccountService } from '@app/core/services';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';

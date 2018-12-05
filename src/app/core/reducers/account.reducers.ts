@@ -1,5 +1,5 @@
-import * as AccountActions from '../actions/account.actions';
-import { Account } from '../intefaces';
+import * as AccountActions from '@app/core/actions/account.actions';
+import { Account } from '@app/core/intefaces';
 
 export interface State {
   isLoading: boolean;

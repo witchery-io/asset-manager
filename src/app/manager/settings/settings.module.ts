@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 
-import { SettingsRoutingModule } from './settings-routing.module';
-import { SharedModule } from '../../shared/shared.module';
-import { SettingsComponent } from './containers';
-import { AccountsComponent, GroupsComponent } from './components';
+import { SettingsRoutingModule } from '@settings/settings-routing.module';
+import { SharedModule } from '@app/shared/shared.module';
+import { SettingsComponent } from '@settings/containers';
+import { AccountsComponent, GroupsComponent } from '@settings/components';
 
 @NgModule({
   declarations: [

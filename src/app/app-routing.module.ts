@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PageNotFoundComponent } from './pages/page-not-found.component';
-import { ServerErrorComponent } from './pages/server-error.component';
+import { PageNotFoundComponent } from '@app/pages/page-not-found.component';
+import { ServerErrorComponent } from '@app/pages/server-error.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'trading', pathMatch: 'full' },

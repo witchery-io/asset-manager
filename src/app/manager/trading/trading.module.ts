@@ -1,13 +1,8 @@
 import { NgModule } from '@angular/core';
 
 import { TradingRoutingModule } from './trading-routing.module';
-import { SharedModule } from '../../shared/shared.module';
-import { TradingComponent } from './containers';
-
-import { StoreModule } from '@ngrx/store';
-import * as reducers from '../../core/reducers';
-import { EffectsModule } from '@ngrx/effects';
-import { AccountEffects } from '../../core/effects';
+import { TradingComponent } from '@trading/containers';
+import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -15,10 +10,6 @@ import { AccountEffects } from '../../core/effects';
   ],
   imports: [
     SharedModule,
-
-    StoreModule.forFeature('accounts', reducers.reducer),
-    EffectsModule.forFeature([ AccountEffects ]),
-
     TradingRoutingModule,
   ]
 })
