@@ -3,9 +3,7 @@ import { Actions, Effect } from '@ngrx/effects';
 import * as fromAccount from '@app/core/actions/account.actions';
 import { AccountService } from '@app/core/services';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { State } from '@app/core/reducers/account.reducers';
 
 @Injectable()
 export class AccountEffects {
@@ -28,10 +26,5 @@ export class AccountEffects {
   constructor(
     private actions$: Actions<fromAccount.Actions>,
     private accountService: AccountService,
-    private store$: Store<State>,
-  ) {
-
-    this.store$.subscribe(x => console.log(' - 34 - store', x));
-
-  }
+  ) { }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
 import * as Select from '@trading/state/account.selectors';
-import {AccountsNotLoaded, LoadAccounts} from '@app/core/actions';
+import { LoadAccounts} from '@app/core/actions';
 import { Observable } from 'rxjs';
 import { Account } from '@app/core/intefaces';
 
@@ -32,10 +32,4 @@ export class TradingComponent implements OnInit {
     this.isLoading$.subscribe(isLoading => console.log('isLoading', isLoading));
     this.error$.subscribe(error => console.log('error', error));
   }
-
-  checkState(event) {
-    console.log(event);
-    this.store.dispatch(new AccountsNotLoaded({ error: 'error 87455'}));
-  }
-
 }
