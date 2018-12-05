@@ -8,6 +8,7 @@ import { SettingsModule } from '@settings/settings.module';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AccountService } from '@app/core/services';
 
 @NgModule({
@@ -18,6 +19,11 @@ import { AccountService } from '@app/core/services';
 
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
+
+    StoreDevtoolsModule.instrument({
+      maxAge: 30,
+    }),
+
 
     TradingModule,
     BotsModule,
