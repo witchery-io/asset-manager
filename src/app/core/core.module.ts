@@ -23,10 +23,6 @@ import { AccountService } from '@app/core/services';
     StoreDevtoolsModule.instrument({
       maxAge: 30,
     }),
-
-    TradingModule,
-    BotsModule,
-    SettingsModule,
   ],
   providers: [
     AccountService,
