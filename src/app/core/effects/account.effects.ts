@@ -5,6 +5,7 @@ import { AccountService } from '@app/core/services';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
+import { State } from '@app/core/reducers/account.reducers';
 
 @Injectable()
 export class AccountEffects {
@@ -13,16 +14,13 @@ export class AccountEffects {
   loadAccounts$ = this.actions$
     .ofType<fromAccount.LoadAccounts>(fromAccount.LOAD_ACCOUNTS)
     .pipe(
-      map(action => {
-        return action;
-      }),
-      switchMap(action => {
+      switchMap(() => {
         return this.accountService.getAccounts()
           .pipe(
             map(response => {
-              return new fromAccount.AccountsLoaded(response);
+              return new fromAccount.AccountsLoaded({ accounts: response });
             }),
-            catchError(error => of(new fromAccount.AccountsNotLoaded(error.message || error))),
+            catchError(error => of(new fromAccount.AccountsNotLoaded({ error: error.message || error}))),
         );
       }),
     );
@@ -30,7 +28,7 @@ export class AccountEffects {
   constructor(
     private actions$: Actions<fromAccount.Actions>,
     private accountService: AccountService,
-    private store$: Store<any>, // todo :: change
+    private store$: Store<State>,
   ) {
   }
 }

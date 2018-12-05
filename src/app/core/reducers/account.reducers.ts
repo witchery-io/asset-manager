@@ -27,7 +27,7 @@ export function reducer(state: State = initialState, action: AccountActions.Acti
         ...state,
         error: null,
         isLoading: false,
-        accounts: action.payload,
+        accounts: action.payload.accounts,
       };
     }
 
