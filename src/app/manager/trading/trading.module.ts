@@ -8,7 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { AccountEffects } from '@app/core/effects';
 
-import { reducer } from '@app/core/reducers';
+import { reducer } from '@app/core/reducers/account.reducers';
 
 @NgModule({
   declarations: [

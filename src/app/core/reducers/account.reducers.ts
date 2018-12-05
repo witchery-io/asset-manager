@@ -39,5 +39,9 @@ export function reducer(state: State = initialState, action: AccountActions.Acti
         accounts: null,
       };
     }
+
+    default: {
+      return state;
+    }
   }
 }

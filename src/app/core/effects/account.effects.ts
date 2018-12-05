@@ -30,5 +30,8 @@ export class AccountEffects {
     private accountService: AccountService,
     private store$: Store<State>,
   ) {
+
+    this.store$.subscribe(x => console.log(' - 34 - store', x));
+
   }
 }
