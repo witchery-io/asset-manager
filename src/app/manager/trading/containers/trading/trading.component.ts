@@ -27,9 +27,5 @@ export class TradingComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new LoadAccounts());
-
-    this.accounts$.subscribe(accounts => console.log('state', accounts));
-    this.isLoading$.subscribe(isLoading => console.log('isLoading', isLoading));
-    this.error$.subscribe(error => console.log('error', error));
   }
 }
