@@ -13,19 +13,16 @@ export class AccountEffects {
   loadAccounts$ = this.actions$
     .ofType<fromAccount.LoadAccounts>(fromAccount.LOAD_ACCOUNTS)
     .pipe(
-      map(action => action),
-      switchMap(() => {
-        return this.accountService.getAccounts().pipe(
-          map(response => {
-
-            /*
-            *
-            * */
-            console.log(response);
-
-            return new fromAccount.AccountsLoaded(response);
-          }),
-          catchError(error => of(new fromAccount.AccountsNotLoaded(error.message || error))),
+      map(action => {
+        return action;
+      }),
+      switchMap(action => {
+        return this.accountService.getAccounts()
+          .pipe(
+            map(response => {
+              return new fromAccount.AccountsLoaded(response);
+            }),
+            catchError(error => of(new fromAccount.AccountsNotLoaded(error.message || error))),
         );
       }),
     );
@@ -35,6 +32,5 @@ export class AccountEffects {
     private accountService: AccountService,
     private store$: Store<any>, // todo :: change
   ) {
-
   }
 }
