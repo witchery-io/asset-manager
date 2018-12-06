@@ -1,7 +1,11 @@
-<p>
-  trading works!
-</p>
+<h1>TRADING PAGE</h1>
 
+<h1>ACCOUNTS</h1>
 <div *ngFor="let account of accounts$ | async">
   {{ account.acc_name }}
+</div>
+
+<h1>GROUPS</h1>
+<div *ngFor="let group of groups$ | async">
+  {{ group.name }}
 </div>
