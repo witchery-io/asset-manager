@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { AccountService } from '@app/core/services';
+import { AccountService, GroupService } from '@app/core/services';
 
 @NgModule({
   declarations: [],
@@ -22,6 +22,7 @@ import { AccountService } from '@app/core/services';
   ],
   providers: [
     AccountService,
+    GroupService,
   ],
 })
 export class CoreModule {

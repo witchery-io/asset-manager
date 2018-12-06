@@ -18,7 +18,7 @@ export class AccountEffects {
             map(response => {
               return new fromAccount.AccountsLoaded({ accounts: response });
             }),
-            catchError(error => of(new fromAccount.AccountsNotLoaded({ error: error.message || error}))),
+            catchError(error => of(new fromAccount.AccountsNotLoaded({ error: error.message || error }))),
         );
       }),
     );
