@@ -7,6 +7,7 @@ import { LoadAccounts } from '@app/core/actions/account.actions';
 import { Observable } from 'rxjs';
 import { Account, Group } from '@app/core/intefaces';
 import { LoadGroups } from '@app/core/actions/group.actions';
+import { TradingState } from '@app/core/reducers';
 
 @Component({
   selector: 'app-trading',
@@ -24,7 +25,7 @@ export class TradingComponent implements OnInit {
   errorGroup$: Observable<string>;
 
   constructor(
-    public store: Store<any>,
+    public store: Store<TradingState>,
   ) {
     this.accounts$ = this.store.pipe(select(SelectAccount.getAccounts));
     this.isLoadingAccount$ = this.store.pipe(select(SelectAccount.isLoading));
