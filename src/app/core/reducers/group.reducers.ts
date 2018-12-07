@@ -1,17 +1,18 @@
 import * as GroupActions from '@app/core/actions/group.actions';
 import { Group } from '@app/core/intefaces';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-export interface State {
+export interface State extends EntityState<Group> {
   isLoading: boolean;
   error: string;
-  state: Group[];
 }
 
-export const initialState: State = {
+export const adapter: EntityAdapter<Group> = createEntityAdapter<Group>();
+
+export const initialState: State = adapter.getInitialState({
   isLoading: false,
   error: null,
-  state: null,
-};
+});
 
 export function reducer(state: State = initialState, action: GroupActions.Actions): State {
   switch (action.type) {
@@ -23,12 +24,7 @@ export function reducer(state: State = initialState, action: GroupActions.Action
     }
 
     case GroupActions.GROUPS_LOADED: {
-      return {
-        ...state,
-        error: null,
-        isLoading: false,
-        state: action.payload.state,
-      };
+      return adapter.addMany(action.payload.groups, state);
     }
 
     case GroupActions.GROUPS_NOT_LOADED: {
@@ -36,7 +32,6 @@ export function reducer(state: State = initialState, action: GroupActions.Action
         ...state,
         error: action.payload.error,
         isLoading: false,
-        state: null,
       };
     }
 

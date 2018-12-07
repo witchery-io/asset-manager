@@ -12,7 +12,7 @@ export class LoadGroups implements Action {
 
 export class GroupsLoaded implements Action {
   readonly type = GROUPS_LOADED;
-  constructor(public payload: { state: Group[] }) {}
+  constructor(public payload: { groups: Group[] }) {}
 }
 
 export class GroupsNotLoaded implements Action {
