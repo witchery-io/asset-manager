@@ -16,7 +16,7 @@ export class GroupEffects {
         return this.groupService.getGroups()
           .pipe(
             map(response => {
-              return new fromGroup.GroupsLoaded({ data: response });
+              return new fromGroup.GroupsLoaded({ state: response });
             }),
             catchError(error => of(new fromGroup.GroupsNotLoaded({ error: error.message || error }))),
         );

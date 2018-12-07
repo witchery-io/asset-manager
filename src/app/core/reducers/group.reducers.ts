@@ -4,13 +4,13 @@ import { Group } from '@app/core/intefaces';
 export interface State {
   isLoading: boolean;
   error: string;
-  data: Group[];
+  state: Group[];
 }
 
 export const initialState: State = {
   isLoading: false,
   error: null,
-  data: null,
+  state: null,
 };
 
 export function reducer(state: State = initialState, action: GroupActions.Actions): State {
@@ -27,7 +27,7 @@ export function reducer(state: State = initialState, action: GroupActions.Action
         ...state,
         error: null,
         isLoading: false,
-        data: action.payload.data,
+        state: action.payload.state,
       };
     }
 
@@ -36,7 +36,7 @@ export function reducer(state: State = initialState, action: GroupActions.Action
         ...state,
         error: action.payload.error,
         isLoading: false,
-        data: null,
+        state: null,
       };
     }
 

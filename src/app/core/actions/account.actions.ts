@@ -12,7 +12,7 @@ export class LoadAccounts implements Action {
 
 export class AccountsLoaded implements Action {
   readonly type = ACCOUNTS_LOADED;
-  constructor(public payload: { data: Account[] }) {}
+  constructor(public payload: { state: Account[] }) {}
 }
 
 export class AccountsNotLoaded implements Action {

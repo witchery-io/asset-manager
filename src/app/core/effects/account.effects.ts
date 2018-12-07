@@ -16,7 +16,7 @@ export class AccountEffects {
         return this.accountService.getAccounts()
           .pipe(
             map(response => {
-              return new fromAccount.AccountsLoaded({ data: response });
+              return new fromAccount.AccountsLoaded({ state: response });
             }),
             catchError(error => of(new fromAccount.AccountsNotLoaded({ error: error.message || error }))),
         );
