@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as fromTick from '@app/core/actions/tick.actions';
 import { TickService } from '@app/core/services';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable()
 export class TickEffects {
 
   @Effect()
-  loadAccounts$ = this.actions$.pipe(
+  loadTicks$ = this.actions$.pipe(
     ofType<fromTick.LoadTicks>(fromTick.LOAD_TICKS),
-    map(() => {
+    switchMap(() => {
       return this.tickService.getTicks().pipe(
         map(response => {
           console.log(response);
