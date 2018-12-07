@@ -24,7 +24,11 @@ export function reducer(state: State = initialState, action: AccountActions.Acti
     }
 
     case AccountActions.ACCOUNTS_LOADED: {
-      return adapter.addMany(action.payload.accounts, state);
+      return adapter.addMany(action.payload.accounts, {
+        ...state,
+        isLoading: false,
+        error: '',
+      });
     }
 
     case AccountActions.ACCOUNTS_NOT_LOADED: {

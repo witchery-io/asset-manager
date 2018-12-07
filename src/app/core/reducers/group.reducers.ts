@@ -24,7 +24,11 @@ export function reducer(state: State = initialState, action: GroupActions.Action
     }
 
     case GroupActions.GROUPS_LOADED: {
-      return adapter.addMany(action.payload.groups, state);
+      return adapter.addMany(action.payload.groups, {
+        ...state,
+        isLoading: false,
+        error: '',
+      });
     }
 
     case GroupActions.GROUPS_NOT_LOADED: {
