@@ -15,6 +15,9 @@ You can also use `ng generate directive|pipe|service|class|guard|interface|enum|
 Short - Run `ng g c ex. [m, s]`
 
 ## Build
+
+**Important**
+Use for prod server following command `ng build --aot  --build-optimizer --prod` 
   
 Run `ng build` to build the project.
 The build artifacts will be stored in the `dist/` directory.
