@@ -4,13 +4,13 @@ import { Account } from '@app/core/intefaces';
 export interface State {
   isLoading: boolean;
   error: string;
-  accounts: Account[];
+  data: Account[];
 }
 
 export const initialState: State = {
   isLoading: false,
   error: null,
-  accounts: null,
+  data: null,
 };
 
 export function reducer(state: State = initialState, action: AccountActions.Actions): State {
@@ -27,7 +27,7 @@ export function reducer(state: State = initialState, action: AccountActions.Acti
         ...state,
         error: null,
         isLoading: false,
-        accounts: action.payload.accounts,
+        data: action.payload.data,
       };
     }
 
@@ -36,7 +36,7 @@ export function reducer(state: State = initialState, action: AccountActions.Acti
         ...state,
         error: action.payload.error,
         isLoading: false,
-        accounts: null,
+        data: null,
       };
     }
 
