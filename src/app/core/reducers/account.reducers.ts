@@ -1,17 +1,18 @@
 import * as AccountActions from '@app/core/actions/account.actions';
 import { Account } from '@app/core/intefaces';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-export interface State {
+export interface State extends EntityState<Account> {
   isLoading: boolean;
-  error: string;
-  state: Account[];
+  error: string | null;
 }
 
-export const initialState: State = {
+export const adapter: EntityAdapter<Account> = createEntityAdapter<Account>();
+
+export const initialState: State = adapter.getInitialState({
   isLoading: false,
   error: null,
-  state: null,
-};
+});
 
 export function reducer(state: State = initialState, action: AccountActions.Actions): State {
   switch (action.type) {
@@ -23,12 +24,7 @@ export function reducer(state: State = initialState, action: AccountActions.Acti
     }
 
     case AccountActions.ACCOUNTS_LOADED: {
-      return {
-        ...state,
-        error: null,
-        isLoading: false,
-        state: action.payload.state,
-      };
+      return adapter.addMany(action.payload.state, state);
     }
 
     case AccountActions.ACCOUNTS_NOT_LOADED: {
@@ -36,7 +32,6 @@ export function reducer(state: State = initialState, action: AccountActions.Acti
         ...state,
         error: action.payload.error,
         isLoading: false,
-        state: null,
       };
     }
 
