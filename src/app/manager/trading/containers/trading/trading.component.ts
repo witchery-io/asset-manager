@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WebSocketService } from '@app/core/services';
 
 @Component({
   selector: 'app-trading',
@@ -7,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TradingComponent implements OnInit {
 
-  constructor() {}
+  constructor(
+    private ws: WebSocketService,
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('TRADING COMPONENTS');
+    this.ws.start('');
+  }
 }
