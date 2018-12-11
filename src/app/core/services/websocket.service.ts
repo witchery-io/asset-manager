@@ -47,7 +47,7 @@ export class WebSocketService {
       this.close();
     }
 
-    let url = `${ this.baseUrl }`;
+    let url = `${ this.baseUrl }${ channel }`;
 
     if (params && params.length) {
       url += getParams2str(params);
@@ -56,22 +56,28 @@ export class WebSocketService {
     this.ws$ = webSocket({ url });
 
     this.socketSubscription = this.ws$
-      .pipe(retryWhen(errs$ => {
-        return zip(errs$, range(1, 30))
-          .pipe(
-            map((_, i) => i),
-            flatMap(i => {
-              const message = 'websocket_connection_reconnect';
+      .pipe(
+        retryWhen(errs$ => {
+          return zip(errs$, range(1, 30))
+            .pipe(
+              map((_, i) => i),
+              flatMap(i => {
+                console.log(68, 'websocket connection reconnect');
+                const message = 'websocket_connection_reconnect';
 
-              this.isOpenedState = false;
-              this.connectionStateUpdate$.next({ isOpened: false, message: message, isTryingToReconnect: true });
+                this.isOpenedState = false;
+                this.connectionStateUpdate$.next({ isOpened: false, message: message, isTryingToReconnect: true });
 
-              return timer(i * 1000);
-            }),
-          );
-      }))
+                return timer(i * 1000);
+              }),
+            );
+        }))
       .subscribe({
         next: (message: any) => {
+
+          console.log('CONNECT');
+          console.log('WS - message', message);
+
           if (!this.isOpenedState) {
             this.isOpenedState = true;
 
@@ -83,8 +89,11 @@ export class WebSocketService {
 
           this.handleServerMessage(message);
         },
-        error: err => { console.error(err); },
+        error: err => {
+          console.error('ERROR', err);
+        },
         complete: () => {
+          console.error('COMPLETE');
           const message = 'websocket_connection_lost';
           this.connectionStateUpdate$.next({ isOpened: false, message: message });
         },

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  webSocketUrl: 'wss://api.bitfinex.com/ws/2',
+  webSocketUrl: 'wss://api.bitfinex.com/ws/',
 };
 
 /*

@@ -14,6 +14,7 @@ export class TradingComponent implements OnInit {
 
   ngOnInit() {
     console.log('TRADING COMPONENTS');
-    this.ws.start('');
+    this.ws.start('2');
+
   }
 }
