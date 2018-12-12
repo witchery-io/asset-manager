@@ -1,6 +1,6 @@
 // import { WebSocketGetParam } from '@app/core/services';
 
-export interface WSClientMessage {
+/*export interface WSClientMessage {
   type: string;
   data?: any[] | { channelId: string };
 }
@@ -15,7 +15,7 @@ export function toServerMessage(type: string, data: any[] | { channelId: string 
   }
 
   return o;
-}
+}*/
 
 export function getParams2str(params: any[]): string { // WebSocketGetParam
   if (!params) {
