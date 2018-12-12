@@ -5,35 +5,18 @@ import { environment } from '../../../environments/environment';
 import { retryWhen, flatMap, map } from 'rxjs/operators';
 import { getParams2str } from '@app/core/utils/websocket.utils';
 
-export interface WebSocketGetParam {
-  name: string;
-  value: string;
-}
-
-export interface WSServerMessage {
-  type: string;
-  data?: any;
-}
-
-export interface WSOpenState {
-  isOpened: boolean;
-  message?: string;
-  store?: any;
-  isTryingToReconnect?: boolean;
-}
-
 @Injectable()
 export class WebSocketService {
 
   protected ws$: WebSocketSubject<any>;
   protected socketSubscription: Subscription;
   protected baseUrl: string = environment.webSocketUrl;
-  protected params: WebSocketGetParam[] = [];
+  protected params: any[] = []; // WebSocketGetParam
   protected channel: string;
 
-  message$ = new Subject<WSServerMessage>();
+  message$ = new Subject<any>(); // WSServerMessage
 
-  connectionStateUpdate$ = new Subject<WSOpenState>();
+  connectionStateUpdate$ = new Subject<any>(); // WSOpenState
 
   isOpenedState = false;
 
@@ -55,45 +38,42 @@ export class WebSocketService {
 
     this.ws$ = webSocket({ url });
 
-    this.socketSubscription = this.ws$
-      .pipe(
-        retryWhen(errs$ => {
-          return zip(errs$, range(1, 30))
-            .pipe(
-              map((_, i) => i),
-              flatMap(i => {
-                console.log(68, 'websocket connection reconnect');
-                const message = 'websocket_connection_reconnect';
+    this.socketSubscription = this.ws$.pipe(
+      retryWhen(errs$ => {
+        return zip(errs$, range(1, 30))
+          .pipe(
+            map((_, i) => i),
+            flatMap(i => {
 
-                this.isOpenedState = false;
-                this.connectionStateUpdate$.next({ isOpened: false, message: message, isTryingToReconnect: true });
+              console.log(68, 'websocket connection reconnect');
+              const message = 'websocket_connection_reconnect';
 
-                return timer(i * 1000);
-              }),
-            );
-        }))
-      .subscribe({
+              this.isOpenedState = false;
+              this.connectionStateUpdate$.next({ isOpened: false, message: message, isTryingToReconnect: true });
+
+              return timer(i * 1000);
+            }),
+          );
+      })).subscribe({
         next: (message: any) => {
 
-          console.log('CONNECT');
-          console.log('WS - message', message);
+          console.log(78, 'NEXT', message);
 
           if (!this.isOpenedState) {
             this.isOpenedState = true;
 
-            this.connectionStateUpdate$.next({
-              isOpened: true,
-              message: message,
-            });
+            this.connectionStateUpdate$.next({ isOpened: true, message: message });
           }
 
           this.handleServerMessage(message);
         },
         error: err => {
-          console.error('ERROR', err);
+          console.error(89, 'ERROR', err);
         },
         complete: () => {
-          console.error('COMPLETE');
+
+          console.error(91, 'COMPLETE - websocket connection lost');
+
           const message = 'websocket_connection_lost';
           this.connectionStateUpdate$.next({ isOpened: false, message: message });
         },
@@ -119,6 +99,7 @@ export class WebSocketService {
   }
 
   handleServerMessage(message: any) {
+    console.log(message.data);
     return this.message$.next(message.data);
   }
 }
