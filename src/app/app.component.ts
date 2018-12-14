@@ -12,12 +12,9 @@ import { LoadTicks } from '@app/core/actions/tick.actions';
 export class AppComponent implements OnInit {
 
   constructor(
-    private store: Store<AppState>,
   ) {}
 
   ngOnInit() {
-    this.store.dispatch(new LoadGroups());
-    this.store.dispatch(new LoadAccounts());
-    this.store.dispatch(new LoadTicks());
+
   }
 }

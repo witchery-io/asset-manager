@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { WsHandlerService } from '@trading/services/ws/ws-handler.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '@app/core/intefaces/app-state.interface';
 
 @Component({
   selector: 'app-trading',
@@ -8,9 +11,10 @@ import { Component, OnInit } from '@angular/core';
 export class TradingComponent implements OnInit {
 
   constructor(
+    private ws: WsHandlerService,
+    private store: Store<AppState>,
   ) {}
 
   ngOnInit() {
-    console.log('TRADING COMPONENTS');
   }
 }

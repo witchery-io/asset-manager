@@ -11,12 +11,12 @@ export class WebSocketService {
   protected ws$: WebSocketSubject<any>;
   protected socketSubscription: Subscription;
   protected baseUrl: string = environment.webSocketUrl;
-  protected params: any[] = []; // WebSocketGetParam
+  protected params: any;
   protected channel: string;
 
-  message$ = new Subject<any>(); // WSServerMessage
+  message$ = new Subject<any>();
 
-  connectionStateUpdate$ = new Subject<any>(); // WSOpenState
+  connectionStateUpdate$ = new Subject<any>();
 
   isOpenedState = false;
 
@@ -44,10 +44,7 @@ export class WebSocketService {
           .pipe(
             map((_, i) => i),
             flatMap(i => {
-
-              console.log(68, 'websocket connection reconnect');
               const message = 'websocket_connection_reconnect';
-
               this.isOpenedState = false;
               this.connectionStateUpdate$.next({ isOpened: false, message: message, isTryingToReconnect: true });
 
@@ -56,12 +53,8 @@ export class WebSocketService {
           );
       })).subscribe({
         next: (message: any) => {
-
-          console.log(78, 'NEXT', message);
-
           if (!this.isOpenedState) {
             this.isOpenedState = true;
-
             this.connectionStateUpdate$.next({ isOpened: true, message: message });
           }
 
@@ -71,9 +64,6 @@ export class WebSocketService {
           console.error(89, 'ERROR', err);
         },
         complete: () => {
-
-          console.error(91, 'COMPLETE - websocket connection lost');
-
           const message = 'websocket_connection_lost';
           this.connectionStateUpdate$.next({ isOpened: false, message: message });
         },
@@ -99,7 +89,6 @@ export class WebSocketService {
   }
 
   handleServerMessage(message: any) {
-    console.log(message.data);
-    return this.message$.next(message.data);
+    return this.message$.next(message);
   }
 }
