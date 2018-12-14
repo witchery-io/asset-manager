@@ -11,7 +11,7 @@ export class LoadBalance implements Action {
 
 export class BalanceLoaded implements Action {
   readonly type = BALANCE_LOADED;
-  constructor(public payload: { balance: Balance }) {}
+  constructor(public payload: { balance: Balance[] }) {}
 }
 
 export class BalanceNotLoaded implements Action {
