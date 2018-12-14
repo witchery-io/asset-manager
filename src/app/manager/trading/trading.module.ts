@@ -21,7 +21,7 @@ import { PositionsEffects } from '@trading/effects/positions.effects';
     SharedModule,
     TradingRoutingModule,
     StoreModule.forFeature('trading', reducers),
-    EffectsModule.forRoot([BalanceEffects, OrdersEffects, PositionsEffects]), // todo :: forFeature
+    EffectsModule.forFeature([BalanceEffects, OrdersEffects, PositionsEffects]),
   ],
   providers: [
     WebSocketService,

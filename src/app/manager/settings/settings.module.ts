@@ -21,7 +21,7 @@ import { PositionsEffects } from '@settings/effects/positions.effects';
     SharedModule,
     SettingsRoutingModule,
     StoreModule.forFeature('settings', reducers),
-    EffectsModule.forRoot([BalanceEffects, OrdersEffects, PositionsEffects]), // todo :: forFeature
+    EffectsModule.forFeature([BalanceEffects, OrdersEffects, PositionsEffects]),
   ]
 })
 export class SettingsModule { }
