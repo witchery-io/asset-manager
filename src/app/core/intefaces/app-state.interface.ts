@@ -1,9 +1,9 @@
 import { AppCoreState } from '@app/core/reducers';
-import { AppTradingState } from '@trading/reducers';
-import { AppSettingsState } from '@settings/reducers';
+import { TradingState } from '@trading/reducers';
+import { SettingsState } from '@settings/reducers';
 
 export interface AppState {
   app: AppCoreState;
-  trading: AppTradingState;
-  settings: AppSettingsState;
+  trading: TradingState;
+  settings: SettingsState;
 }

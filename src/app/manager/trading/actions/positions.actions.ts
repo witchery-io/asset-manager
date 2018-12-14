@@ -1,9 +1,9 @@
 import { Action } from '@ngrx/store';
 import { Position } from '@app/shared/intefaces/position.interface';
 
-export const LOAD_POSITIONS = '[CORE] Load Positions';
-export const POSITIONS_LOADED = '[CORE] Positions Loaded';
-export const POSITIONS_NOT_LOADED = '[CORE] Positions Not Loaded';
+export const LOAD_POSITIONS = '[TRADING] Load Positions';
+export const POSITIONS_LOADED = '[TRADING] Positions Loaded';
+export const POSITIONS_NOT_LOADED = '[TRADING] Positions Not Loaded';
 
 export class LoadPositions implements Action {
   readonly type = LOAD_POSITIONS;

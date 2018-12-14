@@ -1,13 +1,13 @@
 import { createSelector } from '@ngrx/store';
-import { AppTradingState, State } from '@trading/reducers';
+import { TradingState, State } from '@trading/reducers';
 
 /*
 * Create TRADING selectors
 * */
 export const getTrading = (state: State) => state.trading;
 
-export const getOrders = createSelector(getTrading, (state: AppTradingState) => state.orders);
+export const getOrders = createSelector(getTrading, (state: TradingState) => state.orders);
 
-export const getPositions = createSelector(getTrading, (state: AppTradingState) => state.positions);
+export const getPositions = createSelector(getTrading, (state: TradingState) => state.positions);
 
-export const getBalance = createSelector(getTrading, (state: AppTradingState) => state.balance);
+export const getBalance = createSelector(getTrading, (state: TradingState) => state.balance);

@@ -3,7 +3,7 @@ import * as fromPositions from '@settings/reducers/positions.reducers';
 import * as fromBalance from '@settings/reducers/balance.reducers';
 import { AppState } from '@app/core/intefaces/app-state.interface';
 
-export interface AppSettingsState extends AppState {
+export interface SettingsState extends AppState {
   orders: fromOrders.State;
   positions: fromPositions.State;
   balance: fromBalance.State;
