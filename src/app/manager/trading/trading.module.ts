@@ -8,6 +8,10 @@ import { WsHandlerService } from '@trading/services/ws/ws-handler.service';
 import { WSActionHandlerClient } from '@trading/services/ws/ws-action-handler-client.service';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from '@trading/reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { BalanceEffects } from '@trading/effects/balance.effects';
+import { OrdersEffects } from '@trading/effects/orders.effects';
+import { PositionsEffects } from '@trading/effects/positions.effects';
 
 @NgModule({
   declarations: [
@@ -17,6 +21,7 @@ import { reducers } from '@trading/reducers';
     SharedModule,
     TradingRoutingModule,
     StoreModule.forFeature('trading', reducers),
+    EffectsModule.forRoot([BalanceEffects, OrdersEffects, PositionsEffects]), // todo :: forFeature
   ],
   providers: [
     WebSocketService,
