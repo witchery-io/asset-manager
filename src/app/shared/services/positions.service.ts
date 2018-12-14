@@ -10,6 +10,6 @@ export class PositionsService {
   ) { }
 
   getPositions(): Observable<any> {
-    return this.http.get('http://trade.vitanova.online:50090/payments/exchange/groups/6a86df61-c190-4347-9b61-34cbd88d38a4/positions');
+    return this.http.get('http://trade.vitanova.online:50090/payments/exchange/accounts/74f9b418-e7b0-440d-8523-c4ed9cbbe3cc/positions');
   }
 }
