@@ -19,7 +19,7 @@ export const reducers = {
 export type State = AppState;
 
 /*
-* comment
+* Create APP-CORE selectors
 * */
 export const getApp = (state: State) => state.app;
 
