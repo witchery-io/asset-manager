@@ -1,9 +1,9 @@
 import { Action } from '@ngrx/store';
 import { Order } from '@app/shared/intefaces/order.interface';
 
-export const LOAD_ORDERS = '[CORE] Load Orders';
-export const ORDERS_LOADED = '[CORE] Orders Loaded';
-export const ORDERS_NOT_LOADED = '[CORE] Orders Not Loaded';
+export const LOAD_ORDERS = '[SETTINGS] Load Orders';
+export const ORDERS_LOADED = '[SETTINGS] Orders Loaded';
+export const ORDERS_NOT_LOADED = '[SETTINGS] Orders Not Loaded';
 
 
 export class LoadOrders implements Action {
