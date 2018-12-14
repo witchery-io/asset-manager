@@ -5,7 +5,6 @@ export const LOAD_BALANCE = '[CORE] Load Balance';
 export const BALANCE_LOADED = '[CORE] Balance Loaded';
 export const BALANCE_NOT_LOADED = '[CORE] Balance Not Loaded';
 
-
 export class LoadBalance implements Action {
   readonly type = LOAD_BALANCE;
 }

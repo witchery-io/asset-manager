@@ -1,37 +1,37 @@
-import * as TickActions from '@app/core/actions/tick.actions';
-import { Tick } from '@app/core/intefaces';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import * as BalanceActions from '@trading/actions/balance.actions';
+import { Balance } from '@app/shared/intefaces/balance.interface';
 
-export interface State extends EntityState<Tick> {
+export interface State extends EntityState<Balance> {
   isLoading: boolean;
   error: string | null;
 }
 
-export const adapter: EntityAdapter<Tick> = createEntityAdapter<Tick>();
+export const adapter: EntityAdapter<Balance> = createEntityAdapter<Balance>();
 
 export const initialState: State = adapter.getInitialState({
   isLoading: false,
   error: null,
 });
 
-export function reducer(state: State = initialState, action: TickActions.Actions): State {
+export function reducer(state: State = initialState, action: BalanceActions.Actions): State {
   switch (action.type) {
-    case TickActions.LOAD_TICKS: {
+    case BalanceActions.LOAD_BALANCE: {
       return {
         ...state,
         isLoading: true,
       };
     }
 
-    case TickActions.TICKS_LOADED: {
-      return adapter.addMany(action.payload.ticks, {
+    case BalanceActions.BALANCE_LOADED: {
+      return adapter.addMany(action.payload.balance, {
         ...state,
         isLoading: false,
         error: '',
       });
     }
 
-    case TickActions.TICKS_NOT_LOADED: {
+    case BalanceActions.BALANCE_NOT_LOADED: {
       return {
         ...state,
         error: action.payload.error,

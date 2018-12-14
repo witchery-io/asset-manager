@@ -1,4 +1,4 @@
-import * as PositionsActions from '@trading/actions/positions.actions';
+import * as PositionsActions from '@settings/actions/positions.actions';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Position } from '@app/shared/intefaces/position.interface';
 

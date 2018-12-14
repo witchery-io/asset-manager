@@ -1,37 +1,37 @@
-import * as PositionsActions from '@trading/actions/positions.actions';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Position } from '@app/shared/intefaces/position.interface';
+import * as BalanceActions from '@settings/actions/balance.actions';
+import { Balance } from '@app/shared/intefaces/balance.interface';
 
-export interface State extends EntityState<Position> {
+export interface State extends EntityState<Balance> {
   isLoading: boolean;
   error: string | null;
 }
 
-export const adapter: EntityAdapter<Position> = createEntityAdapter<Position>();
+export const adapter: EntityAdapter<Balance> = createEntityAdapter<Balance>();
 
 export const initialState: State = adapter.getInitialState({
   isLoading: false,
   error: null,
 });
 
-export function reducer(state: State = initialState, action: PositionsActions.Actions): State {
+export function reducer(state: State = initialState, action: BalanceActions.Actions): State {
   switch (action.type) {
-    case PositionsActions.LOAD_POSITIONS: {
+    case BalanceActions.LOAD_BALANCE: {
       return {
         ...state,
         isLoading: true,
       };
     }
 
-    case PositionsActions.POSITIONS_LOADED: {
-      return adapter.addMany(action.payload.positions, {
+    case BalanceActions.BALANCE_LOADED: {
+      return adapter.addMany(action.payload.balance, {
         ...state,
         isLoading: false,
         error: '',
       });
     }
 
-    case PositionsActions.POSITIONS_NOT_LOADED: {
+    case BalanceActions.BALANCE_NOT_LOADED: {
       return {
         ...state,
         error: action.payload.error,
