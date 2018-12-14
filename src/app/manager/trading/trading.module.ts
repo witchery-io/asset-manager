@@ -6,6 +6,8 @@ import { SharedModule } from '@app/shared/shared.module';
 import { WebSocketService } from '@trading/services/ws/web-socket.service';
 import { WsHandlerService } from '@trading/services/ws/ws-handler.service';
 import { WSActionHandlerClient } from '@trading/services/ws/ws-action-handler-client.service';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from '@trading/reducers';
 
 @NgModule({
   declarations: [
@@ -14,6 +16,7 @@ import { WSActionHandlerClient } from '@trading/services/ws/ws-action-handler-cl
   imports: [
     SharedModule,
     TradingRoutingModule,
+    StoreModule.forFeature('trading', reducers),
   ],
   providers: [
     WebSocketService,
