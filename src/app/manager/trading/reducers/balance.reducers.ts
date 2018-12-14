@@ -1,18 +1,17 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import * as BalanceActions from '@trading/actions/balance.actions';
 import { Balance } from '@app/shared/intefaces/balance.interface';
 
-export interface State extends EntityState<Balance> {
+export interface State {
   isLoading: boolean;
   error: string | null;
+  data: Balance | null;
 }
 
-export const adapter: EntityAdapter<Balance> = createEntityAdapter<Balance>();
-
-export const initialState: State = adapter.getInitialState({
+export const initialState: State = {
   isLoading: false,
   error: null,
-});
+  data: null,
+};
 
 export function reducer(state: State = initialState, action: BalanceActions.Actions): State {
   switch (action.type) {
@@ -24,11 +23,11 @@ export function reducer(state: State = initialState, action: BalanceActions.Acti
     }
 
     case BalanceActions.BALANCE_LOADED: {
-      return adapter.addMany(action.payload.balance, {
-        ...state,
+      return  {
         isLoading: false,
-        error: '',
-      });
+        error: null,
+        data: action.payload.balance,
+      };
     }
 
     case BalanceActions.BALANCE_NOT_LOADED: {
