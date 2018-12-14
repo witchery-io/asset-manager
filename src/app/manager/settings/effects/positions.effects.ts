@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import * as fromPositions from '@trading/actions/positions.actions';
+import * as fromPositions from '@settings/actions/positions.actions';
 import { PositionsService } from '@app/shared/services/positions.service';
 
 @Injectable()

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import * as fromBalance from '@trading/actions/balance.actions';
+import * as fromBalance from '@settings/actions/balance.actions';
 import { BalanceService } from '@app/shared/services/balance.service';
 
 @Injectable()

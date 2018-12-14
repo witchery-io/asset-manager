@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadBalance} from '@trading/actions/balance.actions';
-import { LoadOrders } from '@trading/actions/orders.actions';
-import { LoadPositions } from '@trading/actions/positions.actions';
 import { Store } from '@ngrx/store';
 import { SettingsState } from '@settings/reducers';
+import { LoadBalance} from '@settings/actions/balance.actions';
+import { LoadOrders } from '@settings/actions/orders.actions';
+import { LoadPositions } from '@settings/actions/positions.actions';
 
 @Component({
   selector: 'app-trading',
