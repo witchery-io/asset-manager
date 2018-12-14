@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { WsHandlerService } from '@trading/services/ws/ws-handler.service';
 import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
+import { LoadBalance } from '@trading/actions/balance.actions';
+import { LoadOrders } from '@trading/actions/orders.actions';
+import { LoadPositions } from '@trading/actions/positions.actions';
 
 @Component({
   selector: 'app-trading',
@@ -16,5 +19,8 @@ export class TradingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.store.dispatch(new LoadBalance());
+    this.store.dispatch(new LoadOrders());
+    this.store.dispatch(new LoadPositions());
   }
 }
