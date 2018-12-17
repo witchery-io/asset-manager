@@ -29,7 +29,7 @@ export function reducer(state: State = initialState, action: OrdersActions.Actio
       return adapter.addMany(action.payload.orders, {
         ...state,
         isLoading: false,
-        error: '',
+        error: null,
       });
     }
 

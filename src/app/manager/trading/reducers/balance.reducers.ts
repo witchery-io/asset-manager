@@ -24,6 +24,7 @@ export function reducer(state: State = initialState, action: BalanceActions.Acti
 
     case BalanceActions.BALANCE_LOADED: {
       return  {
+        ...state,
         isLoading: false,
         error: null,
         data: action.payload.balance,
