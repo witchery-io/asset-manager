@@ -1,1 +1,19 @@
-<h2>APP POSITION</h2>
+<table>
+  <tr>
+    <td>{{ position.pair }}</td>
+    <td>{{ position.type.direction }}</td>
+    <td>{{ position.amount | number }}</td>
+    <td>{{ position.open_price | number }}</td>
+    <td>{{ position.current_price | number }}</td>
+    <td><button>ADD</button></td>
+    <td><button>ADD</button></td>
+    <td>{{ position.fee }} {{ position.swap }}</td>
+    <td>{{ position.pl | number }}</td>
+    <td>{{ position.plmain | number }}</td>
+    <td>{{ position.plmprc | number }}</td>
+    <td>{{ position.exposure | number }}</td>
+    <td>{{ position.open_order_time | date:'short' }}</td>
+    <td><button>CLOSE</button></td>
+    <td><button>+</button></td>
+  </tr>
+</table>

@@ -1,1 +1,19 @@
-<h2>APP ORDER</h2>
+<table>
+  <tr>
+    <td>{{ order.pair }}</td>
+    <td>{{ order.type.context }}</td>
+    <td>{{ order.type.type }}</td>
+    <td>{{ order.type.direction }}</td>
+    <td>{{ order.amount | number }}</td>
+    <td>{{ order.open_price | number }}</td>
+    <td>GTC</td>
+    <td>{{ order.open_order_time | date: 'short' }}</td>
+    <td>
+      <button>MODIFY</button>
+      <button>CANCEL</button>
+    </td>
+    <td>
+      <button>+</button>
+    </td>
+  </tr>
+</table>

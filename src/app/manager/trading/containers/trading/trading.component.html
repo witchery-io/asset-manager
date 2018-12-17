@@ -1,4 +1,7 @@
-<app-orders></app-orders>
+<app-orders
+  [section]="ordersSection$ | async"
+></app-orders>
 
-<app-positions></app-positions>
-
+<app-positions
+  [section]="positionsSection$ | async"
+></app-positions>

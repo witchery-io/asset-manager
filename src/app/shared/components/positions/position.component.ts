@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-position',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./position.component.scss'],
 })
 export class PositionComponent implements OnInit {
+
+  @Input()
+  position: any;
 
   constructor() {}
 
