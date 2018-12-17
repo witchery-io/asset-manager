@@ -7,7 +7,9 @@ export interface State extends EntityState<Tick> {
   error: string | null;
 }
 
-export const adapter: EntityAdapter<Tick> = createEntityAdapter<Tick>();
+export const adapter: EntityAdapter<Tick> = createEntityAdapter<Tick>({
+  selectId: (model: Tick) => model.pair,
+});
 
 export const initialState: State = adapter.getInitialState({
   isLoading: false,

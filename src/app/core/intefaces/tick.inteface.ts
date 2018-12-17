@@ -1,7 +1,6 @@
 import { Moment } from 'moment';
 
 export interface Tick {
-  id: number;
   exchangename: string;
   pair: string;
   bid: number;

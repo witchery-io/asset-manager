@@ -13,15 +13,8 @@ export class TickEffects {
     ofType<fromTick.LoadTicks>(fromTick.LOAD_TICKS),
     switchMap(() => {
       return this.tickService.getTicks().pipe(
-        map(ticks => {
-          return new fromTick.TicksLoaded({
-            ticks: ticks.map(function (tick, index) {
-              return {
-                ...tick,
-                id: index,
-              };
-            })
-          });
+        map(response => {
+          return new fromTick.TicksLoaded({ ticks: response });
         }),
         catchError(error => of(new fromTick.TicksNotLoaded({ error: error.message || error }))),
       );
