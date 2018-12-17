@@ -5,6 +5,7 @@ import { getPositionsFromSection } from '@trading/state/trading.selectors';
 @Component({
   selector: 'app-positions',
   template: `
+    <h1>POSITIONS</h1>
     <table>
       <thead>
       <tr>

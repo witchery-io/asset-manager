@@ -5,7 +5,7 @@ import { fromOrders } from '@trading/reducers';
 @Component({
   selector: 'app-orders',
   template: `
-    <h2>ORDER</h2>
+    <h1>ORDERS</h1>
     <table>
       <thead>
       <tr>
