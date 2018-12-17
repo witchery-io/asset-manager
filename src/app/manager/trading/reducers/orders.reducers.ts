@@ -1,4 +1,4 @@
-import * as OrdersActions from '@settings/actions/orders.actions';
+import * as OrdersActions from '@trading/actions/orders.actions';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Order } from '@app/shared/intefaces/order.interface';
 

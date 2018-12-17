@@ -5,7 +5,6 @@ export const LOAD_ORDERS = '[SETTINGS] Load Orders';
 export const ORDERS_LOADED = '[SETTINGS] Orders Loaded';
 export const ORDERS_NOT_LOADED = '[SETTINGS] Orders Not Loaded';
 
-
 export class LoadOrders implements Action {
   readonly type = LOAD_ORDERS;
 }

@@ -14,6 +14,7 @@ export class OrdersEffects {
     switchMap(() => {
       return this.ordersService.getOrders().pipe(
         map(response => {
+          console.log('OrdersEffects', response);
           return new fromOrders.OrdersLoaded({ orders: response });
         }),
         catchError(error => of(new fromOrders.OrdersNotLoaded({ error: error.message || error }))),

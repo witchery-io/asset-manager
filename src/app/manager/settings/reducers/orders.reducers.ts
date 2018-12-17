@@ -7,7 +7,9 @@ export interface State extends EntityState<Order> {
   error: string | null;
 }
 
-export const adapter: EntityAdapter<Order> = createEntityAdapter<Order>();
+export const adapter: EntityAdapter<Order> = createEntityAdapter<Order>({
+  selectId: (model: Order) => model.order_number,
+});
 
 export const initialState: State = adapter.getInitialState({
   isLoading: false,
