@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BalanceService, OrdersService, PositionsService } from '@app/shared/services';
 
 @NgModule({
   declarations: [],
@@ -8,12 +7,8 @@ import { BalanceService, OrdersService, PositionsService } from '@app/shared/ser
     CommonModule,
   ],
   exports: [
-    CommonModule,
   ],
   providers: [
-    PositionsService,
-    OrdersService,
-    BalanceService,
   ],
 })
 export class SharedModule { }

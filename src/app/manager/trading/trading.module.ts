@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { TradingRoutingModule } from './trading-routing.module';
 import { TradingComponent } from '@trading/containers';
@@ -12,12 +13,14 @@ import { EffectsModule } from '@ngrx/effects';
 import { BalanceEffects } from '@trading/effects/balance.effects';
 import { OrdersEffects } from '@trading/effects/orders.effects';
 import { PositionsEffects } from '@trading/effects/positions.effects';
+import { BalanceService, OrdersService, PositionsService } from '@app/shared/services';
 
 @NgModule({
   declarations: [
     TradingComponent,
   ],
   imports: [
+    CommonModule,
     SharedModule,
     TradingRoutingModule,
     StoreModule.forFeature('trading', reducers),
@@ -27,6 +30,10 @@ import { PositionsEffects } from '@trading/effects/positions.effects';
     WebSocketService,
     WsHandlerService,
     WSActionHandlerClient,
+
+    PositionsService,
+    OrdersService,
+    BalanceService,
   ],
 })
 export class TradingModule { }
