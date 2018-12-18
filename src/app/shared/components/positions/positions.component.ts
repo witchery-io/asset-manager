@@ -6,7 +6,7 @@ import { getPositionsFromSection } from '@trading/state/trading.selectors';
   selector: 'app-positions',
   template: `
     <h1>POSITIONS</h1>
-    <table>
+    <table border="1">
       <thead>
       <tr>
         <th>Pair</th>

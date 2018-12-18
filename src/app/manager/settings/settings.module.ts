@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { SettingsRoutingModule } from '@settings/settings-routing.module';
 import { SharedModule } from '@app/shared/shared.module';
 import { SettingsComponent } from '@settings/containers';
-import { AccountsComponent, GroupsComponent } from '@settings/components';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from '@settings/reducers';
 import { EffectsModule } from '@ngrx/effects';
@@ -16,8 +15,6 @@ import { BalanceService, OrdersService, PositionsService } from '@app/shared/ser
 @NgModule({
   declarations: [
     SettingsComponent,
-    AccountsComponent,
-    GroupsComponent,
   ],
   imports: [
     CommonModule,

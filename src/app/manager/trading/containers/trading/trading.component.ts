@@ -8,6 +8,8 @@ import { LoadPositions } from '@trading/actions/positions.actions';
 import { Observable } from 'rxjs';
 import * as Select from '@trading/state/trading.selectors';
 
+import * as SelectCore from '@app/core/reducers';
+
 @Component({
   selector: 'app-trading',
   templateUrl: './trading.component.html',
@@ -18,7 +20,9 @@ export class TradingComponent implements OnInit {
   ordersSection$: Observable<any>;
   positionsSection$: Observable<any>;
   balanceSection$: Observable<any>;
-
+  ticksSection$: Observable<any>;
+  accountsSection$: Observable<any>;
+  groupsSection$: Observable<any>;
   constructor(
     private ws: WsHandlerService,
     private store: Store<TradingState>,
@@ -26,6 +30,10 @@ export class TradingComponent implements OnInit {
     this.ordersSection$ = this.store.pipe(select(Select.getOrders));
     this.positionsSection$ = this.store.pipe(select(Select.getPositions));
     this.balanceSection$ = this.store.pipe(select(Select.getBalance));
+
+    this.ticksSection$ = this.store.pipe(select(SelectCore.getTicks));
+    this.accountsSection$ = this.store.pipe(select(SelectCore.getAccounts));
+    this.groupsSection$ = this.store.pipe(select(SelectCore.getGroups));
   }
 
   ngOnInit() {

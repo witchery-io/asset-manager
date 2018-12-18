@@ -19,12 +19,16 @@ export const reducers = {
 export type State = AppState;
 
 /*
-* Create APP-CORE selectors
+* Core Selectors
 * */
 export const getApp = (state: State) => state.app;
-
 export const getAccounts = createSelector(getApp, (state: AppCoreState) => state.accounts);
-
 export const getGroups = createSelector(getApp, (state: AppCoreState) => state.groups);
-
 export const getTicks = createSelector(getApp, (state: AppCoreState) => state.ticks);
+
+/**
+ * Get Entities
+ */
+export const getAccountsFromSection = (section: fromAccount.State) => Object.values(section.entities);
+export const getGroupsFromSection = (section: fromGroup.State) => Object.values(section.entities);
+export const getTicksFromSection = (section: fromTick.State) => Object.values(section.entities);

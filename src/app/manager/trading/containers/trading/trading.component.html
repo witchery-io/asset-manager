@@ -1,6 +1,26 @@
+<app-accounts
+  [section]="accountsSection$ | async"
+></app-accounts>
+
+<hr>
+
+<app-groups
+  [section]="groupsSection$ | async"
+></app-groups>
+
+<hr>
+
+<app-ticks
+  [section]="ticksSection$ | async"
+></app-ticks>
+
+<hr>
+
 <app-orders
   [section]="ordersSection$ | async"
 ></app-orders>
+
+<hr>
 
 <app-positions
   [section]="positionsSection$ | async"

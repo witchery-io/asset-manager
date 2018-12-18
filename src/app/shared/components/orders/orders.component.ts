@@ -6,7 +6,7 @@ import { fromOrders } from '@trading/reducers';
   selector: 'app-orders',
   template: `
     <h1>ORDERS</h1>
-    <table>
+    <table border="1">
       <thead>
       <tr>
         <th>Pair</th>

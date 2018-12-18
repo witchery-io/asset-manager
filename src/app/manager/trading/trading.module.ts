@@ -3,6 +3,14 @@ import { CommonModule } from '@angular/common';
 
 import { TradingRoutingModule } from './trading-routing.module';
 import { TradingComponent } from '@trading/containers';
+import {
+  AccountsComponent,
+  AccountComponent,
+  GroupsComponent,
+  GroupComponent,
+  TicksComponent,
+  TickComponent,
+} from '@trading/components';
 import { SharedModule } from '@app/shared/shared.module';
 import { WebSocketService } from '@trading/services/ws/web-socket.service';
 import { WsHandlerService } from '@trading/services/ws/ws-handler.service';
@@ -18,6 +26,12 @@ import { BalanceService, OrdersService, PositionsService } from '@app/shared/ser
 @NgModule({
   declarations: [
     TradingComponent,
+    AccountsComponent,
+    AccountComponent,
+    GroupsComponent,
+    GroupComponent,
+    TicksComponent,
+    TickComponent,
   ],
   imports: [
     CommonModule,
