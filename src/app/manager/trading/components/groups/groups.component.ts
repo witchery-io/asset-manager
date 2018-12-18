@@ -4,6 +4,7 @@ import { getGroupsFromSection } from '@app/core/reducers';
 @Component({
   selector: 'app-groups',
   template: `
+    <h1>Groups</h1>
     <app-group
       *ngFor="let group of groups"
       [group]="group"

@@ -4,6 +4,7 @@ import { getTicksFromSection } from '@app/core/reducers';
 @Component({
   selector: 'app-ticks',
   template: `
+    <h1>Ticks</h1>
     <app-tick
       *ngFor="let tick of ticks"
       [tick]="tick"

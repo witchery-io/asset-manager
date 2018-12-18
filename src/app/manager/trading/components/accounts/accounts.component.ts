@@ -4,6 +4,7 @@ import { getAccountsFromSection } from '@app/core/reducers';
 @Component({
   selector: 'app-accounts',
   template: `
+    <h1>Accounts</h1>
     <app-account
       *ngFor="let account of accounts"
       [account]="account"
