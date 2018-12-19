@@ -11,7 +11,8 @@ export class BalanceComponent implements OnInit {
   @Input()
   section: any;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
     console.log(this);
