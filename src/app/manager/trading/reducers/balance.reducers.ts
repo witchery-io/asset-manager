@@ -1,16 +1,16 @@
 import * as BalanceActions from '@trading/actions/balance.actions';
-import { Balance } from '@app/shared/intefaces/balance.interface';
+import { Balance, getEmptyBalance } from '@app/shared/intefaces/balance.interface';
 
 export interface State {
   isLoading: boolean;
   error: string | null;
-  data: Balance | null;
+  data: Balance;
 }
 
 export const initialState: State = {
   isLoading: false,
   error: null,
-  data: null,
+  data: getEmptyBalance(),
 };
 
 export function reducer(state: State = initialState, action: BalanceActions.Actions): State {
