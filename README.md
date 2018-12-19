@@ -49,3 +49,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Optimize Run Project in Production
 
+
+## ESLINT google style
+RUN `npm run eslint --fix`
