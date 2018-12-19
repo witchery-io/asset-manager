@@ -3,10 +3,31 @@ import * as fromPositions from '@settings/reducers/positions.reducers';
 import * as fromBalance from '@settings/reducers/balance.reducers';
 import { AppState } from '@app/core/intefaces/app-state.interface';
 
-export interface SettingsState extends AppState {
+/*
+* Order State
+* */
+export interface OrdersState {
   orders: fromOrders.State;
-  positions: fromPositions.State;
-  balance: fromBalance.State;
+}
+
+/*
+* Position State
+* */
+export interface PositionsState {
+  orders: fromPositions.State;
+}
+
+/*
+* Balance State
+* */
+export interface BalanceState {
+  orders: fromOrders.State;
+}
+
+export interface SettingsState extends AppState {
+  orders: OrdersState;
+  positions: PositionsState;
+  balance: BalanceState;
 }
 
 export const reducers = {

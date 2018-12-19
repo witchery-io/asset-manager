@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { getOrdersFromSection } from '@trading/state/trading.selectors';
-import { fromOrders } from '@trading/reducers';
 
 @Component({
   selector: 'app-orders',
@@ -36,7 +35,7 @@ import { fromOrders } from '@trading/reducers';
 export class OrdersComponent implements OnInit {
 
   @Input()
-  section: fromOrders.State;
+  section: any;
 
   constructor() {
   }
