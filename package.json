@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "bundle-report": "webpack-bundle-analyzer dist/asset-manager/stats.json",
-    "eslint": "eslint ./src --fix"
+    "eslint": "eslint ./src"
   },
   "private": true,
   "dependencies": {
