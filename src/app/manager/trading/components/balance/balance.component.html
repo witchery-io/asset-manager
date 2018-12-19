@@ -6,6 +6,7 @@
   <li><label>exposure</label> {{ balance.exposure }}</li>
   <li><label>last_updated</label> {{ balance.last_updated }}</li>
   <li>
+    <label>per_currency_balances</label>
     <ul *ngFor="let pcb of balance.per_currency_balances">
       <li><label>currency</label> {{ pcb.currency }}</li>
       <li><label>exchange</label> {{ pcb.exchange }}</li>
