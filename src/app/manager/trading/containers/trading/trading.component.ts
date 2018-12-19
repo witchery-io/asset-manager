@@ -13,7 +13,7 @@ import * as SelectCore from '@app/core/reducers';
 @Component({
   selector: 'app-trading',
   templateUrl: './trading.component.html',
-  styleUrls: ['./trading.component.styl'],
+  styleUrls: ['./trading.component.scss'],
 })
 export class TradingComponent implements OnInit {
 

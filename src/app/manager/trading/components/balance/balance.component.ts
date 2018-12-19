@@ -4,7 +4,7 @@ import { getBalanceFromSection } from '@trading/state/trading.selectors';
 @Component({
   selector: 'app-balance',
   templateUrl: './balance.component.html',
-  styleUrls: ['./balance.component.styl']
+  styleUrls: ['./balance.component.scss']
 })
 export class BalanceComponent implements OnInit {
 

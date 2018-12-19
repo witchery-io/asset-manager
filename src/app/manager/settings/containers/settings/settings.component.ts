@@ -8,7 +8,7 @@ import { LoadPositions } from '@settings/actions/positions.actions';
 @Component({
   selector: 'app-trading',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.styl'],
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
 
