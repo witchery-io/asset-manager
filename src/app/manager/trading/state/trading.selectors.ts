@@ -2,7 +2,6 @@ import { createSelector } from '@ngrx/store';
 import { TradingState, State } from '@trading/reducers';
 
 import { fromOrders, fromPositions, fromBalance } from '@trading/reducers';
-import { AppCoreState } from '@app/core/reducers';
 
 /*
 * Create TRADING selectors

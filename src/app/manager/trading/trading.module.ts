@@ -10,6 +10,7 @@ import {
   GroupComponent,
   TicksComponent,
   TickComponent,
+  BalanceComponent,
 } from '@trading/components';
 import { SharedModule } from '@app/shared/shared.module';
 import { WebSocketService } from '@trading/services/ws/web-socket.service';
@@ -32,6 +33,7 @@ import { BalanceService, OrdersService, PositionsService } from '@app/shared/ser
     GroupComponent,
     TicksComponent,
     TickComponent,
+    BalanceComponent,
   ],
   imports: [
     CommonModule,
