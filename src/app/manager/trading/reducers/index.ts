@@ -6,10 +6,34 @@ export { fromOrders, fromPositions, fromBalance };
 
 import { AppState } from '@app/core/intefaces/app-state.interface';
 
-export interface TradingState extends AppState {
+/*
+* Order State
+* */
+export interface OrderState {
   orders: fromOrders.State;
-  positions: fromPositions.State;
-  balance: fromBalance.State;
+}
+
+/*
+* Position State
+* */
+export interface PositionState {
+  orders: fromPositions.State;
+}
+
+/*
+* Balance State
+* */
+export interface BalanceState {
+  orders: fromOrders.State;
+}
+
+/**
+ * set trading`s states
+ */
+export interface TradingState extends AppState {
+  orders: OrderState;
+  positions: PositionState;
+  balance: BalanceState;
 }
 
 export const reducers = {
