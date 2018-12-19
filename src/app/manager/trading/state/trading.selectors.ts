@@ -16,4 +16,4 @@ export const getBalance = createSelector(getTrading, (state: TradingState) => st
  */
 export const getOrdersFromSection = (section: fromOrders.State) => Object.values(section.entities);
 export const getPositionsFromSection = (section: fromPositions.State) => Object.values(section.entities);
-export const getBalanceFromSection = (section: fromBalance.State) => Object.values(section.data);
+export const getBalanceFromSection = (section: fromBalance.State) => section.data;

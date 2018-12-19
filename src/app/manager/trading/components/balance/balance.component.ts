@@ -18,6 +18,8 @@ export class BalanceComponent implements OnInit {
   }
 
   get balance() {
-    return getBalanceFromSection(this.section);
+    const x = getBalanceFromSection(this.section);
+    console.log(x);
+    return x;
   }
 }

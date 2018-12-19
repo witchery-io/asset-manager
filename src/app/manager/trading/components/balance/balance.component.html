@@ -1,10 +1,19 @@
 <h1>Balance</h1>
-{{ balance.balance }}
-{{ balance.base_currency }}
-{{ balance.equity }}
-{{ balance.exposure }}
-{{ balance.last_updated }}
-{{ balance.per_currency_balances }}
-{{ balance.pl }}
-{{ balance.total_pl }}
-{{ balance.wsb }}
+<ul>
+  <li><label>balance</label> {{ balance.balance }}</li>
+  <li><label>base_currency</label> {{ balance.base_currency }}</li>
+  <li><label>equity</label> {{ balance.equity }}</li>
+  <li><label>exposure</label> {{ balance.exposure }}</li>
+  <li><label>last_updated</label> {{ balance.last_updated }}</li>
+  <li>
+    <ul *ngFor="let pcb of balance.per_currency_balances">
+      <li><label>currency</label> {{ pcb.currency }}</li>
+      <li><label>exchange</label> {{ pcb.exchange }}</li>
+      <li><label>funding</label> {{ pcb.funding }}</li>
+      <li><label>margin</label> {{ pcb.margin }}</li>
+    </ul>
+  </li>
+  <li><label>pl</label> {{ balance.pl }}</li>
+  <li><label>total_pl</label> {{ balance.total_pl }}</li>
+  <li><label>wsb</label> {{ balance.wsb }}</li>
+</ul>
