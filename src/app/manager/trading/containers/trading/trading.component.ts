@@ -23,6 +23,7 @@ export class TradingComponent implements OnInit {
   ticksSection$: Observable<any>;
   accountsSection$: Observable<any>;
   groupsSection$: Observable<any>;
+
   constructor(
     private ws: WsHandlerService,
     private store: Store<TradingState>,
