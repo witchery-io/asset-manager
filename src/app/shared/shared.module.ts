@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OrdersComponent, OrderComponent, PositionComponent, PositionsComponent } from '@app/shared/components';
+import { OrdersComponent, OrderComponent, PositionComponent, PositionsComponent, NavBarComponent } from '@app/shared/components';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
@@ -17,6 +17,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     OrderComponent,
     PositionsComponent,
     PositionComponent,
+    NavBarComponent,
   ],
   providers: [],
 })
