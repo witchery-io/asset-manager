@@ -28,6 +28,7 @@
         <tab heading="ORDERS" id="tab1">
           <app-orders
             [section]="ordersSection$ | async"
+            [accountsSection]="accountsSection$ | async"
           ></app-orders>
         </tab>
         <tab heading="POSITIONS">

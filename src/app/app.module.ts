@@ -9,6 +9,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { AppComponent } from '@app/app.component';
 import { PageNotFoundComponent } from '@app/pages/page-not-found.component';
 import { ServerErrorComponent } from '@app/pages/server-error.component';
+import { NotifierModule } from 'angular-notifier';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,13 @@ import { ServerErrorComponent } from '@app/pages/server-error.component';
     CoreModule,
     SharedModule,
     AppRoutingModule,
+    NotifierModule.withConfig({
+      position: {
+        horizontal: {
+          position: 'right',
+        },
+      },
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -20,7 +20,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { BalanceEffects } from '@trading/effects/balance.effects';
 import { OrdersEffects } from '@trading/effects/orders.effects';
 import { PositionsEffects } from '@trading/effects/positions.effects';
-import { BalanceService, OrdersService, PositionsService } from '@app/shared/services';
+import { BalanceService, ModalService, OrdersService, PositionsService } from '@app/shared/services';
 import { TabsModule } from 'ngx-bootstrap';
 
 @NgModule({
@@ -48,6 +48,7 @@ import { TabsModule } from 'ngx-bootstrap';
     PositionsService,
     OrdersService,
     BalanceService,
+    ModalService,
   ],
 })
 export class TradingModule { }
