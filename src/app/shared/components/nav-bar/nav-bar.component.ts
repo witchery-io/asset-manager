@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faCogs, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-nav-bar',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavBarComponent implements OnInit {
 
+  isCollapsed = true;
+  faSignOutAlt = faSignOutAlt;
+  faCogs = faCogs;
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  get name() {
+    return 'user name';
+  }
 }
