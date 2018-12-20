@@ -5,9 +5,7 @@ import { TradingRoutingModule } from './trading-routing.module';
 import { TradingComponent } from '@trading/containers';
 import {
   AccountsComponent,
-  AccountComponent,
   GroupsComponent,
-  GroupComponent,
   TicksComponent,
   TickComponent,
   BalanceComponent,
@@ -28,9 +26,7 @@ import { BalanceService, OrdersService, PositionsService } from '@app/shared/ser
   declarations: [
     TradingComponent,
     AccountsComponent,
-    AccountComponent,
     GroupsComponent,
-    GroupComponent,
     TicksComponent,
     TickComponent,
     BalanceComponent,
