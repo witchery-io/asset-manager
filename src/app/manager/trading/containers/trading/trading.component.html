@@ -1,14 +1,18 @@
-
-<app-accounts
-  [section]="accountsSection$ | async"
-></app-accounts>
-
 <hr>
-
-<app-groups
-  [section]="groupsSection$ | async"
-></app-groups>
-
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-3">
+      <app-accounts
+        [section]="accountsSection$ | async"
+      ></app-accounts>
+    </div>
+    <div class="col-3">
+      <app-groups
+        [section]="groupsSection$ | async"
+      ></app-groups>
+    </div>
+  </div>
+</div>
 <hr>
 
 <app-ticks
