@@ -4,11 +4,12 @@ import {getAccountsFromSection} from '@app/core/reducers';
 @Component({
   selector: 'app-accounts',
   template: `
-    <h1>Accounts</h1>
-    <app-account
-      *ngFor="let account of accounts"
-      [account]="account"
-    ></app-account>
+    <div class="select-wrapper">
+      <select>
+        <option>Select Account</option>
+        <option *ngFor="let account of accounts" [value]="account.id">{{ account.acc_name }}</option>
+      </select>
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

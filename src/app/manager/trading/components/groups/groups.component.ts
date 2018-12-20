@@ -4,11 +4,12 @@ import { getGroupsFromSection } from '@app/core/reducers';
 @Component({
   selector: 'app-groups',
   template: `
-    <h1>Groups</h1>
-    <app-group
-      *ngFor="let group of groups"
-      [group]="group"
-    ></app-group>
+    <div class="select-wrapper">
+      <select>
+        <option>Select Group</option>
+        <option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</option>
+      </select>
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
