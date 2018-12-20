@@ -18,13 +18,14 @@ export class GroupsComponent implements OnInit {
   @Input()
   section: any;
 
-  constructor() {}
-
-  ngOnInit() {
-    console.log(this);
+  constructor() {
   }
 
   get groups() {
     return getGroupsFromSection(this.section);
+  }
+
+  ngOnInit() {
+    console.log(this);
   }
 }

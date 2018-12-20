@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import {getAccountsFromSection} from '@app/core/reducers';
+import { getAccountsFromSection } from '@app/core/reducers';
 
 @Component({
   selector: 'app-accounts',
@@ -18,7 +18,8 @@ export class AccountsComponent implements OnInit {
   @Input()
   section: any;
 
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit() {
     console.log(this);
