@@ -1,47 +1,53 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as fromPositions from '@trading/reducers/positions.reducers';
 import { getPositionsFromSection } from '@trading/state/trading.selectors';
+import { getAccountsFromSection } from '@app/core/reducers';
 
 @Component({
   selector: 'app-positions',
   template: `
-    <h1>POSITIONS</h1>
-    <table border="1">
+    <table class="table table-hover table-xs text-center">
       <thead>
-      <tr>
-        <th>Pair</th>
-        <th>L/S</th>
-        <th>Amount</th>
-        <th>Open Price</th>
-        <th>Market Price</th>
-        <th>Stop</th>
-        <th>Limit</th>
-        <th>Fee Or Swap</th>
-        <th>PL</th>
-        <th>PL(BTC)</th>
-        <th>PL %</th>
-        <th>Exposure (BTC)</th>
-        <th>Opened</th>
-        <th></th>
-        <th></th>
+      <tr class="d-flex">
+        <th class="col">Pair</th>
+        <th class="col">L/S</th>
+        <th class="col">Amount</th>
+        <th class="col">Open Price</th>
+        <th class="col">Market Price</th>
+        <th class="col">Stop</th>
+        <th class="col">Limit</th>
+        <th class="col">{{ feeOrSwap }}</th>
+        <th class="col">PL</th>
+        <th class="col">PL(BTC)</th>
+        <th class="col">PL %</th>
+        <th class="col">Exposure (BTC)</th>
+        <th class="col">Opened</th>
+        <th class="col"></th>
+        <th class="col"></th>
       </tr>
       </thead>
       <tbody>
-        <tr>
-          <td colspan="15">
-            <app-position
-             *ngFor="let position of positions"
-             [position]="position"
-            ></app-position>
-          </td>
-        </tr>
+      <tr>
+        <th colspan="15" class="p-0">
+          <app-position
+            *ngFor="let position of positions"
+            [position]="position"
+            [permission]="permission"
+            [accounts]="accounts"
+          ></app-position>
+        </th>
+      </tr>
       </tbody>
     </table>`,
 })
 export class PositionsComponent implements OnInit {
 
   @Input()
-  section: fromPositions.State;
+  section: any;
+
+  @Input()
+  accountsSection: any;
+
+  permission = 'parent';
 
   constructor() {
   }
@@ -52,5 +58,17 @@ export class PositionsComponent implements OnInit {
 
   get positions() {
     return getPositionsFromSection(this.section);
+  }
+
+  get feeOrSwap() {
+    return this.tradeType === 'group' ? 'Fee' : 'Swap';
+  }
+
+  get tradeType() { // group or account
+    return 'group';
+  }
+
+  get accounts() {
+    return getAccountsFromSection(this.accountsSection);
   }
 }
