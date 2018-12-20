@@ -15,21 +15,34 @@
 </div>
 <hr>
 
-<app-ticks
+<!--<app-ticks
   [section]="ticksSection$ | async"
-></app-ticks>
+></app-ticks>-->
 
 <hr>
 
-<app-orders
-  [section]="ordersSection$ | async"
-></app-orders>
+<div class="container-fluid">
+  <div class="row">
+    <div>
+      <tabset>
+        <tab heading="ORDERS" id="tab1">
+          <app-orders
+            [section]="ordersSection$ | async"
+          ></app-orders>
+        </tab>
+        <tab heading="POSITIONS">
+          <app-positions
+            [section]="positionsSection$ | async"
+          ></app-positions>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>
 
-<hr>
 
-<app-positions
-  [section]="positionsSection$ | async"
-></app-positions>
+
+
 
 <app-balance
   [section]="balanceSection$ | async"
