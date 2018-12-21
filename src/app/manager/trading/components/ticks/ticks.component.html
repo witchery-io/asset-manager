@@ -1,0 +1,11 @@
+<input
+  #search
+  class="search form-control form-control-sm"
+  type="text"
+  placeholder="Search"
+  (keyup)="onSearch(search.value)">
+
+<ng2-smart-table
+  [settings]="settings"
+  [source]="source"
+></ng2-smart-table>

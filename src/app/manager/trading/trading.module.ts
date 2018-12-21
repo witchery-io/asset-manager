@@ -7,7 +7,6 @@ import {
   AccountsComponent,
   GroupsComponent,
   TicksComponent,
-  TickComponent,
   BalanceComponent,
 } from '@trading/components';
 import { SharedModule } from '@app/shared/shared.module';
@@ -22,6 +21,7 @@ import { OrdersEffects } from '@trading/effects/orders.effects';
 import { PositionsEffects } from '@trading/effects/positions.effects';
 import { BalanceService, ModalService, OrdersService, PositionsService } from '@app/shared/services';
 import { TabsModule } from 'ngx-bootstrap';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,6 @@ import { TabsModule } from 'ngx-bootstrap';
     AccountsComponent,
     GroupsComponent,
     TicksComponent,
-    TickComponent,
     BalanceComponent,
   ],
   imports: [
@@ -39,6 +38,7 @@ import { TabsModule } from 'ngx-bootstrap';
     StoreModule.forFeature('trading', reducers),
     EffectsModule.forFeature([BalanceEffects, OrdersEffects, PositionsEffects]),
     TabsModule.forRoot(),
+    Ng2SmartTableModule,
   ],
   providers: [
     WebSocketService,
