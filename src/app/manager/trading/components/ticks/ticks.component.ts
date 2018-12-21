@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { getTicksFromSection } from '@app/core/reducers';
 import { LocalDataSource } from 'ng2-smart-table';
+import { ButtonViewComponent } from '@trading/components/button-view/button-view.component';
 
 @Component({
   selector: 'app-ticks',
@@ -31,7 +32,7 @@ export class TicksComponent implements OnInit {
       },
       add: {
         type: 'custom',
-        // renderComponent: ButtonViewComponent,
+        renderComponent: ButtonViewComponent,
       },
     },
     hideSubHeader: true,
@@ -67,5 +68,18 @@ export class TicksComponent implements OnInit {
 
   get ticks() {
     return getTicksFromSection(this.section);
+  }
+
+  onSearch(query = '') {
+    if (query === '') {
+      this.source.setFilter([]);
+    } else {
+      this.source.setFilter([
+        {
+          field: 'pair',
+          search: query
+        },
+      ], false);
+    }
   }
 }

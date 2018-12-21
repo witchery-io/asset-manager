@@ -22,6 +22,7 @@ import { PositionsEffects } from '@trading/effects/positions.effects';
 import { BalanceService, ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
 import { TabsModule } from 'ngx-bootstrap';
 import { TvChartComponent } from '@trading/components/tv-chart/tv-chart.component';
+import { ButtonViewComponent } from '@trading/components/button-view/button-view.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { TvChartComponent } from '@trading/components/tv-chart/tv-chart.componen
     TicksComponent,
     BalanceComponent,
     TvChartComponent,
+    ButtonViewComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +52,9 @@ import { TvChartComponent } from '@trading/components/tv-chart/tv-chart.componen
     BalanceService,
     ModalService,
     SharedService,
+  ],
+  entryComponents: [
+    ButtonViewComponent,
   ],
 })
 export class TradingModule { }
