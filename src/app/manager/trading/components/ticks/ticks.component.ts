@@ -14,119 +14,55 @@ export class TicksComponent implements OnInit {
   section: any;
 
   settings = {
-    delete: {
-      confirmDelete: true,
-    },
-    add: {
-      confirmCreate: true,
-    },
-    edit: {
-      confirmSave: true,
-    },
     columns: {
-      id: {
-        title: 'ID',
+      pair: {
+        title: 'INS.', // INSTRUMENT
+        sortDirection: 'ASC',
       },
-      name: {
-        title: 'Full Name',
+      last: {
+        title: 'LAST',
       },
-      username: {
-        title: 'User Name',
+      daily_change_prc: {
+        title: '24HR',
+        type: 'html',
       },
-      email: {
-        title: 'Email',
+      volume: {
+        title: 'VOL USD',
+      },
+      add: {
+        type: 'custom',
+        // renderComponent: ButtonViewComponent,
       },
     },
-  };
-
-  data = [
-    {
-      id: 1,
-      name: 'Leanne Graham',
-      username: 'Bret',
-      email: 'Sincere@april.biz',
-      notShownField: true,
+    hideSubHeader: true,
+    pager: {
+      perPage: 100
     },
-    {
-      id: 2,
-      name: 'Ervin Howell',
-      username: 'Antonette',
-      email: 'Shanna@melissa.tv',
-      notShownField: true,
-    },
-    {
-      id: 3,
-      name: 'Clementine Bauch',
-      username: 'Samantha',
-      email: 'Nathan@yesenia.net',
-      notShownField: false,
-    },
-    {
-      id: 4,
-      name: 'Patricia Lebsack',
-      username: 'Karianne',
-      email: 'Julianne.OConner@kory.org',
-      notShownField: false,
-    },
-    {
-      id: 5,
-      name: 'Chelsey Dietrich',
-      username: 'Kamren',
-      email: 'Lucio_Hettinger@annie.ca',
-      notShownField: false,
-    },
-    {
-      id: 6,
-      name: 'Mrs. Dennis Schulist',
-      username: 'Leopoldo_Corkery',
-      email: 'Karley_Dach@jasper.info',
-      notShownField: false,
-    },
-    {
-      id: 7,
-      name: 'Kurtis Weissnat',
-      username: 'Elwyn.Skiles',
-      email: 'Telly.Hoeger@billy.biz',
-      notShownField: false,
-    },
-    {
-      id: 8,
-      name: 'Nicholas Runolfsdottir V',
-      username: 'Maxime_Nienow',
-      email: 'Sherwood@rosamond.me',
-      notShownField: true,
-    },
-    {
-      id: 9,
-      name: 'Glenna Reichert',
-      username: 'Delphine',
-      email: 'Chaim_McDermott@dana.io',
-      notShownField: false,
-    },
-    {
-      id: 10,
-      name: 'Clementina DuBuque',
-      username: 'Moriah.Stanton',
-      email: 'Rey.Padberg@karina.biz',
-      notShownField: false,
-    },
-    {
-      id: 11,
-      name: 'Nicholas DuBuque',
-      username: 'Nicholas.Stanton',
-      email: 'Rey.Padberg@rosamond.biz',
-      notShownField: true,
+    actions: false,
+    attr: {
+      class: 'table table-xs table-hover'
     }
-  ];
+  };
 
   source: LocalDataSource;
 
   constructor() {
-    this.source = new LocalDataSource(this.data);
+    this.source = new LocalDataSource();
   }
 
   ngOnInit() {
-    console.log(this);
+    this.source.load(this.ticks.map(function (tick, i) {
+      return {
+        ...tick,
+        ...{
+          last: tick.last.toFixed(2),
+          volume: tick.volume.toFixed(2),
+          daily_change_prc: `<span class="${ tick.daily_change_prc > 0 ? 'text-success' : 'text-danger' }">
+                          ${ (tick.daily_change_prc * 100).toFixed(2) }%</span>`,
+          add: i,
+        },
+      };
+    }));
   }
 
   get ticks() {
