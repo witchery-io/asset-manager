@@ -18,10 +18,13 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12">
+    <div class="col-3">
       <app-ticks
         [section]="ticksSection$ | async"
       ></app-ticks>
+    </div>
+    <div class="col-9">
+      <app-tv-chart></app-tv-chart>
     </div>
   </div>
 </div>

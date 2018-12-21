@@ -19,9 +19,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { BalanceEffects } from '@trading/effects/balance.effects';
 import { OrdersEffects } from '@trading/effects/orders.effects';
 import { PositionsEffects } from '@trading/effects/positions.effects';
-import { BalanceService, ModalService, OrdersService, PositionsService } from '@app/shared/services';
+import { BalanceService, ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
 import { TabsModule } from 'ngx-bootstrap';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { TvChartComponent } from '@trading/components/tv-chart/tv-chart.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     GroupsComponent,
     TicksComponent,
     BalanceComponent,
+    TvChartComponent,
   ],
   imports: [
     CommonModule,
@@ -49,6 +51,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     OrdersService,
     BalanceService,
     ModalService,
+    SharedService,
   ],
 })
 export class TradingModule { }

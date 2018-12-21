@@ -29,7 +29,10 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/datafeeds/udf/dist/bundle.js",
+              "src/assets/datafeeds/udf/dist/polyfills.js"
+            ]
           },
           "configurations": {
             "production": {

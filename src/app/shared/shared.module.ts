@@ -34,6 +34,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PositionsComponent,
     PositionComponent,
     NavBarComponent,
+
   ],
   providers: [],
 })
