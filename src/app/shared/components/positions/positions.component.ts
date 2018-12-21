@@ -53,7 +53,6 @@ export class PositionsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this);
   }
 
   get positions() {

@@ -22,7 +22,6 @@ export class AccountsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this);
   }
 
   get accounts() {

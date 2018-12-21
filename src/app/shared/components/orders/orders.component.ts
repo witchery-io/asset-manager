@@ -47,7 +47,6 @@ export class OrdersComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this);
   }
 
   get orders() {

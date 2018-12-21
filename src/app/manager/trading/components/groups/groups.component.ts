@@ -21,11 +21,12 @@ export class GroupsComponent implements OnInit {
   constructor() {
   }
 
+  ngOnInit() {
+  }
+
   get groups() {
     return getGroupsFromSection(this.section);
   }
 
-  ngOnInit() {
-    console.log(this);
-  }
+
 }
