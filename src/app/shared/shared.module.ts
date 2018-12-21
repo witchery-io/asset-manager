@@ -5,7 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BsDropdownModule, CollapseModule, ModalModule, TabsModule, TooltipModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
   imports: [
@@ -19,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     TabsModule.forRoot(),
+    Ng2SmartTableModule,
   ],
   exports: [
     OrdersComponent,
@@ -26,7 +27,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NavBarComponent,
     FormsModule,
     ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    Ng2SmartTableModule,
   ],
   declarations: [
     OrdersComponent,
@@ -34,7 +36,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PositionsComponent,
     PositionComponent,
     NavBarComponent,
-
   ],
   providers: [],
 })

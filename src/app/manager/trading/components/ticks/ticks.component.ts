@@ -6,7 +6,7 @@ import { LocalDataSource } from 'ng2-smart-table';
   selector: 'app-ticks',
   templateUrl: './ticks.component.html',
   styleUrls: ['ticks.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TicksComponent implements OnInit {
 

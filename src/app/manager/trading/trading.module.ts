@@ -21,7 +21,6 @@ import { OrdersEffects } from '@trading/effects/orders.effects';
 import { PositionsEffects } from '@trading/effects/positions.effects';
 import { BalanceService, ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
 import { TabsModule } from 'ngx-bootstrap';
-import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { TvChartComponent } from '@trading/components/tv-chart/tv-chart.component';
 
 @NgModule({
@@ -40,7 +39,6 @@ import { TvChartComponent } from '@trading/components/tv-chart/tv-chart.componen
     StoreModule.forFeature('trading', reducers),
     EffectsModule.forFeature([BalanceEffects, OrdersEffects, PositionsEffects]),
     TabsModule.forRoot(),
-    Ng2SmartTableModule,
   ],
   providers: [
     WebSocketService,
