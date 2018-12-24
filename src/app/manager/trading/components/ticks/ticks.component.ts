@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { getTicksFromSection } from '@app/core/reducers';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ButtonViewComponent } from '@trading/components/button-view/button-view.component';
@@ -52,18 +52,28 @@ export class TicksComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.source.load(this.ticks.map(function (tick, i) {
+    this.loadTicks();
+  }
+
+  loadTicks() {
+    const tickPromise = this.source.load(this.ticks.map(function (tick, i) {
       return {
         ...tick,
         ...{
           last: tick.last.toFixed(2),
           volume: tick.volume.toFixed(2),
-          daily_change_prc: `<span class="${ tick.daily_change_prc > 0 ? 'text-success' : 'text-danger' }">
-                          ${ (tick.daily_change_prc * 100).toFixed(2) }%</span>`,
+          daily_change_prc: `<span class="${tick.daily_change_prc > 0 ? 'text-success' : 'text-danger'}">
+                          ${(tick.daily_change_prc * 100).toFixed(2)}%</span>`,
           add: i,
         },
       };
     }));
+
+    tickPromise.then(() => {
+      console.log('Ticks success loaded!');
+    }).catch(() => {
+      console.error('My Error!');
+    });
   }
 
   get ticks() {
