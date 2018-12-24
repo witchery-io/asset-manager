@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { getTicksFromSection } from '@app/core/reducers';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ButtonViewComponent } from '@trading/components/button-view/button-view.component';
+import { SharedService } from '@app/shared/services';
 
 @Component({
   selector: 'app-ticks',
@@ -13,6 +14,8 @@ export class TicksComponent implements OnInit {
 
   @Input()
   section: any;
+
+  _symbol: any;
 
   settings = {
     columns: {
@@ -37,7 +40,7 @@ export class TicksComponent implements OnInit {
     },
     hideSubHeader: true,
     pager: {
-      perPage: 100
+      perPage: 500
     },
     actions: false,
     attr: {
@@ -47,7 +50,9 @@ export class TicksComponent implements OnInit {
 
   source: LocalDataSource;
 
-  constructor() {
+  constructor(
+    private sharedService: SharedService,
+  ) {
     this.source = new LocalDataSource();
   }
 
@@ -91,5 +96,10 @@ export class TicksComponent implements OnInit {
         },
       ], false);
     }
+  }
+
+  onUserRowSelect($event) {
+    this._symbol = `${ $event.data.exchangename }:${ $event.data.pair }`;
+    this.sharedService.subject.next();
   }
 }
