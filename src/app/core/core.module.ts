@@ -16,11 +16,11 @@ import { TickEffects } from '@app/core/effects/tick.effects';
     CommonModule,
 
     StoreModule.forRoot({}),
-    StoreModule.forFeature('app', reducers),
+    StoreModule.forFeature('core', reducers),
     EffectsModule.forRoot([AccountEffects, GroupEffects, TickEffects]),
 
     StoreDevtoolsModule.instrument({
-      maxAge: 30,
+      maxAge: 60,
     }),
   ],
   providers: [

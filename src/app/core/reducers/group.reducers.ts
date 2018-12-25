@@ -27,7 +27,7 @@ export function reducer(state: State = initialState, action: GroupActions.Action
       return adapter.addMany(action.payload.groups, {
         ...state,
         isLoading: false,
-        error: '',
+        error: null,
       });
     }
 

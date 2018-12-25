@@ -29,7 +29,7 @@ export function reducer(state: State = initialState, action: TickActions.Actions
       return adapter.addMany(action.payload.ticks, {
         ...state,
         isLoading: false,
-        error: '',
+        error: null,
       });
     }
 

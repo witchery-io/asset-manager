@@ -1,36 +1,15 @@
 import * as fromOrders from '@trading/reducers/orders.reducers';
 import * as fromPositions from '@trading/reducers/positions.reducers';
 import * as fromBalance from '@trading/reducers/balance.reducers';
-import { AppState } from '@app/core/intefaces/app-state.interface';
-
-/*
-* Order State
-* */
-export interface OrdersState {
-  orders: fromOrders.State;
-}
-
-/*
-* Position State
-* */
-export interface PositionsState {
-  orders: fromPositions.State;
-}
-
-/*
-* Balance State
-* */
-export interface BalanceState {
-  orders: fromOrders.State;
-}
+import { CoreState } from '@app/core/reducers';
 
 /**
  * set trading`s states
  */
-export interface TradingState extends AppState {
-  orders: OrdersState;
-  positions: PositionsState;
-  balance: BalanceState;
+export interface TradingState extends CoreState {
+  orders: fromOrders.State;
+  positions: fromPositions.State;
+  balance: fromBalance.State;
 }
 
 export const reducers = {
@@ -38,5 +17,3 @@ export const reducers = {
   positions: fromPositions.reducer,
   balance: fromBalance.reducer,
 };
-
-export type State = AppState;

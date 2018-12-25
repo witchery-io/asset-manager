@@ -3,12 +3,12 @@
   <div class="row">
     <div class="col-2">
       <app-accounts
-        [section]="accountsSection$ | async"
+        [section]="accounts$ | async"
       ></app-accounts>
     </div>
     <div class="col-2">
       <app-groups
-        [section]="groupsSection$ | async"
+        [section]="groups$ | async"
       ></app-groups>
     </div>
   </div>
@@ -16,46 +16,51 @@
 
 <hr>
 
+<!--
 <div class="container-fluid">
   <div class="row">
     <div class="col-3">
       <app-ticks
       *ngIf="(ticksIsLoading$ | async) === false"
-        [section]="ticksSection$ | async"
+        [section]="ticks$ | async"
       ></app-ticks>
     </div>
     <div class="col-9">
-      <!--<app-tv-chart></app-tv-chart>-->
+      &lt;!&ndash;<app-tv-chart></app-tv-chart>&ndash;&gt;
     </div>
   </div>
 </div>
+-->
 
 
 <hr>
 
-<div class="container-fluid">
+<!--<div class="container-fluid">
   <div class="row">
     <div class="col-12">
       <tabset>
         <tab heading="ORDERS" id="tab1">
           <app-orders
-            [section]="ordersSection$ | async"
-            [accountsSection]="accountsSection$ | async"
+            *ngIf="(isLoadingOrders$ | async) === false"
+            [section]="orders$ | async"
+            [accounts]="accounts$ | async"
           ></app-orders>
         </tab>
         <tab heading="POSITIONS">
           <app-positions
-            [section]="positionsSection$ | async"
-            [accountsSection]="accountsSection$ | async"
+            *ngIf="(isLoadingPositions$ | async) === false"
+            [section]="positions$ | async"
+            [accounts]="accounts$ | async"
           ></app-positions>
         </tab>
       </tabset>
     </div>
   </div>
-</div>
+</div>-->
 
-<app-balance
-  [section]="balanceSection$ | async"
-  [groupSection]="groupsSection$ | async"
-  [accountsSection]="accountsSection$ | async"
-></app-balance>
+<!--<app-balance
+  *ngIf="(isLoadingBalance$ | async) === false"
+  [section]="balance$ | async"
+  [groups]="groups$ | async"
+  [accounts]="accounts$ | async"
+></app-balance>-->

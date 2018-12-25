@@ -1,33 +1,12 @@
 import * as fromOrders from '@settings/reducers/orders.reducers';
 import * as fromPositions from '@settings/reducers/positions.reducers';
 import * as fromBalance from '@settings/reducers/balance.reducers';
-import { AppState } from '@app/core/intefaces/app-state.interface';
+import { CoreState } from '@app/core/reducers';
 
-/*
-* Order State
-* */
-export interface OrdersState {
+export interface SettingsState extends CoreState {
   orders: fromOrders.State;
-}
-
-/*
-* Position State
-* */
-export interface PositionsState {
-  orders: fromPositions.State;
-}
-
-/*
-* Balance State
-* */
-export interface BalanceState {
-  orders: fromOrders.State;
-}
-
-export interface SettingsState extends AppState {
-  orders: OrdersState;
-  positions: PositionsState;
-  balance: BalanceState;
+  positions: fromPositions.State;
+  balance: fromBalance.State;
 }
 
 export const reducers = {
@@ -35,5 +14,3 @@ export const reducers = {
   positions: fromPositions.reducer,
   balance: fromBalance.reducer,
 };
-
-export type State = AppState;

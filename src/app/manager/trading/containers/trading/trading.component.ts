@@ -7,8 +7,12 @@ import { LoadOrders } from '@trading/actions/orders.actions';
 import { LoadPositions } from '@trading/actions/positions.actions';
 import { Observable } from 'rxjs';
 import * as Select from '@trading/state/trading.selectors';
-
-import * as SelectCore from '@app/core/reducers';
+import * as fromOrders from '@trading/reducers/orders.reducers';
+import * as fromPositions from '@trading/reducers/positions.reducers';
+import * as fromBalance from '@trading/reducers/balance.reducers';
+import * as fromAccounts from '@app/core/reducers/account.reducers';
+import * as fromGroups from '@app/core/reducers/group.reducers';
+import * as fromTicks from '@app/core/reducers/tick.reducers';
 
 @Component({
   selector: 'app-trading',
@@ -17,29 +21,35 @@ import * as SelectCore from '@app/core/reducers';
 })
 export class TradingComponent implements OnInit {
 
-  ordersSection$: Observable<any>;
-  positionsSection$: Observable<any>;
-  balanceSection$: Observable<any>;
+  orders$: Observable<fromOrders.State>;
+  isLoadingOrders$: Observable<boolean>;
 
-  ticksSection$: Observable<any>;
-  ticksIsLoading$: Observable<any>;
+  positions$: Observable<fromPositions.State>;
+  isLoadingPositions$: Observable<boolean>;
 
-  accountsSection$: Observable<any>;
-  groupsSection$: Observable<any>;
+  balance$: Observable<fromBalance.State>;
+  isLoadingBalance$: Observable<boolean>;
+
+  accounts$: Observable<fromAccounts.State>;
+  groups$: Observable<fromGroups.State>;
+  ticks$: Observable<fromTicks.State>;
 
   constructor(
     private ws: WsHandlerService,
     private store: Store<TradingState>,
   ) {
-    this.ordersSection$ = this.store.pipe(select(Select.getOrders));
-    this.positionsSection$ = this.store.pipe(select(Select.getPositions));
-    this.balanceSection$ = this.store.pipe(select(Select.getBalance));
+    this.orders$ = this.store.pipe(select(Select.getOrders));
+    this.isLoadingOrders$ = this.store.pipe(select(Select.isLoadingOrders));
 
-    this.ticksSection$ = this.store.pipe(select(SelectCore.getTicks));
-    this.ticksIsLoading$ = this.store.pipe(select(SelectCore.ticksIsLoading));
+    this.positions$ = this.store.pipe(select(Select.getPositions));
+    this.isLoadingPositions$ = this.store.pipe(select(Select.isLoadingPositions));
 
-    this.accountsSection$ = this.store.pipe(select(SelectCore.getAccounts));
-    this.groupsSection$ = this.store.pipe(select(SelectCore.getGroups));
+    this.balance$ = this.store.pipe(select(Select.getBalance));
+    this.isLoadingBalance$ = this.store.pipe(select(Select.isLoadingBalance));
+
+    this.accounts$ = this.store.pipe(select(Select.getAccounts));
+    this.groups$ = this.store.pipe(select(Select.getGroups));
+    this.ticks$ = this.store.pipe(select(Select.getTicks));
   }
 
   ngOnInit() {

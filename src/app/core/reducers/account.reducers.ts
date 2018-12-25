@@ -27,7 +27,7 @@ export function reducer(state: State = initialState, action: AccountActions.Acti
       return adapter.addMany(action.payload.accounts, {
         ...state,
         isLoading: false,
-        error: '',
+        error: null,
       });
     }
 
