@@ -8,7 +8,6 @@ import { SharedService } from '@app/shared/services';
   selector: 'app-ticks',
   templateUrl: './ticks.component.html',
   styleUrls: ['ticks.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TicksComponent implements OnInit {
 
@@ -53,15 +52,14 @@ export class TicksComponent implements OnInit {
   constructor(
     private sharedService: SharedService,
   ) {
-    this.source = new LocalDataSource();
   }
 
   ngOnInit() {
-    this.loadTicks();
+    this.source = new LocalDataSource(this.ticks);
   }
 
-  loadTicks() {
-    const tickPromise = this.source.load(this.ticks.map(function (tick, i) {
+  get ticks() {
+    return getTicksFromSection(this.section).map(function (tick, i) {
       return {
         ...tick,
         ...{
@@ -72,17 +70,7 @@ export class TicksComponent implements OnInit {
           add: i,
         },
       };
-    }));
-
-    tickPromise.then(() => {
-      console.log('Ticks success loaded!');
-    }).catch(() => {
-      console.error('My Error!');
     });
-  }
-
-  get ticks() {
-    return getTicksFromSection(this.section);
   }
 
   onSearch(query = '') {
@@ -99,7 +87,7 @@ export class TicksComponent implements OnInit {
   }
 
   onUserRowSelect($event) {
-    this._symbol = `${ $event.data.exchangename }:${ $event.data.pair }`;
+    this._symbol = `${$event.data.exchangename}:${$event.data.pair}`;
     this.sharedService.subject.next();
   }
 }

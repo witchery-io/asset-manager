@@ -20,11 +20,12 @@
   <div class="row">
     <div class="col-3">
       <app-ticks
+      *ngIf="(ticksIsLoading$ | async) === false"
         [section]="ticksSection$ | async"
       ></app-ticks>
     </div>
     <div class="col-9">
-      <app-tv-chart></app-tv-chart>
+      <!--<app-tv-chart></app-tv-chart>-->
     </div>
   </div>
 </div>

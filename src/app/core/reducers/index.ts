@@ -25,6 +25,7 @@ export const getApp = (state: State) => state.app;
 export const getAccounts = createSelector(getApp, (state: AppCoreState) => state.accounts);
 export const getGroups = createSelector(getApp, (state: AppCoreState) => state.groups);
 export const getTicks = createSelector(getApp, (state: AppCoreState) => state.ticks);
+export const ticksIsLoading = createSelector(getTicks, (state: fromTick.State) => state.isLoading);
 
 /**
  * Get Entities

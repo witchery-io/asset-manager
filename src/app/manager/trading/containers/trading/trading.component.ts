@@ -20,7 +20,10 @@ export class TradingComponent implements OnInit {
   ordersSection$: Observable<any>;
   positionsSection$: Observable<any>;
   balanceSection$: Observable<any>;
+
   ticksSection$: Observable<any>;
+  ticksIsLoading$: Observable<any>;
+
   accountsSection$: Observable<any>;
   groupsSection$: Observable<any>;
 
@@ -33,6 +36,8 @@ export class TradingComponent implements OnInit {
     this.balanceSection$ = this.store.pipe(select(Select.getBalance));
 
     this.ticksSection$ = this.store.pipe(select(SelectCore.getTicks));
+    this.ticksIsLoading$ = this.store.pipe(select(SelectCore.ticksIsLoading));
+
     this.accountsSection$ = this.store.pipe(select(SelectCore.getAccounts));
     this.groupsSection$ = this.store.pipe(select(SelectCore.getGroups));
   }
