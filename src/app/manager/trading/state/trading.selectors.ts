@@ -3,6 +3,7 @@ import { TradingState } from '@trading/reducers';
 import * as fromOrders from '@trading/reducers/orders.reducers';
 import * as fromPositions from '@trading/reducers/positions.reducers';
 import * as fromBalance from '@trading/reducers/balance.reducers';
+import * as fromTick from '@app/core/reducers/tick.reducers';
 
 /*
 * Core Selectors
@@ -12,6 +13,7 @@ export const getCoreState = createFeatureSelector<TradingState>('core');
 export const getAccounts = createSelector(getCoreState, (state: TradingState) => state.accounts);
 export const getGroups = createSelector(getCoreState, (state: TradingState) => state.groups);
 export const getTicks = createSelector(getCoreState, (state: TradingState) => state.ticks);
+export const ticksIsLoading = createSelector(getTicks, (state: fromTick.State) => state.isLoading);
 
 /*
 * Create TRADING selectors

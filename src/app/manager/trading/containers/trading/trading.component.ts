@@ -33,6 +33,7 @@ export class TradingComponent implements OnInit {
   accounts$: Observable<fromAccounts.State>;
   groups$: Observable<fromGroups.State>;
   ticks$: Observable<fromTicks.State>;
+  ticksIsLoading$: Observable<boolean>;
 
   constructor(
     private ws: WsHandlerService,
@@ -49,7 +50,9 @@ export class TradingComponent implements OnInit {
 
     this.accounts$ = this.store.pipe(select(Select.getAccounts));
     this.groups$ = this.store.pipe(select(Select.getGroups));
+
     this.ticks$ = this.store.pipe(select(Select.getTicks));
+    this.ticksIsLoading$ = this.store.pipe(select(Select.ticksIsLoading));
   }
 
   ngOnInit() {
