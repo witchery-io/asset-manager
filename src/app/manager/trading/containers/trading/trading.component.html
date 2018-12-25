@@ -16,7 +16,6 @@
 
 <hr>
 
-<!--
 <div class="container-fluid">
   <div class="row">
     <div class="col-3">
@@ -26,16 +25,15 @@
       ></app-ticks>
     </div>
     <div class="col-9">
-      &lt;!&ndash;<app-tv-chart></app-tv-chart>&ndash;&gt;
+      <!--<app-tv-chart></app-tv-chart>-->
     </div>
   </div>
 </div>
--->
 
 
-<hr>
+<!--<hr>-->
 
-<!--<div class="container-fluid">
+<div class="container-fluid">
   <div class="row">
     <div class="col-12">
       <tabset>
@@ -43,24 +41,24 @@
           <app-orders
             *ngIf="(isLoadingOrders$ | async) === false"
             [section]="orders$ | async"
-            [accounts]="accounts$ | async"
+            [accountsS]="accounts$ | async"
           ></app-orders>
         </tab>
         <tab heading="POSITIONS">
           <app-positions
             *ngIf="(isLoadingPositions$ | async) === false"
             [section]="positions$ | async"
-            [accounts]="accounts$ | async"
+            [accountsS]="accounts$ | async"
           ></app-positions>
         </tab>
       </tabset>
     </div>
   </div>
-</div>-->
+</div>
 
-<!--<app-balance
+<app-balance
   *ngIf="(isLoadingBalance$ | async) === false"
   [section]="balance$ | async"
-  [groups]="groups$ | async"
-  [accounts]="accounts$ | async"
-></app-balance>-->
+  [groupsS]="groups$ | async"
+  [accountsS]="accounts$ | async"
+></app-balance>

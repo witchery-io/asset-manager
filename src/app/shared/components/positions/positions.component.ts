@@ -45,7 +45,7 @@ export class PositionsComponent implements OnInit {
   section: any;
 
   @Input()
-  accountsSection: any;
+  accountsS: any;
 
   permission = 'parent';
 
@@ -68,6 +68,6 @@ export class PositionsComponent implements OnInit {
   }
 
   get accounts() {
-    return getAccountsFromSection(this.accountsSection);
+    return getAccountsFromSection(this.accountsS);
   }
 }

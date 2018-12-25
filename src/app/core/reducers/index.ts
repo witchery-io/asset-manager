@@ -1,16 +1,11 @@
-import { AppState } from '@app/core/intefaces/app-state.interface';
 import * as fromAccount from './account.reducers';
 import * as fromGroup from './group.reducers';
 import * as fromTick from './tick.reducers';
 
-export interface Core {
+export interface CoreState {
   accounts: fromAccount.State;
   groups: fromGroup.State;
   ticks: fromTick.State;
-}
-
-export interface CoreState extends AppState {
-  core: Core;
 }
 
 export const reducers = {

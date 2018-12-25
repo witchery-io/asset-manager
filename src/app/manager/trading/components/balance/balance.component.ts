@@ -16,10 +16,10 @@ export class BalanceComponent implements OnInit {
   section: any;
 
   @Input()
-  groupSection: any;
+  groupsS: any;
 
   @Input()
-  accountsSection: any;
+  accountsS: any;
 
   modalRef: BsModalRef;
   transferForm: FormGroup;
@@ -48,11 +48,11 @@ export class BalanceComponent implements OnInit {
   }
 
   get accounts() {
-    return getAccountsFromSection(this.accountsSection);
+    return getAccountsFromSection(this.accountsS);
   }
 
   get groups() {
-    return getGroupsFromSection(this.groupSection);
+    return getGroupsFromSection(this.groupsS);
   }
 
   openModal(template: TemplateRef<any>) {

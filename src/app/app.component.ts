@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { LoadGroups } from '@app/core/actions/group.actions';
 import { LoadAccounts } from '@app/core/actions/account.actions';
-import { AppState } from '@app/core/intefaces/app-state.interface';
 import { LoadTicks } from '@app/core/actions/tick.actions';
+import { CoreState } from '@app/core/reducers';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,7 @@ import { LoadTicks } from '@app/core/actions/tick.actions';
 export class AppComponent implements OnInit {
 
   constructor(
-    private store: Store<AppState>,
+    private store: Store<CoreState>,
   ) {}
 
   ngOnInit() {
