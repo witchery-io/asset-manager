@@ -69,7 +69,7 @@
       <tab heading="Exchange">
         <form novalidate [formGroup]="exchangeForm" class="m-2">
           <div class="form-group">
-            <label for="o_type">Exchange Type</label>
+            <label for="o_type" class="small">Exchange Type</label>
             <select class="form-control form-control-sm" id="o_type" formControlName="o_type">
               <option value="limit">Limit</option>
               <option value="market">Market</option>
@@ -88,7 +88,7 @@
                 formControlName="price">
             </div>
             <div class="form-group col">
-              <label for="amount" class="small"></label>
+              <label for="amount" class="small">Amount</label>
               <input
                 id="amount"
                 type="number"
