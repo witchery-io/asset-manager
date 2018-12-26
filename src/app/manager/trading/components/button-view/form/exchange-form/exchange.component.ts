@@ -7,7 +7,7 @@ import { ModalService, OrdersService } from '@app/shared/services';
 @Component({
   selector: 'app-exchange',
   templateUrl: './exchange.component.html',
-  styleUrls: ['./exchange.component.scss']
+  styleUrls: ['./exchange.component.scss'],
 })
 export class ExchangeComponent implements OnInit {
 
@@ -72,24 +72,23 @@ export class ExchangeComponent implements OnInit {
     if (this.tradeType === 'group') {
       this.ordersService.placeGroupOrder(this.tradeTypeId, order)
         .subscribe((d: any) => {
-
           this.notifier.notify('success',
             `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]} ${d.amount} ${d.pair} @ ${d.open_price}.`);
         }, error1 => {
-
           this.notifier.notify('error', `Error msg: ${error1.message}`);
+        }, () => {
+          this.modalService.closeAllModals();
         });
     } else if (this.tradeType === 'account') {
       this.ordersService.placeAccountOrder(this.tradeTypeId, order)
         .subscribe((d: any) => {
-
           this.notifier.notify('success',
             `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]} ${d.amount} ${d.pair} @ ${d.open_price}.`);
         }, error1 => {
-
           this.notifier.notify('error', `Error msg: ${error1.message}`);
+        }, () => {
+          this.modalService.closeAllModals();
         });
     }
-    this.modalService.closeAllModals();
   }
 }

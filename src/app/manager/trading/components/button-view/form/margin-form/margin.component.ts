@@ -7,7 +7,7 @@ import { ModalService, OrdersService } from '@app/shared/services';
 @Component({
   selector: 'app-margin',
   templateUrl: './margin.component.html',
-  styleUrls: ['./margin.component.scss']
+  styleUrls: ['./margin.component.scss'],
 })
 export class MarginComponent implements OnInit {
 
@@ -38,7 +38,7 @@ export class MarginComponent implements OnInit {
       return false;
     }
 
-    this.placeOrder(OrderDirection.buy, OrderContext.margin, model);
+    this.placeOrder(OrderDirection.buy, model);
   }
 
   sell(model: any, isValid: boolean) {
@@ -46,7 +46,7 @@ export class MarginComponent implements OnInit {
       return false;
     }
 
-    this.placeOrder(OrderDirection.sell, OrderContext.margin, model);
+    this.placeOrder(OrderDirection.sell, model);
   }
 
   get tradeType() {
@@ -57,13 +57,13 @@ export class MarginComponent implements OnInit {
     return '';
   }
 
-  placeOrder(direction, context, model) {
+  placeOrder(direction, model) {
     const order = {
       amount: model.amount,
       open_price: model.price,
       pair: this.pair,
       type: {
-        context: context,
+        context: OrderContext.margin,
         direction: direction,
         type: +model.o_type,
       }
@@ -72,24 +72,23 @@ export class MarginComponent implements OnInit {
     if (this.tradeType === 'group') {
       this.ordersService.placeGroupOrder(this.tradeTypeId, order)
         .subscribe((d: any) => {
-
           this.notifier.notify('success',
             `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]} ${d.amount} ${d.pair} @ ${d.open_price}.`);
         }, error1 => {
-
           this.notifier.notify('error', `Error msg: ${error1.message}`);
+        }, () => {
+          this.modalService.closeAllModals();
         });
     } else if (this.tradeType === 'account') {
       this.ordersService.placeAccountOrder(this.tradeTypeId, order)
         .subscribe((d: any) => {
-
           this.notifier.notify('success',
             `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]} ${d.amount} ${d.pair} @ ${d.open_price}.`);
         }, error1 => {
-
           this.notifier.notify('error', `Error msg: ${error1.message}`);
+        }, () => {
+          this.modalService.closeAllModals();
         });
     }
-    this.modalService.closeAllModals();
   }
 }
