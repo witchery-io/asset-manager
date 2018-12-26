@@ -1,33 +1,27 @@
 <fa-icon [hidden]="role !== 'admin'" [icon]=faPlus (click)="openModal(tradingModal, {class: 'modal-sm'})"></fa-icon>
 
 <ng-template #tradingModal>
+  <div class="modal-header">
+    <h3>{{ rowData.pair }}</h3>
+  </div>
   <div class="modal-body">
-    <div class="row">
-      <div class="col-12">
-        <h3 class="text-center">{{ rowData.pair }}</h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <tabset [justified]="true">
-          <tab heading="EXCHANGE">
-            <app-exchange
-              [pair]="rowData.pair"
-              [type]="'group'"
-              (groupOrder)="onGroupOrder($event)"
-              (accountOrder)="onAccountOrder($event)"
-            ></app-exchange>
-          </tab>
-          <tab heading="MARGIN">
-            <app-margin
-              [pair]="rowData.pair"
-              [type]="'account'"
-              (groupOrder)="onGroupOrder($event)"
-              (accountOrder)="onAccountOrder($event)"
-            ></app-margin>
-          </tab>
-        </tabset>
-      </div>
-    </div>
+    <tabset [justified]="true">
+      <tab heading="EXCHANGE">
+        <app-exchange
+          [pair]="rowData.pair"
+          [type]="'group'"
+          (groupOrder)="onGroupOrder($event)"
+          (accountOrder)="onAccountOrder($event)"
+        ></app-exchange>
+      </tab>
+      <tab heading="MARGIN">
+        <app-margin
+          [pair]="rowData.pair"
+          [type]="'account'"
+          (groupOrder)="onGroupOrder($event)"
+          (accountOrder)="onAccountOrder($event)"
+        ></app-margin>
+      </tab>
+    </tabset>
   </div>
 </ng-template>
