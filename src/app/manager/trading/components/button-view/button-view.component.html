@@ -13,6 +13,7 @@
           <tab heading="EXCHANGE">
             <app-exchange
               [pair]="rowData.pair"
+              [type]="'group'"
               (groupOrder)="onGroupOrder($event)"
               (accountOrder)="onAccountOrder($event)"
             ></app-exchange>
@@ -20,6 +21,7 @@
           <tab heading="MARGIN">
             <app-margin
               [pair]="rowData.pair"
+              [type]="'account'"
               (groupOrder)="onGroupOrder($event)"
               (accountOrder)="onAccountOrder($event)"
             ></app-margin>

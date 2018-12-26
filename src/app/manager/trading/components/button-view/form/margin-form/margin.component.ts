@@ -49,7 +49,7 @@ export class MarginComponent implements OnInit {
   }
 
   sell(model: any, isValid: boolean) {
-    if (!isValid) {
+    if (isValid) {
       const order = {
         amount: model.amount,
         open_price: model.price,
@@ -66,6 +66,7 @@ export class MarginComponent implements OnInit {
   }
 
   private order(order) {
+    console.log('MARGIN', order);
     switch (this.type) {
       case GROUP:
         this.groupOrder.emit(order);
