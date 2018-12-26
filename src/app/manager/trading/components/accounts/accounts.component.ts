@@ -6,7 +6,7 @@ import { getAccountsFromSection } from '@app/core/reducers';
   template: `
     <div class="select-wrapper">
       <select>
-        <option> -- Select Account -- </option>
+        <option disabled> -- Select Account -- </option>
         <option *ngFor="let account of accounts" [value]="account.id">{{ account.acc_name }}</option>
       </select>
     </div>

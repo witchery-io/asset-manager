@@ -6,7 +6,7 @@ import { getGroupsFromSection } from '@app/core/reducers';
   template: `
     <div class="select-wrapper">
       <select>
-        <option> -- Select Group -- </option>
+        <option disabled> -- Select Group -- </option>
         <option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</option>
       </select>
     </div>
