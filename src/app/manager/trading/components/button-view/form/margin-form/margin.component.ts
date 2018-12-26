@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrderContext, OrderDirection, OrderType } from '@app/shared/enums';
 import { NotifierService } from 'angular-notifier';
 import { ModalService, OrdersService } from '@app/shared/services';
+import { ACCOUNT, GROUP } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-margin',
@@ -13,6 +14,12 @@ export class MarginComponent implements OnInit {
 
   @Input()
   pair: string;
+
+  @Input()
+  id: string; // 6a86df61-c190-4347-9b61-34cbd88d38a4
+
+  @Input()
+  type: string; // group, account
 
   marginForm: FormGroup;
   private readonly notifier: NotifierService;
@@ -34,61 +41,73 @@ export class MarginComponent implements OnInit {
   }
 
   buy(model: any, isValid: boolean) {
-    if (!isValid) {
-      return false;
-    }
+    if (isValid) {
+      const order = {
+        amount: model.amount,
+        open_price: model.price,
+        pair: this.pair,
+        type: {
+          context: OrderContext.margin,
+          direction: OrderDirection.buy,
+          type: +model.o_type,
+        }
+      };
 
-    this.placeOrder(OrderDirection.buy, model);
+      this.order(order);
+    }
   }
 
   sell(model: any, isValid: boolean) {
     if (!isValid) {
-      return false;
+      const order = {
+        amount: model.amount,
+        open_price: model.price,
+        pair: this.pair,
+        type: {
+          context: OrderContext.margin,
+          direction: OrderDirection.sell,
+          type: +model.o_type,
+        }
+      };
+
+      this.order(order);
     }
-
-    this.placeOrder(OrderDirection.sell, model);
   }
 
-  get tradeType() {
-    return 'group';
-  }
-
-  get tradeTypeId() { // 6a86df61-c190-4347-9b61-34cbd88d38a4
-    return '';
-  }
-
-  placeOrder(direction, model) {
-    const order = {
-      amount: model.amount,
-      open_price: model.price,
-      pair: this.pair,
-      type: {
-        context: OrderContext.margin,
-        direction: direction,
-        type: +model.o_type,
-      }
-    };
-
-    if (this.tradeType === 'group') {
-      this.ordersService.placeGroupOrder(this.tradeTypeId, order)
-        .subscribe((d: any) => {
-          this.notifier.notify('success',
-            `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]} ${d.amount} ${d.pair} @ ${d.open_price}.`);
-        }, error1 => {
-          this.notifier.notify('error', `Error msg: ${error1.message}`);
-        }, () => {
-          this.modalService.closeAllModals();
-        });
-    } else if (this.tradeType === 'account') {
-      this.ordersService.placeAccountOrder(this.tradeTypeId, order)
-        .subscribe((d: any) => {
-          this.notifier.notify('success',
-            `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]} ${d.amount} ${d.pair} @ ${d.open_price}.`);
-        }, error1 => {
-          this.notifier.notify('error', `Error msg: ${error1.message}`);
-        }, () => {
-          this.modalService.closeAllModals();
-        });
+  private order(order) {
+    switch (this.type) {
+      case GROUP:
+        this.groupOrder(order);
+        break;
+      case ACCOUNT:
+        this.accountOrder(order);
+        break;
     }
+  }
+
+  groupOrder(order = {}) {
+    this.ordersService.placeGroupOrder(this.id, order)
+      .subscribe((d: any) => {
+        const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
+           ${d.amount} ${d.pair} @ ${d.open_price}.`;
+        this.notifier.notify('success', msg);
+      }, error1 => {
+        this.notifier.notify('error', `Error msg: ${error1.message}`);
+      }, () => {
+        this.modalService.closeAllModals();
+      });
+  }
+
+  accountOrder(order: any) {
+    this.ordersService.placeAccountOrder(this.id, order)
+      .subscribe((d: any) => {
+        const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
+           ${d.amount} ${d.pair} @ ${d.open_price}.`;
+        this.notifier.notify('success', msg);
+      }, error1 => {
+        this.notifier.notify('error', `Error msg: ${error1.message}`);
+      }, () => {
+        this.modalService.closeAllModals();
+      });
   }
 }

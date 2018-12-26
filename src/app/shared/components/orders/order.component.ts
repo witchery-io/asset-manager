@@ -1,11 +1,12 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap';
-import { OrderContext, OrderDirection, OrderType, PARENT, Role } from '@app/shared/enums';
+import { OrderContext, OrderDirection, OrderType, Role } from '@app/shared/enums';
 import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalService, OrdersService } from '@app/shared/services';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { PARENT } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-order',
