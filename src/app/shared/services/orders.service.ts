@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class OrdersService {
@@ -18,10 +18,18 @@ export class OrdersService {
   }
 
   placeGroupOrder(groupId = '', order = {}) {
+    if (!groupId) {
+      return of();
+    }
+
     return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/groups/${ groupId }/orders`, order);
   }
 
   placeAccountOrder(accountId = '', order = {}) {
+    if (!accountId) {
+      return of();
+    }
+
     return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/accounts/${ accountId }/orders`, order);
   }
 }

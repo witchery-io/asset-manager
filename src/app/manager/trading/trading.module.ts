@@ -8,6 +8,8 @@ import {
   GroupsComponent,
   TicksComponent,
   BalanceComponent,
+  ExchangeComponent,
+  MarginComponent,
 } from '@trading/components';
 import { SharedModule } from '@app/shared/shared.module';
 import { WebSocketService } from '@trading/services/ws/web-socket.service';
@@ -33,6 +35,8 @@ import { ButtonViewComponent } from '@trading/components/button-view/button-view
     BalanceComponent,
     TvChartComponent,
     ButtonViewComponent,
+    ExchangeComponent,
+    MarginComponent,
   ],
   imports: [
     CommonModule,
