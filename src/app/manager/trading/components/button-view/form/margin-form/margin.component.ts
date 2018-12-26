@@ -1,8 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { OrderContext, OrderDirection, OrderType } from '@app/shared/enums';
-import { NotifierService } from 'angular-notifier';
-import { ModalService, OrdersService } from '@app/shared/services';
+import { OrderContext, OrderDirection } from '@app/shared/enums';
 import { ACCOUNT, GROUP } from '@app/shared/enums/trading.enum';
 
 @Component({
@@ -16,20 +14,13 @@ export class MarginComponent implements OnInit {
   pair: string;
 
   @Input()
-  id: string; // 6a86df61-c190-4347-9b61-34cbd88d38a4
-
-  @Input()
   type: string; // group, account
 
   marginForm: FormGroup;
-  private readonly notifier: NotifierService;
+  @Output() groupOrder: EventEmitter<any> = new EventEmitter();
+  @Output() accountOrder: EventEmitter<any> = new EventEmitter();
 
-  constructor(
-    private ordersService: OrdersService,
-    private notifierService: NotifierService,
-    private modalService: ModalService,
-  ) {
-    this.notifier = notifierService;
+  constructor() {
   }
 
   ngOnInit() {
@@ -77,37 +68,11 @@ export class MarginComponent implements OnInit {
   private order(order) {
     switch (this.type) {
       case GROUP:
-        this.groupOrder(order);
+        this.groupOrder.emit(order);
         break;
       case ACCOUNT:
-        this.accountOrder(order);
+        this.accountOrder.emit(order);
         break;
     }
-  }
-
-  groupOrder(order = {}) {
-    this.ordersService.placeGroupOrder(this.id, order)
-      .subscribe((d: any) => {
-        const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
-           ${d.amount} ${d.pair} @ ${d.open_price}.`;
-        this.notifier.notify('success', msg);
-      }, error1 => {
-        this.notifier.notify('error', `Error msg: ${error1.message}`);
-      }, () => {
-        this.modalService.closeAllModals();
-      });
-  }
-
-  accountOrder(order: any) {
-    this.ordersService.placeAccountOrder(this.id, order)
-      .subscribe((d: any) => {
-        const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
-           ${d.amount} ${d.pair} @ ${d.open_price}.`;
-        this.notifier.notify('success', msg);
-      }, error1 => {
-        this.notifier.notify('error', `Error msg: ${error1.message}`);
-      }, () => {
-        this.modalService.closeAllModals();
-      });
   }
 }
