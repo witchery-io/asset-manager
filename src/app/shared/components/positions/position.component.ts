@@ -117,7 +117,6 @@ export class PositionComponent implements OnInit {
   }
 
   get amount() {
-    console.log('set amount');
     let amount = this.position.amount;
     if (this.position.suborders != null && this.position.suborders.length > 0) {
       if (this.position.suborders[0].suborders != null && this.position.suborders[0].suborders.length) {
