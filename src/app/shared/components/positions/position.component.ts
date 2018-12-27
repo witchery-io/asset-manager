@@ -35,6 +35,8 @@ export class PositionComponent implements OnInit {
   account_name: string;
   private readonly notifier: NotifierService;
 
+  formValues: any;
+
   constructor(
     private positionsService: PositionsService,
     private modalService: ModalService,
@@ -60,7 +62,7 @@ export class PositionComponent implements OnInit {
     return 'group';
   }
 
-  get tradeTypeId() { // account or group >> id << --> 6a86df61-c190-4347-9b61-34cbd88d38a4
+  get tradeTypeId() { // 6a86df61-c190-4347-9b61-34cbd88d38a4
     return '';
   }
 
@@ -97,36 +99,25 @@ export class PositionComponent implements OnInit {
   }
 
   orderStop(template) {
-
-    let amount = this.position.amount;
-    if (this.position.suborders != null && this.position.suborders.length > 0) {
-      if (this.position.suborders[0].suborders != null && this.position.suborders[0].suborders.length) {
-        for (const account of this.accounts) {
-          if (account.id === this.position.suborders[0].suborders[0].account) {
-            amount = this.position.suborders[0].suborders[0].amount / account.risk;
-          }
-        }
-      } else {
-        for (const account of this.accounts) {
-          if (account.id === this.position.suborders[0].account) {
-            amount = this.position.suborders[0].amount / account.risk;
-          }
-        }
-      }
-    }
-
-    console.log('order Stop', amount);
-
-    // this.marginForm.patchValue({
-    //   o_type: 'stop',
-    //   amount: amount,
-    // });
+    this.formValues = {
+      o_type: 0,
+      amount: this.amount,
+    };
 
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
   orderLimit(template) {
+    this.formValues = {
+      o_type: 2,
+      amount: this.amount,
+    };
 
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
+
+  get amount() {
+    console.log('set amount');
     let amount = this.position.amount;
     if (this.position.suborders != null && this.position.suborders.length > 0) {
       if (this.position.suborders[0].suborders != null && this.position.suborders[0].suborders.length) {
@@ -144,16 +135,8 @@ export class PositionComponent implements OnInit {
       }
     }
 
-    console.log('order Limit', amount);
-
-    // this.marginForm.patchValue({
-    //   o_type: 'limit',
-    //   amount: amount,
-    // });
-
-    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+    return amount;
   }
-
   orderClose() {
     this.spinner.show();
     this.modalRef.hide();

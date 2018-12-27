@@ -43,7 +43,7 @@
             [accountsS]="accounts$ | async"
           ></app-orders>
         </tab>
-        <tab heading="POSITIONS">
+        <tab heading="POSITIONS" active="true">
           <app-positions
             *ngIf="(isLoadingPositions$ | async) === false"
             [section]="positions$ | async"

@@ -15,6 +15,9 @@ export class MarginComponent implements OnInit {
   @Input()
   role: string;
 
+  @Input()
+  values: any;
+
   marginForm: FormGroup;
 
   ROLE = Role;
@@ -27,6 +30,8 @@ export class MarginComponent implements OnInit {
       price: new FormControl(0),
       amount: new FormControl('', [<any>Validators.required]),
     });
+
+    this.marginForm.patchValue(this.values);
   }
 
   buy(model: any, isValid: boolean) {

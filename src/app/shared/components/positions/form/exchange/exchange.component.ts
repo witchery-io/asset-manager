@@ -15,6 +15,9 @@ export class ExchangeComponent implements OnInit {
   @Input()
   role: string;
 
+  @Input()
+  values: any;
+
   exchangeForm: FormGroup;
 
   ROLE = Role;
@@ -27,6 +30,8 @@ export class ExchangeComponent implements OnInit {
       price: new FormControl(0),
       amount: new FormControl('', [<any>Validators.required]),
     });
+
+    this.exchangeForm.patchValue(this.values);
   }
 
   buy(model: any, isValid: boolean) {

@@ -70,12 +70,14 @@
         <app-exchange
           [pair]="position.pair"
           [role]="role"
+          [values]="formValues"
         ></app-exchange>
       </tab>
       <tab heading="Margin" [active]="true">
         <app-margin
           [pair]="position.pair"
           [role]="role"
+          [values]="formValues"
         ></app-margin>
       </tab>
     </tabset>
