@@ -67,103 +67,16 @@
   <div class="modal-body">
     <tabset [justified]="true">
       <tab heading="Exchange">
-        <form novalidate [formGroup]="exchangeForm" class="m-2">
-          <div class="form-group">
-            <label for="o_type" class="small">Exchange Type</label>
-            <select class="form-control form-control-sm" id="o_type" formControlName="o_type">
-              <option value="limit">Limit</option>
-              <option value="market">Market</option>
-              <option value="stop">Stop</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <div class="form-group col">
-              <label for="price" class="small">Price</label>
-              <input
-                id="price"
-                [attr.disabled]="exchangeForm.value.o_type === 'market' ? '' : null"
-                type="number"
-                class="form-control form-control-sm"
-                placeholder="Price"
-                formControlName="price">
-            </div>
-            <div class="form-group col">
-              <label for="amount" class="small">Amount</label>
-              <input
-                id="amount"
-                type="number"
-                class="form-control form-control-sm"
-                placeholder="Amount"
-                formControlName="amount">
-            </div>
-          </div>
-          <div>
-            <button
-              [disabled]="role !== ROLE.ADMIN"
-              type="submit"
-              class="btn btn-success btn-xs"
-              (click)="buyExchange(exchangeForm.value, exchangeForm.valid)"
-            >BUY
-            </button>
-            <button
-              [disabled]="role !== ROLE.ADMIN"
-              type="submit"
-              class="btn btn-danger float-right btn-xs"
-              (click)="sellExchange(exchangeForm.value, exchangeForm.valid)"
-            >SELL
-            </button>
-          </div>
-        </form>
+        <app-exchange
+          [pair]="position.pair"
+          [role]="role"
+        ></app-exchange>
       </tab>
-
       <tab heading="Margin" [active]="true">
-        <form novalidate [formGroup]="marginForm" class="m-2">
-          <div class="form-group">
-            <label for="o_type" class="small">Exchange Type</label>
-            <select class="form-control form-control-sm" id="o_type" formControlName="o_type">
-              <option value="limit">Limit</option>
-              <option value="market">Market</option>
-              <option value="stop">Stop</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <div class="form-group col">
-              <label for="price" class="small">Price</label>
-              <input
-                [attr.disabled]="marginForm.value.o_type === 'market' ? '' : null"
-                id="price"
-                type="number"
-                class="form-control form-control-sm"
-                placeholder="Price"
-                formControlName="price">
-            </div>
-            <div class="form-group col">
-              <label for="amount" class="small">Amount</label>
-              <input
-                id="amount"
-                type="number"
-                class="form-control form-control-sm"
-                placeholder="Amount"
-                formControlName="amount">
-            </div>
-          </div>
-          <div>
-            <button
-              [disabled]="role !== ROLE.ADMIN"
-              type="submit"
-              class="btn btn-success btn-xs"
-              (click)="buyMargin(marginForm.value, marginForm.valid)"
-            >BUY
-            </button>
-            <button
-              [disabled]="role !== ROLE.ADMIN"
-              type="submit"
-              class="btn btn-danger float-right btn-xs"
-              (click)="sellMargin(marginForm.value, marginForm.valid)"
-            >SELL
-            </button>
-          </div>
-        </form>
+        <app-margin
+          [pair]="position.pair"
+          [role]="role"
+        ></app-margin>
       </tab>
     </tabset>
   </div>

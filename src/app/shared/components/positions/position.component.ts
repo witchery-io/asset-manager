@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
-import { OrderContext, OrderDirection, OrderType, Role } from '@app/shared/enums';
+import { OrderDirection, OrderType, Role } from '@app/shared/enums';
 import { BsModalRef } from 'ngx-bootstrap';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalService, PositionsService } from '@app/shared/services';
@@ -26,17 +25,15 @@ export class PositionComponent implements OnInit {
 
   faPlus = faPlus;
   faMinus = faMinus;
+
   user: any; // User
   ROLE = Role;
   PARENT = PARENT;
   OrderDirection = OrderDirection;
   isCollapsed: boolean;
   modalRef: BsModalRef;
-  exchangeForm: FormGroup;
-  marginForm: FormGroup;
-  private readonly notifier: NotifierService;
   account_name: string;
-
+  private readonly notifier: NotifierService;
 
   constructor(
     private positionsService: PositionsService,
@@ -53,17 +50,6 @@ export class PositionComponent implements OnInit {
     const collapse = JSON.parse(localStorage.getItem(`collapse.position.${this.position.order_number}`));
     this.isCollapsed = collapse === null ? true : collapse;
     this.setAccountName();
-    this.exchangeForm = new FormGroup({
-      o_type: new FormControl('limit', [<any>Validators.required]),
-      price: new FormControl(0),
-      amount: new FormControl('', [<any>Validators.required]),
-    });
-
-    this.marginForm = new FormGroup({
-      o_type: new FormControl('limit', [<any>Validators.required]),
-      price: new FormControl(0),
-      amount: new FormControl('', [<any>Validators.required]),
-    });
   }
 
   get feeOrSwap() {
@@ -74,8 +60,8 @@ export class PositionComponent implements OnInit {
     return 'group';
   }
 
-  get tradeTypeId() { // account or group >> id <<
-    return '6a86df61-c190-4347-9b61-34cbd88d38a4';
+  get tradeTypeId() { // account or group >> id << --> 6a86df61-c190-4347-9b61-34cbd88d38a4
+    return '';
   }
 
   get groupByPair() { // bool value
@@ -88,6 +74,11 @@ export class PositionComponent implements OnInit {
 
   get tooltip() {
     return this.account_name;
+  }
+
+  collapse() {
+    this.isCollapsed = !this.isCollapsed;
+    localStorage.setItem(`collapse.position.${this.position.order_number}`, this.isCollapsed ? 'true' : 'false');
   }
 
   setAccountName() {
@@ -124,10 +115,12 @@ export class PositionComponent implements OnInit {
       }
     }
 
-    this.marginForm.patchValue({
-      o_type: 'stop',
-      amount: amount,
-    });
+    console.log('order Stop', amount);
+
+    // this.marginForm.patchValue({
+    //   o_type: 'stop',
+    //   amount: amount,
+    // });
 
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
@@ -151,10 +144,12 @@ export class PositionComponent implements OnInit {
       }
     }
 
-    this.marginForm.patchValue({
-      o_type: 'limit',
-      amount: amount,
-    });
+    console.log('order Limit', amount);
+
+    // this.marginForm.patchValue({
+    //   o_type: 'limit',
+    //   amount: amount,
+    // });
 
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
@@ -162,101 +157,15 @@ export class PositionComponent implements OnInit {
   orderClose() {
     this.spinner.show();
     this.modalRef.hide();
-    this.positionsService.closePosition(this.position)
+    this.positionsService.closePosition() // this.position
       .subscribe(() => {
-
         this.notifier.notify('success',
           `Order cancelled, ${OrderType[this.position.type.type]}, ${OrderDirection[this.position.type.direction]}
-           ${this.position.amount} ${this.position.pair} @ ${this.position.open_price}.#o109o`);
+           ${this.position.amount} ${this.position.pair} @ ${this.position.open_price}.`);
       }, error1 => {
-
         this.notifier.notify('error', `Error msg: ${error1.message}`);
       }, () => {
         this.spinner.hide();
       });
   }
-
-  buyExchange(model: any, isValid: boolean) {  // >> Exchange << first arg. is removed
-    if (!isValid) {
-      return false;
-    }
-
-    this.placeOrder('buy', 'exchange', model);
-  }
-
-  sellExchange(model: any, isValid: boolean) { // >> Exchange << first arg. is removed
-    if (!isValid) {
-      return false;
-    }
-
-    this.placeOrder('sell', 'exchange', model);
-  }
-
-  buyMargin(model: any, isValid: boolean) { // Margin is removed
-    if (!isValid) {
-      return false;
-    }
-
-    this.placeOrder('buy', 'margin', model);
-  }
-
-  sellMargin(model: any, isValid: boolean) { // >> Margin << first arg. is removed
-    if (!isValid) {
-      return false;
-    }
-
-    this.placeOrder('sell', 'margin', model);
-  }
-
-  placeOrder(direction, context, model) {
-    this.spinner.show();
-
-    const order = { // todo Order is removed
-      amount: model.amount,
-      open_price: model.price,
-      pair: this.position.pair,
-      type: {
-        context: +OrderContext[context],
-        direction: +OrderDirection[direction],
-        type: +OrderType[model.o_type],
-      }
-    };
-
-    if (this.tradeType === 'group') {
-      this.positionsService.placeGroupOrder(this.tradeTypeId, order)
-        .subscribe((d: any) => {
-
-          this.notifier.notify('success',
-            `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
-             ${d.amount} ${d.amount} @ ${d.open_price}.#236o`);
-        }, error1 => {
-
-          this.notifier.notify('error', `Error msg: ${error1.message}`);
-        }, () => {
-          this.spinner.hide();
-        });
-    } else if (this.tradeType === 'account') {
-
-      this.positionsService.placeAccountOrder(this.tradeTypeId, order)
-        .subscribe((d: any) => {
-
-          this.notifier.notify('success',
-            `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
-             ${d.amount} ${d.amount} @ ${d.open_price}.#245o`);
-        }, error1 => {
-
-          this.notifier.notify('error', `Error msg: ${error1.message}`);
-        }, () => {
-          this.spinner.hide();
-        });
-    }
-
-    this.modalRef.hide();
-  }
-
-  collapse() {
-    this.isCollapsed = !this.isCollapsed;
-    localStorage.setItem(`collapse.position.${this.position.order_number}`, this.isCollapsed ? 'true' : 'false');
-  }
-
 }
