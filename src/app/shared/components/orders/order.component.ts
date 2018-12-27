@@ -94,12 +94,10 @@ export class OrderComponent implements OnInit {
     this.modalRef.hide();
     this.ordersService.cancelOrder(this.order)
       .subscribe(() => {
-
         this.notifier.notify('success',
           `Order cancelled, ${this.OrderType[this.order.type.type]}, ${this.OrderDirection[this.order.type.direction]}
-           ${this.order.amount} ${this.order.pair} @ ${this.order.open_price}.#p57o`);
+           ${this.order.amount} ${this.order.pair} @ ${this.order.open_price}.`);
       }, error1 => {
-
         this.notifier.notify('error', `Error msg: ${error1.message}`);
       }, () => {
         this.spinner.hide();
