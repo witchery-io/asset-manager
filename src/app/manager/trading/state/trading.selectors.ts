@@ -4,6 +4,7 @@ import * as fromOrders from '@trading/reducers/orders.reducers';
 import * as fromPositions from '@trading/reducers/positions.reducers';
 import * as fromBalance from '@trading/reducers/balance.reducers';
 import * as fromTick from '@app/core/reducers/tick.reducers';
+import * as fromSettings from '@trading/reducers/settings.reducers';
 
 /*
 * Core Selectors
@@ -26,6 +27,11 @@ export const getPositions = createSelector(getTradingState, (state: TradingState
 export const isLoadingPositions = createSelector(getPositions, (state: fromPositions.State) => state.isLoading);
 export const getBalance = createSelector(getTradingState, (state: TradingState) => state.balance);
 export const isLoadingBalance = createSelector(getBalance, (state: fromBalance.State) => state.isLoading);
+
+export const getSettings = createSelector(getTradingState, (state: TradingState) => state.settings);
+export const getId = createSelector(getSettings, (state: fromSettings.State) => state.tradingId);
+export const getType = createSelector(getSettings, (state: fromSettings.State) => state.tradingType);
+
 
 /**
  * get Entities

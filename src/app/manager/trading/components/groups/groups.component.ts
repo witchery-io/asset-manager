@@ -1,11 +1,16 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { getGroupsFromSection } from '@app/core/reducers';
+import { SettingsUpdate } from '@trading/actions/settings.actions';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { TradingState } from '@trading/reducers';
+import { GROUP } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-groups',
   template: `
     <div class="select-wrapper">
-      <select>
+      <select [value]="this.type === GROUP ? this.id : null" (change)="onChange($event.target.value)">
         <option disabled> -- Select Group -- </option>
         <option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</option>
       </select>
@@ -15,10 +20,22 @@ import { getGroupsFromSection } from '@app/core/reducers';
 })
 export class GroupsComponent implements OnInit {
 
+  GROUP = GROUP;
+
   @Input()
   section: any;
 
-  constructor() {
+  @Input()
+  type: string;
+
+  @Input()
+  id: string;
+
+  constructor(
+    private router: Router,
+    private store: Store<TradingState>,
+    private route: ActivatedRoute,
+  ) {
   }
 
   ngOnInit() {
@@ -28,5 +45,14 @@ export class GroupsComponent implements OnInit {
     return getGroupsFromSection(this.section);
   }
 
-
+  onChange(changing_id) {
+    const tab = this.route.snapshot.paramMap.get('tab');
+    const routerPromise = this.router.navigate([`/trading/group/${ changing_id }/${ tab }`]);
+    routerPromise.then(() => {
+      this.store.dispatch(new SettingsUpdate({
+        tradingId: changing_id,
+        tradingType: GROUP,
+      }));
+    });
+  }
 }

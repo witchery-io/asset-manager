@@ -53,7 +53,7 @@ export class MarginComponent implements OnInit {
   placeOrder(direction, context, model) {
     this.spinner.show();
 
-    const order = { // todo Order is removed
+    const order = { // todo_ Order is removed
       amount: model.amount,
       open_price: model.price,
       pair: this.position.pair,
