@@ -5,6 +5,10 @@ import { TradingComponent } from '@trading/containers';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'group/6a86df61-c190-4347-9b61-34cbd88d38a4/orders',
+  },
+  {
+    path: ':type/:id/:tab',
     component: TradingComponent,
   }
 ];
