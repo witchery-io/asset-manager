@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { WsHandlerService } from '@trading/services/ws/ws-handler.service';
 import { select, Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
@@ -6,7 +6,7 @@ import { LoadBalance } from '@trading/actions/balance.actions';
 import { LoadOrders } from '@trading/actions/orders.actions';
 import { LoadPositions } from '@trading/actions/positions.actions';
 import { SettingsSet } from '@trading/actions/settings.actions';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import * as Select from '@trading/state/trading.selectors';
 import * as fromOrders from '@trading/reducers/orders.reducers';
 import * as fromPositions from '@trading/reducers/positions.reducers';
@@ -14,7 +14,9 @@ import * as fromBalance from '@trading/reducers/balance.reducers';
 import * as fromAccounts from '@app/core/reducers/account.reducers';
 import * as fromGroups from '@app/core/reducers/group.reducers';
 import * as fromTicks from '@app/core/reducers/tick.reducers';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TabsetComponent } from 'ngx-bootstrap';
+import { OrderTab } from '@app/shared/enums';
 
 @Component({
   selector: 'app-trading',
@@ -22,6 +24,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./trading.component.scss'],
 })
 export class TradingComponent implements OnInit {
+  @ViewChild('ordersTabs') ordersTabs: TabsetComponent;
 
   orders$: Observable<fromOrders.State>;
   isLoadingOrders$: Observable<boolean>;
@@ -40,10 +43,13 @@ export class TradingComponent implements OnInit {
   type$: Observable<string>;
   id$: Observable<string>;
 
+  _defaultTabIndex = 0;
+
   constructor(
     private ws: WsHandlerService,
     private store: Store<TradingState>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
     this.orders$ = this.store.pipe(select(Select.getOrders));
     this.isLoadingOrders$ = this.store.pipe(select(Select.isLoadingOrders));
@@ -67,14 +73,31 @@ export class TradingComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     const type = this.route.snapshot.paramMap.get('type');
+    const active_tab = this.route.snapshot.paramMap.get('tab');
 
-    this.store.dispatch(new SettingsSet({
-      tradingId: id,
-      tradingType: type,
-    }));
+    /*
+    * Set active tab
+    * */
+    this.ordersTabs.tabs[OrderTab[active_tab] || this._defaultTabIndex].active = true;
 
-    // this.store.dispatch(new LoadBalance());
-    // this.store.dispatch(new LoadOrders());
-    // this.store.dispatch(new LoadPositions());
+    /*
+    * Set current trading id and type
+    * */
+    this.store.dispatch(new SettingsSet({ tradingId: id, tradingType: type }));
+
+    /*
+    * Load data
+    * */
+    this.store.dispatch(new LoadBalance({ tradingId: id, tradingType: type }));
+    this.store.dispatch(new LoadOrders({ tradingId: id, tradingType: type }));
+    this.store.dispatch(new LoadPositions({ tradingId: id, tradingType: type }));
+  }
+
+  onSelectOrderTab(tab_id) {
+    const orderPromise = this.router.navigate([`../${tab_id}`], {relativeTo: this.route});
+
+    orderPromise.then(() => {
+      this.ordersTabs.tabs[OrderTab[tab_id] || this._defaultTabIndex].active = true;
+    });
   }
 }

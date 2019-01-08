@@ -10,3 +10,7 @@ export enum OrderType {
 export enum OrderContext {
   exchange, margin,
 }
+
+export enum OrderTab {
+  orders, positions
+}

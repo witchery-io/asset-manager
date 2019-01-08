@@ -40,15 +40,15 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-12">
-      <tabset>
-        <tab heading="ORDERS" id="tab1">
+      <tabset #ordersTabs>
+        <tab heading="ORDERS" id="orders" (select)="onSelectOrderTab('orders')">
           <app-orders
             *ngIf="(isLoadingOrders$ | async) === false"
             [section]="orders$ | async"
             [accountsS]="accounts$ | async"
           ></app-orders>
         </tab>
-        <tab heading="POSITIONS" active="true">
+        <tab heading="POSITIONS" id="positions" (select)="onSelectOrderTab('positions')">
           <app-positions
             *ngIf="(isLoadingPositions$ | async) === false"
             [section]="positions$ | async"
