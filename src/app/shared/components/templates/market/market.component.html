@@ -37,14 +37,14 @@
       [disabled]="role !== ROLE.ADMIN"
       type="submit"
       class="btn btn-success btn-xs"
-      (click)="buy(marketForm.value, marketForm.valid)"
+      (click)="market(marketForm.value, marketForm.valid, 'buy')"
     >BUY
     </button>
     <button
       [disabled]="role !== ROLE.ADMIN"
       type="submit"
       class="btn btn-danger btn-xs float-right"
-      (click)="sell(marketForm.value, marketForm.valid)"
+      (click)="market(marketForm.value, marketForm.valid, 'sell')"
     >SELL
     </button>
   </div>

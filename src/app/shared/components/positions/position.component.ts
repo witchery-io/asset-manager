@@ -5,7 +5,7 @@ import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalService, OrdersService, PositionsService } from '@app/shared/services';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { PARENT } from '@app/shared/enums/trading.enum';
+import { ACCOUNT, GROUP, PARENT } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-position',
@@ -36,7 +36,10 @@ export class PositionComponent implements OnInit {
   private readonly notifier: NotifierService;
 
   formValues: any;
-  id: string;
+  id = 'edc23b04-64d8-4469-bb6a-40da55322d26';
+  type = 'account';
+  groupByPair = true;
+  role = 'admin';
 
   constructor(
     private positionsService: PositionsService,
@@ -57,23 +60,7 @@ export class PositionComponent implements OnInit {
   }
 
   get feeOrSwap() {
-    return this.tradeType === 'group' ? this.position.fee : this.position.swap;
-  }
-
-  get tradeType() { // group or account
-    return 'group';
-  }
-
-  get tradeTypeId() { // 6a86df61-c190-4347-9b61-34cbd88d38a4
-    return '';
-  }
-
-  get groupByPair() { // bool value
-    return true;
-  }
-
-  get role() { // admin or guest
-    return 'admin';
+    return this.type === 'group' ? this.position.fee : this.position.swap;
   }
 
   get tooltip() {
@@ -86,7 +73,7 @@ export class PositionComponent implements OnInit {
   }
 
   setAccountName() {
-    if (this.permission !== 'parent' && this.tradeType === 'group' && this.accounts && !this.groupByPair) {
+    if (this.permission !== 'parent' && this.type === 'group' && this.accounts && !this.groupByPair) {
       for (const account of this.accounts) {
         if (account.id === this.position.account) {
           this.account_name = account.acc_name;
@@ -154,7 +141,20 @@ export class PositionComponent implements OnInit {
       });
   }
 
-  onGroupOrder(order = {}) {
+  onOrder(params) {
+    params.pair = this.position.pair;
+
+    switch (this.type) {
+      case GROUP:
+        this.groupOrder(params);
+        break;
+      case ACCOUNT:
+        this.accountOrder(params);
+        break;
+    }
+  }
+
+  groupOrder(order = {}) {
     this.ordersService.placeGroupOrder(this.id, order)
       .subscribe((d: any) => {
         const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
@@ -167,7 +167,7 @@ export class PositionComponent implements OnInit {
       });
   }
 
-  onAccountOrder(order = {}) {
+  accountOrder(order = {}) {
     this.ordersService.placeAccountOrder(this.id, order)
       .subscribe((d: any) => {
         const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}

@@ -8,22 +8,14 @@
     <tabset [justified]="true">
       <tab heading="EXCHANGE">
         <app-market
-          [pair]="rowData.pair"
           [marketType]="'exchange'"
-          [type]="'group'"
-          [role]="'admin'"
-          (groupOrder)="onGroupOrder($event)"
-          (accountOrder)="onAccountOrder($event)"
+          (order)="onOrder($event)"
         ></app-market>
       </tab>
       <tab heading="MARGIN">
         <app-market
-          [pair]="rowData.pair"
           [marketType]="'margin'"
-          [type]="'account'"
-          [role]="'admin'"
-          (groupOrder)="onGroupOrder($event)"
-          (accountOrder)="onAccountOrder($event)"
+          (order)="onOrder($event)"
         ></app-market>
       </tab>
     </tabset>

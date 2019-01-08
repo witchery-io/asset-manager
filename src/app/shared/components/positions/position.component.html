@@ -68,24 +68,16 @@
     <tabset [justified]="true">
       <tab heading="Exchange">
         <app-market
-          [pair]="position.pair"
           [marketType]="'exchange'"
-          [type]="'group'"
-          [role]="role"
           [values]="formValues"
-          (groupOrder)="onGroupOrder($event)"
-          (accountOrder)="onAccountOrder($event)"
+          (order)="onOrder($event)"
         ></app-market>
       </tab>
       <tab heading="Margin" [active]="true">
         <app-market
-          [pair]="position.pair"
           [marketType]="'margin'"
-          [type]="'account'"
-          [role]="role"
           [values]="formValues"
-          (groupOrder)="onGroupOrder($event)"
-          (accountOrder)="onAccountOrder($event)"
+          (order)="onOrder($event)"
         ></app-market>
       </tab>
     </tabset>

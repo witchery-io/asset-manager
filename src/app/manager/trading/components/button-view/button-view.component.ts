@@ -5,6 +5,7 @@ import { ModalService, OrdersService } from '@app/shared/services';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { OrderDirection, OrderType } from '@app/shared/enums';
 import { NotifierService } from 'angular-notifier';
+import { ACCOUNT, GROUP } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-button-view, button-view',
@@ -16,7 +17,9 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   @Input() rowData: any;
   user: any;
   faPlus = faPlus;
-  id: string; // trading type id -> 6a86df61-c190-4347-9b61-34cbd88d38a4
+
+  id = 'edc23b04-64d8-4469-bb6a-40da55322d26';
+  type = 'account';
 
   modalRef: BsModalRef;
   private readonly notifier: NotifierService;
@@ -41,7 +44,20 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     this.modalRef = this.modalService.show(template, params);
   }
 
-  onGroupOrder(order = {}) {
+  onOrder(params) {
+    params.pair = this.rowData.pair;
+
+    switch (this.type) {
+      case GROUP:
+        this.groupOrder(params);
+        break;
+      case ACCOUNT:
+        this.accountOrder(params);
+        break;
+    }
+  }
+
+  groupOrder(order = {}) {
     this.ordersService.placeGroupOrder(this.id, order)
       .subscribe((d: any) => {
         const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
@@ -54,7 +70,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
       });
   }
 
-  onAccountOrder(order = {}) {
+  accountOrder(order = {}) {
     this.ordersService.placeAccountOrder(this.id, order)
       .subscribe((d: any) => {
         const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
