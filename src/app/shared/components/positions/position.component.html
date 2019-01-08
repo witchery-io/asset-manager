@@ -67,18 +67,26 @@
   <div class="modal-body">
     <tabset [justified]="true">
       <tab heading="Exchange">
-        <app-exchange
+        <app-market
           [pair]="position.pair"
+          [marketType]="'exchange'"
+          [type]="'group'"
           [role]="role"
           [values]="formValues"
-        ></app-exchange>
+          (groupOrder)="onGroupOrder($event)"
+          (accountOrder)="onAccountOrder($event)"
+        ></app-market>
       </tab>
       <tab heading="Margin" [active]="true">
-        <app-margin
+        <app-market
           [pair]="position.pair"
+          [marketType]="'margin'"
+          [type]="'account'"
           [role]="role"
           [values]="formValues"
-        ></app-margin>
+          (groupOrder)="onGroupOrder($event)"
+          (accountOrder)="onAccountOrder($event)"
+        ></app-market>
       </tab>
     </tabset>
   </div>

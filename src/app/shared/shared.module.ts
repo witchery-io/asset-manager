@@ -1,6 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OrdersComponent, OrderComponent, PositionComponent, PositionsComponent, NavBarComponent } from '@app/shared/components';
+import {
+  OrdersComponent,
+  OrderComponent,
+  PositionComponent,
+  PositionsComponent,
+  NavBarComponent,
+  MarketComponent,
+} from '@app/shared/components';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BsDropdownModule, CollapseModule, ModalModule, TabsModule, TooltipModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
@@ -31,6 +38,7 @@ import { MarginComponent } from './components/positions/form/margin/margin.compo
     ReactiveFormsModule,
     FontAwesomeModule,
     Ng2SmartTableModule,
+    MarketComponent,
   ],
   declarations: [
     OrdersComponent,
@@ -40,6 +48,7 @@ import { MarginComponent } from './components/positions/form/margin/margin.compo
     NavBarComponent,
     ExchangeComponent,
     MarginComponent,
+    MarketComponent,
   ],
   providers: [],
 })

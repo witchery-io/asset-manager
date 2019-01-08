@@ -3,7 +3,7 @@ import { OrderDirection, OrderType, Role } from '@app/shared/enums';
 import { BsModalRef } from 'ngx-bootstrap';
 import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ModalService, PositionsService } from '@app/shared/services';
+import { ModalService, OrdersService, PositionsService } from '@app/shared/services';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { PARENT } from '@app/shared/enums/trading.enum';
 
@@ -36,12 +36,14 @@ export class PositionComponent implements OnInit {
   private readonly notifier: NotifierService;
 
   formValues: any;
+  id: string;
 
   constructor(
     private positionsService: PositionsService,
     private modalService: ModalService,
     private notifierService: NotifierService,
     private spinner: NgxSpinnerService,
+    private ordersService: OrdersService,
   ) {
     this.notifier = notifierService;
   }
@@ -136,6 +138,7 @@ export class PositionComponent implements OnInit {
 
     return amount;
   }
+
   orderClose() {
     this.spinner.show();
     this.modalRef.hide();
@@ -148,6 +151,32 @@ export class PositionComponent implements OnInit {
         this.notifier.notify('error', `Error msg: ${error1.message}`);
       }, () => {
         this.spinner.hide();
+      });
+  }
+
+  onGroupOrder(order = {}) {
+    this.ordersService.placeGroupOrder(this.id, order)
+      .subscribe((d: any) => {
+        const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
+           ${d.amount} ${d.pair} @ ${d.open_price}.`;
+        this.notifier.notify('success', msg);
+      }, error1 => {
+        this.notifier.notify('error', `Error msg: ${error1.message}`);
+      }, () => {
+        this.modalService.closeAllModals();
+      });
+  }
+
+  onAccountOrder(order = {}) {
+    this.ordersService.placeAccountOrder(this.id, order)
+      .subscribe((d: any) => {
+        const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
+           ${d.amount} ${d.pair} @ ${d.open_price}.`;
+        this.notifier.notify('success', msg);
+      }, error1 => {
+        this.notifier.notify('error', `Error msg: ${error1.message}`);
+      }, () => {
+        this.modalService.closeAllModals();
       });
   }
 }

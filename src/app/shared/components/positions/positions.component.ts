@@ -52,9 +52,6 @@ export class PositionsComponent implements OnInit {
   constructor() {
   }
 
-  ngOnInit() {
-  }
-
   get positions() {
     return getPositionsFromSection(this.section);
   }
@@ -69,5 +66,8 @@ export class PositionsComponent implements OnInit {
 
   get accounts() {
     return getAccountsFromSection(this.accountsS);
+  }
+
+  ngOnInit() {
   }
 }
