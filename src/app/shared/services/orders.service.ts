@@ -9,8 +9,11 @@ export class OrdersService {
     private http: HttpClient,
   ) { }
 
-  getOrders(): Observable<any> {
-    return this.http.get('http://trade.vitanova.online:50090/payments/exchange/accounts/74f9b418-e7b0-440d-8523-c4ed9cbbe3cc/orders');
+  getOrders(params): Observable<any> {
+    console.log('getOrders', params);
+    const url = `http://trade.vitanova.online:50090/payments/exchange/accounts/74f9b418-e7b0-440d-8523-c4ed9cbbe3cc/orders`;
+    // const url = `http://trade.vitanova.online:50090/payments/exchange/${params.tradingType}s/${params.tradingId}/orders`;
+    return this.http.get(url);
   }
 
   cancelOrder(order = {}): Observable<any> {

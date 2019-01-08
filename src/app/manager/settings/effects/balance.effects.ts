@@ -12,7 +12,7 @@ export class BalanceEffects {
   loadGroups$ = this.actions$.pipe(
     ofType<fromBalance.LoadBalance>(fromBalance.LOAD_BALANCE),
     switchMap(() => {
-      return this.balanceService.getBalance().pipe(
+      return this.balanceService.getBalance({}).pipe( /* should add settings params*/
         map(response => {
           return new fromBalance.BalanceLoaded({ balance: response });
         }),

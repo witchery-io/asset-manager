@@ -4,6 +4,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as fromOrders from '@trading/actions/orders.actions';
 import { OrdersService } from '@app/shared/services/orders.service';
+import { Settings } from '@trading/reducers/settings.reducers';
 
 @Injectable()
 export class OrdersEffects {
@@ -11,8 +12,9 @@ export class OrdersEffects {
   @Effect()
   loadGroups$ = this.actions$.pipe(
     ofType<fromOrders.LoadOrders>(fromOrders.LOAD_ORDERS),
-    switchMap(() => {
-      return this.ordersService.getOrders().pipe(
+    map(settings => settings.payload),
+    switchMap((settings: Settings) => {
+      return this.ordersService.getOrders(settings).pipe(
         map(response => {
           return new fromOrders.OrdersLoaded({ orders: response });
         }),
