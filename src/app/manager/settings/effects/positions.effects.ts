@@ -12,7 +12,7 @@ export class PositionsEffects {
   loadGroups$ = this.actions$.pipe(
     ofType<fromPositions.LoadPositions>(fromPositions.LOAD_POSITIONS),
     switchMap(() => {
-      return this.positionsService.getPositions().pipe(
+      return this.positionsService.getPositions({}).pipe( /* should add settings params */
         map(response => {
           return new fromPositions.PositionsLoaded({ positions: response });
         }),

@@ -2,19 +2,19 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-1">
-      <app-accounts
-        [section]="accounts$ | async"
-        [type]="type$ | async"
-        [id]="id$ | async"
-      ></app-accounts>
-    </div>
-    <div class="col-1">
+    <div class="col-2">
       <app-groups
         [section]="groups$ | async"
         [type]="type$ | async"
         [id]="id$ | async"
       ></app-groups>
+    </div>
+    <div class="col-2">
+      <app-accounts
+        [section]="accounts$ | async"
+        [type]="type$ | async"
+        [id]="id$ | async"
+      ></app-accounts>
     </div>
   </div>
 </div>

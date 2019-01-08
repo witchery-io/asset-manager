@@ -12,7 +12,7 @@ export class OrdersEffects {
   loadGroups$ = this.actions$.pipe(
     ofType<fromOrders.LoadOrders>(fromOrders.LOAD_ORDERS),
     switchMap(() => {
-      return this.ordersService.getOrders().pipe(
+      return this.ordersService.getOrders({}).pipe( /* should add settings params */
         map(response => {
           return new fromOrders.OrdersLoaded({ orders: response });
         }),

@@ -26,7 +26,7 @@ export function reducer(state: State = initialState, action: OrdersActions.Actio
     }
 
     case OrdersActions.ORDERS_LOADED: {
-      return adapter.addMany(action.payload.orders, {
+      return adapter.addAll(action.payload.orders, { /* todo :: addMany */
         ...state,
         isLoading: false,
         error: null,

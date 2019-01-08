@@ -5,6 +5,9 @@ import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
 import { SettingsUpdate } from '@trading/actions/settings.actions';
 import { ACCOUNT } from '@app/shared/enums/trading.enum';
+import { LoadBalance } from '@trading/actions/balance.actions';
+import { LoadOrders } from '@trading/actions/orders.actions';
+import { LoadPositions } from '@trading/actions/positions.actions';
 
 @Component({
   selector: 'app-accounts',
@@ -49,10 +52,11 @@ export class AccountsComponent implements OnInit {
     const tab = this.route.snapshot.paramMap.get('tab');
     const routerPromise = this.router.navigate([`/trading/account/${ changing_id }/${ tab }`]);
     routerPromise.then(() => {
-      this.store.dispatch(new SettingsUpdate({
-        tradingId: changing_id,
-        tradingType: ACCOUNT,
-      }));
+      this.store.dispatch(new SettingsUpdate({ tradingId: changing_id, tradingType: ACCOUNT }));
+
+      this.store.dispatch(new LoadBalance({ tradingId: changing_id, tradingType: ACCOUNT }));
+      this.store.dispatch(new LoadOrders({ tradingId: changing_id, tradingType: ACCOUNT }));
+      this.store.dispatch(new LoadPositions({ tradingId: changing_id, tradingType: ACCOUNT }));
     });
   }
 }

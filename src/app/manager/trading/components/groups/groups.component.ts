@@ -4,7 +4,10 @@ import { SettingsUpdate } from '@trading/actions/settings.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
-import { GROUP } from '@app/shared/enums/trading.enum';
+import { ACCOUNT, GROUP } from '@app/shared/enums/trading.enum';
+import { LoadBalance } from '@trading/actions/balance.actions';
+import { LoadOrders } from '@trading/actions/orders.actions';
+import { LoadPositions } from '@trading/actions/positions.actions';
 
 @Component({
   selector: 'app-groups',
@@ -49,10 +52,11 @@ export class GroupsComponent implements OnInit {
     const tab = this.route.snapshot.paramMap.get('tab');
     const routerPromise = this.router.navigate([`/trading/group/${ changing_id }/${ tab }`]);
     routerPromise.then(() => {
-      this.store.dispatch(new SettingsUpdate({
-        tradingId: changing_id,
-        tradingType: GROUP,
-      }));
+      this.store.dispatch(new SettingsUpdate({ tradingId: changing_id, tradingType: GROUP }));
+
+      this.store.dispatch(new LoadBalance({ tradingId: changing_id, tradingType: GROUP }));
+      this.store.dispatch(new LoadOrders({ tradingId: changing_id, tradingType: GROUP }));
+      this.store.dispatch(new LoadPositions({ tradingId: changing_id, tradingType: GROUP }));
     });
   }
 }

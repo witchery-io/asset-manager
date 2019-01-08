@@ -10,8 +10,8 @@ export class PositionsService {
   ) { }
 
   getPositions(params): Observable<any> {
-    const url = `http://trade.vitanova.online:50090/payments/exchange/groups/6a86df61-c190-4347-9b61-34cbd88d38a4/positions?groupby=pair`;
-    // const url = `http://trade.vitanova.online:50090/payments/exchange/${params.tradingType}s/${params.tradingId}/positions?groupby=pair`;
+   // const url = `http://trade.vitanova.online:50090/payments/exchange/groups/6a86df61-c190-4347-9b61-34cbd88d38a4/positions?groupby=pair`;
+    const url = `http://trade.vitanova.online:50090/payments/exchange/${params.tradingType}s/${params.tradingId}/positions?groupby=pair`;
     return this.http.get(url);
   }
 
