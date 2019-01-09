@@ -23,14 +23,4 @@ export class PositionsService {
 
     return of();
   }
-
-  placeGroupOrder(groupId, order): Observable<any> { // >> Order << is removed
-    // return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/groups/${ groupId }/orders`, order);
-    return of();
-  }
-
-  placeAccountOrder(accountId, order): Observable<any> { // Order is removed
-    // return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/accounts/${ accountId }/orders`, order);
-    return of();
-  }
 }

@@ -48,16 +48,16 @@ export class ButtonViewComponent implements ViewCell, OnInit {
 
     switch (this.rowData.tradingType) {
       case GROUP:
-        this.groupOrder(params);
+        this.groupOrder(this.rowData.tradingId, params);
         break;
       case ACCOUNT:
-        this.accountOrder(params);
+        this.accountOrder(this.rowData.tradingId, params);
         break;
     }
   }
 
-  groupOrder(order) {
-    this.ordersService.placeGroupOrder(this.rowData.tradingId, order)
+  groupOrder(id, order) {
+    this.ordersService.placeGroupOrder(id, order)
       .subscribe((d: any) => {
         const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
            ${d.amount} ${d.pair} @ ${d.open_price}.`;
@@ -69,8 +69,8 @@ export class ButtonViewComponent implements ViewCell, OnInit {
       });
   }
 
-  accountOrder(order) {
-    this.ordersService.placeAccountOrder(this.rowData.tradingId, order)
+  accountOrder(id, order) {
+    this.ordersService.placeAccountOrder(id, order)
       .subscribe((d: any) => {
         const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
            ${d.amount} ${d.pair} @ ${d.open_price}.`;

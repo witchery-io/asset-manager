@@ -151,7 +151,7 @@ export class OrderComponent implements OnInit {
       .subscribe((d: any) => {
         this.notifier.notify('success',
           `Order modified, ${OrderType[d.type.type]}, to ${OrderDirection[d.type.direction]}
-                 ${d.amount} ${d.pair} @ ${d.open_price}.`);
+             ${d.amount} ${d.pair} @ ${d.open_price}.`);
       }, error1 => {
         this.notifier.notify('error', `Error msg: ${error1.message}`);
       }, () => {
@@ -170,7 +170,7 @@ export class OrderComponent implements OnInit {
       .subscribe((d: any) => {
         this.notifier.notify('success',
           `Order modified, ${OrderType[d.type.type]}, to ${OrderDirection[d.type.direction]}
-                 ${d.amount} ${d.pair} @ ${d.open_price}.`);
+             ${d.amount} ${d.pair} @ ${d.open_price}.`);
       }, error1 => {
         this.notifier.notify('error', `Error msg: ${error1.message}`);
       }, () => {

@@ -170,7 +170,7 @@ export class PositionComponent implements OnInit {
            ${d.amount} ${d.pair} @ ${d.open_price}.`;
         this.notifier.notify('success', msg);
       }, error1 => {
-        this.notifier.notify('error', `Error msg: ${error1.message}`);
+        this.notifier.notify('error', `Error msg: ${error1.message}.`);
       }, () => {
         this.modalService.closeAllModals();
       });
@@ -188,7 +188,7 @@ export class PositionComponent implements OnInit {
            ${d.amount} ${d.pair} @ ${d.open_price}.`;
         this.notifier.notify('success', msg);
       }, error1 => {
-        this.notifier.notify('error', `Error msg: ${error1.message}`);
+        this.notifier.notify('error', `Error msg: ${error1.message}.`);
       }, () => {
         this.modalService.closeAllModals();
       });
