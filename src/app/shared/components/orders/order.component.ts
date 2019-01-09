@@ -14,19 +14,27 @@ import { PARENT } from '@app/shared/enums/trading.enum';
   styleUrls: ['./order.component.scss'],
 })
 export class OrderComponent implements OnInit {
+  role = 'admin';
   user: any; // user
   ROLE = Role;
   PARENT = PARENT;
   faPlus = faPlus;
   faMinus = faMinus;
-  @Input()
-  order: any;
 
   @Input()
-  permission: string;
+    order: any;
 
   @Input()
-  accounts: any;
+    permission: string;
+
+  @Input()
+    accounts: any;
+
+  @Input()
+    type = 'group';
+
+  @Input()
+    groupByPair = false;
 
   OrderDirection = OrderDirection;
   OrderType = OrderType;
@@ -34,8 +42,8 @@ export class OrderComponent implements OnInit {
   isCollapsed: boolean;
   modalRef: BsModalRef;
   modifyForm: FormGroup;
-  private readonly notifier: NotifierService;
   account_name: string;
+  private readonly notifier: NotifierService;
 
   constructor(
     private modalService: ModalService,
@@ -44,6 +52,10 @@ export class OrderComponent implements OnInit {
     private ordersService: OrdersService,
   ) {
     this.notifier = notifierService;
+  }
+
+  get tooltip() {
+    return this.account_name;
   }
 
   ngOnInit() {
@@ -58,24 +70,8 @@ export class OrderComponent implements OnInit {
     });
   }
 
-  get role() { // admin or guest
-    return 'admin';
-  }
-
-  get tradeType() { // group or account
-    return 'group';
-  }
-
-  get groupByPair() { // true pair
-    return true;
-  }
-
-  get tooltip() {
-    return this.account_name;
-  }
-
   setAccountName() {
-    if (this.permission !== 'parent' && this.tradeType === 'group' && this.accounts && !this.groupByPair) {
+    if (this.permission !== 'parent' && this.type === 'group' && this.accounts && !this.groupByPair) {
       for (const account of this.accounts) {
         if (account.id === this.order.account) {
           this.account_name = account.name;
@@ -91,7 +87,6 @@ export class OrderComponent implements OnInit {
 
   orderCancel() {
     this.spinner.show();
-    this.modalRef.hide();
     this.ordersService.cancelOrder(this.order)
       .subscribe(() => {
         this.notifier.notify('success',
@@ -101,11 +96,11 @@ export class OrderComponent implements OnInit {
         this.notifier.notify('error', `Error msg: ${error1.message}`);
       }, () => {
         this.spinner.hide();
+        this.modalRef.hide();
       });
   }
 
   orderModify(template) {
-
     let amount = this.order.amount;
     if (this.order.suborders != null && this.order.suborders.length > 0) {
       for (const account of this.accounts) {
@@ -124,44 +119,49 @@ export class OrderComponent implements OnInit {
   }
 
   orderApprove(model: any, isValid: boolean) {
-    this.spinner.show();
     if (isValid) {
-      this.modalRef.hide();
-      this.ordersService.cancelOrder(this.order).subscribe(() => {
-        if (this.tradeType === 'group') {
-          model.type = this.order.type;
-          model.pair = this.order.pair;
-          this.ordersService.placeGroupOrder(this.order.group, model)
-            .subscribe((d: any) => {
-
-              this.notifier.notify('success',
-                `Order modified, ${OrderType[d.type.type]}, to ${OrderDirection[d.type.direction]}
-                 ${d.amount} ${d.pair} @ ${d.open_price}.#164o`);
-            }, error1 => {
-
-              this.notifier.notify('error', `Error msg: ${error1.message}`);
-            }, () => {
-              this.spinner.hide();
-            });
-        } else if (this.tradeType === 'account') {
-
-          model.type = this.order.type;
-          model.pair = this.order.pair;
-          this.ordersService.placeAccountOrder(this.order.account, model)
-            .subscribe((d: any) => {
-
-              this.notifier.notify('success',
-                `Order modified, ${OrderType[d.type.type]}, to ${OrderDirection[d.type.direction]}
-                 ${d.amount} ${d.pair} @ ${d.open_price}.#164o`);
-            }, error1 => {
-
-              this.notifier.notify('error', `Error msg: ${error1.message}`);
-            }, () => {
-              this.spinner.hide();
-            });
-        }
-      });
+      this.spinner.show();
+      this.ordersService.cancelOrder(this.order)
+        .subscribe(() => {
+          if (this.type === 'group') {
+            model.type = this.order.type;
+            model.pair = this.order.pair;
+            this.groupOrder(this.order.group, model);
+          } else if (this.type === 'account') {
+            model.type = this.order.type;
+            model.pair = this.order.pair;
+            this.accountOrder(this.order.account, model);
+          }
+        });
     }
+  }
+
+  groupOrder(id, order) {
+    this.ordersService.placeGroupOrder(id, order)
+      .subscribe((d: any) => {
+        this.notifier.notify('success',
+          `Order modified, ${OrderType[d.type.type]}, to ${OrderDirection[d.type.direction]}
+                 ${d.amount} ${d.pair} @ ${d.open_price}.`);
+      }, error1 => {
+        this.notifier.notify('error', `Error msg: ${error1.message}`);
+      }, () => {
+        this.spinner.hide();
+        this.modalRef.hide();
+      });
+  }
+
+  accountOrder(id, order) {
+    this.ordersService.placeAccountOrder(id, order)
+      .subscribe((d: any) => {
+        this.notifier.notify('success',
+          `Order modified, ${OrderType[d.type.type]}, to ${OrderDirection[d.type.direction]}
+                 ${d.amount} ${d.pair} @ ${d.open_price}.`);
+      }, error1 => {
+        this.notifier.notify('error', `Error msg: ${error1.message}`);
+      }, () => {
+        this.spinner.hide();
+        this.modalRef.hide();
+      });
   }
 
   collapse() {

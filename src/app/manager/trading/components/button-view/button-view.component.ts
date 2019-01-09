@@ -14,6 +14,7 @@ import { ACCOUNT, GROUP } from '@app/shared/enums/trading.enum';
 })
 export class ButtonViewComponent implements ViewCell, OnInit {
   role = 'admin';
+
   @Input()
     value: string | number;
 
@@ -55,7 +56,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     }
   }
 
-  groupOrder(order = {}) {
+  groupOrder(order) {
     this.ordersService.placeGroupOrder(this.rowData.tradingId, order)
       .subscribe((d: any) => {
         const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
@@ -68,7 +69,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
       });
   }
 
-  accountOrder(order = {}) {
+  accountOrder(order) {
     this.ordersService.placeAccountOrder(this.rowData.tradingId, order)
       .subscribe((d: any) => {
         const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}

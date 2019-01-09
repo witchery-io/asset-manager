@@ -15,19 +15,21 @@ import { ACCOUNT, GROUP, PARENT } from '@app/shared/enums/trading.enum';
 export class PositionComponent implements OnInit {
 
   @Input()
-    id = 'edc23b04-64d8-4469-bb6a-40da55322d26';
+  id: string;
 
   @Input()
-    type = 'account';
+  type: string;
 
   @Input()
-    permission: string;
+  permission: string;
 
   @Input()
-    accounts: any;
+  accounts: any;
 
   @Input()
-    position: any;
+  position: any;
+
+  role = 'admin';
 
   faPlus = faPlus;
   faMinus = faMinus;
@@ -39,11 +41,9 @@ export class PositionComponent implements OnInit {
   isCollapsed: boolean;
   modalRef: BsModalRef;
   account_name: string;
-  private readonly notifier: NotifierService;
-
   formValues: any;
   groupByPair = true;
-  role = 'admin';
+  private readonly notifier: NotifierService;
 
   constructor(
     private positionsService: PositionsService,
@@ -55,20 +55,41 @@ export class PositionComponent implements OnInit {
     this.notifier = notifierService;
   }
 
-  ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem('currentUser'));
-
-    const collapse = JSON.parse(localStorage.getItem(`collapse.position.${this.position.order_number}`));
-    this.isCollapsed = collapse === null ? true : collapse;
-    this.setAccountName();
-  }
-
   get feeOrSwap() {
     return this.type === 'group' ? this.position.fee : this.position.swap;
   }
 
   get tooltip() {
     return this.account_name;
+  }
+
+  get amount() {
+    let amount = this.position.amount;
+    if (this.position.suborders != null && this.position.suborders.length > 0) {
+      if (this.position.suborders[0].suborders != null && this.position.suborders[0].suborders.length) {
+        for (const account of this.accounts) {
+          if (account.id === this.position.suborders[0].suborders[0].account) {
+            amount = this.position.suborders[0].suborders[0].amount / account.risk;
+          }
+        }
+      } else {
+        for (const account of this.accounts) {
+          if (account.id === this.position.suborders[0].account) {
+            amount = this.position.suborders[0].amount / account.risk;
+          }
+        }
+      }
+    }
+
+    return amount;
+  }
+
+  ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+
+    const collapse = JSON.parse(localStorage.getItem(`collapse.position.${this.position.order_number}`));
+    this.isCollapsed = collapse === null ? true : collapse;
+    this.setAccountName();
   }
 
   collapse() {
@@ -93,7 +114,7 @@ export class PositionComponent implements OnInit {
 
   orderStop(template) {
     this.formValues = {
-      o_type: 0,
+      o_type: OrderType.stop,
       amount: this.amount,
     };
 
@@ -102,32 +123,11 @@ export class PositionComponent implements OnInit {
 
   orderLimit(template) {
     this.formValues = {
-      o_type: 2,
+      o_type: OrderType.limit,
       amount: this.amount,
     };
 
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
-  }
-
-  get amount() {
-    let amount = this.position.amount;
-    if (this.position.suborders != null && this.position.suborders.length > 0) {
-      if (this.position.suborders[0].suborders != null && this.position.suborders[0].suborders.length) {
-        for (const account of this.accounts) {
-          if (account.id === this.position.suborders[0].suborders[0].account) {
-            amount = this.position.suborders[0].suborders[0].amount / account.risk;
-          }
-        }
-      } else {
-        for (const account of this.accounts) {
-          if (account.id === this.position.suborders[0].account) {
-            amount = this.position.suborders[0].amount / account.risk;
-          }
-        }
-      }
-    }
-
-    return amount;
   }
 
   orderClose() {
@@ -158,7 +158,7 @@ export class PositionComponent implements OnInit {
     }
   }
 
-  groupOrder(order = {}) {
+  groupOrder(order) {
     this.ordersService.placeGroupOrder(this.id, order)
       .subscribe((d: any) => {
         const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
@@ -171,7 +171,7 @@ export class PositionComponent implements OnInit {
       });
   }
 
-  accountOrder(order = {}) {
+  accountOrder(order) {
     this.ordersService.placeAccountOrder(this.id, order)
       .subscribe((d: any) => {
         const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}

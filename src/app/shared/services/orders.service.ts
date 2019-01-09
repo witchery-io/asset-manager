@@ -16,22 +16,17 @@ export class OrdersService {
   }
 
   cancelOrder(order = {}): Observable<any> {
-    return this.http.post('http://trade.vitanova.online:50090/payments/exchange/orders/delete', order);
+    return of();
+    // return this.http.post('http://trade.vitanova.online:50090/payments/exchange/orders/delete', order);
   }
 
   placeGroupOrder(groupId = '', order = {}) {
-    if (!groupId) {
-      return of();
-    }
-
-    return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/groups/${ groupId }/orders`, order);
+    return of();
+    // return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/groups/${ groupId }/orders`, order);
   }
 
   placeAccountOrder(accountId = '', order = {}) {
-    if (!accountId) {
-      return of();
-    }
-
-    return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/accounts/${ accountId }/orders`, order);
+    return of();
+    // return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/accounts/${ accountId }/orders`, order);
   }
 }
