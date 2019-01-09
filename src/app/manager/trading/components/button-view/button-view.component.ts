@@ -16,10 +16,10 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   role = 'admin';
 
   @Input()
-    value: string | number;
+  value: string | number;
 
   @Input()
-    rowData: any;
+  rowData: any;
 
   user: any;
   faPlus = faPlus;

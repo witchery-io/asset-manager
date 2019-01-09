@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class PositionsService {
@@ -15,18 +15,22 @@ export class PositionsService {
     return this.http.get(url);
   }
 
-  closePosition(position = {}): Observable<any> {
+  closePosition(position): Observable<any> {
 /*    if (position.amount < 0) {
       position.amount = position.amount * -1;
     }*/
-    return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/positions/delete`, position);
+    // return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/positions/delete`, position);
+
+    return of();
   }
 
-  placeGroupOrder(groupId = '', order = {}) { // >> Order << is removed
-    return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/groups/${ groupId }/orders`, order);
+  placeGroupOrder(groupId, order): Observable<any> { // >> Order << is removed
+    // return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/groups/${ groupId }/orders`, order);
+    return of();
   }
 
-  placeAccountOrder(accountId = '', order = {}) { // Order is removed
-    return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/accounts/${ accountId }/orders`, order);
+  placeAccountOrder(accountId, order): Observable<any> { // Order is removed
+    // return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/accounts/${ accountId }/orders`, order);
+    return of();
   }
 }

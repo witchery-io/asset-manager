@@ -6,7 +6,7 @@ import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalService, OrdersService } from '@app/shared/services';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { PARENT } from '@app/shared/enums/trading.enum';
+import { ACCOUNT, GROUP, PARENT } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-order',
@@ -22,19 +22,19 @@ export class OrderComponent implements OnInit {
   faMinus = faMinus;
 
   @Input()
-    order: any;
+  order: any;
 
   @Input()
-    permission: string;
+  permission: string;
 
   @Input()
-    accounts: any;
+  accounts: any;
 
   @Input()
-    type = 'group';
+  type = 'group';
 
   @Input()
-    groupByPair = false;
+  groupByPair = false;
 
   OrderDirection = OrderDirection;
   OrderType = OrderType;
@@ -85,6 +85,9 @@ export class OrderComponent implements OnInit {
     this.modalRef = this.modalService.show(template, options);
   }
 
+  /**
+   * close current order
+   */
   orderCancel() {
     this.spinner.show();
     this.ordersService.cancelOrder(this.order)
@@ -123,21 +126,23 @@ export class OrderComponent implements OnInit {
       this.spinner.show();
       this.ordersService.cancelOrder(this.order)
         .subscribe(() => {
-          if (this.type === 'group') {
-            model.type = this.order.type;
-            model.pair = this.order.pair;
-            this.groupOrder(this.order.group, model);
-          } else if (this.type === 'account') {
-            model.type = this.order.type;
-            model.pair = this.order.pair;
-            this.accountOrder(this.order.account, model);
+          model.type = this.order.type;
+          model.pair = this.order.pair;
+
+          switch (this.type) {
+            case GROUP:
+              this.groupOrder(model);
+              break;
+            case ACCOUNT:
+              this.accountOrder(model);
+              break;
           }
         });
     }
   }
 
-  groupOrder(id, order) {
-    this.ordersService.placeGroupOrder(id, order)
+  groupOrder(order) {
+    this.ordersService.placeGroupOrder(this.order.group, order)
       .subscribe((d: any) => {
         this.notifier.notify('success',
           `Order modified, ${OrderType[d.type.type]}, to ${OrderDirection[d.type.direction]}
@@ -150,8 +155,8 @@ export class OrderComponent implements OnInit {
       });
   }
 
-  accountOrder(id, order) {
-    this.ordersService.placeAccountOrder(id, order)
+  accountOrder(order) {
+    this.ordersService.placeAccountOrder(this.order.account, order)
       .subscribe((d: any) => {
         this.notifier.notify('success',
           `Order modified, ${OrderType[d.type.type]}, to ${OrderDirection[d.type.direction]}

@@ -132,8 +132,7 @@ export class PositionComponent implements OnInit {
 
   orderClose() {
     this.spinner.show();
-    this.modalRef.hide();
-    this.positionsService.closePosition() // this.position
+    this.positionsService.closePosition(this.position)
       .subscribe(() => {
         this.notifier.notify('success',
           `Order cancelled, ${OrderType[this.position.type.type]}, ${OrderDirection[this.position.type.direction]}
@@ -142,6 +141,7 @@ export class PositionComponent implements OnInit {
         this.notifier.notify('error', `Error msg: ${error1.message}`);
       }, () => {
         this.spinner.hide();
+        this.modalRef.hide();
       });
   }
 
@@ -150,16 +150,21 @@ export class PositionComponent implements OnInit {
 
     switch (this.type) {
       case GROUP:
-        this.groupOrder(params);
+        this.groupOrder(this.id, params);
         break;
       case ACCOUNT:
-        this.accountOrder(params);
+        this.accountOrder(this.id, params);
         break;
     }
   }
 
-  groupOrder(order) {
-    this.ordersService.placeGroupOrder(this.id, order)
+  /**
+   *
+   * @param id -- now current trading id
+   * @param order -- creating order
+   */
+  groupOrder(id, order) {
+    this.ordersService.placeGroupOrder(id, order)
       .subscribe((d: any) => {
         const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
            ${d.amount} ${d.pair} @ ${d.open_price}.`;
@@ -171,8 +176,13 @@ export class PositionComponent implements OnInit {
       });
   }
 
-  accountOrder(order) {
-    this.ordersService.placeAccountOrder(this.id, order)
+  /**
+   *
+   * @param id -- now current trading id
+   * @param order -- creating order
+   */
+  accountOrder(id, order) {
+    this.ordersService.placeAccountOrder(id, order)
       .subscribe((d: any) => {
         const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
            ${d.amount} ${d.pair} @ ${d.open_price}.`;
