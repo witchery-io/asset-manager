@@ -62,9 +62,9 @@
   <div class="modal-body">
     <dl class="row">
       <dt class="col-4 small">TYPE</dt>
-      <dd class="col-8 small">{{ OrderType[order.type.type] }}</dd>
+      <dd class="col-8 small">{{ OrderType[order.type.type] | titlecase }}</dd>
       <dt class="col-4 small">CONTEXT</dt>
-      <dd class="col-8 small">{{ OrderContext[order.type.context] }}</dd>
+      <dd class="col-8 small">{{ OrderContext[order.type.context] | titlecase }}</dd>
     </dl>
     <form novalidate [formGroup]="modifyForm" class="mt-3">
       <div class="form-row">
