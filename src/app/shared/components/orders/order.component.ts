@@ -131,18 +131,23 @@ export class OrderComponent implements OnInit {
 
           switch (this.type) {
             case GROUP:
-              this.groupOrder(model);
+              this.groupOrder(this.order.group, model);
               break;
             case ACCOUNT:
-              this.accountOrder(model);
+              this.accountOrder(this.order.account, model);
               break;
           }
         });
     }
   }
 
-  groupOrder(order) {
-    this.ordersService.placeGroupOrder(this.order.group, order)
+  /**
+   *
+   * @param id -- current order group >name<
+   * @param order -- creating order
+   */
+  groupOrder(id, order) {
+    this.ordersService.placeGroupOrder(id, order)
       .subscribe((d: any) => {
         this.notifier.notify('success',
           `Order modified, ${OrderType[d.type.type]}, to ${OrderDirection[d.type.direction]}
@@ -155,8 +160,13 @@ export class OrderComponent implements OnInit {
       });
   }
 
-  accountOrder(order) {
-    this.ordersService.placeAccountOrder(this.order.account, order)
+  /**
+   *
+   * @param id -- current order account >name<
+   * @param order -- creating order
+   */
+  accountOrder(id, order) {
+    this.ordersService.placeAccountOrder(id, order)
       .subscribe((d: any) => {
         this.notifier.notify('success',
           `Order modified, ${OrderType[d.type.type]}, to ${OrderDirection[d.type.direction]}
