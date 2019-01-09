@@ -12,13 +12,13 @@ import { SharedService } from '@app/shared/services';
 export class TicksComponent implements OnInit {
 
   @Input()
-    id: string;
+  id: string;
 
   @Input()
-    type: string;
+  type: string;
 
   @Input()
-    section: any;
+  section: any;
 
   _symbol: any;
 
@@ -60,10 +60,6 @@ export class TicksComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
-    this.source = new LocalDataSource(this.ticks);
-  }
-
   get ticks() {
     return getTicksFromSection(this.section).map((tick, i) => {
       return {
@@ -79,6 +75,10 @@ export class TicksComponent implements OnInit {
         },
       };
     });
+  }
+
+  ngOnInit() {
+    this.source = new LocalDataSource(this.ticks);
   }
 
   onSearch(query = '') {
