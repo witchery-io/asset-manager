@@ -58,8 +58,6 @@
   </div>
 </div>
 
-<hr>
-
 <app-balance
   *ngIf="(isLoadingBalance$ | async) === false"
   [section]="balance$ | async"
