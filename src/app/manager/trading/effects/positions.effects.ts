@@ -16,7 +16,7 @@ export class PositionsEffects {
     switchMap((settings: Settings) => {
       return this.positionsService.getPositions(settings).pipe(
         map(response => {
-          return new fromPositions.PositionsLoaded({ positions: response });
+          return new fromPositions.PositionsLoaded({ positions: response || [] }); // todo :: remove
         }),
         catchError(error => of(new fromPositions.PositionsNotLoaded({ error: error.message || error }))),
       );
