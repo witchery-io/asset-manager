@@ -1,13 +1,13 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-2">
+    <div class="col-2 border">
       <app-groups
         [id]="id$ | async"
         [type]="type$ | async"
         [section]="groups$ | async"
       ></app-groups>
     </div>
-    <div class="col-2">
+    <div class="col-2 border">
       <app-accounts
         [id]="id$ | async"
         [type]="type$ | async"
@@ -19,7 +19,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-2">
+    <div class="col-3 border">
       <app-ticks
       *ngIf="(ticksIsLoading$ | async) === false"
       [id]="id$ | async"
@@ -27,7 +27,7 @@
       [section]="ticks$ | async"
       ></app-ticks>
     </div>
-    <div class="col-10">
+    <div class="col-9 border">
       <app-tv-chart></app-tv-chart>
     </div>
   </div>
@@ -35,7 +35,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12">
+    <div class="col-12 border">
       <tabset #ordersTabs>
         <tab heading="ORDERS" id="orders" (select)="onSelectOrderTab('orders')">
           <app-orders
