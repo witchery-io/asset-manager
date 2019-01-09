@@ -19,7 +19,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-3 border">
+    <div class="col-3">
       <app-ticks
       *ngIf="(ticksIsLoading$ | async) === false"
       [id]="id$ | async"
@@ -27,7 +27,7 @@
       [section]="ticks$ | async"
       ></app-ticks>
     </div>
-    <div class="col-9 border">
+    <div class="col-9">
       <app-tv-chart></app-tv-chart>
     </div>
   </div>
@@ -35,7 +35,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12">
+    <div class="col-12 border-top">
       <tabset #ordersTabs>
         <tab heading="ORDERS" id="orders" (select)="onSelectOrderTab('orders')">
           <app-orders
