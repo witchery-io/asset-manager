@@ -13,7 +13,7 @@ import { LoadPositions } from '@trading/actions/positions.actions';
   selector: 'app-accounts',
   template: `
     <div class="form-group">
-      <label for="account" class="small">ACCOUNTS</label>
+      <label for="account" class="small font-weight-bold">ACCOUNTS</label>
       <select
         id="account"
         class="form-control form-control-sm"
