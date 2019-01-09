@@ -9,12 +9,18 @@ export class OrderService {
     protected http: HttpClient,
   ) { }
 
-  placeGroupOrder(groupId, order): Observable<any> {
+  placeGroupOrder(id, params): Observable<any> {
+
+    console.log('Order Service', params);
+
     return of();
     // return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/groups/${ groupId }/orders`, order);
   }
 
-  placeAccountOrder(accountId, order): Observable<any> {
+  placeAccountOrder(id, params): Observable<any> {
+
+    console.log('Order Service', params);
+
     return of();
     // return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/accounts/${ accountId }/orders`, order);
   }
