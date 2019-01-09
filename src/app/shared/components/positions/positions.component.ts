@@ -30,6 +30,8 @@ import { getAccountsFromSection } from '@app/core/reducers';
         <th colspan="15" class="p-0">
           <app-position
             *ngFor="let position of positions"
+            [id]="id"
+            [type]="type"
             [position]="position"
             [permission]="permission"
             [accounts]="accounts"
@@ -42,14 +44,23 @@ import { getAccountsFromSection } from '@app/core/reducers';
 export class PositionsComponent implements OnInit {
 
   @Input()
-  section: any;
+    id: string;
 
   @Input()
-  accountsS: any;
+    type: string;
+
+  @Input()
+    section: any;
+
+  @Input()
+    accountsS: any;
 
   permission = 'parent';
 
   constructor() {
+  }
+
+  ngOnInit() {
   }
 
   get positions() {
@@ -57,17 +68,10 @@ export class PositionsComponent implements OnInit {
   }
 
   get feeOrSwap() {
-    return this.tradeType === 'group' ? 'Fee' : 'Swap';
-  }
-
-  get tradeType() { // group or account
-    return 'group';
+    return this.type === 'group' ? 'Fee' : 'Swap';
   }
 
   get accounts() {
     return getAccountsFromSection(this.accountsS);
-  }
-
-  ngOnInit() {
   }
 }

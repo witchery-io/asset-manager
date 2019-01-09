@@ -15,13 +15,19 @@ import { ACCOUNT, GROUP, PARENT } from '@app/shared/enums/trading.enum';
 export class PositionComponent implements OnInit {
 
   @Input()
-  permission: string;
+    id = 'edc23b04-64d8-4469-bb6a-40da55322d26';
 
   @Input()
-  accounts: any;
+    type = 'account';
 
   @Input()
-  position: any;
+    permission: string;
+
+  @Input()
+    accounts: any;
+
+  @Input()
+    position: any;
 
   faPlus = faPlus;
   faMinus = faMinus;
@@ -36,8 +42,6 @@ export class PositionComponent implements OnInit {
   private readonly notifier: NotifierService;
 
   formValues: any;
-  id = 'edc23b04-64d8-4469-bb6a-40da55322d26';
-  type = 'account';
   groupByPair = true;
   role = 'admin';
 

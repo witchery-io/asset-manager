@@ -13,13 +13,15 @@ import { ACCOUNT, GROUP } from '@app/shared/enums/trading.enum';
   styleUrls: ['./button-view.component.scss'],
 })
 export class ButtonViewComponent implements ViewCell, OnInit {
-  @Input() value: string | number;
-  @Input() rowData: any;
+  role = 'admin';
+  @Input()
+    value: string | number;
+
+  @Input()
+    rowData: any;
+
   user: any;
   faPlus = faPlus;
-
-  id = 'edc23b04-64d8-4469-bb6a-40da55322d26';
-  type = 'account';
 
   modalRef: BsModalRef;
   private readonly notifier: NotifierService;
@@ -30,10 +32,6 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     private notifierService: NotifierService,
   ) {
     this.notifier = notifierService;
-  }
-
-  get role() {
-    return 'admin';
   }
 
   ngOnInit() {
@@ -47,7 +45,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   onOrder(params) {
     params.pair = this.rowData.pair;
 
-    switch (this.type) {
+    switch (this.rowData.tradingType) {
       case GROUP:
         this.groupOrder(params);
         break;
@@ -58,7 +56,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   }
 
   groupOrder(order = {}) {
-    this.ordersService.placeGroupOrder(this.id, order)
+    this.ordersService.placeGroupOrder(this.rowData.tradingId, order)
       .subscribe((d: any) => {
         const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
            ${d.amount} ${d.pair} @ ${d.open_price}.`;
@@ -71,7 +69,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   }
 
   accountOrder(order = {}) {
-    this.ordersService.placeAccountOrder(this.id, order)
+    this.ordersService.placeAccountOrder(this.rowData.tradingId, order)
       .subscribe((d: any) => {
         const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
            ${d.amount} ${d.pair} @ ${d.open_price}.`;

@@ -13,8 +13,6 @@ import { BsDropdownModule, CollapseModule, ModalModule, TabsModule, TooltipModul
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { ExchangeComponent } from './components/positions/form/exchange/exchange.component';
-import { MarginComponent } from './components/positions/form/margin/margin.component';
 
 @NgModule({
   imports: [
@@ -46,8 +44,6 @@ import { MarginComponent } from './components/positions/form/margin/margin.compo
     PositionsComponent,
     PositionComponent,
     NavBarComponent,
-    ExchangeComponent,
-    MarginComponent,
     MarketComponent,
   ],
   providers: [],

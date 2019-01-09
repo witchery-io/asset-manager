@@ -12,7 +12,13 @@ import { SharedService } from '@app/shared/services';
 export class TicksComponent implements OnInit {
 
   @Input()
-  section: any;
+    id: string;
+
+  @Input()
+    type: string;
+
+  @Input()
+    section: any;
 
   _symbol: any;
 
@@ -59,10 +65,12 @@ export class TicksComponent implements OnInit {
   }
 
   get ticks() {
-    return getTicksFromSection(this.section).map(function (tick, i) {
+    return getTicksFromSection(this.section).map((tick, i) => {
       return {
         ...tick,
         ...{
+          tradingId: this.id,
+          tradingType: this.type,
           last: tick.last.toFixed(2),
           volume: tick.volume.toFixed(2),
           daily_change_prc: `<span class="${tick.daily_change_prc > 0 ? 'text-success' : 'text-danger'}">
