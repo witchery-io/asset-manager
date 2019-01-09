@@ -9,22 +9,23 @@ import { OrderContext, OrderDirection, Role } from '@app/shared/enums';
 })
 export class MarketComponent implements OnInit {
 
-  ROLE = Role;
-  OrderDirection = OrderDirection;
+  @Input()
+  role = 'admin';
 
   @Input()
-  role = 'admin'; // admin, guest
+  values = {};
 
   @Input()
-  values = {}; // there are form values
-
-  @Input()
-  marketType: string; // margin or exchange
-
-  marketForm: FormGroup;
+  marketType: string;
 
   @Output()
   order: EventEmitter<any> = new EventEmitter();
+
+  marketForm: FormGroup;
+
+  ROLE = Role;
+
+  orderType = ['stop', 'market', 'limit'];
 
   constructor() {
   }
