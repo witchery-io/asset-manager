@@ -12,9 +12,13 @@ import { LoadPositions } from '@trading/actions/positions.actions';
 @Component({
   selector: 'app-accounts',
   template: `
-    <div class="select-wrapper">
-      <select [value]="this.type === ACCOUNT ? this.id : null" (change)="onChange($event.target.value)">
-        <option disabled> -- Select Account -- </option>
+    <div class="form-group">
+      <label for="account" class="small">ACCOUNTS</label>
+      <select
+        id="account"
+        class="form-control form-control-sm"
+        [value]="this.type === ACCOUNT ? this.id : null"
+        (change)="onChange($event.target.value)">
         <option *ngFor="let account of accounts" [value]="account.id">{{ account.acc_name }}</option>
       </select>
     </div>
@@ -41,22 +45,22 @@ export class AccountsComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
-  }
-
   get accounts() {
     return getAccountsFromSection(this.section);
   }
 
+  ngOnInit() {
+  }
+
   onChange(changing_id) {
     const tab = this.route.snapshot.paramMap.get('tab');
-    const routerPromise = this.router.navigate([`/trading/account/${ changing_id }/${ tab }`]);
+    const routerPromise = this.router.navigate([`/trading/account/${changing_id}/${tab}`]);
     routerPromise.then(() => {
-      this.store.dispatch(new SettingsUpdate({ tradingId: changing_id, tradingType: ACCOUNT }));
+      this.store.dispatch(new SettingsUpdate({tradingId: changing_id, tradingType: ACCOUNT}));
 
-      this.store.dispatch(new LoadBalance({ tradingId: changing_id, tradingType: ACCOUNT }));
-      this.store.dispatch(new LoadOrders({ tradingId: changing_id, tradingType: ACCOUNT }));
-      this.store.dispatch(new LoadPositions({ tradingId: changing_id, tradingType: ACCOUNT }));
+      this.store.dispatch(new LoadBalance({tradingId: changing_id, tradingType: ACCOUNT}));
+      this.store.dispatch(new LoadOrders({tradingId: changing_id, tradingType: ACCOUNT}));
+      this.store.dispatch(new LoadPositions({tradingId: changing_id, tradingType: ACCOUNT}));
     });
   }
 }
