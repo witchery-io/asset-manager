@@ -16,8 +16,8 @@ export class OrdersService extends OrderService {
 
     // - groupByPair
 
-    // const url = `http://trade.vitanova.online:50090/payments/exchange/accounts/74f9b418-e7b0-440d-8523-c4ed9cbbe3cc/orders`;
-    const url = `http://trade.vitanova.online:50090/payments/exchange/${params.tradingType}s/${params.tradingId}/orders`;
+// const url = `http://trade.vitanova.online:50090/payments/exchange/accounts/74f9b418-e7b0-440d-8523-c4ed9cbbe3cc/orders?groupby=pair`;
+    const url = `http://trade.vitanova.online:50090/payments/exchange/${params.tradingType}s/${params.tradingId}/orders?groupby=pair`;
     return this.http.get(url);
   }
 
