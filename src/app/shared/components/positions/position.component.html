@@ -9,7 +9,7 @@
     <td class="col">
       <button
         [disabled]="role !== ROLE.ADMIN"
-        class="btn btn-xs btn-outline-danger"
+        class="btn btn-xs btn-danger"
         (click)="orderStop(tradingModal)"
       >ADD
       </button>
@@ -17,7 +17,7 @@
     <td class="col">
       <button
         [disabled]="role !== ROLE.ADMIN"
-        class="btn btn-xs btn-outline-warning"
+        class="btn btn-xs btn-warning"
         (click)="orderLimit(tradingModal)"
       >ADD
       </button>
