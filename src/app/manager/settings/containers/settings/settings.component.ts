@@ -16,6 +16,7 @@ import * as fromBalance from '@settings/reducers/balance.reducers';
 import * as fromAccounts from '@app/core/reducers/account.reducers';
 import * as fromGroups from '@app/core/reducers/group.reducers';
 import * as fromTicks from '@app/core/reducers/tick.reducers';
+import { ACCOUNTS } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-trading',
@@ -75,9 +76,14 @@ export class SettingsComponent implements OnInit {
       console.log(params);
     });
 
-    const id = this.route.snapshot.paramMap.get('id');
-    const type = this.route.snapshot.paramMap.get('type');
+    let id = this.route.snapshot.paramMap.get('id');
+    let type = this.route.snapshot.paramMap.get('type');
     const active_tab = this.route.snapshot.paramMap.get('tab');
+
+    if (!id) {
+      id = this.route.snapshot.paramMap.get('accountId');
+      type = ACCOUNTS;
+    }
 
     /*
     * Set active tab
