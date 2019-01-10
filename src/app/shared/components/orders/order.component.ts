@@ -6,7 +6,7 @@ import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalService, OrdersService } from '@app/shared/services';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { ACCOUNT, GROUP, PARENT } from '@app/shared/enums/trading.enum';
+import { ACCOUNTS, GROUPS, PARENT } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-order',
@@ -31,7 +31,7 @@ export class OrderComponent implements OnInit {
   accounts: any;
 
   @Input()
-  type = 'group';
+  type = GROUPS;
 
   @Input()
   groupByPair = false;
@@ -130,10 +130,10 @@ export class OrderComponent implements OnInit {
           model.pair = this.order.pair;
 
           switch (this.type) {
-            case GROUP:
+            case GROUPS:
               this.groupOrder(this.order.group, model);
               break;
-            case ACCOUNT:
+            case ACCOUNTS:
               this.accountOrder(this.order.account, model);
               break;
           }

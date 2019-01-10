@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
 import { SettingsUpdate } from '@trading/actions/settings.actions';
-import { ACCOUNT } from '@app/shared/enums/trading.enum';
+import { ACCOUNTS } from '@app/shared/enums/trading.enum';
 import { LoadBalance } from '@trading/actions/balance.actions';
 import { LoadOrders } from '@trading/actions/orders.actions';
 import { LoadPositions } from '@trading/actions/positions.actions';
@@ -17,7 +17,7 @@ import { LoadPositions } from '@trading/actions/positions.actions';
       <select
         id="account"
         class="form-control form-control-sm"
-        [value]="this.type === ACCOUNT ? this.id : null"
+        [value]="this.type === ACCOUNTS ? this.id : null"
         (change)="onChange($event.target.value)">
         <option *ngFor="let account of accounts" [value]="account.id">{{ account.acc_name }}</option>
       </select>
@@ -27,7 +27,7 @@ import { LoadPositions } from '@trading/actions/positions.actions';
 })
 export class AccountsComponent implements OnInit {
 
-  ACCOUNT = ACCOUNT;
+  ACCOUNTS = ACCOUNTS;
 
   @Input()
   section: any;
@@ -57,13 +57,13 @@ export class AccountsComponent implements OnInit {
 
   onChange(changing_tab_id) {
     const tab = this.route.snapshot.paramMap.get('tab');
-    const routerPromise = this.router.navigate([`/trading/account/${changing_tab_id}/${tab}`]);
+    const routerPromise = this.router.navigate([`/trading/${ACCOUNTS}/${changing_tab_id}/${tab}`]);
     routerPromise.then(() => {
-      this.store.dispatch(new SettingsUpdate({ tradingId: changing_tab_id, tradingType: ACCOUNT, groupByPair: this.groupByPair}));
+      this.store.dispatch(new SettingsUpdate({ tradingId: changing_tab_id, tradingType: ACCOUNTS, groupByPair: this.groupByPair}));
 
-      this.store.dispatch(new LoadBalance({ tradingId: changing_tab_id, tradingType: ACCOUNT, groupByPair: this.groupByPair }));
-      this.store.dispatch(new LoadOrders({ tradingId: changing_tab_id, tradingType: ACCOUNT, groupByPair: this.groupByPair }));
-      this.store.dispatch(new LoadPositions({ tradingId: changing_tab_id, tradingType: ACCOUNT, groupByPair: this.groupByPair }));
+      this.store.dispatch(new LoadBalance({ tradingId: changing_tab_id, tradingType: ACCOUNTS, groupByPair: this.groupByPair }));
+      this.store.dispatch(new LoadOrders({ tradingId: changing_tab_id, tradingType: ACCOUNTS, groupByPair: this.groupByPair }));
+      this.store.dispatch(new LoadPositions({ tradingId: changing_tab_id, tradingType: ACCOUNTS, groupByPair: this.groupByPair }));
     });
   }
 }

@@ -5,7 +5,7 @@ import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalService, OrdersService, PositionsService } from '@app/shared/services';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { ACCOUNT, GROUP, PARENT } from '@app/shared/enums/trading.enum';
+import { ACCOUNTS, GROUPS, PARENT } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-position',
@@ -149,10 +149,10 @@ export class PositionComponent implements OnInit {
     params.pair = this.position.pair;
 
     switch (this.type) {
-      case GROUP:
+      case GROUPS:
         this.groupOrder(this.id, params);
         break;
-      case ACCOUNT:
+      case ACCOUNTS:
         this.accountOrder(this.id, params);
         break;
     }

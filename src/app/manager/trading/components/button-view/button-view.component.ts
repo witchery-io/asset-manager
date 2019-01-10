@@ -5,7 +5,7 @@ import { ModalService, OrdersService } from '@app/shared/services';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { OrderDirection, OrderType } from '@app/shared/enums';
 import { NotifierService } from 'angular-notifier';
-import { ACCOUNT, GROUP } from '@app/shared/enums/trading.enum';
+import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-button-view, button-view',
@@ -47,10 +47,10 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     params.pair = this.rowData.pair;
 
     switch (this.rowData.tradingType) {
-      case GROUP:
+      case GROUPS:
         this.groupOrder(this.rowData.tradingId, params);
         break;
-      case ACCOUNT:
+      case ACCOUNTS:
         this.accountOrder(this.rowData.tradingId, params);
         break;
     }
