@@ -4,7 +4,7 @@ import { OrderService } from '@app/shared/services/order.service';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
-export class PositionsService extends OrderService{
+export class PositionsService extends OrderService {
 
   constructor(
     protected http: HttpClient,
@@ -13,7 +13,10 @@ export class PositionsService extends OrderService{
   }
 
   getPositions(params): Observable<any> {
-   // const url = `http://trade.vitanova.online:50090/payments/exchange/groups/6a86df61-c190-4347-9b61-34cbd88d38a4/positions?groupby=pair`;
+
+    // groupByPair -
+
+    // const url = `http://trade.vitanova.online:50090/payments/exchange/groups/6a86df61-c190-4347-9b61-34cbd88d38a4/positions?groupby=pair`;
     const url = `http://trade.vitanova.online:50090/payments/exchange/${params.tradingType}s/${params.tradingId}/positions?groupby=pair`;
     return this.http.get(url);
   }

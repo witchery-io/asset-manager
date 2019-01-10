@@ -3,6 +3,7 @@ import * as fromSettings from '@trading/actions/settings.actions';
 export interface Settings {
   tradingId: string;
   tradingType: string;
+  groupByPair: boolean;
 }
 
 export type State = Settings;

@@ -44,6 +44,7 @@ export class TradingComponent implements OnInit {
   id$: Observable<string>;
 
   _defaultTabIndex = 0;
+  groupByPair = true;
 
   constructor(
     private ws: WsHandlerService,
@@ -83,14 +84,14 @@ export class TradingComponent implements OnInit {
     /*
     * Set current trading id and type
     * */
-    this.store.dispatch(new SettingsSet({ tradingId: id, tradingType: type }));
+    this.store.dispatch(new SettingsSet({ tradingId: id, tradingType: type, groupByPair: this.groupByPair }));
 
     /*
     * Load data
     * */
-    this.store.dispatch(new LoadBalance({ tradingId: id, tradingType: type }));
-    this.store.dispatch(new LoadOrders({ tradingId: id, tradingType: type }));
-    this.store.dispatch(new LoadPositions({ tradingId: id, tradingType: type }));
+    this.store.dispatch(new LoadBalance({ tradingId: id, tradingType: type, groupByPair: this.groupByPair }));
+    this.store.dispatch(new LoadOrders({ tradingId: id, tradingType: type, groupByPair: this.groupByPair }));
+    this.store.dispatch(new LoadPositions({ tradingId: id, tradingType: type, groupByPair: this.groupByPair }));
   }
 
   onSelectOrderTab(tab_id) {

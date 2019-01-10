@@ -38,6 +38,9 @@ export class GroupsComponent implements OnInit {
   @Input()
   id: string;
 
+  @Input()
+  groupByPair: boolean;
+
   constructor(
     private router: Router,
     private store: Store<TradingState>,
@@ -56,11 +59,11 @@ export class GroupsComponent implements OnInit {
     const tab = this.route.snapshot.paramMap.get('tab');
     const routerPromise = this.router.navigate([`/trading/group/${changing_tab_id}/${tab}`]);
     routerPromise.then(() => {
-      this.store.dispatch(new SettingsUpdate({tradingId: changing_tab_id, tradingType: GROUP}));
+      this.store.dispatch(new SettingsUpdate({ tradingId: changing_tab_id, tradingType: GROUP, groupByPair: this.groupByPair }));
 
-      this.store.dispatch(new LoadBalance({tradingId: changing_tab_id, tradingType: GROUP}));
-      this.store.dispatch(new LoadOrders({tradingId: changing_tab_id, tradingType: GROUP}));
-      this.store.dispatch(new LoadPositions({tradingId: changing_tab_id, tradingType: GROUP}));
+      this.store.dispatch(new LoadBalance({ tradingId: changing_tab_id, tradingType: GROUP, groupByPair: this.groupByPair }));
+      this.store.dispatch(new LoadOrders({ tradingId: changing_tab_id, tradingType: GROUP, groupByPair: this.groupByPair }));
+      this.store.dispatch(new LoadPositions({ tradingId: changing_tab_id, tradingType: GROUP, groupByPair: this.groupByPair }));
     });
   }
 }
