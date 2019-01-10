@@ -44,16 +44,16 @@ import { getAccountsFromSection } from '@app/core/reducers';
 export class PositionsComponent implements OnInit {
 
   @Input()
-    id: string;
+  id: string;
 
   @Input()
-    type: string;
+  type: string;
 
   @Input()
-    section: any;
+  section: any;
 
   @Input()
-    accountsS: any;
+  accountsS: any;
 
   permission = 'parent';
 

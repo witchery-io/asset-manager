@@ -36,10 +36,10 @@ import { getOrdersFromSection } from '@trading/state/trading.selectors';
 export class OrdersComponent implements OnInit {
 
   @Input()
-    section: any;
+  section: any;
 
   @Input()
-    accountsS: any;
+  accountsS: any;
 
   permission = 'parent';
 
