@@ -1,4 +1,17 @@
-
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <tabset #typeTabs>
+        <tab heading="GROUPS" id="groups" (select)="onSelectTypeTab('groups')">
+          <h1>GROUPS</h1>
+        </tab>
+        <tab heading="ACCOUNTS" id="accounts" (select)="onSelectTypeTab('accounts')">
+          <h1>ACCOUNTS</h1>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>
 
 <div class="container-fluid">
   <div class="row">

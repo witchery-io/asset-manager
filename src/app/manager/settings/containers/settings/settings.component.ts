@@ -6,7 +6,7 @@ import { LoadOrders } from '@settings/actions/orders.actions';
 import { LoadPositions } from '@settings/actions/positions.actions';
 import { SettingsSet } from '@settings/actions/settings.actions';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OrderTab } from '@app/shared/enums';
+import { OrderTab, TypeTab } from '@app/shared/enums';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { Observable } from 'rxjs';
 import * as Select from '@settings/state/settings.selectors';
@@ -16,7 +16,7 @@ import * as fromBalance from '@settings/reducers/balance.reducers';
 import * as fromAccounts from '@app/core/reducers/account.reducers';
 import * as fromGroups from '@app/core/reducers/group.reducers';
 import * as fromTicks from '@app/core/reducers/tick.reducers';
-import { ACCOUNTS } from '@app/shared/enums/trading.enum';
+import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-trading',
@@ -25,6 +25,7 @@ import { ACCOUNTS } from '@app/shared/enums/trading.enum';
 })
 export class SettingsComponent implements OnInit {
   @ViewChild('ordersTabs') ordersTabs: TabsetComponent;
+  @ViewChild('typeTabs') typeTabs: TabsetComponent;
 
   orders$: Observable<fromOrders.State>;
   isLoadingOrders$: Observable<boolean>;
@@ -71,11 +72,6 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('Settings Component');
-    this.route.params.subscribe(params => {
-      console.log(params);
-    });
-
     let id = this.route.snapshot.paramMap.get('id');
     let type = this.route.snapshot.paramMap.get('type');
     const active_tab = this.route.snapshot.paramMap.get('tab');
@@ -89,6 +85,7 @@ export class SettingsComponent implements OnInit {
     * Set active tab
     * */
     this.ordersTabs.tabs[OrderTab[active_tab] || this._defaultTabIndex].active = true;
+    this.typeTabs.tabs[TypeTab[type] || this._defaultTabIndex].active = true;
 
     /*
     * Set current settings id and type
@@ -107,7 +104,21 @@ export class SettingsComponent implements OnInit {
     const orderPromise = this.router.navigate([`../${tab_id}`], {relativeTo: this.route});
 
     orderPromise.then(() => {
-      this.ordersTabs.tabs[OrderTab[tab_id] || this._defaultTabIndex].active = true;
+      // this.ordersTabs.tabs[OrderTab[tab_id] || this._defaultTabIndex].active = true;
     });
+  }
+
+  onSelectTypeTab(type_tab) {
+    const order_tab = this.route.snapshot.paramMap.get('tab');
+    const typePromise = this._navigate(type_tab, order_tab);
+
+    typePromise.then(() => {
+      // this.typeTabs.tabs[TypeTab[type_tab] || this._defaultTabIndex].active = true;
+    });
+  }
+
+  private _navigate(type_tab, order_tab) {
+    const id = type_tab === GROUPS ? '6a86df61-c190-4347-9b61-34cbd88d38a4' : 'edc23b04-64d8-4469-bb6a-40da55322d26'; // todo :: change
+    return this.router.navigate([`../../../${type_tab}/${id}/${order_tab}/`], {relativeTo: this.route});
   }
 }

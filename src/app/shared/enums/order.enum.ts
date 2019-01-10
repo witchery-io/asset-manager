@@ -14,3 +14,7 @@ export enum OrderContext {
 export enum OrderTab {
   orders, positions
 }
+
+export enum TypeTab {
+  groups, accounts
+}
