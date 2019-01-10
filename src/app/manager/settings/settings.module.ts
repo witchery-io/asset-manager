@@ -11,6 +11,7 @@ import { BalanceEffects } from '@settings/effects/balance.effects';
 import { OrdersEffects } from '@settings/effects/orders.effects';
 import { PositionsEffects } from '@settings/effects/positions.effects';
 import { BalanceService, OrdersService, PositionsService } from '@app/shared/services';
+import { TabsModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { BalanceService, OrdersService, PositionsService } from '@app/shared/ser
     SettingsRoutingModule,
     StoreModule.forFeature('settings', reducers),
     EffectsModule.forFeature([BalanceEffects, OrdersEffects, PositionsEffects]),
+    TabsModule.forRoot(),
   ],
   providers: [
     PositionsService,

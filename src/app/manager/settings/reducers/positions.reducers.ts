@@ -26,7 +26,7 @@ export function reducer(state: State = initialState, action: PositionsActions.Ac
     }
 
     case PositionsActions.POSITIONS_LOADED: {
-      return adapter.addMany(action.payload.positions, {
+      return adapter.addAll(action.payload.positions, {
         ...state,
         isLoading: false,
         error: null,
