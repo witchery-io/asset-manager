@@ -10,7 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { BalanceEffects } from '@settings/effects/balance.effects';
 import { OrdersEffects } from '@settings/effects/orders.effects';
 import { PositionsEffects } from '@settings/effects/positions.effects';
-import { BalanceService, OrdersService, PositionsService } from '@app/shared/services';
+import { BalanceService, ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
 import { TabsModule } from 'ngx-bootstrap';
 
 @NgModule({
@@ -29,6 +29,8 @@ import { TabsModule } from 'ngx-bootstrap';
     PositionsService,
     OrdersService,
     BalanceService,
+    ModalService,
+    SharedService,
   ],
 })
 export class SettingsModule { }
