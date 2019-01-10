@@ -12,10 +12,16 @@ import { OrdersEffects } from '@settings/effects/orders.effects';
 import { PositionsEffects } from '@settings/effects/positions.effects';
 import { BalanceService, ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
 import { TabsModule } from 'ngx-bootstrap';
+import {
+  GroupsTabComponent,
+  AccountsTabComponent,
+} from '@settings/components/index';
 
 @NgModule({
   declarations: [
     SettingsComponent,
+    GroupsTabComponent,
+    AccountsTabComponent,
   ],
   imports: [
     CommonModule,
