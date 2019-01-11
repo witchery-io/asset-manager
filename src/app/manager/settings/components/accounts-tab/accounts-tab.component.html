@@ -3,7 +3,10 @@
     <div class="col-4">
       <div class="form-group">
         <button class="btn btn-primary btn-xs" [disabled]="role !== 'admin'" (click)="openModal(accountModal)">
-          <fa-icon icon="plus"></fa-icon> Create account
+          <fa-icon
+            [icon]="faPlus"
+          ></fa-icon>
+          Create account
         </button>
       </div>
       <table class="table table-hover table-xs">
@@ -42,7 +45,7 @@
           <td>
             <fa-icon
               (click)="edit(i, editAccountModal)"
-              icon="edit"
+              [icon]="faEdit"
               class="text-danger float-right"
               title="Edit"
             ></fa-icon>
