@@ -3,11 +3,8 @@ import { getGroupsFromSection } from '@app/core/reducers';
 
 @Component({
   selector: 'app-groups-tab',
-  template: `
-    <h1>Group tab</h1>
-    <app-groups-tab-group></app-groups-tab-group>
-    <app-groups-tab-account></app-groups-tab-account>
-  `,
+  templateUrl: './groups-tab.component.html',
+  styleUrls: ['./groups-tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsTabComponent implements OnInit {

@@ -7,9 +7,6 @@ import { MainComponent } from '@settings/containers';
 import {
   AccountsTabComponent,
   GroupsTabComponent,
-  AccountsTabAccountComponent,
-  GroupsTabAccountComponent,
-  GroupsTabGroupComponent,
   BalanceDetailsComponent,
 } from '@settings/components';
 import { StoreModule } from '@ngrx/store';
@@ -26,10 +23,7 @@ import { TabsModule } from 'ngx-bootstrap';
     MainComponent,
     AccountsTabComponent,
     GroupsTabComponent,
-    AccountsTabAccountComponent,
     BalanceDetailsComponent,
-    GroupsTabAccountComponent,
-    GroupsTabGroupComponent,
     BalanceDetailsComponent,
   ],
   imports: [
