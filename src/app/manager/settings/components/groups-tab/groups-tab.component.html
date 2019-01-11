@@ -20,22 +20,22 @@
         </thead>
         <tbody>
         <tr
-          *ngFor="let g of groups; index as i"
           class="cursor-pointer"
-          [class.table-active]="g.id === group?.id"
-          (click)="chooseGroup(i)"
+          *ngFor="let group of groups; index as i"
+          [class.table-active]="group.id === id"
+          (click)="selectGroup(i)"
         >
-          <td>{{ g.name }}</td>
+          <td>{{ group.name }}</td>
           <td>
           <span class="switch switch-sm mr-2">
             <input
               [disabled]="role !== 'admin'"
               type="checkbox"
-              [checked]="g.active"
+              [checked]="group.active"
               class="switch"
-              id="switch-{{g.id}}"
+              id="switch-{{group.id}}"
             >
-            <label class="m-0" for="switch-{{g.id}}"></label>
+            <label class="m-0" for="switch-{{group.id}}"></label>
           </span>
           </td>
           <td>
@@ -138,7 +138,8 @@
       (submit)="createAccount(addAccountForm.value, addAccountForm.valid)"
     >
       <div class="form-group">
-        <select class="form-control" formControlName="account_id">
+        <label for="accounts">Accounts</label>
+        <select id="accounts" class="form-control" formControlName="account_id">
           <option *ngFor="let a of accounts" [value]="a.id">
             {{ a.user_name }}
           </option>
