@@ -10,7 +10,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 })
 export class AccountsTabComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
