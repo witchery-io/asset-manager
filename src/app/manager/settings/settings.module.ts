@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { SettingsRoutingModule } from '@settings/settings-routing.module';
 import { SharedModule } from '@app/shared/shared.module';
-import { SettingsComponent } from '@settings/containers';
+import { MainComponent } from '@settings/containers';
 import {
   AccountsTabComponent,
   GroupsTabComponent,
@@ -25,7 +25,7 @@ import { TabsModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
-    SettingsComponent,
+    MainComponent,
     AccountsTabComponent,
     GroupsTabComponent,
     AccountsTabAccountComponent,

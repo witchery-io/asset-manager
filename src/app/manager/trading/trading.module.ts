@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TradingRoutingModule } from './trading-routing.module';
-import { TradingComponent } from '@trading/containers';
+import { MainComponent } from '@trading/containers';
 import {
   AccountsComponent,
   GroupsComponent,
@@ -26,7 +26,7 @@ import { ButtonViewComponent } from '@trading/components/button-view/button-view
 
 @NgModule({
   declarations: [
-    TradingComponent,
+    MainComponent,
     AccountsComponent,
     GroupsComponent,
     TicksComponent,

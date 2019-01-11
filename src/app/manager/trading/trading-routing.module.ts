@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TradingComponent } from '@trading/containers';
+import { MainComponent } from '@trading/containers';
 
 const routes: Routes = [
   {
@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: ':type/:id/:tab',
-    component: TradingComponent,
+    component: MainComponent,
   }
 ];
 

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SettingsComponent } from '@settings/containers';
+import { MainComponent } from '@settings/containers';
 
 const routes: Routes = [
   {
@@ -9,11 +9,11 @@ const routes: Routes = [
   },
   {
     path: ':type/:groupId/:accountId/:tab',
-    component: SettingsComponent,
+    component: MainComponent,
   },
   {
     path: ':type/:id/:tab',
-    component: SettingsComponent,
+    component: MainComponent,
   },
 ];
 

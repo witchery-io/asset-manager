@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-bots',
-  templateUrl: './bots.component.html',
-  styleUrls: ['./bots.component.scss']
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.scss']
 })
-export class BotsComponent implements OnInit {
+export class MainComponent implements OnInit {
 
   constructor() { }
 
