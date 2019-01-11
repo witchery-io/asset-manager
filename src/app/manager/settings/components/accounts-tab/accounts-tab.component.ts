@@ -16,6 +16,9 @@ export class AccountsTabComponent implements OnInit {
   faEdit = faEdit;
 
   @Input()
+  id: string;
+
+  @Input()
   section: any;
 
   constructor() {
@@ -26,5 +29,9 @@ export class AccountsTabComponent implements OnInit {
 
   get accounts() {
     return getAccountsFromSection(this.section);
+  }
+
+  selectAccount() {
+    // code ...
   }
 }
