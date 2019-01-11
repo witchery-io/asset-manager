@@ -1,8 +1,22 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TypeTab } from '@app/shared/enums';
+import { OrderTab, TypeTab } from '@app/shared/enums';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
+import { select, Store } from '@ngrx/store';
+import * as Select from '@settings/state/settings.selectors';
+import { SettingsState } from '@settings/reducers';
+import { Observable } from 'rxjs';
+import * as fromOrders from '@settings/reducers/orders.reducers';
+import * as fromPositions from '@settings/reducers/positions.reducers';
+import * as fromBalance from '@settings/reducers/balance.reducers';
+import * as fromAccounts from '@app/core/reducers/account.reducers';
+import * as fromGroups from '@app/core/reducers/group.reducers';
+import * as fromTicks from '@app/core/reducers/tick.reducers';
+import { SettingsSet } from '@settings/actions/settings.actions';
+import { LoadBalance } from '@settings/actions/balance.actions';
+import { LoadOrders } from '@settings/actions/orders.actions';
+import { LoadPositions } from '@settings/actions/positions.actions';
 
 @Component({
   selector: 'app-trading',
@@ -11,24 +25,79 @@ import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
 })
 export class SettingsComponent implements OnInit {
   @ViewChild('typeTabs') typeTabs: TabsetComponent;
+  @ViewChild('ordersTabs') ordersTabs: TabsetComponent;
+
+  orders$: Observable<fromOrders.State>;
+  isLoadingOrders$: Observable<boolean>;
+
+  positions$: Observable<fromPositions.State>;
+  isLoadingPositions$: Observable<boolean>;
+
+  balance$: Observable<fromBalance.State>;
+  isLoadingBalance$: Observable<boolean>;
+
+  accounts$: Observable<fromAccounts.State>;
+  groups$: Observable<fromGroups.State>;
+  ticks$: Observable<fromTicks.State>;
+  ticksIsLoading$: Observable<boolean>;
+
+  type$: Observable<string>;
+  id$: Observable<string>;
 
   _defaultTabIndex = 0;
+  groupByPair = false;
 
   constructor(
+    private store: Store<SettingsState>,
     private route: ActivatedRoute,
     private router: Router,
   ) {
+    this.orders$ = this.store.pipe(select(Select.getOrders));
+    this.isLoadingOrders$ = this.store.pipe(select(Select.isLoadingOrders));
+
+    this.positions$ = this.store.pipe(select(Select.getPositions));
+    this.isLoadingPositions$ = this.store.pipe(select(Select.isLoadingPositions));
+
+    this.balance$ = this.store.pipe(select(Select.getBalance));
+    this.isLoadingBalance$ = this.store.pipe(select(Select.isLoadingBalance));
+
+    this.accounts$ = this.store.pipe(select(Select.getAccounts));
+    this.groups$ = this.store.pipe(select(Select.getGroups));
+
+    this.ticks$ = this.store.pipe(select(Select.getTicks));
+    this.ticksIsLoading$ = this.store.pipe(select(Select.ticksIsLoading));
+
+    this.type$ = this.store.pipe(select(Select.getType));
+    this.id$ = this.store.pipe(select(Select.getId));
   }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
+    let id = this.route.snapshot.paramMap.get('id');
     let type = this.route.snapshot.paramMap.get('type');
+    const active_tab = this.route.snapshot.paramMap.get('tab');
 
     if (!id) {
       type = ACCOUNTS;
+      id = this.route.snapshot.paramMap.get('accountId');
     }
 
+    /*
+    * Set active tab
+    * */
+    this.ordersTabs.tabs[OrderTab[active_tab] || this._defaultTabIndex].active = true;
     this.typeTabs.tabs[TypeTab[type] || this._defaultTabIndex].active = true;
+
+    /*
+    * Set current trading id and type
+    * */
+    this.store.dispatch(new SettingsSet({tradingId: id, tradingType: type, groupByPair: this.groupByPair}));
+
+    /*
+    * Load data
+    * */
+    this.store.dispatch(new LoadBalance({tradingId: id, tradingType: type, groupByPair: this.groupByPair}));
+    this.store.dispatch(new LoadOrders({tradingId: id, tradingType: type, groupByPair: this.groupByPair}));
+    this.store.dispatch(new LoadPositions({tradingId: id, tradingType: type, groupByPair: this.groupByPair}));
   }
 
   onSelectTypeTab(type_tab) {
@@ -37,6 +106,14 @@ export class SettingsComponent implements OnInit {
 
     typePromise.then(() => {
       this.typeTabs.tabs[TypeTab[type_tab] || this._defaultTabIndex].active = true;
+    });
+  }
+
+  onSelectOrderTab(tab_id) {
+    const orderPromise = this.router.navigate([`../${tab_id}`], {relativeTo: this.route});
+
+    orderPromise.then(() => {
+      this.ordersTabs.tabs[OrderTab[tab_id] || this._defaultTabIndex].active = true;
     });
   }
 
