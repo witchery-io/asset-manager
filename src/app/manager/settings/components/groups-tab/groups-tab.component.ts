@@ -66,12 +66,20 @@ export class GroupsTabComponent implements OnInit {
     // select current group
   }
 
-  edit(item_index, template: TemplateRef<any>) { // todo :: change
-    this.editGroupForm.patchValue(this.groups[item_index]);
+  selectAccount() {
+    // code ...
+  }
+
+  edit(group, template: TemplateRef<any>) {
+    this.editGroupForm.patchValue(group);
     this.openModal(template);
   }
 
   get accounts() {
+    return [];
+  }
+
+  get accountsOfGroup() {
     return [];
   }
 }

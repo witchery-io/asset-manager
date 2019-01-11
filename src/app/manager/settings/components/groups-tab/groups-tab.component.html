@@ -1,11 +1,12 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-2">
+    <div class="col-6">
       <div class="form-group">
         <button
+          class="btn btn-xs btn-primary"
           (click)="openModal(groupModal)"
           [disabled]="role !== 'admin'"
-          class="btn btn-xs btn-primary">
+        >
           <fa-icon [icon]="faPlus"></fa-icon>
           Create group
         </button>
@@ -21,41 +22,43 @@
         <tbody>
         <tr
           class="cursor-pointer"
-          *ngFor="let group of groups; index as i"
+          *ngFor="let group of groups"
           [class.table-active]="group.id === id"
-          (click)="selectGroup(i)"
+          (click)="selectGroup(group)"
         >
           <td>{{ group.name }}</td>
           <td>
           <span class="switch switch-sm mr-2">
             <input
-              [disabled]="role !== 'admin'"
-              type="checkbox"
-              [checked]="group.active"
-              class="switch"
               id="switch-{{group.id}}"
+              type="checkbox"
+              class="switch"
+              [disabled]="role !== 'admin'"
+              [checked]="group.active"
             >
             <label class="m-0" for="switch-{{group.id}}"></label>
           </span>
           </td>
           <td>
             <fa-icon
-              (click)="edit(i, editGroupModal)"
-              [icon]="faEdit"
               class="text-danger float-right"
               title="Edit"
+              (click)="edit(group, editGroupModal)"
+              [icon]="faEdit"
             ></fa-icon>
           </td>
         </tr>
         </tbody>
       </table>
     </div>
-    <div class="col-2">
+
+    <div class="col-6">
       <div class="form-group">
         <button
           class="btn btn-xs btn-outline-primary"
-          [disabled]="!group || role !== 'admin'"
-          (click)="openModal(addAccountModal)">
+          [disabled]="role !== 'admin'"
+          (click)="openModal(addAccountModal)"
+        >
           <fa-icon [icon]="faPlus"></fa-icon>
           Add account
         </button>
@@ -69,13 +72,13 @@
         </thead>
         <tbody>
         <tr
-          *ngFor="let a of groupAccounts; index as i"
-          (click)="chooseAccount(i)"
           class="cursor-pointer"
-          [class.table-active]="a.id === account?.id"
+          *ngFor="let account of accountsOfGroup"
+          (click)="selectAccount(account)"
+          [class.table-active]="account.id === id"
         >
-          <td>{{ a.user_name }}</td>
-          <td>{{ a.risk }}</td>
+          <td>{{ account.user_name }}</td>
+          <td>{{ account.risk }}</td>
         </tr>
         </tbody>
       </table>
@@ -83,6 +86,7 @@
   </div>
 </div>
 
+<!-- todo ::: delete -->
 <ng-template #groupModal class="modal-sm">
   <div class="modal-header">
     <h4 class="modal-title pull-left">Create group</h4>
@@ -130,6 +134,7 @@
   </div>
 </ng-template>
 
+<!-- todo ::: delete -->
 <ng-template #addAccountModal class="modal-sm">
   <div class="modal-body">
     <form
@@ -152,6 +157,7 @@
   </div>
 </ng-template>
 
+<!-- todo ::: delete -->
 <ng-template #editGroupModal>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Edit group</h4>
