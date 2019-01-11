@@ -3,10 +3,10 @@
     <div class="col-12">
       <tabset #typeTabs>
         <tab heading="GROUPS" id="groups" (select)="onSelectTypeTab('groups')">
-          <h1>groups</h1>
+          <app-groups-tab></app-groups-tab>
         </tab>
         <tab heading="ACCOUNTS" id="accounts" (select)="onSelectTypeTab('accounts')">
-          <h1>accounts</h1>
+          <app-accounts-tab></app-accounts-tab>
         </tab>
       </tabset>
     </div>
@@ -16,7 +16,7 @@
 <div class="container-fluid">
   <div class="row border-top">
     <div class="col-12">
-      <h1>balance</h1>
+      <app-balance></app-balance>
     </div>
   </div>
 </div>

@@ -333,7 +333,7 @@ export class UDFCompatibleDatafeedBase implements IExternalDatafeed, IDatafeedQu
 		}
 
 		if (!configurationData.supports_search && !configurationData.supports_group_request) {
-			throw new Error('Unsupported datafeed configuration. Must either support search, or support group request');
+			throw new Error('Unsupported datafeed configuration. Must either support search, or support accounts-tab-group request');
 		}
 
 		if (configurationData.supports_group_request || !configurationData.supports_search) {

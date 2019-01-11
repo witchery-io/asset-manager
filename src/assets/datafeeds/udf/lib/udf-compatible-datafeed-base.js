@@ -222,7 +222,7 @@ var UDFCompatibleDatafeedBase = /** @class */ (function () {
             configurationData.exchanges = [];
         }
         if (!configurationData.supports_search && !configurationData.supports_group_request) {
-            throw new Error('Unsupported datafeed configuration. Must either support search, or support group request');
+            throw new Error('Unsupported datafeed configuration. Must either support search, or support accounts-tab-group request');
         }
         if (configurationData.supports_group_request || !configurationData.supports_search) {
             this._symbolsStorage = new SymbolsStorage(this._datafeedURL, configurationData.supported_resolutions || [], this._requester);
