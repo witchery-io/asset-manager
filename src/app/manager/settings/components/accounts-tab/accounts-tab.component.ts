@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-accounts-tab',
   template: `
-    <h1>ACCOUNT TAB</h1>
+    <h1>Account Tab</h1>
     <app-accounts-tab-account></app-accounts-tab-account>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
