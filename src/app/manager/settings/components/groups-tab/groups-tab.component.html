@@ -1,1 +1,199 @@
-<h2>Group</h2>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-2">
+      <div class="form-group">
+        <button
+          (click)="openModal(groupModal)"
+          [disabled]="role !== 'admin'"
+          class="btn btn-xs btn-primary">
+          <fa-icon icon="plus"></fa-icon>
+          Create group
+        </button>
+      </div>
+      <table class="table table-hover table-xs">
+        <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Status</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          *ngFor="let g of groups; index as i"
+          class="cursor-pointer"
+          [class.table-active]="g.id === group?.id"
+          (click)="chooseGroup(i)"
+        >
+          <td>{{ g.name }}</td>
+          <td>
+          <span class="switch switch-sm mr-2">
+            <input
+              [disabled]="role !== 'admin'"
+              type="checkbox"
+              [checked]="g.active"
+              class="switch"
+              id="switch-{{g.id}}"
+            >
+            <label class="m-0" for="switch-{{g.id}}"></label>
+          </span>
+          </td>
+          <td>
+            <fa-icon
+              (click)="edit(i, editGroupModal)"
+              icon="edit"
+              class="text-danger float-right"
+              title="Edit"
+            ></fa-icon>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-2">
+      <div class="form-group">
+        <button
+          class="btn btn-xs btn-outline-primary"
+          [disabled]="!group || role !== 'admin'"
+          (click)="openModal(addAccountModal)">
+          <fa-icon icon="plus"></fa-icon>
+          Add account
+        </button>
+      </div>
+      <table class="table table-hover table-xs">
+        <thead>
+        <tr>
+          <th scope="col">Account</th>
+          <th scope="col">Rank</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          *ngFor="let a of groupAccounts; index as i"
+          (click)="chooseAccount(i)"
+          class="cursor-pointer"
+          [class.table-active]="a.id === account?.id"
+        >
+          <td>{{ a.user_name }}</td>
+          <td>{{ a.risk }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #groupModal class="modal-sm">
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create group</h4>
+  </div>
+  <div class="modal-body">
+    <form novalidate [formGroup]="groupForm" (submit)="createGroup(groupForm.value, groupForm.valid)">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" formControlName="name" placeholder="Name">
+      </div>
+      <div class="form-group">
+        <label for="allocation_method">Allocation method</label>
+        <select class="form-control" id="allocation_method" formControlName="allocation_method">
+          <option selected value="0">Fix</option>
+          <option value="1">Percent</option>
+          <option value="2">Equity</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="exchange">Exchange</label>
+        <select class="form-control" id="exchange" formControlName="exchange">
+          <option selected value="bitfinex">Bitfinex</option>
+          <option value="cexio">CEX.IO</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="base_currency">Base currency</label>
+        <select class="form-control" id="base_currency" formControlName="base_currency">
+          <option selected value="usd">USD</option>
+          <option value="btc">BTC</option>
+          <option value="eth">ETH</option>
+          <option value="eur">EUR</option>
+        </select>
+      </div>
+      <div>
+        <button
+          type="button"
+          class="btn btn-outline-primary float-left"
+          aria-label="Close"
+          (click)="modalRef.hide()">Cancel
+        </button>
+        <button type="submit" class="btn btn-primary float-right">Create group</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #addAccountModal class="modal-sm">
+  <div class="modal-body">
+    <form
+      novalidate
+      [formGroup]="addAccountForm"
+      (submit)="createAccount(addAccountForm.value, addAccountForm.valid)"
+    >
+      <div class="form-group">
+        <select class="form-control" formControlName="account_id">
+          <option *ngFor="let a of accounts" [value]="a.id">
+            {{ a.user_name }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary float-right">ADD</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #editGroupModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit group</h4>
+  </div>
+  <div class="modal-body">
+    <form novalidate [formGroup]="editGroupForm" (submit)="editGroup(editGroupForm.value, editGroupForm.valid)">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" formControlName="name" placeholder="Name">
+      </div>
+      <div class="form-group">
+        <label for="edit_allocation_method">Allocation method</label>
+        <select class="form-control" id="edit_allocation_method" formControlName="allocation_method">
+          <option selected value="0">Fix</option>
+          <option value="1">Percent</option>
+          <option value="2">Equity</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="edit_exchange">Exchange</label>
+        <select class="form-control" id="edit_exchange" formControlName="exchange">
+          <option selected value="bitfinex">Bitfinex</option>
+          <option value="cexio">CEX.IO</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="edit_base_currency">Base currency</label>
+        <select class="form-control" id="edit_base_currency" formControlName="base_currency">
+          <option selected value="usd">USD</option>
+          <option value="btc">BTC</option>
+          <option value="eth">ETH</option>
+          <option value="eur">EUR</option>
+        </select>
+      </div>
+      <div>
+        <button
+          type="button"
+          class="btn btn-outline-primary float-left"
+          aria-label="Close"
+          (click)="modalRef.hide()">Cancel
+        </button>
+        <button type="submit" class="btn btn-primary float-right">Edit group</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

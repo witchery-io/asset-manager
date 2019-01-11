@@ -9,6 +9,8 @@ import { getGroupsFromSection } from '@app/core/reducers';
 })
 export class GroupsTabComponent implements OnInit {
 
+  role = 'admin';
+
   @Input()
   section: any;
 

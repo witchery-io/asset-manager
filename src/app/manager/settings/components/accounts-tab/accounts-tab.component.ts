@@ -9,6 +9,8 @@ import { getAccountsFromSection } from '@app/core/reducers';
 })
 export class AccountsTabComponent implements OnInit {
 
+  role = 'admin';
+
   @Input()
   section: any;
 
