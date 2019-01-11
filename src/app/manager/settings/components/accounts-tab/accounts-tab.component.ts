@@ -4,6 +4,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
 import { ModalService } from '@app/shared/services';
 import { BsModalRef } from 'ngx-bootstrap';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-accounts-tab',
@@ -17,6 +18,8 @@ export class AccountsTabComponent implements OnInit {
   faPlus = faPlus;
   faEdit = faEdit;
   modalRef: BsModalRef;
+  accountForm: FormGroup;
+  editAccountForm: FormGroup;
 
   @Input()
   id: string;
@@ -27,6 +30,21 @@ export class AccountsTabComponent implements OnInit {
   constructor(
     private modalService: ModalService,
   ) {
+    this.accountForm = new FormGroup({
+      acc_name: new FormControl('', [<any>Validators.required]),
+      user_name: new FormControl('', [<any>Validators.required]),
+      risk: new FormControl(0, [<any>Validators.required]),
+      exchange: new FormControl('bitfinex', [<any>Validators.required]),
+      base_currency: new FormControl('usd', [<any>Validators.required]),
+    });
+
+    this.editAccountForm = new FormGroup({
+      acc_name: new FormControl('', [<any>Validators.required]),
+      user_name: new FormControl('', [<any>Validators.required]),
+      risk: new FormControl(0, [<any>Validators.required]),
+      exchange: new FormControl('bitfinex', [<any>Validators.required]),
+      base_currency: new FormControl('usd', [<any>Validators.required]),
+    });
   }
 
   get accounts() {
@@ -44,7 +62,8 @@ export class AccountsTabComponent implements OnInit {
     // code ...
   }
 
-  edit() {
-
+  edit(account, template: TemplateRef<any>) {
+    this.editAccountForm.patchValue(account);
+    this.openModal(template);
   }
 }
