@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { getGroupsFromSection } from '@app/core/reducers';
 
 @Component({
   selector: 'app-groups-tab',
@@ -11,9 +12,16 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 })
 export class GroupsTabComponent implements OnInit {
 
-  constructor() { }
+  @Input()
+  section: any;
+
+  constructor() {
+  }
+
+  get groups() {
+    return getGroupsFromSection(this.section);
+  }
 
   ngOnInit() {
   }
-
 }

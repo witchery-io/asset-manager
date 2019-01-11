@@ -8,10 +8,9 @@ import {
   AccountsTabComponent,
   GroupsTabComponent,
   AccountsTabAccountComponent,
-  BalanceDetailsComponent,
   GroupsTabAccountComponent,
   GroupsTabGroupComponent,
-  PerCurrencyBalancesComponent,
+  BalanceDetailsComponent,
 } from '@settings/components';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from '@settings/reducers';
@@ -31,7 +30,7 @@ import { TabsModule } from 'ngx-bootstrap';
     BalanceDetailsComponent,
     GroupsTabAccountComponent,
     GroupsTabGroupComponent,
-    PerCurrencyBalancesComponent,
+    BalanceDetailsComponent,
   ],
   imports: [
     CommonModule,

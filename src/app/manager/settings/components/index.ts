@@ -9,4 +9,3 @@ export * from './accounts-tab/accounts-tab-account.component';
 
 /* balance-details */
 export * from './balance-details/balance-details.component';
-export * from './balance-details/per֊currency֊balances.component';
