@@ -4,7 +4,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
 import { ModalService } from '@app/shared/services';
 import { BsModalRef } from 'ngx-bootstrap';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { GroupService } from '@app/core/services';
 
 @Component({
@@ -39,10 +39,6 @@ export class GroupsTabComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
-    this.group = this.groupService.getGroup(this.id);
-  }
-
   get groups() {
     return getGroupsFromSection(this.section);
   }
@@ -51,13 +47,17 @@ export class GroupsTabComponent implements OnInit {
     return getAccountsFromSection(this.accountsS);
   }
 
+  ngOnInit() {
+    this.group = this.groupService.getGroup(this.id);
+  }
+
   openModal(template: TemplateRef<any>, options = {}) {
     this.modalRef = this.modalService.show(template, options);
   }
 
   edit(group, template: TemplateRef<any>) {
     this.formValues = group;
-    this.openModal(template, { class: 'modal-sm' });
+    this.openModal(template, {class: 'modal-sm'});
   }
 
   selectGroup() {
