@@ -60,11 +60,14 @@ export class GroupsTabComponent implements OnInit {
     this.openModal(template, options);
   }
 
-  selectGroup() {
+  selectGroup(id) {
+    debugger
     // select current group
+
   }
 
-  selectAccount() {
+  selectAccount(id) {
+    debugger
     // code ...
   }
 }

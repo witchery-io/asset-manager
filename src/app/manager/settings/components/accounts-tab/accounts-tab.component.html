@@ -27,8 +27,9 @@
         </thead>
         <tbody>
         <tr
+          class="cursor-pointer"
           *ngFor="let account of accounts; index as i"
-          (click)="selectAccount(account)"
+          (click)="selectAccount(account.id)"
           [class.table-active]="account.id === id"
         >
           <th scope="row">{{ i + 1 }}</th>

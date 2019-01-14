@@ -1,6 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-6">
+      <!-- GROUP -->
       <div class="form-group">
         <button
           class="btn btn-xs btn-primary"
@@ -24,7 +25,7 @@
           class="cursor-pointer"
           *ngFor="let group of groups"
           [class.table-active]="group.id === id"
-          (click)="selectGroup(group)"
+          (click)="selectGroup(group.id)"
         >
           <td>{{ group.name }}</td>
           <td>
@@ -53,6 +54,7 @@
     </div>
 
     <div class="col-6">
+      <!-- ACCOUNTS -->
       <div class="form-group">
         <button
           class="btn btn-xs btn-outline-primary"
@@ -74,8 +76,8 @@
         <tr
           class="cursor-pointer"
           *ngFor="let account of (group | async)?.accounts"
-          (click)="selectAccount(account)"
           [class.table-active]="account.id === id"
+          (click)="selectAccount(account.id)"
         >
           <td>{{ account.user_name }}</td>
           <td>{{ account.risk }}</td>

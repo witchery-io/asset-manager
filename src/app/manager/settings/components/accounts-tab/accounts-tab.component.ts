@@ -46,7 +46,8 @@ export class AccountsTabComponent implements OnInit {
     this.openModal(template, options);
   }
 
-  selectAccount() {
+  selectAccount(id) {
+    debugger
     // code ...
   }
 }
