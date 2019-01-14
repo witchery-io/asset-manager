@@ -16,12 +16,15 @@ export class AddAccountFormComponent implements OnInit {
 
   ngOnInit() {
     this.addAccountForm = new FormGroup({
-      account_id: new FormControl('', [<any>Validators.required]),
+      id: new FormControl('', [<any>Validators.required]),
     });
   }
 
-  createAccount() {
-
+  add(values: any, isValid: boolean) {
+    if (isValid) {
+      // emit
+      console.log('AddAccountFormComponent - 26', values);
+    }
   }
 
 }

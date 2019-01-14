@@ -6,6 +6,7 @@
           <app-groups-tab
             [id]="id$ | async"
             [section]="groups$ | async"
+            [accountsS]="accounts$ | async"
           ></app-groups-tab>
         </tab>
         <tab heading="ACCOUNTS" id="accounts" (select)="onSelectTypeTab('accounts')">

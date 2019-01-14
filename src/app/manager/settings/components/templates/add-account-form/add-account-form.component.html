@@ -1,17 +1,15 @@
 <form
   novalidate
   [formGroup]="addAccountForm"
-  (submit)="createAccount(addAccountForm.value, addAccountForm.valid)"
+  (submit)="add(addAccountForm.value, addAccountForm.valid)"
 >
   <div class="form-group">
-    <label for="accounts" class="small">ACCOUNTS</label>
-    <select id="accounts" class="form-control form-control-sm" formControlName="account_id">
-      <option *ngFor="let account of accounts" [value]="account.id">
-        {{ account.user_name }}
-      </option>
+    <label for="accounts" class="small">Accounts</label>
+    <select id="accounts" class="form-control form-control-sm" formControlName="id">
+      <option *ngFor="let account of accounts" [value]="account.id">{{ account.user_name }}</option>
     </select>
   </div>
   <div>
-    <button type="submit" class="btn btn-primary btn-xs float-right">ADD</button>
+    <button type="submit" class="btn btn-primary btn-xs float-right">Add</button>
   </div>
 </form>

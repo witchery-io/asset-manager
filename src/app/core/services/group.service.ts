@@ -12,4 +12,8 @@ export class GroupService {
   getGroups(): Observable<any> {
     return this.http.get(`http://trade.vitanova.online:50089/accounts/groups`);
   }
+
+  getGroup(id): Observable<any> {
+    return this.http.get(`http://trade.vitanova.online:50089/accounts/groups/${ id }`);
+  }
 }

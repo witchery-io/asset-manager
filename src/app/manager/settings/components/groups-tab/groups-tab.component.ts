@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef } from '@angular/core';
-import { getGroupsFromSection } from '@app/core/reducers';
+import { getAccountsFromSection, getGroupsFromSection } from '@app/core/reducers';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
 import { ModalService } from '@app/shared/services';
 import { BsModalRef } from 'ngx-bootstrap';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { GroupService } from '@app/core/services';
 
 @Component({
   selector: 'app-groups-tab',
@@ -19,6 +20,9 @@ export class GroupsTabComponent implements OnInit {
   faEdit = faEdit;
   modalRef: BsModalRef;
 
+  @Input()
+  accountsS: any;
+
   formValues: any;
 
   @Input()
@@ -27,9 +31,16 @@ export class GroupsTabComponent implements OnInit {
   @Input()
   section: any;
 
+  group: Observable<any>;
+
   constructor(
     private modalService: ModalService,
+    private groupService: GroupService,
   ) {
+  }
+
+  ngOnInit() {
+    this.group = this.groupService.getGroup(this.id);
   }
 
   get groups() {
@@ -37,14 +48,7 @@ export class GroupsTabComponent implements OnInit {
   }
 
   get accounts() {
-    return of();
-  }
-
-  get accountsOfGroup() {
-    return [];
-  }
-
-  ngOnInit() {
+    return getAccountsFromSection(this.accountsS);
   }
 
   openModal(template: TemplateRef<any>, options = {}) {
@@ -53,7 +57,6 @@ export class GroupsTabComponent implements OnInit {
 
   edit(group, template: TemplateRef<any>) {
     this.formValues = group;
-    console.log(group);
     this.openModal(template, { class: 'modal-sm' });
   }
 
