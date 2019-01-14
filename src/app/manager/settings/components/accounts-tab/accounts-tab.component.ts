@@ -4,7 +4,6 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
 import { ModalService } from '@app/shared/services';
 import { BsModalRef } from 'ngx-bootstrap';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-accounts-tab',
@@ -14,37 +13,21 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class AccountsTabComponent implements OnInit {
 
-  role = 'admin';
-  faPlus = faPlus;
-  faEdit = faEdit;
-  modalRef: BsModalRef;
-  accountForm: FormGroup;
-  editAccountForm: FormGroup;
-
   @Input()
   id: string;
 
   @Input()
   section: any;
 
+  role = 'admin';
+  faPlus = faPlus;
+  faEdit = faEdit;
+  modalRef: BsModalRef;
+  formValues: any;
+
   constructor(
     private modalService: ModalService,
   ) {
-    this.accountForm = new FormGroup({
-      acc_name: new FormControl('', [<any>Validators.required]),
-      user_name: new FormControl('', [<any>Validators.required]),
-      risk: new FormControl(0, [<any>Validators.required]),
-      exchange: new FormControl('bitfinex', [<any>Validators.required]),
-      base_currency: new FormControl('usd', [<any>Validators.required]),
-    });
-
-    this.editAccountForm = new FormGroup({
-      acc_name: new FormControl('', [<any>Validators.required]),
-      user_name: new FormControl('', [<any>Validators.required]),
-      risk: new FormControl(0, [<any>Validators.required]),
-      exchange: new FormControl('bitfinex', [<any>Validators.required]),
-      base_currency: new FormControl('usd', [<any>Validators.required]),
-    });
   }
 
   get accounts() {
@@ -58,12 +41,12 @@ export class AccountsTabComponent implements OnInit {
     this.modalRef = this.modalService.show(template, options);
   }
 
-  selectAccount() {
-    // code ...
+  edit(account, template: TemplateRef<any>) {
+    this.formValues = account;
+    this.openModal(template, {class: 'modal-sm'});
   }
 
-  edit(account, template: TemplateRef<any>) {
-    this.editAccountForm.patchValue(account);
-    this.openModal(template);
+  selectAccount() {
+    // code ...
   }
 }

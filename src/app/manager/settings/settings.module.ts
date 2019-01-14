@@ -19,6 +19,7 @@ import { OrdersEffects } from '@settings/effects/orders.effects';
 import { PositionsEffects } from '@settings/effects/positions.effects';
 import { BalanceService, ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
 import { TabsModule } from 'ngx-bootstrap';
+import { AccountFormComponent } from './components/templates/account-form/account-form.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { TabsModule } from 'ngx-bootstrap';
     BalanceDetailsComponent,
     AddAccountFormComponent,
     GroupFormComponent,
+    AccountFormComponent,
   ],
   imports: [
     CommonModule,

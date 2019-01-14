@@ -2,11 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-group-form',
-  templateUrl: './group-form.component.html',
-  styleUrls: ['./group-form.component.scss']
+  selector: 'app-account-form',
+  templateUrl: './account-form.component.html',
+  styleUrls: ['./account-form.component.scss']
 })
-export class GroupFormComponent implements OnInit {
+export class AccountFormComponent implements OnInit {
 
   @Input()
   formType: string;
@@ -14,23 +14,22 @@ export class GroupFormComponent implements OnInit {
   @Input()
   values = {};
 
-  groupForm: FormGroup;
-  baseCurrency = ['usd', 'btc', 'eth', 'eur'];
+  accountForm: FormGroup;
   exchanges = ['bitfinex', 'cexio'];
-  allocationMethod = ['fix', 'percent', 'equity'];
+  baseCurrency = ['usd', 'btc', 'eth', 'eur'];
 
   constructor() { }
 
   ngOnInit() {
-    this.groupForm = new FormGroup({
-      name: new FormControl('', [<any>Validators.required]),
-      allocation_method: new FormControl('0', [<any>Validators.required]),
-      active: new FormControl(true, [<any>Validators.required]),
+    this.accountForm = new FormGroup({
+      acc_name: new FormControl('', [<any>Validators.required]),
+      user_name: new FormControl('', [<any>Validators.required]),
+      risk: new FormControl(0, [<any>Validators.required]),
       exchange: new FormControl('bitfinex', [<any>Validators.required]),
       base_currency: new FormControl('usd', [<any>Validators.required]),
     });
 
-    this.groupForm.patchValue(this.values);
+    this.accountForm.patchValue(this.values);
   }
 
   close() {

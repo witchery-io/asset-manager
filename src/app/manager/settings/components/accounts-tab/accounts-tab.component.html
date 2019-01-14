@@ -5,7 +5,7 @@
         <button
           class="btn btn-primary btn-xs"
           [disabled]="role !== 'admin'"
-          (click)="openModal(accountModal)"
+          (click)="openModal(accountModal, { class: 'modal-sm' })"
         >
           <fa-icon [icon]="faPlus"></fa-icon>
           Create account
@@ -37,7 +37,7 @@
           <td>{{ account.exchange }}</td>
           <td>{{ account.base_currency }}</td>
           <td>{{ account.risk }}</td>
-          <td>{{ account.created_at | date:'shortDate' }}</td>
+          <td>{{ account.created_at | date: 'shortDate' }}</td>
           <td>
           <span class="switch switch-sm">
           <input
@@ -65,99 +65,25 @@
   </div>
 </div>
 
-
-<!-- todo ::: delete -->
-<ng-template #accountModal class="modal-sm">
+<ng-template #accountModal>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Create account</h4>
+    <h4 class="modal-title">Create Account</h4>
   </div>
   <div class="modal-body">
-    <form novalidate [formGroup]="accountForm" (submit)="createAccount(accountForm.value, accountForm.valid)">
-      <div class="form-group">
-        <label>Acc. Name</label>
-        <input type="text" class="form-control" placeholder="Acc. Name" formControlName="acc_name">
-      </div>
-      <div class="form-group">
-        <label>User Name</label>
-        <input type="text" class="form-control" placeholder="User Name" formControlName="user_name">
-      </div>
-      <div class="form-group">
-        <label>Risk</label>
-        <input type="text" class="form-control" placeholder="Risk" formControlName="risk">
-      </div>
-      <div class="form-group">
-        <label for="account_exchange">Exchange</label>
-        <select id="account_exchange" class="form-control" formControlName="exchange">
-          <option selected value="bitfinex">Bitfinex</option>
-          <option value="cexio">CEX.IO</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="account_base_currency">Base currency</label>
-        <select id="account_base_currency" class="form-control" formControlName="base_currency">
-          <option selected value="usd">USD</option>
-          <option value="BTC">BTC</option>
-          <option value="ETH">ETH</option>
-          <option value="EUR">EUR</option>
-        </select>
-      </div>
-      <div>
-        <button
-          type="button"
-          class="btn btn-outline-primary"
-          aria-label="Close"
-          (click)="modalRef.hide()">CANCEL
-        </button>
-        <button type="submit" class="btn btn-primary float-right">ADD</button>
-      </div>
-    </form>
+    <app-account-form
+      [formType]="'create'"
+    ></app-account-form>
   </div>
 </ng-template>
 
-<!-- todo ::: delete -->
 <ng-template #editAccountModal>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Edit account</h4>
+    <h4 class="modal-title">Edit Account</h4>
   </div>
   <div class="modal-body">
-    <form novalidate [formGroup]="editAccountForm" (submit)="editAccount(editAccountForm.value, editAccountForm.valid)">
-      <div class="form-group">
-        <label>Acc. Name</label>
-        <input type="text" class="form-control" placeholder="Acc. Name" formControlName="acc_name">
-      </div>
-      <div class="form-group">
-        <label>User Name</label>
-        <input type="text" class="form-control" placeholder="User Name" formControlName="user_name">
-      </div>
-      <div class="form-group">
-        <label>Risk</label>
-        <input type="text" class="form-control" placeholder="Risk" formControlName="risk">
-      </div>
-      <div class="form-group">
-        <label for="edit_account_exchange">Exchange</label>
-        <select id="edit_account_exchange" class="form-control" formControlName="exchange">
-          <option selected value="bitfinex">Bitfinex</option>
-          <option value="cexio">CEX.IO</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="edit_account_base_currency">Base currency</label>
-        <select id="edit_account_base_currency" class="form-control" formControlName="base_currency">
-          <option selected value="usd">USD</option>
-          <option value="BTC">BTC</option>
-          <option value="ETH">ETH</option>
-          <option value="EUR">EUR</option>
-        </select>
-      </div>
-      <div>
-        <button
-          type="button"
-          class="btn btn-outline-primary"
-          aria-label="Close"
-          (click)="modalRef.hide()">CANCEL
-        </button>
-        <button type="submit" class="btn btn-primary float-right">ADD</button>
-      </div>
-    </form>
+    <app-account-form
+      [values]="formValues"
+      [formType]="'update'"
+    ></app-account-form>
   </div>
 </ng-template>

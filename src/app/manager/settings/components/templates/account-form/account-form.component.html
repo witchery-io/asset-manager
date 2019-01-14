@@ -1,13 +1,27 @@
-<form novalidate [formGroup]="groupForm">
+<form novalidate [formGroup]="accountForm">
   <div class="form-group">
-    <label for="name" class="small">Group Name</label>
-    <input id="name" type="text" class="form-control form-control-sm" formControlName="name" placeholder="Group Name">
+    <label for="acc_name" class="small">Acc. Name</label>
+    <input
+      id="acc_name"
+      type="text"
+      class="form-control form-control-sm"
+      placeholder="Acc. Name"
+      formControlName="acc_name"
+    >
   </div>
   <div class="form-group">
-    <label for="allocation_method" class="small">Allocation Method</label>
-    <select class="form-control form-control-sm" id="allocation_method" formControlName="allocation_method">
-      <option *ngFor="let am of allocationMethod; index as i" [value]="i">{{ am | titlecase }}</option>
-    </select>
+    <label for="user_name" class="small">User Name</label>
+    <input
+      id="user_name"
+      type="text"
+      class="form-control form-control-sm"
+      placeholder="User Name"
+      formControlName="user_name"
+    >
+  </div>
+  <div class="form-group">
+    <label for="risk" class="small">Risk</label>
+    <input id="risk" type="text" class="form-control form-control-sm" placeholder="Risk" formControlName="risk">
   </div>
   <div class="form-group">
     <label for="exchange" class="small">Exchange</label>
@@ -24,23 +38,23 @@
   <div>
     <button
       type="button"
-      class="btn btn-primary btn-xs float-left"
+      class="btn btn-primary btn-xs"
       aria-label="Close"
       (click)="close($event)"
-    >Cancel
+    >CANCEL
     </button>
     <button
       *ngIf="formType === 'create'"
       type="submit"
       class="btn btn-success btn-xs float-right"
-      (click)="create(groupForm.value, groupForm.valid)"
-    >Create
+      (click)="create(accountForm.value, accountForm.valid)"
+    >Add
     </button>
     <button
       *ngIf="formType === 'update'"
       type="submit"
       class="btn btn-success btn-xs float-right"
-      (click)="update(groupForm.value, groupForm.valid)"
+      (click)="update(accountForm.value, accountForm.valid)"
     >Update
     </button>
   </div>
