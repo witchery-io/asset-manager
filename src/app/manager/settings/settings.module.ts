@@ -8,6 +8,8 @@ import {
   AccountsTabComponent,
   GroupsTabComponent,
   BalanceDetailsComponent,
+  AddAccountFormComponent,
+  GroupFormComponent,
 } from '@settings/components';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from '@settings/reducers';
@@ -25,6 +27,8 @@ import { TabsModule } from 'ngx-bootstrap';
     GroupsTabComponent,
     BalanceDetailsComponent,
     BalanceDetailsComponent,
+    AddAccountFormComponent,
+    GroupFormComponent,
   ],
   imports: [
     CommonModule,

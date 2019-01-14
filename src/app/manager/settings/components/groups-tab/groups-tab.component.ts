@@ -4,7 +4,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
 import { ModalService } from '@app/shared/services';
 import { BsModalRef } from 'ngx-bootstrap';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-groups-tab',
@@ -18,9 +18,9 @@ export class GroupsTabComponent implements OnInit {
   faPlus = faPlus;
   faEdit = faEdit;
   modalRef: BsModalRef;
-  groupForm: FormGroup;
-  addAccountForm: FormGroup;
-  editGroupForm: FormGroup;
+
+  formValues: any;
+
   @Input()
   id: string;
 
@@ -32,34 +32,28 @@ export class GroupsTabComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
-    this.groupForm = new FormGroup({
-      name: new FormControl('', [<any>Validators.required]),
-      allocation_method: new FormControl(0, [<any>Validators.required]),
-      active: new FormControl(true, [<any>Validators.required]),
-      exchange: new FormControl('bitfinex', [<any>Validators.required]),
-      base_currency: new FormControl('usd', [<any>Validators.required]),
-    });
-
-    this.editGroupForm = new FormGroup({
-      name: new FormControl('', [<any>Validators.required]),
-      allocation_method: new FormControl(0, [<any>Validators.required]),
-      active: new FormControl(true, [<any>Validators.required]),
-      exchange: new FormControl('bitfinex', [<any>Validators.required]),
-      base_currency: new FormControl('usd', [<any>Validators.required]),
-    });
-
-    this.addAccountForm = new FormGroup({
-      account_id: new FormControl('', [<any>Validators.required]),
-    });
-  }
-
   get groups() {
     return getGroupsFromSection(this.section);
   }
 
+  get accounts() {
+    return of();
+  }
+
+  get accountsOfGroup() {
+    return [];
+  }
+
+  ngOnInit() {
+  }
+
   openModal(template: TemplateRef<any>, options = {}) {
     this.modalRef = this.modalService.show(template, options);
+  }
+
+  edit(group, template: TemplateRef<any>) {
+    this.formValues = group;
+    this.openModal(template, { class: 'modal-sm' });
   }
 
   selectGroup() {
@@ -68,18 +62,5 @@ export class GroupsTabComponent implements OnInit {
 
   selectAccount() {
     // code ...
-  }
-
-  edit(group, template: TemplateRef<any>) {
-    this.editGroupForm.patchValue(group);
-    this.openModal(template);
-  }
-
-  get accounts() {
-    return [];
-  }
-
-  get accountsOfGroup() {
-    return [];
   }
 }
