@@ -1,7 +1,7 @@
 <form novalidate [formGroup]="groupForm">
   <div class="form-group">
     <label for="name" class="small">Group Name</label>
-    <input id="name" type="text" class="form-control form-control-sm" formControlName="name" placeholder="Name">
+    <input id="name" type="text" class="form-control form-control-sm" formControlName="name" placeholder="Group Name">
   </div>
   <div class="form-group">
     <label for="allocation_method" class="small">Allocation Method</label>
@@ -34,14 +34,14 @@
       type="submit"
       class="btn btn-primary btn-xs float-right"
       (submit)="createGroup(groupForm.value, groupForm.valid)"
-    >Create group
+    >Create
     </button>
     <button
       *ngIf="formType === 'edit'"
       type="submit"
       class="btn btn-primary btn-xs float-right"
       (submit)="editGroup(groupForm.value, groupForm.valid)"
-    >Edit group
+    >Update
     </button>
   </div>
 </form>
