@@ -88,20 +88,23 @@
 
 <ng-template #groupModal>
   <div class="modal-header">
-    <h4 class="modal-title">Create group</h4>
+    <h4 class="modal-title">Create Group</h4>
   </div>
   <div class="modal-body">
-    <app-group-form></app-group-form>
+    <app-group-form
+      [formType]="'create'"
+    ></app-group-form>
   </div>
 </ng-template>
 
 <ng-template #editGroupModal>
   <div class="modal-header">
-    <h4 class="modal-title">Edit group</h4>
+    <h4 class="modal-title">Edit Group</h4>
   </div>
   <div class="modal-body">
     <app-group-form
       [values]="formValues"
+      [formType]="'edit'"
     ></app-group-form>
   </div>
 </ng-template>

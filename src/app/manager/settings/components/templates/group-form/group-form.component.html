@@ -1,30 +1,24 @@
-<form novalidate [formGroup]="groupForm" (submit)="createGroup(groupForm.value, groupForm.valid)">
+<form novalidate [formGroup]="groupForm">
   <div class="form-group">
-    <label for="name" class="small">Name</label>
+    <label for="name" class="small">Group Name</label>
     <input id="name" type="text" class="form-control form-control-sm" formControlName="name" placeholder="Name">
   </div>
   <div class="form-group">
-    <label for="allocation_method" class="small">Allocation method</label>
+    <label for="allocation_method" class="small">Allocation Method</label>
     <select class="form-control form-control-sm" id="allocation_method" formControlName="allocation_method">
-      <option selected value="0">Fix</option>
-      <option value="1">Percent</option>
-      <option value="2">Equity</option>
+      <option *ngFor="let am of allocationMethod; index as i" [value]="i">{{ am | titlecase }}</option>
     </select>
   </div>
   <div class="form-group">
     <label for="exchange" class="small">Exchange</label>
     <select class="form-control form-control-sm" id="exchange" formControlName="exchange">
-      <option selected value="bitfinex">Bitfinex</option>
-      <option value="cexio">CEX.IO</option>
+      <option *ngFor="let exchange of exchanges" [value]="exchange">{{ exchange | uppercase }}</option>
     </select>
   </div>
   <div class="form-group">
     <label for="base_currency" class="small">Base currency</label>
     <select class="form-control form-control-sm" id="base_currency" formControlName="base_currency">
-      <option selected value="usd">USD</option>
-      <option value="btc">BTC</option>
-      <option value="eth">ETH</option>
-      <option value="eur">EUR</option>
+      <option *ngFor="let bc of baseCurrency" [value]="bc">{{ bc | uppercase }}</option>
     </select>
   </div>
   <div>
@@ -32,8 +26,22 @@
       type="button"
       class="btn btn-outline-primary btn-xs float-left"
       aria-label="Close"
-      (click)="close($event)">Cancel
+      (click)="close($event)"
+    >Cancel
     </button>
-    <button type="submit" class="btn btn-primary btn-xs float-right">Create group</button>
+    <button
+      *ngIf="formType === 'create'"
+      type="submit"
+      class="btn btn-primary btn-xs float-right"
+      (submit)="createGroup(groupForm.value, groupForm.valid)"
+    >Create group
+    </button>
+    <button
+      *ngIf="formType === 'edit'"
+      type="submit"
+      class="btn btn-primary btn-xs float-right"
+      (submit)="editGroup(groupForm.value, groupForm.valid)"
+    >Edit group
+    </button>
   </div>
 </form>

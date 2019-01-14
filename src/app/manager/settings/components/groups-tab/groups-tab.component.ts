@@ -53,6 +53,7 @@ export class GroupsTabComponent implements OnInit {
 
   edit(group, template: TemplateRef<any>) {
     this.formValues = group;
+    console.log(group);
     this.openModal(template, { class: 'modal-sm' });
   }
 

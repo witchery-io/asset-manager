@@ -9,15 +9,22 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class GroupFormComponent implements OnInit {
 
   @Input()
+  formType: string;
+
+  @Input()
   values = {};
 
   groupForm: FormGroup;
+  baseCurrency = ['usd', 'btc', 'eth', 'eur'];
+  exchanges = ['bitfinex', 'cexio'];
+  allocationMethod = ['fix', 'percent', 'equity'];
+
   constructor() { }
 
   ngOnInit() {
     this.groupForm = new FormGroup({
       name: new FormControl('', [<any>Validators.required]),
-      allocation_method: new FormControl(0, [<any>Validators.required]),
+      allocation_method: new FormControl('0', [<any>Validators.required]),
       active: new FormControl(true, [<any>Validators.required]),
       exchange: new FormControl('bitfinex', [<any>Validators.required]),
       base_currency: new FormControl('usd', [<any>Validators.required]),
@@ -26,12 +33,20 @@ export class GroupFormComponent implements OnInit {
     this.groupForm.patchValue(this.values);
   }
 
-  createGroup() {
+  close() {
 
   }
 
-  close() {
+  createGroup(values, is_valid) {
+    if (is_valid) {
+      // emit
+    }
+  }
 
+  editGroup(values, is_valid) {
+    if (is_valid) {
+      // emit
+    }
   }
 
 }
