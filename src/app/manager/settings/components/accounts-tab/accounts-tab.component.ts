@@ -41,9 +41,9 @@ export class AccountsTabComponent implements OnInit {
     this.modalRef = this.modalService.show(template, options);
   }
 
-  edit(account, template: any) {
+  edit(account, template: any, options = {}) {
     this.formValues = account;
-    this.openModal(template, {class: 'modal-sm'});
+    this.openModal(template, options);
   }
 
   selectAccount() {

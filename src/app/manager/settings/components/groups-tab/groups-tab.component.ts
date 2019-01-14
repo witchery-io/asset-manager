@@ -55,9 +55,9 @@ export class GroupsTabComponent implements OnInit {
     this.modalRef = this.modalService.show(template, options);
   }
 
-  edit(group, template: any) {
+  edit(group, template: any, options = {}) {
     this.formValues = group;
-    this.openModal(template, {class: 'modal-sm'});
+    this.openModal(template, options);
   }
 
   selectGroup() {
