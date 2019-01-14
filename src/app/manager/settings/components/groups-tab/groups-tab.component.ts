@@ -6,6 +6,12 @@ import { ModalService } from '@app/shared/services';
 import { BsModalRef } from 'ngx-bootstrap';
 import { Observable } from 'rxjs';
 import { GroupService } from '@app/core/services';
+import { SettingsSet } from '@settings/actions/settings.actions';
+import { Store } from '@ngrx/store';
+import { SettingsState } from '@settings/reducers';
+import { LoadBalance } from '@settings/actions/balance.actions';
+import { LoadOrders } from '@settings/actions/orders.actions';
+import { LoadPositions } from '@settings/actions/positions.actions';
 
 @Component({
   selector: 'app-groups-tab',
@@ -36,6 +42,7 @@ export class GroupsTabComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private groupService: GroupService,
+    private store: Store<SettingsState>,
   ) {
   }
 
@@ -61,13 +68,30 @@ export class GroupsTabComponent implements OnInit {
   }
 
   selectGroup(id) {
-    debugger
-    // select current group
+    /*
+    * Set current trading id and type
+    * */
+    this.store.dispatch(new SettingsSet({tradingId: id, tradingType: 'groups', groupByPair: false}));
 
+    /*
+    * Load data
+    * */
+    this.store.dispatch(new LoadBalance({tradingId: id, tradingType: 'groups', groupByPair: false}));
+    this.store.dispatch(new LoadOrders({tradingId: id, tradingType: 'groups', groupByPair: false}));
+    this.store.dispatch(new LoadPositions({tradingId: id, tradingType: 'groups', groupByPair: false}));
   }
 
   selectAccount(id) {
-    debugger
-    // code ...
+    /*
+    * Set current trading id and type
+    * */
+    this.store.dispatch(new SettingsSet({tradingId: id, tradingType: 'accounts', groupByPair: false}));
+
+    /*
+    * Load data
+    * */
+    this.store.dispatch(new LoadBalance({tradingId: id, tradingType: 'accounts', groupByPair: false}));
+    this.store.dispatch(new LoadOrders({tradingId: id, tradingType: 'accounts', groupByPair: false}));
+    this.store.dispatch(new LoadPositions({tradingId: id, tradingType: 'accounts', groupByPair: false}));
   }
 }

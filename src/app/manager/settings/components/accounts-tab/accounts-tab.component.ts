@@ -4,6 +4,12 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
 import { ModalService } from '@app/shared/services';
 import { BsModalRef } from 'ngx-bootstrap';
+import { SettingsSet } from '@settings/actions/settings.actions';
+import { LoadBalance } from '@settings/actions/balance.actions';
+import { LoadOrders } from '@settings/actions/orders.actions';
+import { LoadPositions } from '@settings/actions/positions.actions';
+import { Store } from '@ngrx/store';
+import { SettingsState } from '@settings/reducers';
 
 @Component({
   selector: 'app-accounts-tab',
@@ -27,6 +33,7 @@ export class AccountsTabComponent implements OnInit {
 
   constructor(
     private modalService: ModalService,
+    private store: Store<SettingsState>,
   ) {
   }
 
@@ -47,7 +54,16 @@ export class AccountsTabComponent implements OnInit {
   }
 
   selectAccount(id) {
-    debugger
-    // code ...
+    /*
+    * Set current trading id and type
+    * */
+    this.store.dispatch(new SettingsSet({tradingId: id, tradingType: 'accounts', groupByPair: false}));
+
+    /*
+    * Load data
+    * */
+    this.store.dispatch(new LoadBalance({tradingId: id, tradingType: 'accounts', groupByPair: false}));
+    this.store.dispatch(new LoadOrders({tradingId: id, tradingType: 'accounts', groupByPair: false}));
+    this.store.dispatch(new LoadPositions({tradingId: id, tradingType: 'accounts', groupByPair: false}));
   }
 }
