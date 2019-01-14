@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap';
 import { OrderContext, OrderDirection, OrderType, Role } from '@app/shared/enums';
@@ -81,7 +81,7 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  openModal(template: TemplateRef<any>, options = {}) {
+  openModal(template: any, options = {}) {
     this.modalRef = this.modalService.show(template, options);
   }
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef, } from '@angular/core';
+import { Component, Input, OnInit, } from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
 import { BsModalRef, } from 'ngx-bootstrap';
 import { ModalService, OrdersService } from '@app/shared/services';
@@ -39,7 +39,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
   }
 
-  openModal(template: TemplateRef<any>, params = {}) {
+  openModal(template: any, params = {}) {
     this.modalRef = this.modalService.show(template, params);
   }
 

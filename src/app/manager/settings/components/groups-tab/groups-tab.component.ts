@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { getAccountsFromSection, getGroupsFromSection } from '@app/core/reducers';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
@@ -51,11 +51,11 @@ export class GroupsTabComponent implements OnInit {
     this.group = this.groupService.getGroup(this.id);
   }
 
-  openModal(template: TemplateRef<any>, options = {}) {
+  openModal(template: any, options = {}) {
     this.modalRef = this.modalService.show(template, options);
   }
 
-  edit(group, template: TemplateRef<any>) {
+  edit(group, template: any) {
     this.formValues = group;
     this.openModal(template, {class: 'modal-sm'});
   }

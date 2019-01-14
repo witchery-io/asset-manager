@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { OrderDirection, OrderType, Role } from '@app/shared/enums';
 import { BsModalRef } from 'ngx-bootstrap';
 import { NotifierService } from 'angular-notifier';
@@ -108,7 +108,7 @@ export class PositionComponent implements OnInit {
     }
   }
 
-  openModal(template: TemplateRef<any>, options = {}) {
+  openModal(template: any, options = {}) {
     this.modalRef = this.modalService.show(template, options);
   }
 

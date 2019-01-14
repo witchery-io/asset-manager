@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { getBalanceFromSection } from '@trading/state/trading.selectors';
 import { getAccountsFromSection, getGroupsFromSection } from '@app/core/reducers';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -33,16 +33,6 @@ export class BalanceComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
-    this.transferForm = this.fb.group({
-      group: new FormControl(''),
-      account: new FormControl(''),
-      market1: new FormControl('', [<any>Validators.required]),
-      market2: new FormControl('', [<any>Validators.required]),
-      amount: new FormControl(0, [<any>Validators.required]),
-    });
-  }
-
   get balance() {
     return getBalanceFromSection(this.section);
   }
@@ -55,8 +45,18 @@ export class BalanceComponent implements OnInit {
     return getGroupsFromSection(this.groupsS);
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  ngOnInit() {
+    this.transferForm = this.fb.group({
+      group: new FormControl(''),
+      account: new FormControl(''),
+      market1: new FormControl('', [<any>Validators.required]),
+      market2: new FormControl('', [<any>Validators.required]),
+      amount: new FormControl(0, [<any>Validators.required]),
+    });
+  }
+
+  openModal(template: any, params = {}) {
+    this.modalRef = this.modalService.show(template, params);
   }
 
   chooseMarker(market) {
@@ -65,7 +65,7 @@ export class BalanceComponent implements OnInit {
 
   onTransfer(model: any, is_Valid: boolean) {
     if (is_Valid) {
-      const model2 = { ...model, ...{ currency: this.currency } };
+      const model2 = {...model, ...{currency: this.currency}};
       console.log(model2);
       this.modalRef.hide();
     }
