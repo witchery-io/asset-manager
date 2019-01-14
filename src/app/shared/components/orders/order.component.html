@@ -20,7 +20,7 @@
         [disabled]="role !== ROLE.ADMIN"
         class="btn btn-danger btn-xs ml-1"
         (click)="openModal(cancelOrder, { class: 'modal-sm' })"
-      >CANCEL
+      >Cancel
       </button>
     </td>
     <th class="col">
@@ -95,14 +95,14 @@
           class="btn btn-primary btn-xs"
           aria-label="Close"
           (click)="modalRef.hide()"
-        >CANCEL
+        >Cancel
         </button>
         <button
           [disabled]="role !== ROLE.ADMIN"
           type="submit"
           class="btn btn-success float-right btn-xs"
           (click)="orderApprove(modifyForm.value, modifyForm.valid)"
-        >APPROVE
+        >Approve
         </button>
       </div>
     </form>
