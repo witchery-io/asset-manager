@@ -57,7 +57,7 @@ export class AccountsTabComponent implements OnInit {
     /*
     * Set current trading id and type
     * */
-    // this.store.dispatch(new SettingsSet({tradingId: id, tradingType: 'accounts', groupByPair: false}));
+    this.store.dispatch(new SettingsSet({tradingId: id, tradingType: 'accounts', groupByPair: false}));
 
     /*
     * Load data
