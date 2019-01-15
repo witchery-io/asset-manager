@@ -7,13 +7,14 @@ export class GroupService {
 
   constructor(
     private http: HttpClient,
-  ) { }
+  ) {
+  }
 
   getGroups(): Observable<any> {
     return this.http.get(`http://trade.vitanova.online:50089/accounts/groups`);
   }
 
   getGroup(id): Observable<any> {
-    return this.http.get(`http://trade.vitanova.online:50089/accounts/groups/${ id }`);
+    return this.http.get(`http://trade.vitanova.online:50089/accounts/groups/${id}`);
   }
 }
