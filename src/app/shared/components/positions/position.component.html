@@ -11,7 +11,7 @@
         [disabled]="role !== ROLE.ADMIN"
         class="btn btn-xs btn-danger"
         (click)="orderStop(tradingModal)"
-      >ADD
+      >Add
       </button>
     </td>
     <td class="col">
@@ -19,7 +19,7 @@
         [disabled]="role !== ROLE.ADMIN"
         class="btn btn-xs btn-warning"
         (click)="orderLimit(tradingModal)"
-      >ADD
+      >Add
       </button>
     </td>
     <td class="col">{{ feeOrSwap | number }}</td>
@@ -33,7 +33,7 @@
         [disabled]="role !== ROLE.ADMIN"
         class="btn btn-danger btn-xs"
         (click)="openModal(closeOrderModal, { class: 'modal-sm' })"
-      >CLOSE
+      >Close
       </button>
     </td>
     <th class="col">

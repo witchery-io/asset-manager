@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Settings } from '@trading/reducers/settings.reducers';
+import { Settings } from '@settings/reducers/settings.reducers';
 
 export const SETTINGS_SET = '[SETTINGS] Settings Set';
 export const SETTINGS_UPDATE = '[SETTINGS] Settings Update';
