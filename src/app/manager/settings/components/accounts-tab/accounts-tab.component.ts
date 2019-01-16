@@ -11,6 +11,7 @@ import { LoadPositions } from '@settings/actions/positions.actions';
 import { LoadAccount } from '@settings/actions/account.actions';
 import { Store } from '@ngrx/store';
 import { SettingsState } from '@settings/reducers';
+import { getAccountFromSection } from '@settings/state/settings.selectors';
 
 @Component({
   selector: 'app-accounts-tab',
@@ -26,6 +27,9 @@ export class AccountsTabComponent implements OnInit {
   @Input()
   section: any;
 
+  @Input()
+  accountS: any;
+
   role = 'admin';
   faPlus = faPlus;
   faEdit = faEdit;
@@ -38,12 +42,16 @@ export class AccountsTabComponent implements OnInit {
   ) {
   }
 
+  ngOnInit() {
+    this.store.dispatch(new LoadAccount(this.id));
+  }
+
   get accounts() {
     return getAccountsFromSection(this.section);
   }
 
-  ngOnInit() {
-    this.store.dispatch(new LoadAccount(this.id));
+  get account() {
+    return getAccountFromSection(this.accountS);
   }
 
   openModal(template: any, options = {}) {

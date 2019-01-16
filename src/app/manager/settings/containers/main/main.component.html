@@ -5,6 +5,7 @@
         <tab heading="GROUPS" id="groups" (select)="onSelectTypeTab('groups')">
           <app-groups-tab
             [id]="id$ | async"
+            [groupS]="group$ | async"
             [section]="groups$ | async"
             [accountsS]="accounts$ | async"
           ></app-groups-tab>
@@ -12,6 +13,7 @@
         <tab heading="ACCOUNTS" id="accounts" (select)="onSelectTypeTab('accounts')">
           <app-accounts-tab
             [id]="id$ | async"
+            [accountS]="account$ | async"
             [section]="accounts$ | async"
           ></app-accounts-tab>
         </tab>

@@ -44,6 +44,9 @@ export class MainComponent implements OnInit {
   type$: Observable<string>;
   id$: Observable<string>;
 
+  group$: Observable<any>;
+  account$: Observable<any>;
+
   _defaultTabIndex = 0;
   groupByPair = false;
 
@@ -69,6 +72,9 @@ export class MainComponent implements OnInit {
 
     this.type$ = this.store.pipe(select(Select.getType));
     this.id$ = this.store.pipe(select(Select.getId));
+
+    this.group$ = this.store.pipe(select(Select.getGroup));
+    this.account$ = this.store.pipe(select(Select.getAccount));
   }
 
   ngOnInit() {

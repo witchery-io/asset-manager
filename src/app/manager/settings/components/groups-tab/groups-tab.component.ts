@@ -12,6 +12,7 @@ import { LoadPositions } from '@settings/actions/positions.actions';
 import { LoadGroup } from '@settings/actions/group.actions';
 import { Store } from '@ngrx/store';
 import { SettingsState } from '@settings/reducers';
+import { getGroupFromSection } from '@settings/state/settings.selectors';
 
 @Component({
   selector: 'app-groups-tab',
@@ -37,6 +38,9 @@ export class GroupsTabComponent implements OnInit {
   @Input()
   section: any;
 
+  @Input()
+  groupS: any;
+
 
   constructor(
     private modalService: ModalService,
@@ -55,6 +59,10 @@ export class GroupsTabComponent implements OnInit {
 
   get accounts() {
     return getAccountsFromSection(this.accountsS);
+  }
+
+  get group() {
+    return getGroupFromSection(this.groupS);
   }
 
   openModal(template: any, options = {}) {

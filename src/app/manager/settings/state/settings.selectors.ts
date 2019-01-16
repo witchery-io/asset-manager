@@ -34,12 +34,12 @@ export const getSettings = createSelector(getSettingsState, (state: SettingsStat
 export const getId = createSelector(getSettings, (state: fromSettings.State) => state.id);
 export const getType = createSelector(getSettings, (state: fromSettings.State) => state.type);
 
+export const getAccount = createSelector(getSettingsState, (state: SettingsState) => state.account);
+export const getGroup = createSelector(getSettingsState, (state: SettingsState) => state.group);
 
 /**
  * get Entities
  */
-export const getOrdersFromSection = (section: fromOrders.State) => Object.values(section.entities);
-export const getPositionsFromSection = (section: fromPositions.State) => Object.values(section.entities);
 export const getBalanceFromSection = (section: fromBalance.State) => section.data;
 export const getAccountFromSection = (section: fromAccount.State) => section.data;
 export const getGroupFromSection = (section: fromGroup.State) => section.data;
