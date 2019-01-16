@@ -12,6 +12,7 @@ import { LoadPositions } from '@settings/actions/positions.actions';
 import { Store } from '@ngrx/store';
 import { SettingsState } from '@settings/reducers';
 import { getGroupFromSection } from '@settings/state/settings.selectors';
+import { LoadGroup } from '@settings/actions/group.actions';
 
 @Component({
   selector: 'app-groups-tab',
@@ -73,6 +74,7 @@ export class GroupsTabComponent implements OnInit {
     * Set current trading id and type
     * */
     this.store.dispatch(new SettingsSet({id: id, type: 'groups', groupByPair: false}));
+    this.store.dispatch(new LoadGroup(id));
 
     /*
     * Load data
@@ -87,6 +89,7 @@ export class GroupsTabComponent implements OnInit {
     * Set current trading id and type
     * */
     this.store.dispatch(new SettingsSet({id: id, type: 'groups', groupByPair: false}));
+    this.store.dispatch(new LoadGroup(id));
 
     /*
     * Load data

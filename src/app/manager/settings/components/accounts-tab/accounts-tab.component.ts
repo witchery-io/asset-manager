@@ -11,6 +11,7 @@ import { LoadPositions } from '@settings/actions/positions.actions';
 import { Store } from '@ngrx/store';
 import { SettingsState } from '@settings/reducers';
 import { getAccountFromSection } from '@settings/state/settings.selectors';
+import { LoadAccount } from '@settings/actions/account.actions';
 
 @Component({
   selector: 'app-accounts-tab',
@@ -63,6 +64,7 @@ export class AccountsTabComponent implements OnInit {
     * Set current trading id and type
     * */
     this.store.dispatch(new SettingsSet({id: id, type: 'accounts', groupByPair: false}));
+    this.store.dispatch(new LoadAccount(id));
 
     /*
     * Load data
