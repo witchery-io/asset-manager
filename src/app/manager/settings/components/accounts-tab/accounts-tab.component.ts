@@ -10,6 +10,7 @@ import { LoadOrders } from '@settings/actions/orders.actions';
 import { LoadPositions } from '@settings/actions/positions.actions';
 import { Store } from '@ngrx/store';
 import { SettingsState } from '@settings/reducers';
+import { getAccountFromSection } from '@settings/state/settings.selectors';
 
 @Component({
   selector: 'app-accounts-tab',
@@ -20,7 +21,7 @@ import { SettingsState } from '@settings/reducers';
 export class AccountsTabComponent implements OnInit {
 
   @Input()
-  id: string;
+  accountS: any;
 
   @Input()
   accountsS: any;
@@ -35,6 +36,10 @@ export class AccountsTabComponent implements OnInit {
     private modalService: ModalService,
     private store: Store<SettingsState>,
   ) {
+  }
+
+  get currAccount() {
+    return getAccountFromSection(this.accountS);
   }
 
   get accounts() {

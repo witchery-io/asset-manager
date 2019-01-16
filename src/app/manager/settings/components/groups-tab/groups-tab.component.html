@@ -75,8 +75,8 @@
         <tbody> <!-- todo ::: --- -->
         <tr
           class="cursor-pointer"
-          *ngFor="let account of (group | async)?.accounts"
-          [class.table-active]="account.id === id"
+          *ngFor="let account of currGroup?.accounts"
+          [class.table-active]="account.id === currGroup?.id"
           (click)="selectAccount(account.id)"
         >
           <td>{{ account.user_name }}</td>

@@ -11,6 +11,7 @@ import { LoadOrders } from '@settings/actions/orders.actions';
 import { LoadPositions } from '@settings/actions/positions.actions';
 import { Store } from '@ngrx/store';
 import { SettingsState } from '@settings/reducers';
+import { getGroupFromSection } from '@settings/state/settings.selectors';
 
 @Component({
   selector: 'app-groups-tab',
@@ -21,7 +22,7 @@ import { SettingsState } from '@settings/reducers';
 export class GroupsTabComponent implements OnInit {
 
   @Input()
-  id: string;
+  groupS: any;
 
   @Input()
   groupsS: any;
@@ -41,6 +42,10 @@ export class GroupsTabComponent implements OnInit {
     private groupService: GroupService,
     private store: Store<SettingsState>,
   ) {
+  }
+
+  get currGroup() {
+    return getGroupFromSection(this.groupS);
   }
 
   get groups() {

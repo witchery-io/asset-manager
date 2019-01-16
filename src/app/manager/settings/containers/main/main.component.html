@@ -5,7 +5,7 @@
         <tab heading="GROUPS" id="groups" (select)="onSelectTypeTab('groups')">
           <app-groups-tab
             *ngIf="(type$ | async) === 'groups'"
-            [id]="id$ | async"
+            [groupS]="group$ | async"
             [groupsS]="groups$ | async"
             [accountsS]="accounts$ | async"
           ></app-groups-tab>
@@ -13,7 +13,7 @@
         <tab heading="ACCOUNTS" id="accounts" (select)="onSelectTypeTab('accounts')">
           <app-accounts-tab
             *ngIf="(type$ | async) === 'accounts'"
-            [id]="id$ | async"
+            [accountS]="account$ | async"
             [accountsS]="accounts$ | async"
           ></app-accounts-tab>
         </tab>
