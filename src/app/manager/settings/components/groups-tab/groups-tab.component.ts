@@ -31,6 +31,9 @@ export class GroupsTabComponent implements OnInit {
   @Input()
   accountsS: any;
 
+  @Input()
+  accountId: string;
+
   role = 'admin';
   faPlus = faPlus;
   faEdit = faEdit;
@@ -75,6 +78,7 @@ export class GroupsTabComponent implements OnInit {
     * */
     this.store.dispatch(new SettingsUpdate({
       id: id,
+      accountId: null,
     }));
     this.store.dispatch(new LoadGroup(id));
 
@@ -103,7 +107,7 @@ export class GroupsTabComponent implements OnInit {
     * Set current trading id and type
     * */
     this.store.dispatch(new SettingsUpdate({
-      id: id,
+      accountId: id,
     }));
 
     /*

@@ -45,6 +45,7 @@ export class MainComponent implements OnInit {
 
   type$: Observable<string>;
   id$: Observable<string>;
+  accountId$: Observable<string>;
 
   group$: Observable<any>;
   account$: Observable<any>;
@@ -74,6 +75,7 @@ export class MainComponent implements OnInit {
 
     this.type$ = this.store.pipe(select(Select.getType));
     this.id$ = this.store.pipe(select(Select.getId));
+    this.accountId$ = this.store.pipe(select(Select.getAccountId));
 
     this.group$ = this.store.pipe(select(Select.getGroup));
     this.account$ = this.store.pipe(select(Select.getAccount));
@@ -81,6 +83,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
+    const accountId = this.route.snapshot.paramMap.get('accountId');
     const type = this.route.snapshot.paramMap.get('type');
     const active_tab = this.route.snapshot.paramMap.get('tab');
 
@@ -95,6 +98,7 @@ export class MainComponent implements OnInit {
     * */
     this.store.dispatch(new SettingsSet({
       id: id,
+      accountId: accountId,
       type: type,
       groupByPair: this.groupByPair,
     }));

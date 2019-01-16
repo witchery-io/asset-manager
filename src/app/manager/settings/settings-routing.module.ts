@@ -8,7 +8,7 @@ const routes: Routes = [
     redirectTo: 'accounts/edc23b04-64d8-4469-bb6a-40da55322d26/orders', // edc23b04-64d8-4469-bb6a-40da55322d26
   },
   {
-    path: ':type/:groupId/:accountId/:tab',
+    path: ':type/:id/:accountId/:tab',
     component: MainComponent,
   },
   {

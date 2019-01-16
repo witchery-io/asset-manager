@@ -6,6 +6,7 @@
           <app-groups-tab
             *ngIf="(type$ | async) === 'groups'"
             [groupS]="group$ | async"
+            [accountId]="accountId$ | async"
             [groupsS]="groups$ | async"
             [accountsS]="accounts$ | async"
           ></app-groups-tab>
