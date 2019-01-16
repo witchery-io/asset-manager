@@ -8,6 +8,7 @@ import { SettingsSet } from '@settings/actions/settings.actions';
 import { LoadBalance } from '@settings/actions/balance.actions';
 import { LoadOrders } from '@settings/actions/orders.actions';
 import { LoadPositions } from '@settings/actions/positions.actions';
+import { LoadAccount } from '@settings/actions/account.actions';
 import { Store } from '@ngrx/store';
 import { SettingsState } from '@settings/reducers';
 
@@ -42,6 +43,7 @@ export class AccountsTabComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(new LoadAccount(this.id));
   }
 
   openModal(template: any, options = {}) {

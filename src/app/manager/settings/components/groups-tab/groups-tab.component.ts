@@ -4,14 +4,14 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
 import { ModalService } from '@app/shared/services';
 import { BsModalRef } from 'ngx-bootstrap';
-import { Observable } from 'rxjs';
 import { GroupService } from '@app/core/services';
 import { SettingsSet } from '@settings/actions/settings.actions';
-import { Store } from '@ngrx/store';
-import { SettingsState } from '@settings/reducers';
 import { LoadBalance } from '@settings/actions/balance.actions';
 import { LoadOrders } from '@settings/actions/orders.actions';
 import { LoadPositions } from '@settings/actions/positions.actions';
+import { LoadGroup } from '@settings/actions/group.actions';
+import { Store } from '@ngrx/store';
+import { SettingsState } from '@settings/reducers';
 
 @Component({
   selector: 'app-groups-tab',
@@ -37,7 +37,6 @@ export class GroupsTabComponent implements OnInit {
   @Input()
   section: any;
 
-  group: Observable<any>;
 
   constructor(
     private modalService: ModalService,
@@ -46,16 +45,16 @@ export class GroupsTabComponent implements OnInit {
   ) {
   }
 
+  ngOnInit() {
+    this.store.dispatch(new LoadGroup(this.id));
+  }
+
   get groups() {
     return getGroupsFromSection(this.section);
   }
 
   get accounts() {
     return getAccountsFromSection(this.accountsS);
-  }
-
-  ngOnInit() {
-    this.group = this.groupService.getGroup(this.id);
   }
 
   openModal(template: any, options = {}) {
