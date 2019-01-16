@@ -90,14 +90,14 @@ export class MainComponent implements OnInit {
     /*
     * Set current trading id and type
     * */
-    this.store.dispatch(new SettingsSet({tradingId: id, tradingType: type, groupByPair: this.groupByPair}));
+    this.store.dispatch(new SettingsSet({id: id, type: type, groupByPair: this.groupByPair}));
 
     /*
     * Load data
     * */
-    this.store.dispatch(new LoadBalance({tradingId: id, tradingType: type, groupByPair: this.groupByPair}));
-    this.store.dispatch(new LoadOrders({tradingId: id, tradingType: type, groupByPair: this.groupByPair}));
-    this.store.dispatch(new LoadPositions({tradingId: id, tradingType: type, groupByPair: this.groupByPair}));
+    this.store.dispatch(new LoadBalance({id: id, type: type, groupByPair: this.groupByPair}));
+    this.store.dispatch(new LoadOrders({id: id, type: type, groupByPair: this.groupByPair}));
+    this.store.dispatch(new LoadPositions({id: id, type: type, groupByPair: this.groupByPair}));
   }
 
   onSelectTypeTab(type_tab) {

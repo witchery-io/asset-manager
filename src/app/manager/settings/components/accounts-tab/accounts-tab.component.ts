@@ -57,13 +57,13 @@ export class AccountsTabComponent implements OnInit {
     /*
     * Set current trading id and type
     * */
-    this.store.dispatch(new SettingsSet({tradingId: id, tradingType: 'accounts', groupByPair: false}));
+    this.store.dispatch(new SettingsSet({id: id, type: 'accounts', groupByPair: false}));
 
     /*
     * Load data
     * */
-    this.store.dispatch(new LoadBalance({tradingId: id, tradingType: 'accounts', groupByPair: false}));
-    this.store.dispatch(new LoadOrders({tradingId: id, tradingType: 'accounts', groupByPair: false}));
-    this.store.dispatch(new LoadPositions({tradingId: id, tradingType: 'accounts', groupByPair: false}));
+    this.store.dispatch(new LoadBalance({id: id, type: 'accounts', groupByPair: false}));
+    this.store.dispatch(new LoadOrders({id: id, type: 'accounts', groupByPair: false}));
+    this.store.dispatch(new LoadPositions({id: id, type: 'accounts', groupByPair: false}));
   }
 }

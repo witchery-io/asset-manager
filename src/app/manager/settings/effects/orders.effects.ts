@@ -4,7 +4,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as fromOrders from '@settings/actions/orders.actions';
 import { OrdersService } from '@app/shared/services/orders.service';
-import { Settings } from '@settings/reducers/settings.reducers';
+import { Settings } from '@settings/interfaces/settings.interface';
 
 @Injectable()
 export class OrdersEffects {

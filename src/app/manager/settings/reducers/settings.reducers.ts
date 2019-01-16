@@ -1,10 +1,6 @@
 import * as fromSettings from '@settings/actions/settings.actions';
+import { Settings } from '@settings/interfaces/settings.interface';
 
-export interface Settings {
-  tradingId: string;
-  tradingType: string;
-  groupByPair: boolean;
-}
 
 export type State = Settings;
 

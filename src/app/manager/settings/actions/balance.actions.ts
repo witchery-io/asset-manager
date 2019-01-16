@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Balance } from '@app/shared/intefaces/balance.interface';
-import { Settings } from '@trading/reducers/settings.reducers';
+import { Settings } from '@settings/interfaces/settings.interface';
 
 export const LOAD_BALANCE = '[SETTINGS] Load Balance';
 export const BALANCE_LOADED = '[SETTINGS] Balance Loaded';

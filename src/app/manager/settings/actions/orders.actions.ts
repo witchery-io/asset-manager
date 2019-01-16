@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Order } from '@app/shared/intefaces/order.interface';
-import { Settings } from '@trading/reducers/settings.reducers';
+import { Settings } from '@settings/interfaces/settings.interface';
 
 export const LOAD_ORDERS = '[SETTINGS] Load Orders';
 export const ORDERS_LOADED = '[SETTINGS] Orders Loaded';
