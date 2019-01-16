@@ -6,7 +6,7 @@
           <app-groups-tab
             *ngIf="(type$ | async) === 'groups'"
             [id]="id$ | async"
-            [section]="groups$ | async"
+            [groupsS]="groups$ | async"
             [accountsS]="accounts$ | async"
           ></app-groups-tab>
         </tab>
@@ -14,7 +14,7 @@
           <app-accounts-tab
             *ngIf="(type$ | async) === 'accounts'"
             [id]="id$ | async"
-            [section]="accounts$ | async"
+            [accountsS]="accounts$ | async"
           ></app-accounts-tab>
         </tab>
       </tabset>

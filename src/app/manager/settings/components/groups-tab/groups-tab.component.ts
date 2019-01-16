@@ -24,7 +24,7 @@ export class GroupsTabComponent implements OnInit {
   id: string;
 
   @Input()
-  section: any;
+  groupsS: any;
 
   @Input()
   accountsS: any;
@@ -44,7 +44,7 @@ export class GroupsTabComponent implements OnInit {
   }
 
   get groups() {
-    return getGroupsFromSection(this.section);
+    return getGroupsFromSection(this.groupsS);
   }
 
   get accounts() {

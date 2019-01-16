@@ -128,6 +128,8 @@ export class MainComponent implements OnInit {
   }
 
   private _navigate(type_tab, order_tab) {
+    this.store.dispatch(new SettingsSet({type: type_tab}));
+
     const id = type_tab === GROUPS ? '6a86df61-c190-4347-9b61-34cbd88d38a4' : 'edc23b04-64d8-4469-bb6a-40da55322d26'; // todo :: change
     return this.router.navigate([`../../../${type_tab}/${id}/${order_tab}/`], {relativeTo: this.route});
   }

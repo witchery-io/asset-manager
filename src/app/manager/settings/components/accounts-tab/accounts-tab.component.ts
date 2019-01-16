@@ -23,7 +23,7 @@ export class AccountsTabComponent implements OnInit {
   id: string;
 
   @Input()
-  section: any;
+  accountsS: any;
 
   role = 'admin';
   faPlus = faPlus;
@@ -38,7 +38,7 @@ export class AccountsTabComponent implements OnInit {
   }
 
   get accounts() {
-    return getAccountsFromSection(this.section);
+    return getAccountsFromSection(this.accountsS);
   }
 
   ngOnInit() {
