@@ -4,7 +4,11 @@ import { Settings } from '@settings/interfaces/settings.interface';
 
 export type State = Settings;
 
-export const initialState: State = null;
+export const initialState: State = {
+  id: null,
+  type: null,
+  groupByPair: false,
+};
 
 export function reducer(state: State = initialState, action: fromSettings.Actions): State {
   switch (action.type) {
