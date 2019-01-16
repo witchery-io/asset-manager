@@ -9,11 +9,11 @@ import { of } from 'rxjs';
 export class GroupEffects {
 
   @Effect()
-  loadGroups$ = this.actions$.pipe(
+  loadGroup$ = this.actions$.pipe(
     ofType<fromGroup.LoadGroup>(fromGroup.LOAD_GROUP),
     map(settings => settings.payload),
-    switchMap(() => {
-      return this.groupService.getGroups().pipe(
+    switchMap((settings) => {
+      return this.groupService.getGroup(settings).pipe(
         map(response => {
           return new fromGroup.GroupLoaded({ group: response });
         }),

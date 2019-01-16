@@ -9,11 +9,11 @@ import { of } from 'rxjs';
 export class AccountEffects {
 
   @Effect()
-  loadAccounts$ = this.actions$.pipe(
+  loadAccount$ = this.actions$.pipe(
     ofType<fromAccount.LoadAccount>(fromAccount.LOAD_ACCOUNT),
     map(settings => settings.payload),
-    switchMap(() => {
-      return this.accountService.getAccounts().pipe(
+    switchMap((settings) => {
+      return this.accountService.getAccount(settings).pipe(
         map(response => {
           return new fromAccount.AccountLoaded({ account: response });
         }),
