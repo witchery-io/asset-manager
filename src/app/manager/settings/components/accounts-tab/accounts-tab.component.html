@@ -30,7 +30,7 @@
           class="cursor-pointer"
           *ngFor="let account of accounts; index as i"
           (click)="selectAccount(account.id)"
-          [class.table-active]="account.id === currAccount?.id"
+          [class.table-active]="account.id === selectedAccount?.id"
         >
           <th scope="row">{{ i + 1 }}</th>
           <td>{{ account.acc_name }}</td>

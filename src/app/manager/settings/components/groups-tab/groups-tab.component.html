@@ -24,7 +24,7 @@
         <tr
           class="cursor-pointer"
           *ngFor="let group of groups"
-          [class.table-active]="group.id === id"
+          [class.table-active]="group.id === selectedGroup?.id"
           (click)="selectGroup(group.id)"
         >
           <td>{{ group.name }}</td>
@@ -72,11 +72,11 @@
           <th scope="col">Rank</th>
         </tr>
         </thead>
-        <tbody> <!-- todo ::: --- -->
+        <tbody>
         <tr
           class="cursor-pointer"
-          *ngFor="let account of currGroup?.accounts"
-          [class.table-active]="account.id === currGroup?.id"
+          *ngFor="let account of selectedGroup?.accounts"
+          [class.table-active]="account.id === selectedGroup?.id"
           (click)="selectAccount(account.id)"
         >
           <td>{{ account.user_name }}</td>

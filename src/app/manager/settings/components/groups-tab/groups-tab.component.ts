@@ -5,7 +5,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
 import { ModalService } from '@app/shared/services';
 import { BsModalRef } from 'ngx-bootstrap';
 import { GroupService } from '@app/core/services';
-import { SettingsSet } from '@settings/actions/settings.actions';
+import { SettingsSet, SettingsUpdate } from '@settings/actions/settings.actions';
 import { LoadBalance } from '@settings/actions/balance.actions';
 import { LoadOrders } from '@settings/actions/orders.actions';
 import { LoadPositions } from '@settings/actions/positions.actions';
@@ -45,7 +45,7 @@ export class GroupsTabComponent implements OnInit {
   ) {
   }
 
-  get currGroup() {
+  get selectedGroup() {
     return getGroupFromSection(this.groupS);
   }
 
@@ -73,29 +73,56 @@ export class GroupsTabComponent implements OnInit {
     /*
     * Set current trading id and type
     * */
-    this.store.dispatch(new SettingsSet({id: id, type: 'groups', groupByPair: false}));
+    this.store.dispatch(new SettingsUpdate({
+      id: id,
+    }));
     this.store.dispatch(new LoadGroup(id));
 
     /*
     * Load data
     * */
-    this.store.dispatch(new LoadBalance({id: id, type: 'groups', groupByPair: false}));
-    this.store.dispatch(new LoadOrders({id: id, type: 'groups', groupByPair: false}));
-    this.store.dispatch(new LoadPositions({id: id, type: 'groups', groupByPair: false}));
+    this.store.dispatch(new LoadBalance({
+      id: id,
+      type: 'groups',
+      groupByPair: false,
+    }));
+    this.store.dispatch(new LoadOrders({
+      id: id,
+      type: 'groups',
+      groupByPair: false,
+    }));
+    this.store.dispatch(new LoadPositions({
+      id: id,
+      type: 'groups',
+      groupByPair: false,
+    }));
   }
 
   selectAccount(id) {
     /*
     * Set current trading id and type
     * */
-    this.store.dispatch(new SettingsSet({id: id, type: 'groups', groupByPair: false}));
-    this.store.dispatch(new LoadGroup(id));
+    this.store.dispatch(new SettingsUpdate({
+      id: id,
+    }));
 
     /*
     * Load data
     * */
-    this.store.dispatch(new LoadBalance({id: id, type: 'groups', groupByPair: false}));
-    this.store.dispatch(new LoadOrders({id: id, type: 'groups', groupByPair: false}));
-    this.store.dispatch(new LoadPositions({id: id, type: 'groups', groupByPair: false}));
+    this.store.dispatch(new LoadBalance({
+      id: id,
+      type: 'groups',
+      groupByPair: false,
+    }));
+    this.store.dispatch(new LoadOrders({
+      id: id,
+      type: 'groups',
+      groupByPair: false,
+    }));
+    this.store.dispatch(new LoadPositions({
+      id: id,
+      type: 'groups',
+      groupByPair: false,
+    }));
   }
 }

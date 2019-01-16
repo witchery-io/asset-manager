@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderTab, TypeTab } from '@app/shared/enums';
 import { TabsetComponent } from 'ngx-bootstrap';
-import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
+import { GROUPS } from '@app/shared/enums/trading.enum';
 import { select, Store } from '@ngrx/store';
 import * as Select from '@settings/state/settings.selectors';
 import { SettingsState } from '@settings/reducers';
@@ -13,7 +13,7 @@ import * as fromBalance from '@settings/reducers/balance.reducers';
 import * as fromAccounts from '@app/core/reducers/account.reducers';
 import * as fromGroups from '@app/core/reducers/group.reducers';
 import * as fromTicks from '@app/core/reducers/tick.reducers';
-import { SettingsSet } from '@settings/actions/settings.actions';
+import { SettingsSet, SettingsUpdate } from '@settings/actions/settings.actions';
 import { LoadBalance } from '@settings/actions/balance.actions';
 import { LoadOrders } from '@settings/actions/orders.actions';
 import { LoadPositions } from '@settings/actions/positions.actions';
@@ -80,14 +80,9 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
-    let id = this.route.snapshot.paramMap.get('id');
-    let type = this.route.snapshot.paramMap.get('type');
+    const id = this.route.snapshot.paramMap.get('id');
+    const type = this.route.snapshot.paramMap.get('type');
     const active_tab = this.route.snapshot.paramMap.get('tab');
-
-    if (!id) {
-      type = ACCOUNTS;
-      id = this.route.snapshot.paramMap.get('accountId');
-    }
 
     /*
     * Set active tab
@@ -98,16 +93,33 @@ export class MainComponent implements OnInit {
     /*
     * Set current trading id and type
     * */
-    this.store.dispatch(new SettingsSet({id: id, type: type, groupByPair: this.groupByPair}));
-    this.store.dispatch(new LoadGroup(id));
-    this.store.dispatch(new LoadAccount(id));
+    this.store.dispatch(new SettingsSet({
+      id: id,
+      type: type,
+      groupByPair: this.groupByPair,
+    }));
+
+    this.store.dispatch(new LoadGroup('6a86df61-c190-4347-9b61-34cbd88d38a4'));
+    this.store.dispatch(new LoadAccount('edc23b04-64d8-4469-bb6a-40da55322d26'));
 
     /*
     * Load data
     * */
-    this.store.dispatch(new LoadBalance({id: id, type: type, groupByPair: this.groupByPair}));
-    this.store.dispatch(new LoadOrders({id: id, type: type, groupByPair: this.groupByPair}));
-    this.store.dispatch(new LoadPositions({id: id, type: type, groupByPair: this.groupByPair}));
+    this.store.dispatch(new LoadBalance({
+      id: id,
+      type: type,
+      groupByPair: this.groupByPair,
+    }));
+    this.store.dispatch(new LoadOrders({
+      id: id,
+      type: type,
+      groupByPair: this.groupByPair,
+    }));
+    this.store.dispatch(new LoadPositions({
+      id: id,
+      type: type,
+      groupByPair: this.groupByPair,
+    }));
   }
 
   onSelectTypeTab(type_tab) {
@@ -128,7 +140,7 @@ export class MainComponent implements OnInit {
   }
 
   private _navigate(type_tab, order_tab) {
-    this.store.dispatch(new SettingsSet({type: type_tab}));
+    this.store.dispatch(new SettingsUpdate({type: type_tab}));
 
     const id = type_tab === GROUPS ? '6a86df61-c190-4347-9b61-34cbd88d38a4' : 'edc23b04-64d8-4469-bb6a-40da55322d26'; // todo :: change
     return this.router.navigate([`../../../${type_tab}/${id}/${order_tab}/`], {relativeTo: this.route});

@@ -4,7 +4,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
 import { ModalService } from '@app/shared/services';
 import { BsModalRef } from 'ngx-bootstrap';
-import { SettingsSet } from '@settings/actions/settings.actions';
+import { SettingsUpdate } from '@settings/actions/settings.actions';
 import { LoadBalance } from '@settings/actions/balance.actions';
 import { LoadOrders } from '@settings/actions/orders.actions';
 import { LoadPositions } from '@settings/actions/positions.actions';
@@ -39,7 +39,7 @@ export class AccountsTabComponent implements OnInit {
   ) {
   }
 
-  get currAccount() {
+  get selectedAccount() {
     return getAccountFromSection(this.accountS);
   }
 
@@ -63,14 +63,30 @@ export class AccountsTabComponent implements OnInit {
     /*
     * Set current trading id and type
     * */
-    this.store.dispatch(new SettingsSet({id: id, type: 'accounts', groupByPair: false}));
+    this.store.dispatch(new SettingsUpdate({
+      id: id,
+      type: 'accounts',
+      groupByPair: false,
+    }));
     this.store.dispatch(new LoadAccount(id));
 
     /*
     * Load data
     * */
-    this.store.dispatch(new LoadBalance({id: id, type: 'accounts', groupByPair: false}));
-    this.store.dispatch(new LoadOrders({id: id, type: 'accounts', groupByPair: false}));
-    this.store.dispatch(new LoadPositions({id: id, type: 'accounts', groupByPair: false}));
+    this.store.dispatch(new LoadBalance({
+      id: id,
+      type: 'accounts',
+      groupByPair: false,
+    }));
+    this.store.dispatch(new LoadOrders({
+      id: id,
+      type: 'accounts',
+      groupByPair: false,
+    }));
+    this.store.dispatch(new LoadPositions({
+      id: id,
+      type: 'accounts',
+      groupByPair: false,
+    }));
   }
 }
