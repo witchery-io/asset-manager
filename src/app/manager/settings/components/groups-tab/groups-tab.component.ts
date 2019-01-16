@@ -9,10 +9,8 @@ import { SettingsSet } from '@settings/actions/settings.actions';
 import { LoadBalance } from '@settings/actions/balance.actions';
 import { LoadOrders } from '@settings/actions/orders.actions';
 import { LoadPositions } from '@settings/actions/positions.actions';
-import { LoadGroup } from '@settings/actions/group.actions';
 import { Store } from '@ngrx/store';
 import { SettingsState } from '@settings/reducers';
-import { getGroupFromSection } from '@settings/state/settings.selectors';
 
 @Component({
   selector: 'app-groups-tab',
@@ -22,16 +20,6 @@ import { getGroupFromSection } from '@settings/state/settings.selectors';
 })
 export class GroupsTabComponent implements OnInit {
 
-  role = 'admin';
-  faPlus = faPlus;
-  faEdit = faEdit;
-  modalRef: BsModalRef;
-
-  @Input()
-  accountsS: any;
-
-  formValues: any;
-
   @Input()
   id: string;
 
@@ -39,7 +27,13 @@ export class GroupsTabComponent implements OnInit {
   section: any;
 
   @Input()
-  groupS: any;
+  accountsS: any;
+
+  role = 'admin';
+  faPlus = faPlus;
+  faEdit = faEdit;
+  modalRef: BsModalRef;
+  formValues: any;
 
 
   constructor(
@@ -47,10 +41,6 @@ export class GroupsTabComponent implements OnInit {
     private groupService: GroupService,
     private store: Store<SettingsState>,
   ) {
-  }
-
-  ngOnInit() {
-    this.store.dispatch(new LoadGroup(this.id));
   }
 
   get groups() {
@@ -61,8 +51,7 @@ export class GroupsTabComponent implements OnInit {
     return getAccountsFromSection(this.accountsS);
   }
 
-  get group() {
-    return getGroupFromSection(this.groupS);
+  ngOnInit() {
   }
 
   openModal(template: any, options = {}) {

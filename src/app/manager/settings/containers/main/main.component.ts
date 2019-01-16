@@ -17,6 +17,8 @@ import { SettingsSet } from '@settings/actions/settings.actions';
 import { LoadBalance } from '@settings/actions/balance.actions';
 import { LoadOrders } from '@settings/actions/orders.actions';
 import { LoadPositions } from '@settings/actions/positions.actions';
+import { LoadGroup } from '@settings/actions/group.actions';
+import { LoadAccount } from '@settings/actions/account.actions';
 
 @Component({
   selector: 'app-trading',
@@ -97,6 +99,8 @@ export class MainComponent implements OnInit {
     * Set current trading id and type
     * */
     this.store.dispatch(new SettingsSet({id: id, type: type, groupByPair: this.groupByPair}));
+    this.store.dispatch(new LoadGroup(id));
+    this.store.dispatch(new LoadAccount(id));
 
     /*
     * Load data
