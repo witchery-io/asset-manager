@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { getBalanceFromSection } from '@trading/state/trading.selectors';
+import { getBalanceFromSection } from '@settings/state/settings.selectors';
 
 @Component({
   selector: 'app-balance-details',
