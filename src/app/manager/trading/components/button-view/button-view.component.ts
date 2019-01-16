@@ -46,12 +46,12 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   onOrder(params) {
     params.pair = this.rowData.pair;
 
-    switch (this.rowData.tradingType) {
+    switch (this.rowData.type) {
       case GROUPS:
-        this.groupOrder(this.rowData.tradingId, params);
+        this.groupOrder(this.rowData.id, params);
         break;
       case ACCOUNTS:
-        this.accountOrder(this.rowData.tradingId, params);
+        this.accountOrder(this.rowData.id, params);
         break;
     }
   }

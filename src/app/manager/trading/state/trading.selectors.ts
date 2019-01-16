@@ -29,8 +29,8 @@ export const getBalance = createSelector(getTradingState, (state: TradingState) 
 export const isLoadingBalance = createSelector(getBalance, (state: fromBalance.State) => state.isLoading);
 
 export const getSettings = createSelector(getTradingState, (state: TradingState) => state.settings);
-export const getId = createSelector(getSettings, (state: fromSettings.State) => state.tradingId);
-export const getType = createSelector(getSettings, (state: fromSettings.State) => state.tradingType);
+export const getId = createSelector(getSettings, (state: fromSettings.State) => state.id);
+export const getType = createSelector(getSettings, (state: fromSettings.State) => state.type);
 
 
 /**

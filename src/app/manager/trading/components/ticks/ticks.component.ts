@@ -65,8 +65,8 @@ export class TicksComponent implements OnInit {
       return {
         ...tick,
         ...{
-          tradingId: this.id,
-          tradingType: this.type,
+          id: this.id,
+          type: this.type,
           last: tick.last.toFixed(2),
           volume: tick.volume.toFixed(2),
           daily_change_prc: `<span class="${tick.daily_change_prc > 0 ? 'text-success' : 'text-danger'}">

@@ -1,8 +1,8 @@
 import * as fromSettings from '@trading/actions/settings.actions';
 
 export interface Settings {
-  tradingId: string;
-  tradingType: string;
+  id: string;
+  type: string;
   groupByPair: boolean;
 }
 
