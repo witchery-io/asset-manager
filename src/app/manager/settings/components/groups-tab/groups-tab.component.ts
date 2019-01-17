@@ -62,10 +62,9 @@ export class GroupsTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.store.dispatch(new LoadGroup(params.id));
-      this.accountId = params.accId;
-    });
+    const id = this.route.snapshot.paramMap.get('id');
+    this.accountId = this.route.snapshot.paramMap.get('accId');
+    this.store.dispatch(new LoadGroup(id));
   }
 
   openModal(template: any, options = {}) {
@@ -83,7 +82,9 @@ export class GroupsTabComponent implements OnInit {
       [`./settings/groups/${id}/groups/${orderTab}`]
       );
 
-    selGroup.then(() => {});
+    selGroup.then(() => {
+      this.store.dispatch(new LoadGroup(id));
+    });
   }
 
   selectAccount(accId: string) {
@@ -93,6 +94,8 @@ export class GroupsTabComponent implements OnInit {
       [`./settings/accounts/${id}/${accId}/groups/${orderTab}`]
     );
 
-    selAccount.then(() => {});
+    selAccount.then(() => {
+      this.accountId = accId;
+    });
   }
 }

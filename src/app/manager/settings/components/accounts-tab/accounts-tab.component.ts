@@ -53,9 +53,8 @@ export class AccountsTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.store.dispatch(new LoadAccount(params.id));
-    });
+    const id = this.route.snapshot.paramMap.get('id');
+    this.store.dispatch(new LoadAccount(id));
   }
 
   openModal(template: any, options = {}) {
@@ -73,6 +72,8 @@ export class AccountsTabComponent implements OnInit {
       [`./settings/accounts/${id}/accounts/${orderTab}`]
     );
 
-    selAccount.then(() => {});
+    selAccount.then(() => {
+      this.store.dispatch(new LoadAccount(id));
+    });
   }
 }
