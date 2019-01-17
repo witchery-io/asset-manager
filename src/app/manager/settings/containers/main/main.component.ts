@@ -112,7 +112,9 @@ export class MainComponent implements OnInit {
    */
   onSelectGeneralTab(name: string) {
     const orderTab = this.route.snapshot.paramMap.get('orderTab');
-    this.router.navigate([`../../${name}/${orderTab}`], {relativeTo: this.route});
+    const genTab = this.router.navigate([`../../${name}/${orderTab}`], {relativeTo: this.route});
+
+    genTab.then(() => {});
   }
 
   /**
@@ -120,6 +122,8 @@ export class MainComponent implements OnInit {
    * @param name string ex. positions, orders
    */
   onSelectOrderTab(name: string) {
-    this.router.navigate([`../${name}`], {relativeTo: this.route});
+    const orderTab = this.router.navigate([`../${name}`], {relativeTo: this.route});
+
+    orderTab.then(() => {});
   }
 }
