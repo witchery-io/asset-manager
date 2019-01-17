@@ -1,20 +1,15 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { getAccountsFromSection, getGroupsFromSection } from '@app/core/reducers';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
 import { ModalService } from '@app/shared/services';
 import { BsModalRef } from 'ngx-bootstrap';
 import { GroupService } from '@app/core/services';
-import { SettingsUpdate } from '@settings/actions/settings.actions';
-import { LoadBalance } from '@settings/actions/balance.actions';
-import { LoadOrders } from '@settings/actions/orders.actions';
-import { LoadPositions } from '@settings/actions/positions.actions';
 import { Store } from '@ngrx/store';
 import { SettingsState } from '@settings/reducers';
 import { getGroupFromSection } from '@settings/state/settings.selectors';
 import { LoadGroup } from '@settings/actions/group.actions';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-groups-tab',
@@ -80,7 +75,7 @@ export class GroupsTabComponent implements OnInit {
     const orderTab = this.route.snapshot.paramMap.get('orderTab');
     const selGroup = this.router.navigate(
       [`./settings/groups/${id}/groups/${orderTab}`]
-      );
+    );
 
     selGroup.then(() => {
       this.store.dispatch(new LoadGroup(id));
