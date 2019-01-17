@@ -12,8 +12,8 @@ export class OrdersEffects {
   loadGroups$ = this.actions$.pipe(
     ofType<fromOrders.LoadOrders>(fromOrders.LOAD_ORDERS),
     map(settings => settings.payload),
-    switchMap((settings: any) => {
-      return this.ordersService.getOrders(settings).pipe(
+    switchMap((params: any) => {
+      return this.ordersService.getOrders(params).pipe(
         map(response => {
           return new fromOrders.OrdersLoaded({orders: response || []}); // todo :: remove []
         }),

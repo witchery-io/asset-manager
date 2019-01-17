@@ -12,8 +12,8 @@ export class GroupEffects {
   loadGroup$ = this.actions$.pipe(
     ofType<fromGroup.LoadGroup>(fromGroup.LOAD_GROUP),
     map(settings => settings.payload),
-    switchMap((settings: any) => {
-      return this.groupService.getGroup(settings).pipe(
+    switchMap((id: any) => {
+      return this.groupService.getGroup(id).pipe(
         map(response => {
           return new fromGroup.GroupLoaded({ group: response });
         }),

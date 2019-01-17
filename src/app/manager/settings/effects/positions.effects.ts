@@ -12,8 +12,8 @@ export class PositionsEffects {
   loadGroups$ = this.actions$.pipe(
     ofType<fromPositions.LoadPositions>(fromPositions.LOAD_POSITIONS),
     map(settings => settings.payload),
-    switchMap((settings: any) => {
-      return this.positionsService.getPositions(settings).pipe(
+    switchMap((params: any) => {
+      return this.positionsService.getPositions(params).pipe(
         map(response => {
           return new fromPositions.PositionsLoaded({positions: response || []}); // todo :: remove
         }),

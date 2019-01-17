@@ -12,8 +12,8 @@ export class AccountEffects {
   loadAccount$ = this.actions$.pipe(
     ofType<fromAccount.LoadAccount>(fromAccount.LOAD_ACCOUNT),
     map(settings => settings.payload),
-    switchMap((settings: any) => {
-      return this.accountService.getAccount(settings).pipe(
+    switchMap((id: any) => {
+      return this.accountService.getAccount(id).pipe(
         map(response => {
           return new fromAccount.AccountLoaded({ account: response });
         }),

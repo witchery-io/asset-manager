@@ -114,7 +114,8 @@ export class MainComponent implements OnInit {
     const orderTab = this.route.snapshot.paramMap.get('orderTab');
     const genTab = this.router.navigate([`../../${name}/${orderTab}`], {relativeTo: this.route});
 
-    genTab.then(() => {});
+    genTab.then(() => {
+    });
   }
 
   /**
@@ -124,6 +125,7 @@ export class MainComponent implements OnInit {
   onSelectOrderTab(name: string) {
     const orderTab = this.router.navigate([`../${name}`], {relativeTo: this.route});
 
-    orderTab.then(() => {});
+    orderTab.then(() => {
+    });
   }
 }
