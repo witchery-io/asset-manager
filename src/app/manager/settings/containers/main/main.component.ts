@@ -13,6 +13,9 @@ import * as fromAccounts from '@app/core/reducers/account.reducers';
 import * as fromGroups from '@app/core/reducers/group.reducers';
 import * as fromTicks from '@app/core/reducers/tick.reducers';
 import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
+import { LoadBalance } from '@settings/actions/balance.actions';
+import { LoadOrders } from '@settings/actions/orders.actions';
+import { LoadPositions } from '@settings/actions/positions.actions';
 
 @Component({
   selector: 'app-trading',
@@ -103,6 +106,19 @@ export class MainComponent implements OnInit {
       * */
       this.generalTabs.tabs[TypeTab[params.generalTab] || this._defaultTabIndex].active = true;
       this.ordersTabs.tabs[OrderTab[params.orderTab] || this._defaultTabIndex].active = true;
+
+      this.store.dispatch(new LoadBalance({
+        id: params.id,
+        type: params.type,
+      }));
+      this.store.dispatch(new LoadOrders({
+        id: params.id,
+        type: params.type,
+      }));
+      this.store.dispatch(new LoadPositions({
+        id: params.id,
+        type: params.type,
+      }));
     });
   }
 

@@ -57,8 +57,15 @@ export class GroupsTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.accountId = this.route.snapshot.paramMap.get('accId');
+    const hasGroupId = this.route.snapshot.paramMap.has('groupId');
+    let id;
+    if (hasGroupId) {
+      id = this.route.snapshot.paramMap.get('groupId');
+      this.accountId = this.route.snapshot.paramMap.get('id');
+    } else {
+      id = this.route.snapshot.paramMap.get('id');
+    }
+
     this.store.dispatch(new LoadGroup(id));
   }
 
@@ -83,8 +90,16 @@ export class GroupsTabComponent implements OnInit {
   }
 
   selectAccount(accId: string) {
-    const id = this.route.snapshot.paramMap.get('id');
+    const hasGroupId = this.route.snapshot.paramMap.has('groupId');
     const orderTab = this.route.snapshot.paramMap.get('orderTab');
+
+    let id;
+    if (hasGroupId) {
+      id = this.route.snapshot.paramMap.get('groupId');
+    } else {
+      id = this.route.snapshot.paramMap.get('id');
+    }
+
     const selAccount = this.router.navigate(
       [`./settings/accounts/${id}/${accId}/groups/${orderTab}`]
     );
