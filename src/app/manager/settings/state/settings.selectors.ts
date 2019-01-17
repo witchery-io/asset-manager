@@ -33,7 +33,8 @@ export const isLoadingBalance = createSelector(getBalance, (state: fromBalance.S
 export const getSettings = createSelector(getSettingsState, (state: SettingsState) => state.settings);
 export const getId = createSelector(getSettings, (state: fromSettings.State) => state.id);
 export const getType = createSelector(getSettings, (state: fromSettings.State) => state.type);
-export const getAccountId = createSelector(getSettings, (state: fromSettings.State) => state.accountId);
+export const getAccountId = createSelector(getSettings, (state: fromSettings.State) => state.accId);
+export const getTab = createSelector(getSettings, (state: fromSettings.State) => state.generalTab);
 
 export const getAccount = createSelector(getSettingsState, (state: SettingsState) => state.account);
 export const getGroup = createSelector(getSettingsState, (state: SettingsState) => state.group);

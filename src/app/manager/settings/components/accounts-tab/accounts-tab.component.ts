@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { getAccountsFromSection } from '@app/core/reducers';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
@@ -12,6 +12,9 @@ import { Store } from '@ngrx/store';
 import { SettingsState } from '@settings/reducers';
 import { getAccountFromSection } from '@settings/state/settings.selectors';
 import { LoadAccount } from '@settings/actions/account.actions';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { LoadGroup } from '@settings/actions/group.actions';
 
 @Component({
   selector: 'app-accounts-tab',
@@ -22,10 +25,10 @@ import { LoadAccount } from '@settings/actions/account.actions';
 export class AccountsTabComponent implements OnInit {
 
   @Input()
-  accountS: any;
+  account: any;
 
   @Input()
-  accountsS: any;
+  accountsSection: any;
 
   role = 'admin';
   faPlus = faPlus;
@@ -36,18 +39,23 @@ export class AccountsTabComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private store: Store<SettingsState>,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
   }
 
   get selectedAccount() {
-    return getAccountFromSection(this.accountS);
+    return getAccountFromSection(this.account);
   }
 
   get accounts() {
-    return getAccountsFromSection(this.accountsS);
+    return getAccountsFromSection(this.accountsSection);
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.store.dispatch(new LoadAccount(params.id));
+    });
   }
 
   openModal(template: any, options = {}) {
@@ -60,33 +68,11 @@ export class AccountsTabComponent implements OnInit {
   }
 
   selectAccount(id) {
-    /*
-    * Set current trading id and type
-    * */
-    this.store.dispatch(new SettingsUpdate({
-      id: id,
-      type: 'accounts',
-      groupByPair: false,
-    }));
-    this.store.dispatch(new LoadAccount(id));
+    const orderTab = this.route.snapshot.paramMap.get('orderTab');
+    const selAccount = this.router.navigate(
+      [`./settings/accounts/${id}/accounts/${orderTab}`]
+    );
 
-    /*
-    * Load data
-    * */
-    this.store.dispatch(new LoadBalance({
-      id: id,
-      type: 'accounts',
-      groupByPair: false,
-    }));
-    this.store.dispatch(new LoadOrders({
-      id: id,
-      type: 'accounts',
-      groupByPair: false,
-    }));
-    this.store.dispatch(new LoadPositions({
-      id: id,
-      type: 'accounts',
-      groupByPair: false,
-    }));
+    selAccount.then(() => {});
   }
 }

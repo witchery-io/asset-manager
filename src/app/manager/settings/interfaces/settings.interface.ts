@@ -1,6 +1,7 @@
 export interface Settings {
   id?: string;
-  accountId?: string;
+  accId?: string;
   type?: string;
   groupByPair?: boolean;
+  generalTab?: string;
 }
