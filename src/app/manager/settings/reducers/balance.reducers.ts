@@ -39,6 +39,10 @@ export function reducer(state: State = initialState, action: BalanceActions.Acti
       };
     }
 
+    case BalanceActions.CLEAN_UP_BALANCE: {
+      return initialState;
+    }
+
     default: {
       return state;
     }

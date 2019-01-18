@@ -41,6 +41,10 @@ export function reducer(state: State = initialState, action: PositionsActions.Ac
       };
     }
 
+    case PositionsActions.CLEAN_UP_POSITIONS: {
+      return initialState;
+    }
+
     default: {
       return state;
     }

@@ -41,6 +41,10 @@ export function reducer(state: State = initialState, action: OrdersActions.Actio
       };
     }
 
+    case OrdersActions.CLEAN_UP_ORDERS: {
+      return initialState;
+    }
+
     default: {
       return state;
     }
