@@ -4,6 +4,8 @@ import { Order } from '@app/shared/intefaces/order.interface';
 export const LOAD_ORDERS = '[SETTINGS] Load Orders';
 export const ORDERS_LOADED = '[SETTINGS] Orders Loaded';
 export const ORDERS_NOT_LOADED = '[SETTINGS] Orders Not Loaded';
+export const CLEAN_UP_ORDERS = '[SETTINGS] Clean Up Orders';
+
 
 export class LoadOrders implements Action {
   readonly type = LOAD_ORDERS;
@@ -26,7 +28,12 @@ export class OrdersNotLoaded implements Action {
   }
 }
 
+export class CleanUpOrders implements Action {
+  readonly type = CLEAN_UP_ORDERS;
+}
+
 export type Actions =
   LoadOrders
   | OrdersLoaded
-  | OrdersNotLoaded;
+  | OrdersNotLoaded
+  | CleanUpOrders;
