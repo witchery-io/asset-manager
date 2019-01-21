@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { getAccountsFromSection, getGroupsFromSection } from '@app/core/reducers';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
-import { ModalService } from '@app/shared/services';
+import { ModalService, SharedService } from '@app/shared/services';
 import { BsModalRef } from 'ngx-bootstrap';
 import { GroupService } from '@app/core/services';
 import { Store } from '@ngrx/store';
@@ -41,6 +41,7 @@ export class GroupsTabComponent implements OnInit {
     private store: Store<SettingsState>,
     private route: ActivatedRoute,
     private router: Router,
+    private shared: SharedService,
   ) {
   }
 
@@ -57,16 +58,8 @@ export class GroupsTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    const hasGroupId = this.route.snapshot.paramMap.has('groupId');
-    let id;
-    if (hasGroupId) {
-      id = this.route.snapshot.paramMap.get('groupId');
-      this.accountId = this.route.snapshot.paramMap.get('id');
-    } else {
-      id = this.route.snapshot.paramMap.get('id');
-    }
-
-    this.store.dispatch(new LoadGroup(id));
+    // const id = this.route.snapshot.paramMap.get('id');
+    // this.store.dispatch(new LoadGroup(id));
   }
 
   openModal(template: any, options = {}) {
@@ -79,33 +72,23 @@ export class GroupsTabComponent implements OnInit {
   }
 
   selectGroup(id) {
-    const orderTab = this.route.snapshot.paramMap.get('orderTab');
-    const selGroup = this.router.navigate(
-      [`./settings/groups/${id}/groups/${orderTab}`]
-    );
-
-    selGroup.then(() => {
-      this.store.dispatch(new LoadGroup(id));
+    this.store.dispatch(new LoadGroup(id));
+    this.shared.settingsSubject.next({
+      id: id,
+      subId: null,
+      type: 'groups',
+      tab: 'groups',
     });
   }
 
   selectAccount(accId: string) {
-    const hasGroupId = this.route.snapshot.paramMap.has('groupId');
-    const orderTab = this.route.snapshot.paramMap.get('orderTab');
-
-    let id;
-    if (hasGroupId) {
-      id = this.route.snapshot.paramMap.get('groupId');
-    } else {
-      id = this.route.snapshot.paramMap.get('id');
-    }
-
-    const selAccount = this.router.navigate(
-      [`./settings/accounts/${id}/${accId}/groups/${orderTab}`]
-    );
-
-    selAccount.then(() => {
-      this.accountId = accId;
+    const id = this.route.snapshot.paramMap.get('id');
+    this.accountId = accId;
+    this.shared.settingsSubject.next({
+      id: id,
+      subId: accId,
+      type: 'accounts',
+      tab: 'groups',
     });
   }
 }

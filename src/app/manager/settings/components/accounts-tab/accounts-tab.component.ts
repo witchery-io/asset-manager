@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { getAccountsFromSection } from '@app/core/reducers';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
-import { ModalService } from '@app/shared/services';
+import { ModalService, SharedService } from '@app/shared/services';
 import { BsModalRef } from 'ngx-bootstrap';
 import { Store } from '@ngrx/store';
 import { SettingsState } from '@settings/reducers';
@@ -35,6 +35,7 @@ export class AccountsTabComponent implements OnInit {
     private store: Store<SettingsState>,
     private route: ActivatedRoute,
     private router: Router,
+    private shared: SharedService,
   ) {
   }
 
@@ -47,8 +48,8 @@ export class AccountsTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(new LoadAccount(id));
+    // const id = this.route.snapshot.paramMap.get('id');
+    // this.store.dispatch(new LoadAccount(id));
   }
 
   openModal(template: any, options = {}) {
@@ -61,13 +62,12 @@ export class AccountsTabComponent implements OnInit {
   }
 
   selectAccount(id) {
-    const orderTab = this.route.snapshot.paramMap.get('orderTab');
-    const selAccount = this.router.navigate(
-      [`./settings/accounts/${id}/accounts/${orderTab}`]
-    );
-
-    selAccount.then(() => {
-      this.store.dispatch(new LoadAccount(id));
+    this.store.dispatch(new LoadAccount(id));
+    this.shared.settingsSubject.next({
+      id: id,
+      subId: null,
+      type: 'accounts',
+      tab: 'accounts',
     });
   }
 }

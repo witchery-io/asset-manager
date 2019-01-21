@@ -4,7 +4,15 @@ import { Subject } from 'rxjs';
 @Injectable()
 export class SharedService {
 
+  /*
+  * Main Component SAVE settings
+  * */
+  saveSettings = {};
+
   subject: Subject<void> = new Subject<void>();
 
-  constructor() { }
+  settingsSubject: Subject<any> = new Subject<any>();
+
+  constructor() {
+  }
 }
