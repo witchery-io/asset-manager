@@ -12,7 +12,6 @@ import * as fromBalance from '@settings/reducers/balance.reducers';
 import * as fromAccounts from '@app/core/reducers/account.reducers';
 import * as fromGroups from '@app/core/reducers/group.reducers';
 import * as fromTicks from '@app/core/reducers/tick.reducers';
-import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
 import { LoadBalance } from '@settings/actions/balance.actions';
 import { LoadOrders } from '@settings/actions/orders.actions';
 import { LoadPositions } from '@settings/actions/positions.actions';
@@ -23,8 +22,6 @@ import { LoadPositions } from '@settings/actions/positions.actions';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  GROUPS = GROUPS;
-  ACCOUNTS = ACCOUNTS;
 
   @ViewChild('generalTabs') generalTabs: TabsetComponent;
   @ViewChild('ordersTabs') ordersTabs: TabsetComponent;
@@ -80,9 +77,6 @@ export class MainComponent implements OnInit {
 
     this.accounts$ = this.store.pipe(select(Select.getAccounts));
     this.groups$ = this.store.pipe(select(Select.getGroups));
-
-    this.ticks$ = this.store.pipe(select(Select.getTicks));
-    this.ticksIsLoading$ = this.store.pipe(select(Select.ticksIsLoading));
 
     this.group$ = this.store.pipe(select(Select.getGroup));
     this.account$ = this.store.pipe(select(Select.getAccount));

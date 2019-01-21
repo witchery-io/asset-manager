@@ -4,7 +4,6 @@
       <tabset #generalTabs>
         <tab heading="GROUPS" id="groups" (select)="onSelectGeneralTab('groups')">
           <app-groups-tab
-            *ngIf="generalTab === GROUPS"
             [group]="group$ | async"
             [groupsSection]="groups$ | async"
             [accountsSection]="accounts$ | async"
@@ -12,7 +11,6 @@
         </tab>
         <tab heading="ACCOUNTS" id="accounts" (select)="onSelectGeneralTab('accounts')">
           <app-accounts-tab
-            *ngIf="generalTab === ACCOUNTS"
             [account]="account$ | async"
             [accountsSection]="accounts$ | async"
           ></app-accounts-tab>
@@ -47,8 +45,6 @@
         <tab heading="POSITIONS" id="positions" (select)="onSelectOrderTab('positions')">
           <app-positions
             *ngIf="(isLoadingPositions$ | async) === false"
-            [id]="id$ | async"
-            [type]="type$ | async"
             [section]="positions$ | async"
             [accountsS]="accounts$ | async"
           ></app-positions>
