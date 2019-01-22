@@ -15,6 +15,7 @@ import { CleanUpBalance, LoadBalance } from '@settings/actions/balance.actions';
 import { CleanUpOrders, LoadOrders } from '@settings/actions/orders.actions';
 import { CleanUpPositions, LoadPositions } from '@settings/actions/positions.actions';
 import { SharedService } from '@app/shared/services';
+import { generateUrl } from '@settings/utils/settings.utils';
 
 @Component({
   selector: 'app-trading',
@@ -72,7 +73,7 @@ export class MainComponent implements OnInit {
     this.shared.settingsSubject.subscribe(params => {
       this.shared.saveSettings[params.generalTab] = params;
 
-      const orderTab = this.router.navigate([this._url(params)]);
+      const orderTab = this.router.navigate([generateUrl(params)]);
 
       orderTab.then(() => {
         const data = {
@@ -93,14 +94,14 @@ export class MainComponent implements OnInit {
     const params = this.shared.saveSettings[generalTabName];
 
     if (!params) {
-      const defaultSettings = this.router.navigate([this._url({generalTab: generalTabName})]);
+      const defaultSettings = this.router.navigate([generateUrl({generalTab: generalTabName})]);
       defaultSettings.then(() => {
         this.cleanState();
       });
       return;
     }
 
-    const orderTab = this.router.navigate([this._url(params)]);
+    const orderTab = this.router.navigate([generateUrl(params)]);
 
     orderTab.then(() => {
       this.setState({
@@ -115,15 +116,19 @@ export class MainComponent implements OnInit {
    * @param orderTabName string ex. positions, orders
    */
   onSelectOrderTab(orderTabName: string) {
-    const generalTab = this.route.snapshot.paramMap.get('generalTab');
-    if (!generalTab) {
+    const id = this.route.snapshot.paramMap.has('id');
+    const generalTab = this.route.snapshot.paramMap.has('generalTab');
+    if (!generalTab || !id) {
       return;
     }
 
-    const params = this.shared.saveSettings[generalTab];
-    // params.orderTab = orderTabName;
+    const hasOrderTab = this.route.snapshot.paramMap.get('orderTab');
 
-    const orderTab = this.router.navigate([this._url(params)]);
+    let url = '';
+    url += hasOrderTab ? '../' : './';
+    url += orderTabName;
+
+    const orderTab = this.router.navigate([url], {relativeTo: this.route});
 
     orderTab.then(() => {
     });
@@ -155,32 +160,5 @@ export class MainComponent implements OnInit {
       id: params.id,
       type: params.type,
     }));
-  }
-
-  /**
-   *
-   * @param params :: generating url segments array
-   * only this module
-   */
-  private _url(params) {
-
-    let strUrl = './settings';
-    if (params.generalTab) {
-      strUrl += `/${params.generalTab}`;
-    }
-
-    if (params.id) {
-      strUrl += `/${params.id}`;
-    }
-
-    if (params.subType) {
-      strUrl += `/${params.subType}/${params.subId}`;
-    }
-
-    if (params.orderTab) {
-      strUrl += `/${params.orderTab}`;
-    }
-
-    return strUrl;
   }
 }
