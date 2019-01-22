@@ -10,6 +10,7 @@ import { SettingsState } from '@settings/reducers';
 import { getGroupFromSection } from '@settings/state/settings.selectors';
 import { LoadGroup } from '@settings/actions/group.actions';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-groups-tab',
@@ -28,7 +29,7 @@ export class GroupsTabComponent implements OnInit {
   @Input()
   accountsSection: any;
 
-  accountId: string;
+  subId: string;
   role = 'admin';
   faPlus = faPlus;
   faEdit = faEdit;
@@ -58,8 +59,39 @@ export class GroupsTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    // const id = this.route.snapshot.paramMap.get('id');
-    // this.store.dispatch(new LoadGroup(id));
+    const hasGeneralTab = this.route.snapshot.paramMap.has('generalTab');
+    if (!hasGeneralTab) {
+      return;
+    }
+
+    const generalTab = this.route.snapshot.paramMap.get('generalTab');
+    if (generalTab !== GROUPS) {
+      return;
+    }
+
+    const hasId = this.route.snapshot.paramMap.has('id');
+    if (!hasId) {
+      return;
+    }
+
+    const id = this.route.snapshot.paramMap.get('id');
+    const subId = this.route.snapshot.paramMap.get('subId');
+
+    this.shared.settingsSubject.next({
+      id: id,
+      subId: subId,
+      subType: this.route.snapshot.paramMap.get('subType'),
+      type: GROUPS,
+      generalTab: generalTab,
+      orderTab: this.route.snapshot.paramMap.get('orderTab'),
+    });
+
+    this.store.dispatch(new LoadGroup(id));
+
+    const hasSubType = this.route.snapshot.paramMap.has('subType');
+    if (hasSubType) {
+      this.subId = subId;
+    }
   }
 
   openModal(template: any, options = {}) {
@@ -72,23 +104,28 @@ export class GroupsTabComponent implements OnInit {
   }
 
   selectGroup(id) {
-    this.store.dispatch(new LoadGroup(id));
     this.shared.settingsSubject.next({
       id: id,
       subId: null,
-      type: 'groups',
-      tab: 'groups',
+      subType: null,
+      type: GROUPS,
+      generalTab: GROUPS,
+      orderTab: this.route.snapshot.paramMap.get('orderTab'),
     });
+
+    this.store.dispatch(new LoadGroup(id));
   }
 
   selectAccount(accId: string) {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.accountId = accId;
+    this.subId = accId;
+
     this.shared.settingsSubject.next({
-      id: id,
+      id: this.route.snapshot.paramMap.get('id'),
       subId: accId,
-      type: 'accounts',
-      tab: 'groups',
+      subType: ACCOUNTS,
+      type: ACCOUNTS,
+      generalTab: GROUPS,
+      orderTab: this.route.snapshot.paramMap.get('orderTab'),
     });
   }
 }

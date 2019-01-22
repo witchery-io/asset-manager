@@ -9,6 +9,7 @@ import { SettingsState } from '@settings/reducers';
 import { getAccountFromSection } from '@settings/state/settings.selectors';
 import { LoadAccount } from '@settings/actions/account.actions';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ACCOUNTS } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-accounts-tab',
@@ -48,8 +49,33 @@ export class AccountsTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    // const id = this.route.snapshot.paramMap.get('id');
-    // this.store.dispatch(new LoadAccount(id));
+    const hasGeneralTab = this.route.snapshot.paramMap.has('generalTab');
+    if (!hasGeneralTab) {
+      return;
+    }
+
+    const generalTab = this.route.snapshot.paramMap.get('generalTab');
+    if (generalTab !== ACCOUNTS) {
+      return;
+    }
+
+    const hasId = this.route.snapshot.paramMap.has('id');
+    if (!hasId) {
+      return;
+    }
+
+    const id = this.route.snapshot.paramMap.get('id');
+
+    this.shared.settingsSubject.next({
+      id: id,
+      subId: null,
+      subType: null,
+      type: ACCOUNTS,
+      generalTab: ACCOUNTS,
+      orderTab: this.route.snapshot.paramMap.get('orderTab'),
+    });
+
+    this.store.dispatch(new LoadAccount(id));
   }
 
   openModal(template: any, options = {}) {
@@ -62,12 +88,15 @@ export class AccountsTabComponent implements OnInit {
   }
 
   selectAccount(id) {
-    this.store.dispatch(new LoadAccount(id));
     this.shared.settingsSubject.next({
       id: id,
       subId: null,
-      type: 'accounts',
-      tab: 'accounts',
+      subType: null,
+      type: ACCOUNTS,
+      generalTab: ACCOUNTS,
+      orderTab: this.route.snapshot.paramMap.get('orderTab'),
     });
+
+    this.store.dispatch(new LoadAccount(id));
   }
 }

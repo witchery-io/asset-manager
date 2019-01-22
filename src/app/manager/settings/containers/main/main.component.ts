@@ -70,14 +70,14 @@ export class MainComponent implements OnInit {
     });
 
     this.shared.settingsSubject.subscribe(params => {
-      this.shared.saveSettings[params.tab] = params;
-      const orderTabName = this.route.snapshot.paramMap.get('orderTab');
-      const orderTabPromise = this.router.navigate([`./settings/${params.tab}/${params.id}/${orderTabName || ''}`]);
+      this.shared.saveSettings[params.generalTab] = params;
+
+      const orderTabPromise = this.router.navigate([this._url(params)]);
 
       orderTabPromise.then(() => {
         const data = {
           id: params.subId || params.id,
-          type: params.type,
+          type: params.subType || params.type,
         };
 
         this.setState(data);
@@ -90,27 +90,23 @@ export class MainComponent implements OnInit {
    * @param generalTabName ex. groups, accounts
    */
   onSelectGeneralTab(generalTabName: string) {
-    const settings = this.shared.saveSettings[generalTabName];
+    const params = this.shared.saveSettings[generalTabName];
 
-    if (!settings) {
-      const _orderTab = this.router.navigate([`./settings/${generalTabName}`]);
-      _orderTab.then(() => {
+    if (!params) {
+      const defaultSettings = this.router.navigate([this._url({generalTab: generalTabName})]);
+      defaultSettings.then(() => {
         this.cleanState();
       });
       return;
     }
 
-    const orderTabName = this.route.snapshot.paramMap.get('orderTab');
-    const orderTab = this.router.navigate([`./settings/${generalTabName}/${settings.id}/${orderTabName || ''}`]);
+    const orderTab = this.router.navigate([this._url(params)]);
 
     orderTab.then(() => {
-      const id = settings.subId || settings.id;
-      const params = {
-        id: id,
-        type: settings.type,
-      };
-
-      this.setState(params);
+      this.setState({
+        id: params.subId || params.id,
+        type: params.subType || params.type,
+      });
     });
   }
 
@@ -120,19 +116,17 @@ export class MainComponent implements OnInit {
    */
   onSelectOrderTab(orderTabName: string) {
     const generalTab = this.route.snapshot.paramMap.get('generalTab');
-
     if (!generalTab) {
       return;
     }
 
-    const settings = this.shared.saveSettings[generalTab];
-    if (settings) {
-      const url = `./settings/${settings.tab}/${settings.id}/${orderTabName}`;
-      const orderTab = this.router.navigate([url]);
+    const params = this.shared.saveSettings[generalTab];
+    params.orderTab = orderTabName;
 
-      orderTab.then(() => {
-      });
-    }
+    const orderTab = this.router.navigate([this._url(params)]);
+
+    orderTab.then(() => {
+    });
   }
 
   private cleanState() {
@@ -154,5 +148,32 @@ export class MainComponent implements OnInit {
       id: params.id,
       type: params.type,
     }));
+  }
+
+  /**
+   *
+   * @param params :: generating url segments array
+   * only this module
+   */
+  private _url(params) {
+
+    let strUrl = './settings';
+    if (params.generalTab) {
+      strUrl += `/${params.generalTab}`;
+    }
+
+    if (params.id) {
+      strUrl += `/${params.id}`;
+    }
+
+    if (params.subType) {
+      strUrl += `/${params.subType}/${params.subId}`;
+    }
+
+    if (params.orderTab) {
+      strUrl += `/${params.orderTab}`;
+    }
+
+    return strUrl;
   }
 }

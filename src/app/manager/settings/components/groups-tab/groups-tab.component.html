@@ -76,7 +76,7 @@
         <tr
           class="cursor-pointer"
           *ngFor="let account of selectedGroup?.accounts"
-          [class.table-active]="account.id === accountId"
+          [class.table-active]="account.id === subId"
           (click)="selectAccount(account.id)"
         >
           <td>{{ account.user_name }}</td>
