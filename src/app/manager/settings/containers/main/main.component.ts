@@ -72,9 +72,9 @@ export class MainComponent implements OnInit {
     this.shared.settingsSubject.subscribe(params => {
       this.shared.saveSettings[params.generalTab] = params;
 
-      const orderTabPromise = this.router.navigate([this._url(params)]);
+      const orderTab = this.router.navigate([this._url(params)]);
 
-      orderTabPromise.then(() => {
+      orderTab.then(() => {
         const data = {
           id: params.subId || params.id,
           type: params.subType || params.type,
@@ -121,7 +121,7 @@ export class MainComponent implements OnInit {
     }
 
     const params = this.shared.saveSettings[generalTab];
-    params.orderTab = orderTabName;
+    // params.orderTab = orderTabName;
 
     const orderTab = this.router.navigate([this._url(params)]);
 
@@ -129,12 +129,19 @@ export class MainComponent implements OnInit {
     });
   }
 
+  /**
+   * clean State
+   */
   private cleanState() {
     this.store.dispatch(new CleanUpBalance());
     this.store.dispatch(new CleanUpOrders());
     this.store.dispatch(new CleanUpPositions());
   }
 
+  /**
+   * se new params to state
+   * @param params :: array
+   */
   private setState(params) {
     this.store.dispatch(new LoadBalance({
       id: params.id,
