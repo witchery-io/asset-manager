@@ -59,11 +59,6 @@ export class GroupsComponent implements OnInit {
     const tab = this.route.snapshot.paramMap.get('tab');
     const routerPromise = this.router.navigate([`/trading/${GROUPS}/${changing_tab_id}/${tab}`]);
     routerPromise.then(() => {
-      this.store.dispatch(new SettingsUpdate({ id: changing_tab_id, type: GROUPS, groupByPair: this.groupByPair }));
-
-      this.store.dispatch(new LoadBalance({ id: changing_tab_id, type: GROUPS, groupByPair: this.groupByPair }));
-      this.store.dispatch(new LoadOrders({ id: changing_tab_id, type: GROUPS, groupByPair: this.groupByPair }));
-      this.store.dispatch(new LoadPositions({ id: changing_tab_id, type: GROUPS, groupByPair: this.groupByPair }));
     });
   }
 }

@@ -72,33 +72,47 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    const type = this.route.snapshot.paramMap.get('type');
-    const active_tab = this.route.snapshot.paramMap.get('tab');
+    this.route.params.subscribe(params => {
 
-    /*
-    * Set active tab
-    * */
-    this.ordersTabs.tabs[OrderTab[active_tab] || this._defaultTabIndex].active = true;
+      /*
+      * Set active tab
+      * */
+      this.ordersTabs.tabs[OrderTab[params.tab] || this._defaultTabIndex].active = true;
 
-    /*
-    * Set current trading id and type
-    * */
-    this.store.dispatch(new SettingsSet({ id: id, type: type, groupByPair: this.groupByPair }));
+      /*
+      * Set current trading id and type
+      * */
+      this.store.dispatch(new SettingsSet({
+        id: params.id,
+        type: params.type,
+        groupByPair: this.groupByPair,
+      }));
 
-    /*
-    * Load data
-    * */
-    this.store.dispatch(new LoadBalance({ id: id, type: type, groupByPair: this.groupByPair }));
-    this.store.dispatch(new LoadOrders({ id: id, type: type, groupByPair: this.groupByPair }));
-    this.store.dispatch(new LoadPositions({ id: id, type: type, groupByPair: this.groupByPair }));
+      /*
+      * Set new data
+      * */
+      this.store.dispatch(new LoadBalance({
+        id: params.id,
+        type: params.type,
+        groupByPair: this.groupByPair,
+      }));
+      this.store.dispatch(new LoadOrders({
+        id: params.id,
+        type: params.type,
+        groupByPair: this.groupByPair,
+      }));
+      this.store.dispatch(new LoadPositions({
+        id: params.id,
+        type: params.type,
+        groupByPair: this.groupByPair,
+      }));
+    });
   }
 
   onSelectOrderTab(tab_id) {
     const orderPromise = this.router.navigate([`../${tab_id}`], {relativeTo: this.route});
 
     orderPromise.then(() => {
-      this.ordersTabs.tabs[OrderTab[tab_id] || this._defaultTabIndex].active = true;
     });
   }
 }
