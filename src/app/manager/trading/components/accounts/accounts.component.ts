@@ -51,9 +51,10 @@ export class AccountsComponent implements OnInit {
   ngOnInit() {
   }
 
-  onChange(changing_tab_id) {
+  onChange(accountId) {
     const tab = this.route.snapshot.paramMap.get('tab');
-    const routerPromise = this.router.navigate([`/trading/${ACCOUNTS}/${changing_tab_id}/${tab}`]);
+    const routerPromise = this.router.navigate([`/trading/${ACCOUNTS}/${accountId}/${tab}`]);
+
     routerPromise.then(() => {
     });
   }

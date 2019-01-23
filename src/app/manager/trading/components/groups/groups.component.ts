@@ -51,9 +51,10 @@ export class GroupsComponent implements OnInit {
   ngOnInit() {
   }
 
-  onChange(changing_tab_id) {
+  onChange(groupId) {
     const tab = this.route.snapshot.paramMap.get('tab');
-    const routerPromise = this.router.navigate([`/trading/${GROUPS}/${changing_tab_id}/${tab}`]);
+    const routerPromise = this.router.navigate([`/trading/${GROUPS}/${groupId}/${tab}`]);
+
     routerPromise.then(() => {
     });
   }
