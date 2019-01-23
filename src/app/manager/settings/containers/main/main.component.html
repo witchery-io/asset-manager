@@ -39,14 +39,14 @@
           <app-orders
             *ngIf="(isLoadingOrders$ | async) === false"
             [section]="orders$ | async"
-            [accountsS]="accounts$ | async"
+            [accountsSection]="accounts$ | async"
           ></app-orders>
         </tab>
         <tab heading="POSITIONS" id="positions" (select)="onSelectOrderTab('positions')">
           <app-positions
             *ngIf="(isLoadingPositions$ | async) === false"
             [section]="positions$ | async"
-            [accountsS]="accounts$ | async"
+            [accountsSection]="accounts$ | async"
           ></app-positions>
         </tab>
       </tabset>

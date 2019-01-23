@@ -43,7 +43,7 @@
           <app-orders
             *ngIf="(isLoadingOrders$ | async) === false"
             [section]="orders$ | async"
-            [accountsS]="accounts$ | async"
+            [accountsSection]="accounts$ | async"
           ></app-orders>
         </tab>
         <tab heading="POSITIONS" id="positions" (select)="onSelectOrderTab('positions')">
@@ -52,7 +52,7 @@
             [id]="id$ | async"
             [type]="type$ | async"
             [section]="positions$ | async"
-            [accountsS]="accounts$ | async"
+            [accountsSection]="accounts$ | async"
           ></app-positions>
         </tab>
       </tabset>
@@ -63,6 +63,6 @@
 <app-balance
   *ngIf="(isLoadingBalance$ | async) === false"
   [section]="balance$ | async"
-  [groupsS]="groups$ | async"
-  [accountsS]="accounts$ | async"
+  [groupsSection]="groups$ | async"
+  [accountsSection]="accounts$ | async"
 ></app-balance>

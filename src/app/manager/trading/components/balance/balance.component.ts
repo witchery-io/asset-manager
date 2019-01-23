@@ -16,10 +16,10 @@ export class BalanceComponent implements OnInit {
   section: any;
 
   @Input()
-  groupsS: any;
+  groupsSection: any;
 
   @Input()
-  accountsS: any;
+  accountsSection: any;
 
   modalRef: BsModalRef;
   transferForm: FormGroup;
@@ -38,11 +38,11 @@ export class BalanceComponent implements OnInit {
   }
 
   get accounts() {
-    return getAccountsFromSection(this.accountsS);
+    return getAccountsFromSection(this.accountsSection);
   }
 
   get groups() {
-    return getGroupsFromSection(this.groupsS);
+    return getGroupsFromSection(this.groupsSection);
   }
 
   ngOnInit() {
