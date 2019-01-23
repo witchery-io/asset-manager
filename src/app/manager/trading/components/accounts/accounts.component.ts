@@ -3,11 +3,7 @@ import { getAccountsFromSection } from '@app/core/reducers';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
-import { SettingsUpdate } from '@trading/actions/settings.actions';
 import { ACCOUNTS } from '@app/shared/enums/trading.enum';
-import { LoadBalance } from '@trading/actions/balance.actions';
-import { LoadOrders } from '@trading/actions/orders.actions';
-import { LoadPositions } from '@trading/actions/positions.actions';
 
 @Component({
   selector: 'app-accounts',
