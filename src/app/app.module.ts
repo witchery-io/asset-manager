@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AppRoutingModule } from '@app/app-routing.module';
+import { AppRoutingModule, appRoutingProviders } from '@app/app-routing.module';
 import { CoreModule } from '@app/core/core.module';
 import { SharedModule } from '@app/shared/shared.module';
 
@@ -31,7 +31,9 @@ import { NotifierModule } from 'angular-notifier';
       },
     }),
   ],
-  providers: [],
+  providers: [
+    appRoutingProviders,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
