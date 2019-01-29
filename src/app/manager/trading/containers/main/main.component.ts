@@ -17,6 +17,9 @@ import * as fromTicks from '@app/core/reducers/tick.reducers';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { OrderTab } from '@app/shared/enums';
+import { LoadGroups } from '@app/core/actions/group.actions';
+import { LoadTicks } from '@app/core/actions/tick.actions';
+import { LoadAccounts } from '@app/core/actions/account.actions';
 
 @Component({
   selector: 'app-trading',
@@ -52,6 +55,14 @@ export class MainComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
   ) {
+
+    /*
+    * Load Default Data
+    * */
+    this.store.dispatch(new LoadGroups());
+    this.store.dispatch(new LoadAccounts());
+    this.store.dispatch(new LoadTicks());
+
     this.orders$ = this.store.pipe(select(Select.getOrders));
     this.isLoadingOrders$ = this.store.pipe(select(Select.isLoadingOrders));
 

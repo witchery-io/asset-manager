@@ -12,12 +12,8 @@ import { CoreState } from '@app/core/reducers';
 export class AppComponent implements OnInit {
 
   constructor(
-    private store: Store<CoreState>,
   ) {}
 
   ngOnInit() {
-    this.store.dispatch(new LoadGroups());
-    this.store.dispatch(new LoadAccounts());
-    this.store.dispatch(new LoadTicks());
   }
 }
