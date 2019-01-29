@@ -76,4 +76,15 @@ export class ApiService {
       localStorage.removeItem('authKey');
     }
   }
+
+  /**
+   * Gets 'Authorization' header.
+   */
+  getAuthorizationHeader(): string {
+    if (!this.authKey) {
+      return '';
+    }
+
+    return `Bearer ${ this.authKey }`;
+  }
 }

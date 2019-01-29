@@ -9,6 +9,7 @@ import { reducers } from '@app/core/reducers';
 import { AccountEffects } from '@app/core/effects/account.effects';
 import { GroupEffects } from '@app/core/effects/group.effects';
 import { TickEffects } from '@app/core/effects/tick.effects';
+import { INTERCEPTOR_PROVIDERS } from '@app/core/interceptors';
 
 @NgModule({
   declarations: [],
@@ -30,6 +31,7 @@ import { TickEffects } from '@app/core/effects/tick.effects';
     WebSocketService,
     AuthService,
     ApiService,
+    ...INTERCEPTOR_PROVIDERS,
   ],
 })
 export class CoreModule {
