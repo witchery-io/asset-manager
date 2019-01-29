@@ -13,6 +13,7 @@ import { BsDropdownModule, CollapseModule, ModalModule, TabsModule, TooltipModul
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { INTERCEPTOR_PROVIDERS } from '@app/core/interceptors';
 
 @NgModule({
   imports: [
@@ -46,7 +47,9 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     NavBarComponent,
     MarketComponent,
   ],
-  providers: [],
+  providers: [
+    ...INTERCEPTOR_PROVIDERS,
+  ],
 })
 export class SharedModule {
 }
