@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderTab, TypeTab } from '@app/shared/enums';
 import { TabsetComponent } from 'ngx-bootstrap';
@@ -22,7 +22,7 @@ import { generateUrl } from '@settings/utils/settings.utils';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
 
   @ViewChild('generalTabs') generalTabs: TabsetComponent;
   @ViewChild('ordersTabs') ordersTabs: TabsetComponent;
@@ -84,6 +84,13 @@ export class MainComponent implements OnInit {
         this.setState(data);
       });
     });
+  }
+
+  /**
+   * Clear State
+   */
+  ngOnDestroy(): void {
+    this.cleanState();
   }
 
   /**
