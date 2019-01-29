@@ -87,7 +87,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Clear State
+   * Clean State on destroy
    */
   ngOnDestroy(): void {
     this.cleanState();
