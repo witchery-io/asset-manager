@@ -22,7 +22,8 @@
       "@app/*": ["src/app/*"],
       "@trading/*": ["src/app/manager/trading/*"],
       "@bots/*": ["src/app/manager/bots/*"],
-      "@settings/*": ["src/app/manager/settings/*"]
+      "@settings/*": ["src/app/manager/settings/*"],
+      "@login/*": ["src/app/login/*"]
     }
   }
 }

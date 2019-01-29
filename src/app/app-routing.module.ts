@@ -17,6 +17,10 @@ const routes: Routes = [
     path: 'settings',
     loadChildren: '@settings/settings.module#SettingsModule',
   },
+  {
+    path: 'login',
+    loadChildren: '@login/login.module#LoginModule',
+  },
   { path: '404', component: PageNotFoundComponent },
   { path: '500', component: ServerErrorComponent },
   { path: '**', component: PageNotFoundComponent },
