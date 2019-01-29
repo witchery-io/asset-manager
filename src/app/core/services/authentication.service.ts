@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '@app/core/services/api.service';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
@@ -21,5 +22,18 @@ export class AuthService {
 
   get isLoggedIn() {
     return !!this.api.authKey;
+  }
+
+  login(data) {
+    return this.api.post('http://moneo-partner-api.witchery.io/token', data)
+      .pipe(
+        map((res: any) => {
+          if (res.token) {
+            this.api.setAuthKey(res.token);
+          }
+
+          return res;
+        }),
+      );
   }
 }
