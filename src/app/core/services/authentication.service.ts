@@ -28,7 +28,7 @@ export class AuthService {
     return this.api.post('http://moneo-partner-api.witchery.io/token', data)
       .pipe(
         map((res: any) => {
-          if (res.token) {
+          if (res.token && res.userId) {
             this.api.setAuthKey(res.token);
           }
 

@@ -29,6 +29,7 @@ export class NavBarComponent implements OnInit {
 
   onLogout() {
     this.auth.logout();
+
     const loginPromise = this.router.navigate(['login']);
     loginPromise.then(() => {
     });
