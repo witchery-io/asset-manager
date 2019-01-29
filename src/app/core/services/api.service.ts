@@ -65,4 +65,15 @@ export class ApiService {
       localStorage.setItem('authKey', key);
     }
   }
+
+  /**
+   * Remove local user credentials
+   */
+  clearAuthKey() {
+    this.authKey = undefined;
+
+    if (ApiService.isLocalStorageSupported()) {
+      localStorage.removeItem('authKey');
+    }
+  }
 }

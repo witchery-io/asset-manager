@@ -36,4 +36,8 @@ export class AuthService {
         }),
       );
   }
+
+  logout() {
+    return this.api.clearAuthKey();
+  }
 }
