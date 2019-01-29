@@ -4,5 +4,6 @@ import { Injectable } from '@angular/core';
 export class ApiService {
   authKey: string;
 
-  constructor() { }
+  constructor() {
+  }
 }
