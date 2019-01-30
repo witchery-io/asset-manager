@@ -77,7 +77,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     /*
-    * Load Default Data
+    * Load Total Data
     * */
     this.store.dispatch(new LoadGroups());
     this.store.dispatch(new LoadAccounts());
