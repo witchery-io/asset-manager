@@ -47,17 +47,6 @@ export class MainComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
-  static isSame(obj1, obj2) {
-    if (!obj1 || !obj2) {
-      return false;
-    }
-
-    return obj1.id === obj2.id
-      && obj1.subId === obj2.subId
-      && obj1.type === obj2.type
-      && obj1.subType === obj2.subType;
-  }
-
   constructor(
     private store: Store<SettingsState>,
     private route: ActivatedRoute,
@@ -78,6 +67,17 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.group$ = this.store.pipe(select(Select.getGroup));
     this.account$ = this.store.pipe(select(Select.getAccount));
+  }
+
+  static isSame(obj1, obj2) {
+    if (!obj1 || !obj2) {
+      return false;
+    }
+
+    return obj1.id === obj2.id
+      && obj1.subId === obj2.subId
+      && obj1.type === obj2.type
+      && obj1.subType === obj2.subType;
   }
 
   ngOnInit() {
@@ -146,11 +146,13 @@ export class MainComponent implements OnInit, OnDestroy {
 
     const orderTab = this.router.navigate([generateUrl(params)]);
 
-    orderTab.then(() => {
-      this.setState({
-        id: params.subId || params.id,
-        type: params.subType || params.type,
-      });
+    orderTab.then((status) => {
+      if (status) {
+        this.setState({
+          id: params.subId || params.id,
+          type: params.subType || params.type,
+        });
+      }
     });
   }
 

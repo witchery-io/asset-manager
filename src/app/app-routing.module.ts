@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from '@app/pages/page-not-found.component';
 import { ServerErrorComponent } from '@app/pages/server-error.component';
 import { AuthGuard } from '@app/shared/services/auth-guard.service';
 import { NotAuthGuard } from '@app/shared/services/not-auth-guard.service';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'trading', pathMatch: 'full' },
+  {path: '', redirectTo: 'trading', pathMatch: 'full'},
   {
     path: 'trading',
     loadChildren: '@trading/trading.module#TradingModule',
@@ -23,9 +23,9 @@ const routes: Routes = [
     path: 'login',
     loadChildren: '@login/login.module#LoginModule',
   },
-  { path: '404', component: PageNotFoundComponent },
-  { path: '500', component: ServerErrorComponent },
-  { path: '**', component: PageNotFoundComponent },
+  {path: '404', component: PageNotFoundComponent},
+  {path: '500', component: ServerErrorComponent},
+  {path: '**', component: PageNotFoundComponent},
 ];
 export const appRoutingProviders: any[] = [
   AuthGuard,
@@ -36,4 +36,5 @@ export const appRoutingProviders: any[] = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
