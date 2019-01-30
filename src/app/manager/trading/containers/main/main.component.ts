@@ -17,6 +17,9 @@ import * as fromTicks from '@app/core/reducers/tick.reducers';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { OrderTab } from '@app/shared/enums';
+import { LoadGroups } from '@app/core/actions/group.actions';
+import { LoadAccounts } from '@app/core/actions/account.actions';
+import { LoadTicks } from '@app/core/actions/tick.actions';
 
 @Component({
   selector: 'app-trading',
@@ -72,6 +75,13 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
+    /*
+    * Load Default Data
+    * */
+    this.store.dispatch(new LoadGroups());
+    this.store.dispatch(new LoadAccounts());
+    this.store.dispatch(new LoadTicks());
+
     this.route.params.subscribe(params => {
 
       /*
