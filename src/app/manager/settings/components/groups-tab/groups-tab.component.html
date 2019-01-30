@@ -58,7 +58,7 @@
       <div class="form-group">
         <button
           class="btn btn-xs btn-outline-primary"
-          [disabled]="role !== 'admin'"
+          [disabled]="role !== 'admin' || !selectedGroup"
           (click)="openModal(addAccountModal, { class: 'modal-sm' })"
         >
           <fa-icon [icon]="faPlus"></fa-icon>
