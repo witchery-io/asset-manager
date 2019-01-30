@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 export const LOAD_GROUP = '[SETTINGS] Load Group';
 export const GROUP_LOADED = '[SETTINGS] Group Loaded';
 export const GROUP_NOT_LOADED = '[SETTINGS] Group Not Loaded';
+export const CLEAN_UP_GROUP = '[SETTINGS] Clean Up Group';
 
 export class LoadGroup implements Action {
   readonly type = LOAD_GROUP;
@@ -25,7 +26,12 @@ export class GroupNotLoaded implements Action {
   }
 }
 
+export class CleanUpGroup implements Action {
+  readonly type = CLEAN_UP_GROUP;
+}
+
 export type Actions =
   LoadGroup
   | GroupLoaded
-  | GroupNotLoaded;
+  | GroupNotLoaded
+  | CleanUpGroup;

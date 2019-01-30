@@ -22,7 +22,7 @@ export function reducer(state: State = initialState, action: GroupActions.Action
     }
 
     case GroupActions.GROUP_LOADED: {
-      return  {
+      return {
         ...state,
         isLoading: false,
         error: null,
@@ -36,6 +36,10 @@ export function reducer(state: State = initialState, action: GroupActions.Action
         error: action.payload.error,
         isLoading: false,
       };
+    }
+
+    case GroupActions.CLEAN_UP_GROUP: {
+      return initialState;
     }
 
     default: {

@@ -22,7 +22,7 @@ export function reducer(state: State = initialState, action: AccountActions.Acti
     }
 
     case AccountActions.ACCOUNT_LOADED: {
-      return  {
+      return {
         ...state,
         isLoading: false,
         error: null,
@@ -36,6 +36,10 @@ export function reducer(state: State = initialState, action: AccountActions.Acti
         error: action.payload.error,
         isLoading: false,
       };
+    }
+
+    case AccountActions.CLEAN_UP_ACCOUNT: {
+      return initialState;
     }
 
     default: {

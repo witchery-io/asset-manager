@@ -4,7 +4,6 @@
 
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { SettingsState } from '@settings/reducers';
-import * as fromTick from '@app/core/reducers/tick.reducers';
 import * as fromOrders from '@settings/reducers/orders.reducers';
 import * as fromPositions from '@settings/reducers/positions.reducers';
 import * as fromBalance from '@settings/reducers/balance.reducers';
@@ -14,8 +13,6 @@ import * as fromGroup from '@settings/reducers/group.reducers';
 export const getCoreState = createFeatureSelector<SettingsState>('core');
 export const getAccounts = createSelector(getCoreState, (state: SettingsState) => state.accounts);
 export const getGroups = createSelector(getCoreState, (state: SettingsState) => state.groups);
-export const getTicks = createSelector(getCoreState, (state: SettingsState) => state.ticks);
-export const ticksIsLoading = createSelector(getTicks, (state: fromTick.State) => state.isLoading);
 
 /*
 * Create SETTINGS selectors
