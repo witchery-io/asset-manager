@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { LoadGroups } from '@app/core/actions/group.actions';
+import { LoadAccounts } from '@app/core/actions/account.actions';
+import { LoadTicks } from '@app/core/actions/tick.actions';
+import { Store } from '@ngrx/store';
+import { CoreState } from '@app/core/reducers';
 
 @Component({
   selector: 'app-root',
@@ -6,9 +11,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
-  constructor() {
+  constructor(
+    private store: Store<CoreState>,
+  ) {
   }
 
   ngOnInit() {
+    /*
+    * Load Total Data
+    * */
+    this.store.dispatch(new LoadGroups());
+    this.store.dispatch(new LoadAccounts());
+    this.store.dispatch(new LoadTicks());
   }
 }

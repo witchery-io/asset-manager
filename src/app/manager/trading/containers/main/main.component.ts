@@ -17,9 +17,6 @@ import * as fromTicks from '@app/core/reducers/tick.reducers';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { OrderTab } from '@app/shared/enums';
-import { LoadGroups } from '@app/core/actions/group.actions';
-import { LoadAccounts } from '@app/core/actions/account.actions';
-import { LoadTicks } from '@app/core/actions/tick.actions';
 
 @Component({
   selector: 'app-trading',
@@ -76,13 +73,6 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
-    /*
-    * Load Total Data
-    * */
-    this.store.dispatch(new LoadGroups());
-    this.store.dispatch(new LoadAccounts());
-    this.store.dispatch(new LoadTicks());
-
     this.route.params.subscribe(params => {
 
       /*
@@ -93,30 +83,14 @@ export class MainComponent implements OnInit {
       /*
       * Set current trading id and type
       * */
-      this.store.dispatch(new SettingsSet({
-        id: params.id,
-        type: params.type,
-        groupByPair: this.groupByPair,
-      }));
+      this.store.dispatch(new SettingsSet({id: params.id, type: params.type, groupByPair: this.groupByPair}));
 
       /*
       * Set new data
       * */
-      this.store.dispatch(new LoadBalance({
-        id: params.id,
-        type: params.type,
-        groupByPair: this.groupByPair,
-      }));
-      this.store.dispatch(new LoadOrders({
-        id: params.id,
-        type: params.type,
-        groupByPair: this.groupByPair,
-      }));
-      this.store.dispatch(new LoadPositions({
-        id: params.id,
-        type: params.type,
-        groupByPair: this.groupByPair,
-      }));
+      this.store.dispatch(new LoadBalance({id: params.id, type: params.type, groupByPair: this.groupByPair}));
+      this.store.dispatch(new LoadOrders({id: params.id, type: params.type, groupByPair: this.groupByPair}));
+      this.store.dispatch(new LoadPositions({id: params.id, type: params.type, groupByPair: this.groupByPair}));
     });
   }
 

@@ -16,9 +16,6 @@ import { CleanUpOrders, LoadOrders } from '@settings/actions/orders.actions';
 import { CleanUpPositions, LoadPositions } from '@settings/actions/positions.actions';
 import { SharedService } from '@app/shared/services';
 import { generateUrl } from '@settings/utils/settings.utils';
-import { LoadGroups } from '@app/core/actions/group.actions';
-import { LoadAccounts } from '@app/core/actions/account.actions';
-import { LoadTicks } from '@app/core/actions/tick.actions';
 
 @Component({
   selector: 'app-trading',
@@ -81,13 +78,6 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    /*
-    * Load Total Data
-    * */
-    this.store.dispatch(new LoadGroups());
-    this.store.dispatch(new LoadAccounts());
-    this.store.dispatch(new LoadTicks());
-
     this.route.params.subscribe(params => {
       this.generalTabs.tabs[TypeTab[params.generalTab] || 0].active = true;
       this.ordersTabs.tabs[OrderTab[params.orderTab] || 0].active = true;
