@@ -40,6 +40,7 @@ export class MainComponent implements OnInit {
 
   accounts$: Observable<fromAccounts.State>;
   groups$: Observable<fromGroups.State>;
+
   ticks$: Observable<fromTicks.State>;
   ticksIsLoading$: Observable<boolean>;
 
