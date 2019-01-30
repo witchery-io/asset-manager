@@ -39,7 +39,9 @@ export class MainComponent implements OnInit {
   isLoadingBalance$: Observable<boolean>;
 
   accounts$: Observable<fromAccounts.State>;
+  isLoadingAccounts$: Observable<boolean>;
   groups$: Observable<fromGroups.State>;
+  isLoadingGroups$: Observable<boolean>;
 
   ticks$: Observable<fromTicks.State>;
   ticksIsLoading$: Observable<boolean>;
@@ -66,7 +68,9 @@ export class MainComponent implements OnInit {
     this.isLoadingBalance$ = this.store.pipe(select(Select.isLoadingBalance));
 
     this.accounts$ = this.store.pipe(select(Select.getAccounts));
+    this.isLoadingAccounts$ = this.store.pipe(select(Select.accountsIsLoading));
     this.groups$ = this.store.pipe(select(Select.getGroups));
+    this.isLoadingGroups$ = this.store.pipe(select(Select.groupsIsLoading));
 
     this.ticks$ = this.store.pipe(select(Select.getTicks));
     this.ticksIsLoading$ = this.store.pipe(select(Select.ticksIsLoading));

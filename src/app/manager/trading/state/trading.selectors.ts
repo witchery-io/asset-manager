@@ -5,6 +5,8 @@ import * as fromPositions from '@trading/reducers/positions.reducers';
 import * as fromBalance from '@trading/reducers/balance.reducers';
 import * as fromTick from '@app/core/reducers/tick.reducers';
 import * as fromSettings from '@trading/reducers/settings.reducers';
+import * as fromAccounts from '@app/core/reducers/account.reducers';
+import * as fromGroups from '@app/core/reducers/group.reducers';
 
 /*
 * Core Selectors
@@ -12,7 +14,9 @@ import * as fromSettings from '@trading/reducers/settings.reducers';
 
 export const getCoreState = createFeatureSelector<TradingState>('core');
 export const getAccounts = createSelector(getCoreState, (state: TradingState) => state.accounts);
+export const accountsIsLoading = createSelector(getAccounts, (state: fromAccounts.State) => state.isLoading);
 export const getGroups = createSelector(getCoreState, (state: TradingState) => state.groups);
+export const groupsIsLoading = createSelector(getGroups, (state: fromGroups.State) => state.isLoading);
 export const getTicks = createSelector(getCoreState, (state: TradingState) => state.ticks);
 export const ticksIsLoading = createSelector(getTicks, (state: fromTick.State) => state.isLoading);
 
