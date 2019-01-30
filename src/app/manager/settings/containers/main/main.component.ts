@@ -5,7 +5,7 @@ import { TabsetComponent } from 'ngx-bootstrap';
 import { select, Store } from '@ngrx/store';
 import * as Select from '@settings/state/settings.selectors';
 import { SettingsState } from '@settings/reducers';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import * as fromOrders from '@settings/reducers/orders.reducers';
 import * as fromPositions from '@settings/reducers/positions.reducers';
 import * as fromBalance from '@settings/reducers/balance.reducers';
@@ -45,6 +45,19 @@ export class MainComponent implements OnInit, OnDestroy {
   group$: Observable<any>;
   account$: Observable<any>;
 
+  subscription: Subscription;
+
+  static isSame(obj1, obj2) {
+    if (!obj1 || !obj2) {
+      return false;
+    }
+
+    return obj1.id === obj2.id
+      && obj1.subId === obj2.subId
+      && obj1.type === obj2.type
+      && obj1.subType === obj2.subType;
+  }
+
   constructor(
     private store: Store<SettingsState>,
     private route: ActivatedRoute,
@@ -80,9 +93,21 @@ export class MainComponent implements OnInit, OnDestroy {
       this.ordersTabs.tabs[OrderTab[params.orderTab] || 0].active = true;
     });
 
-    this.shared.settingsSubject.subscribe(params => {
+
+    this.subscription = this.shared.getSettings().subscribe(params => {
+      const currParams = this.shared.saveSettings[params.generalTab];
+      /*
+      * check there are same values
+      * */
+      if (MainComponent.isSame(currParams, params)) {
+        return;
+      }
+
       this.shared.saveSettings[params.generalTab] = params;
 
+      /*
+      * change current navigation
+      * */
       const orderTab = this.router.navigate([generateUrl(params)]);
 
       orderTab.then(() => {
@@ -101,6 +126,7 @@ export class MainComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy(): void {
     this.cleanState();
+    this.subscription.unsubscribe();
   }
 
   /**
@@ -165,17 +191,8 @@ export class MainComponent implements OnInit, OnDestroy {
    * @param params :: array
    */
   private setState(params) {
-    this.store.dispatch(new LoadBalance({
-      id: params.id,
-      type: params.type,
-    }));
-    this.store.dispatch(new LoadOrders({
-      id: params.id,
-      type: params.type,
-    }));
-    this.store.dispatch(new LoadPositions({
-      id: params.id,
-      type: params.type,
-    }));
+    this.store.dispatch(new LoadBalance({id: params.id, type: params.type}));
+    this.store.dispatch(new LoadOrders({id: params.id, type: params.type}));
+    this.store.dispatch(new LoadPositions({id: params.id, type: params.type}));
   }
 }

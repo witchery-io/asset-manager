@@ -77,7 +77,7 @@ export class GroupsTabComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     const subId = this.route.snapshot.paramMap.get('subId');
 
-    this.shared.settingsSubject.next({
+    this.shared.setSettings({
       id: id,
       subId: subId,
       subType: this.route.snapshot.paramMap.get('subType'),
@@ -104,7 +104,7 @@ export class GroupsTabComponent implements OnInit {
   }
 
   selectGroup(id) {
-    this.shared.settingsSubject.next({
+    this.shared.setSettings({
       id: id,
       subId: null,
       subType: null,
@@ -119,11 +119,11 @@ export class GroupsTabComponent implements OnInit {
   selectAccount(accId: string) {
     this.subId = accId;
 
-    this.shared.settingsSubject.next({
+    this.shared.setSettings({
       id: this.route.snapshot.paramMap.get('id'),
       subId: accId,
       subType: ACCOUNTS,
-      type: ACCOUNTS,
+      type: GROUPS,
       generalTab: GROUPS,
       orderTab: this.route.snapshot.paramMap.get('orderTab'),
     });

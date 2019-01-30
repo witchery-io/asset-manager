@@ -65,8 +65,7 @@ export class AccountsTabComponent implements OnInit {
     }
 
     const id = this.route.snapshot.paramMap.get('id');
-
-    this.shared.settingsSubject.next({
+    this.shared.setSettings({
       id: id,
       subId: null,
       subType: null,
@@ -88,7 +87,7 @@ export class AccountsTabComponent implements OnInit {
   }
 
   selectAccount(id) {
-    this.shared.settingsSubject.next({
+    this.shared.setSettings({
       id: id,
       subId: null,
       subType: null,
