@@ -27,6 +27,9 @@ import { LoadTicks } from '@app/core/actions/tick.actions';
 })
 export class MainComponent implements OnInit, OnDestroy {
 
+  _id: string;
+  _type: string;
+
   @ViewChild('generalTabs') generalTabs: TabsetComponent;
   @ViewChild('ordersTabs') ordersTabs: TabsetComponent;
 
@@ -112,12 +115,13 @@ export class MainComponent implements OnInit, OnDestroy {
       const orderTab = this.router.navigate([generateUrl(params)]);
 
       orderTab.then(() => {
-        const data = {
-          id: params.subId || params.id,
-          type: params.subType || params.type,
-        };
+        this._id = params.subId || params.id;
+        this._type = params.subType || params.type;
 
-        this.setState(data);
+        this.setState({
+          id: this._id,
+          type: this._type,
+        });
       });
     });
   }
@@ -149,9 +153,12 @@ export class MainComponent implements OnInit, OnDestroy {
 
     orderTab.then((status) => {
       if (status) {
+        this._id = params.subId || params.id;
+        this._type = params.subType || params.type;
+
         this.setState({
-          id: params.subId || params.id,
-          type: params.subType || params.type,
+          id: this._id,
+          type: this._type,
         });
       }
     });

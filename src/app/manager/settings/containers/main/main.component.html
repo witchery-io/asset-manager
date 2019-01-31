@@ -53,6 +53,8 @@
         <tab heading="POSITIONS" id="positions" (select)="onSelectOrderTab('positions')">
           <app-positions
             *ngIf="(isLoadingPositions$ | async) === false"
+            [id]="_id"
+            [type]="_type"
             [section]="positions$ | async"
             [accountsSection]="accounts$ | async"
           ></app-positions>
