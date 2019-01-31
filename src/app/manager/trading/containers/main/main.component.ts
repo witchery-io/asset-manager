@@ -5,7 +5,6 @@ import { TradingState } from '@trading/reducers';
 import { LoadBalance } from '@trading/actions/balance.actions';
 import { LoadOrders } from '@trading/actions/orders.actions';
 import { LoadPositions } from '@trading/actions/positions.actions';
-import { SettingsSet } from '@trading/actions/settings.actions';
 import { Observable } from 'rxjs';
 import * as Select from '@trading/state/trading.selectors';
 import * as fromOrders from '@trading/reducers/orders.reducers';
@@ -40,17 +39,18 @@ export class MainComponent implements OnInit {
 
   accounts$: Observable<fromAccounts.State>;
   isLoadingAccounts$: Observable<boolean>;
+
   groups$: Observable<fromGroups.State>;
   isLoadingGroups$: Observable<boolean>;
 
   ticks$: Observable<fromTicks.State>;
   ticksIsLoading$: Observable<boolean>;
 
-  type$: Observable<string>;
-  id$: Observable<string>;
-
   _defaultTabIndex = 0;
   groupByPair = true;
+
+  _id: string;
+  _type: string;
 
   constructor(
     private ws: WsHandlerService,
@@ -69,14 +69,12 @@ export class MainComponent implements OnInit {
 
     this.accounts$ = this.store.pipe(select(Select.getAccounts));
     this.isLoadingAccounts$ = this.store.pipe(select(Select.accountsIsLoading));
+
     this.groups$ = this.store.pipe(select(Select.getGroups));
     this.isLoadingGroups$ = this.store.pipe(select(Select.groupsIsLoading));
 
     this.ticks$ = this.store.pipe(select(Select.getTicks));
     this.ticksIsLoading$ = this.store.pipe(select(Select.ticksIsLoading));
-
-    this.type$ = this.store.pipe(select(Select.getType));
-    this.id$ = this.store.pipe(select(Select.getId));
   }
 
   ngOnInit() {
@@ -89,15 +87,15 @@ export class MainComponent implements OnInit {
 
     this.route.params.subscribe(params => {
 
+      console.log('params*', params);
+
+      this._id = params.id;
+      this._type = params.type;
+
       /*
       * Set active tab
       * */
       this.ordersTabs.tabs[OrderTab[params.tab] || this._defaultTabIndex].active = true;
-
-      /*
-      * Set current trading id and type
-      * */
-      this.store.dispatch(new SettingsSet({id: params.id, type: params.type, groupByPair: this.groupByPair}));
 
       /*
       * Set new data

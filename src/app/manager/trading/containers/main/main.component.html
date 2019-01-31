@@ -7,19 +7,17 @@
     <div class="col-lg-3 col-md-6">
       <app-groups
         *ngIf="(isLoadingGroups$ | async) === false"
-        [id]="id$ | async"
-        [type]="type$ | async"
+        [id]="_id"
+        [type]="_type"
         [section]="groups$ | async"
-        [groupByPair]="groupByPair"
       ></app-groups>
     </div>
     <div class="col-lg-3 col-md-6">
       <app-accounts
         *ngIf="(isLoadingAccounts$ | async) === false"
-        [id]="id$ | async"
-        [type]="type$ | async"
+        [id]="_id"
+        [type]="_type"
         [section]="accounts$ | async"
-        [groupByPair]="groupByPair"
       ></app-accounts>
     </div>
   </div>
@@ -30,10 +28,10 @@
   <div class="row">
     <div class="col-3">
       <app-ticks
-      *ngIf="(ticksIsLoading$ | async) === false"
-      [id]="id$ | async"
-      [type]="type$ | async"
-      [section]="ticks$ | async"
+        *ngIf="(ticksIsLoading$ | async) === false"
+        [id]="_id"
+        [type]="_type"
+        [section]="ticks$ | async"
       ></app-ticks>
     </div>
     <div class="col-9">
@@ -57,8 +55,8 @@
         <tab heading="POSITIONS" id="positions" (select)="onSelectOrderTab('positions')">
           <app-positions
             *ngIf="(isLoadingPositions$ | async) === false"
-            [id]="id$ | async"
-            [type]="type$ | async"
+            [id]="_id"
+            [type]="_type"
             [section]="positions$ | async"
             [accountsSection]="accounts$ | async"
           ></app-positions>

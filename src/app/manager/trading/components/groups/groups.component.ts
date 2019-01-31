@@ -26,16 +26,13 @@ export class GroupsComponent implements OnInit {
   GROUPS = GROUPS;
 
   @Input()
-  section: any;
+  id: string;
 
   @Input()
   type: string;
 
   @Input()
-  id: string;
-
-  @Input()
-  groupByPair: boolean;
+  section: any;
 
   constructor(
     private router: Router,

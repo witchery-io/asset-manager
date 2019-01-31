@@ -4,7 +4,6 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as fromBalance from '@trading/actions/balance.actions';
 import { BalanceService } from '@app/shared/services/balance.service';
-import { Settings } from '@trading/reducers/settings.reducers';
 
 @Injectable()
 export class BalanceEffects {
@@ -13,7 +12,7 @@ export class BalanceEffects {
   loadGroups$ = this.actions$.pipe(
     ofType<fromBalance.LoadBalance>(fromBalance.LOAD_BALANCE),
     map(settings => settings.payload),
-    switchMap((settings: Settings) => {
+    switchMap((settings: any) => {
       return this.balanceService.getBalance(settings).pipe(
         map(response => {
           return new fromBalance.BalanceLoaded({ balance: response });

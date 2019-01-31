@@ -26,16 +26,13 @@ export class AccountsComponent implements OnInit {
   ACCOUNTS = ACCOUNTS;
 
   @Input()
-  section: any;
+  id: string;
 
   @Input()
   type: string;
 
   @Input()
-  id: string;
-
-  @Input()
-  groupByPair: boolean;
+  section: any;
 
   constructor(
     private router: Router,
