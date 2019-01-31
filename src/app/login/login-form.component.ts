@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 export class LoginFormComponent implements OnInit {
 
   loginForm: FormGroup;
-  isLoading: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -28,17 +27,12 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit(model: any, isValid: boolean) {
-    if (this.isLoading || !isValid) {
+    if (!isValid) {
       return;
     }
 
-    this.isLoading = true;
-
     this.auth.login(model).subscribe((res: any) => {
-      this.isLoading = false;
-
       const navPromise = this.router.navigateByUrl(this.auth.redirectUrl || '/');
-
       navPromise.then(() => {
       });
     });
