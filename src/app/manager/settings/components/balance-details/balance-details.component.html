@@ -1,0 +1,74 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <small>BC</small>
+      <h6>{{ balance?.base_currency }}</h6>
+    </div>
+    <div class="col">
+      <small>Balance</small>
+      <h6>{{ balance?.balance | number }}</h6>
+    </div>
+    <div class="col">
+      <small>WSB</small>
+      <h6>{{ balance?.wsb | number }}</h6>
+    </div>
+    <div class="col">
+      <small>Equity</small>
+      <h6>{{ balance?.equity | number }}</h6>
+    </div>
+    <div class="col">
+      <small>PL (%)</small>
+      <h6>{{ balance?.pl | number }}</h6>
+    </div>
+    <div class="col">
+      <small>Exposure</small>
+      <h6>{{ balance?.exposure | number }}</h6>
+    </div>
+    <div class="col">
+      <small>PL</small>
+      <h6>{{ balance?.total_pl | number }}</h6>
+    </div>
+    <div class="col">
+      <small>Exp/Eq</small>
+      <h6>{{ balance?.exposure / balance?.equity * 100 | number }}</h6>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <h5 class="mt-3">Balances</h5>
+      <table class="table table-hover table-xs">
+        <thead>
+        <tr>
+          <th scope="col">Currency</th>
+          <th scope="col">Exchange</th>
+          <th scope="col">Margin</th>
+          <th scope="col">Funding</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let balance of balance?.per_currency_balances">
+          <td scope="col">{{ balance.currency }}</td>
+          <td scope="col">
+            <ng-container *ngIf="balance.exchange !== null && balance.exchange.length === 2">
+              {{ balance.exchange[0] | number }} / {{ balance.exchange[1] | number }}
+            </ng-container>
+            <ng-container *ngIf="balance.exchange === null || balance.exchange.length !== 2">0</ng-container>
+          </td>
+          <td scope="col">
+            <ng-container *ngIf="balance.margin !== null && balance.margin.length === 2">
+              {{ balance.margin[0] | number }} / {{ balance.margin[1] | number }}
+            </ng-container>
+            <ng-container *ngIf="balance.margin === null || balance.margin.length !== 2">0</ng-container>
+          </td>
+          <td scope="col">
+            <ng-container *ngIf="balance.funding !== null && balance.funding.length === 2">
+              {{ balance.funding[0] | number }} / {{ balance.funding[1] | number }}
+            </ng-container>
+            <ng-container *ngIf="balance.funding === null || balance.funding.length !== 2">0</ng-container>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

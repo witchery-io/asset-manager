@@ -1,0 +1,61 @@
+<form novalidate [formGroup]="accountForm">
+  <div class="form-group">
+    <label for="acc_name" class="small">Acc. Name</label>
+    <input
+      id="acc_name"
+      type="text"
+      class="form-control form-control-sm"
+      placeholder="Acc. Name"
+      formControlName="acc_name"
+    >
+  </div>
+  <div class="form-group">
+    <label for="user_name" class="small">User Name</label>
+    <input
+      id="user_name"
+      type="text"
+      class="form-control form-control-sm"
+      placeholder="User Name"
+      formControlName="user_name"
+    >
+  </div>
+  <div class="form-group">
+    <label for="risk" class="small">Risk</label>
+    <input id="risk" type="text" class="form-control form-control-sm" placeholder="Risk" formControlName="risk">
+  </div>
+  <div class="form-group">
+    <label for="exchange" class="small">Exchange</label>
+    <select class="form-control form-control-sm" id="exchange" formControlName="exchange">
+      <option *ngFor="let exchange of exchanges" [value]="exchange">{{ exchange | uppercase }}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="base_currency" class="small">Base currency</label>
+    <select class="form-control form-control-sm" id="base_currency" formControlName="base_currency">
+      <option *ngFor="let bc of baseCurrency" [value]="bc">{{ bc | uppercase }}</option>
+    </select>
+  </div>
+  <div>
+    <button
+      type="button"
+      class="btn btn-primary btn-xs"
+      aria-label="Close"
+      (click)="close($event)"
+    >Cancel
+    </button>
+    <button
+      *ngIf="formType === 'create'"
+      type="submit"
+      class="btn btn-success btn-xs float-right"
+      (click)="create(accountForm.value, accountForm.valid)"
+    >Add
+    </button>
+    <button
+      *ngIf="formType === 'update'"
+      type="submit"
+      class="btn btn-success btn-xs float-right"
+      (click)="update(accountForm.value, accountForm.valid)"
+    >Update
+    </button>
+  </div>
+</form>

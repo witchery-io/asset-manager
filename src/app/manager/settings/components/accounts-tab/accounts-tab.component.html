@@ -1,0 +1,90 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <button
+          class="btn btn-primary btn-xs"
+          [disabled]="role !== 'admin'"
+          (click)="openModal(accountModal, { class: 'modal-sm' })"
+        >
+          <fa-icon [icon]="faPlus"></fa-icon>
+          Create Account
+        </button>
+      </div>
+      <table class="table table-hover table-xs">
+        <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Acc. Name</th>
+          <th scope="col">User Name</th>
+          <th scope="col">Exchange</th>
+          <th scope="col">BC</th>
+          <th scope="col">Rank</th>
+          <th scope="col">Date</th>
+          <th scope="col">Status</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          class="cursor-pointer"
+          *ngFor="let account of accounts; index as i"
+          (click)="selectAccount(account.id)"
+          [class.table-active]="account.id === selectedAccount?.id"
+        >
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ account.acc_name }}</td>
+          <td>{{ account.user_name }}</td>
+          <td>{{ account.exchange }}</td>
+          <td>{{ account.base_currency }}</td>
+          <td>{{ account.risk }}</td>
+          <td>{{ account.created_at | date: 'shortDate' }}</td>
+          <td>
+          <span class="switch switch-sm">
+          <input
+            id="switch-{{account.id}}"
+            class="switch"
+            type="checkbox"
+            [disabled]="role !== 'admin'"
+            [checked]="account.status"
+          >
+          <label class="m-0" for="switch-{{account.id}}"></label>
+        </span>
+          </td>
+          <td>
+            <fa-icon
+              (click)="edit(account, editAccountModal, { class: 'modal-sm' })"
+              [icon]="faEdit"
+              class="text-danger float-right"
+              title="Edit"
+            ></fa-icon>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #accountModal>
+  <div class="modal-header">
+    <h4 class="modal-title">Create Account</h4>
+  </div>
+  <div class="modal-body">
+    <app-account-form
+      [formType]="'create'"
+    ></app-account-form>
+  </div>
+</ng-template>
+
+<ng-template #editAccountModal>
+  <div class="modal-header">
+    <h4 class="modal-title">Edit Account</h4>
+  </div>
+  <div class="modal-body">
+    <app-account-form
+      [values]="formValues"
+      [formType]="'update'"
+    ></app-account-form>
+  </div>
+</ng-template>

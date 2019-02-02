@@ -1,0 +1,95 @@
+<table class="table table-hover table-xs m-0" [tooltip]="tooltip">
+  <tbody>
+  <tr class="d-flex" [style.backgroundColor]="permission !== 'parent' ? '#f2f2f2' : !isCollapsed ? '#dddddd' : ''">
+    <td class="col">{{ position.pair }}</td>
+    <td class="col">{{ OrderDirection[position.type.direction] }}</td>
+    <td class="col">{{ position.amount | number }}</td>
+    <td class="col">{{ position.open_price | number }}</td>
+    <td class="col">{{ position.current_price | number }}</td>
+    <td class="col">
+      <button
+        [disabled]="role !== ROLE.ADMIN"
+        class="btn btn-xs btn-danger"
+        (click)="orderStop(tradingModal)"
+      >Add
+      </button>
+    </td>
+    <td class="col">
+      <button
+        [disabled]="role !== ROLE.ADMIN"
+        class="btn btn-xs btn-warning"
+        (click)="orderLimit(tradingModal)"
+      >Add
+      </button>
+    </td>
+    <td class="col">{{ feeOrSwap | number }}</td>
+    <td class="col">{{ position.pl | number }}</td>
+    <td class="col">{{ position.plmain | number }}</td>
+    <td class="col">{{ position.plmprc | number }}</td>
+    <td class="col">{{ position.exposure | number }}</td>
+    <td class="col">{{ position.open_order_time | date:'short' }}</td>
+    <td class="col">
+      <button
+        [disabled]="role !== ROLE.ADMIN"
+        class="btn btn-danger btn-xs"
+        (click)="openModal(closeOrderModal, { class: 'modal-sm' })"
+      >Close
+      </button>
+    </td>
+    <th class="col">
+      <button
+        [hidden]="permission !== PARENT || position.suborders === null"
+        (click)="collapse()"
+        [attr.aria-expanded]="!isCollapsed"
+        class="btn btn-xs btn-primary">
+        <fa-icon [icon]="isCollapsed ? faPlus : faMinus"></fa-icon>
+      </button>
+    </th>
+  </tr>
+  <tr [hidden]="isCollapsed" *ngIf="permission === PARENT">
+    <th colspan="15" class="p-0">
+      <table class="table table-hover table-xs m-0">
+        <app-position
+          *ngFor="let position of position.suborders"
+          [position]="position"
+          [accounts]="accounts"
+          [id]="id"
+          [type]="type"
+        ></app-position>
+      </table>
+    </th>
+  </tr>
+  </tbody>
+</table>
+
+<ng-template #tradingModal>
+  <div class="modal-header">
+    <h3>{{ position.pair }}</h3>
+  </div>
+  <div class="modal-body">
+    <tabset [justified]="true">
+      <tab heading="Exchange">
+        <app-market
+          [marketType]="'exchange'"
+          [values]="formValues"
+          (order)="onOrder($event)"
+        ></app-market>
+      </tab>
+      <tab heading="Margin" [active]="true">
+        <app-market
+          [marketType]="'margin'"
+          [values]="formValues"
+          (order)="onOrder($event)"
+        ></app-market>
+      </tab>
+    </tabset>
+  </div>
+</ng-template>
+
+<ng-template #closeOrderModal>
+  <div class="modal-body text-center">
+    <p class="small">Do you want to close ?</p>
+    <button type="button" class="btn btn-default btn-xs" (click)="orderClose()">Yes</button>
+    <button type="button" class="btn btn-primary ml-1 btn-xs" (click)="modalRef.hide()">No</button>
+  </div>
+</ng-template>

@@ -1,0 +1,27 @@
+:host /deep/ {
+  .ticks {
+    overflow-y: auto;
+    max-height: 420px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .search {
+    margin: 4px 0;
+  }
+
+  ng2-smart-table {
+    font-size: 12px;
+    ng2-smart-table-title > a {
+      color: black;
+    }
+
+    tr {
+      td {
+        padding: 0 6px!important;
+      }
+    }
+  }
+}

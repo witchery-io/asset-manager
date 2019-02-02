@@ -1,0 +1,49 @@
+<form novalidate [formGroup]="marketForm" class="m-2">
+  <div class="form-group">
+    <label for="o_type" class="small">{{ marketType | titlecase }} Type</label>
+    <select
+      class="form-control form-control-sm"
+      id="o_type"
+      formControlName="o_type">
+      <option *ngFor="let type of orderType; index as i" [value]="i">{{ type | titlecase }}</option>
+    </select>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="price" class="small">Price</label>
+      <input
+        [attr.disabled]="marketForm.value.o_type === 'market' ? '' : null"
+        id="price"
+        type="number"
+        class="form-control form-control-sm"
+        placeholder="Price"
+        formControlName="price">
+    </div>
+    <div class="form-group col">
+      <label for="amount" class="small">Amount</label>
+      <input
+        id="amount"
+        type="number"
+        class="form-control form-control-sm"
+        placeholder="Amount"
+        formControlName="amount">
+    </div>
+  </div>
+  <div>
+    <button
+      [disabled]="role !== ROLE.ADMIN"
+      type="submit"
+      class="btn btn-success btn-xs"
+      (click)="market(marketForm.value, marketForm.valid, 'buy')"
+    >BUY
+    </button>
+    <button
+      [disabled]="role !== ROLE.ADMIN"
+      type="submit"
+      class="btn btn-danger btn-xs float-right"
+      (click)="market(marketForm.value, marketForm.valid, 'sell')"
+    >SELL
+    </button>
+  </div>
+</form>

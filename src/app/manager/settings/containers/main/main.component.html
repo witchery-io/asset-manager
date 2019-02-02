@@ -1,0 +1,65 @@
+
+<!-- ** NAV BAR ** -->
+<app-nav-bar></app-nav-bar>
+
+<!-- ** GROUPS & ACCOUNTS ** -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <tabset #generalTabs>
+        <tab heading="GROUPS" id="groups" (select)="onSelectGeneralTab('groups')">
+          <app-groups-tab
+            [group]="group$ | async"
+            [groupsSection]="groups$ | async"
+            [accountsSection]="accounts$ | async"
+          ></app-groups-tab>
+        </tab>
+        <tab heading="ACCOUNTS" id="accounts" (select)="onSelectGeneralTab('accounts')">
+          <app-accounts-tab
+            [account]="account$ | async"
+            [accountsSection]="accounts$ | async"
+          ></app-accounts-tab>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>
+
+
+<!-- ** BALANCE ** -->
+<div class="container-fluid">
+  <div class="row border-top">
+    <div class="col-12">
+      <app-balance-details
+        *ngIf="(isLoadingBalance$ | async) === false"
+        [section]="balance$ | async"
+      ></app-balance-details>
+    </div>
+  </div>
+</div>
+
+<!-- ** ORDERS & POSITIONS ** -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 border-top">
+      <tabset #ordersTabs>
+        <tab heading="ORDERS" id="orders" (select)="onSelectOrderTab('orders')">
+          <app-orders
+            *ngIf="(isLoadingOrders$ | async) === false"
+            [section]="orders$ | async"
+            [accountsSection]="accounts$ | async"
+          ></app-orders>
+        </tab>
+        <tab heading="POSITIONS" id="positions" (select)="onSelectOrderTab('positions')">
+          <app-positions
+            *ngIf="(isLoadingPositions$ | async) === false"
+            [id]="_id"
+            [type]="_type"
+            [section]="positions$ | async"
+            [accountsSection]="accounts$ | async"
+          ></app-positions>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>

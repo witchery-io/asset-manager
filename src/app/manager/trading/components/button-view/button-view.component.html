@@ -1,0 +1,23 @@
+<fa-icon [hidden]="role !== 'admin'" [icon]=faPlus (click)="openModal(tradingModal, {class: 'modal-sm'})"></fa-icon>
+
+<ng-template #tradingModal>
+  <div class="modal-header">
+    <h3>{{ rowData.pair }}</h3>
+  </div>
+  <div class="modal-body">
+    <tabset [justified]="true">
+      <tab heading="EXCHANGE">
+        <app-market
+          [marketType]="'exchange'"
+          (order)="onOrder($event)"
+        ></app-market>
+      </tab>
+      <tab heading="MARGIN">
+        <app-market
+          [marketType]="'margin'"
+          (order)="onOrder($event)"
+        ></app-market>
+      </tab>
+    </tabset>
+  </div>
+</ng-template>

@@ -1,0 +1,75 @@
+<!-- ** NAV BAR ** -->
+<app-nav-bar></app-nav-bar>
+
+<!-- ** GROUPS & ACCOUNTS  ** -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-3 col-md-6">
+      <app-groups
+        *ngIf="(isLoadingGroups$ | async) === false"
+        [id]="_id"
+        [type]="_type"
+        [section]="groups$ | async"
+      ></app-groups>
+    </div>
+    <div class="col-lg-3 col-md-6">
+      <app-accounts
+        *ngIf="(isLoadingAccounts$ | async) === false"
+        [id]="_id"
+        [type]="_type"
+        [section]="accounts$ | async"
+      ></app-accounts>
+    </div>
+  </div>
+</div>
+
+<!-- ** TICKS ** -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-3">
+      <app-ticks
+        *ngIf="(ticksIsLoading$ | async) === false"
+        [id]="_id"
+        [type]="_type"
+        [section]="ticks$ | async"
+      ></app-ticks>
+    </div>
+    <div class="col-9">
+      <app-tv-chart></app-tv-chart>
+    </div>
+  </div>
+</div>
+
+<!-- ** ORDERS & POSITIONS ** -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 border-top">
+      <tabset #ordersTabs>
+        <tab heading="ORDERS" id="orders" (select)="onSelectOrderTab('orders')">
+          <app-orders
+            *ngIf="(isLoadingOrders$ | async) === false"
+            [section]="orders$ | async"
+            [accountsSection]="accounts$ | async"
+          ></app-orders>
+        </tab>
+        <tab heading="POSITIONS" id="positions" (select)="onSelectOrderTab('positions')">
+          <app-positions
+            *ngIf="(isLoadingPositions$ | async) === false"
+            [id]="_id"
+            [type]="_type"
+            [section]="positions$ | async"
+            [accountsSection]="accounts$ | async"
+          ></app-positions>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>
+
+<!-- ** BALANCE ** -->
+<app-balance
+  *ngIf="(isLoadingBalance$ | async) === false"
+  [section]="balance$ | async"
+  [groupsSection]="groups$ | async"
+  [accountsSection]="accounts$ | async"
+></app-balance>
