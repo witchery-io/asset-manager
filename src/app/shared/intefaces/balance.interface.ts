@@ -4,24 +4,24 @@ import * as moment from 'moment';
 
 export interface Balance {
   balance: number;
-  base_currency: string;
+  baseCurrency: string;
   equity: number;
   exposure: number;
-  last_updated: Moment;
-  per_currency_balances: PerCurrencyBalance[];
-  pl: number;
-  total_pl: number;
-  wsb: number;
+  lastUpdated: Moment;
+  perCurrencyBalances: PerCurrencyBalance[];
+  PL: number;
+  totalPL: number;
+  WSB: number;
 }
 
 export function getEmptyBalance(balance: Partial<Balance> = {}): Balance {
   return {
     balance: 0,
-    base_currency: '',
+    baseCurrency: '',
     equity: 0,
     exposure: 0,
-    last_updated: moment(),
-    per_currency_balances: [
+    lastUpdated: moment(),
+    perCurrencyBalances: [
       {
         currency: '',
         exchange: [],
@@ -29,9 +29,9 @@ export function getEmptyBalance(balance: Partial<Balance> = {}): Balance {
         margin:  [],
       }
     ],
-    pl: 0,
-    total_pl: 0,
-    wsb: 0,
+    PL: 0,
+    totalPL: 0,
+    WSB: 0,
     ...balance,
   };
 }

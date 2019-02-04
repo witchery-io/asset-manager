@@ -2,12 +2,20 @@ import { Action } from '@ngrx/store';
 import { Balance } from '@app/shared/intefaces/balance.interface';
 
 export const LOAD_BALANCE = '[SETTINGS] Load Balance';
+export const UPDATE_BALANCE = '[SETTINGS] Update Balance';
 export const BALANCE_LOADED = '[SETTINGS] Balance Loaded';
 export const BALANCE_NOT_LOADED = '[SETTINGS] Balance Not Loaded';
 export const CLEAN_UP_BALANCE = '[SETTINGS] Clean Up Balance';
 
 export class LoadBalance implements Action {
   readonly type = LOAD_BALANCE;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class UpdateBalance implements Action {
+  readonly type = UPDATE_BALANCE;
 
   constructor(public payload: any) {
   }
@@ -33,6 +41,7 @@ export class CleanUpBalance implements Action {
 
 export type Actions =
   LoadBalance
+  | UpdateBalance
   | BalanceLoaded
   | BalanceNotLoaded
   | CleanUpBalance;

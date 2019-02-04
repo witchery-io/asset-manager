@@ -16,7 +16,7 @@ import { LoadTicks } from '@app/core/actions/tick.actions';
         class="form-control form-control-sm"
         [value]="this.type === ACCOUNTS ? this.id : null"
         (change)="onChange($event.target.value)">
-        <option *ngFor="let account of accounts" [value]="account.id">{{ account.acc_name }}</option>
+        <option *ngFor="let account of accounts" [value]="account.id">{{ account.accName }}</option>
       </select>
     </div>
   `,

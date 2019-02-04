@@ -1,15 +1,15 @@
 import { Moment } from 'moment';
 
 export interface Tick {
-  exchangename: string;
-  pair: string;
-  bid: number;
   ask: number;
-  last: number;
-  volume: number;
-  daily_change: number;
-  daily_change_prc: number;
-  updated: Moment;
+  bid: number;
+  dailyChange: number;
+  dailyChangePercent: number;
+  exchange: string;
   high: number;
+  last: number;
   low: number;
+  pair: string;
+  updatedAt: Moment;
+  volume: number;
 }

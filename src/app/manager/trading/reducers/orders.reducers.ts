@@ -25,6 +25,13 @@ export function reducer(state: State = initialState, action: OrdersActions.Actio
       };
     }
 
+    case OrdersActions.UPDATE_ORDERS: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
     case OrdersActions.ORDERS_LOADED: {
       return adapter.addAll(action.payload.orders, { /* todo :: addMany */
         ...state,

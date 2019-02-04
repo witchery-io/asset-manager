@@ -2,11 +2,11 @@ import { Moment } from 'moment';
 
 export interface Account {
   id: string;
-  status: boolean;
-  acc_name: string;
-  user_name: string;
+  isActive: boolean;
+  accName: string;
+  userName: string;
   exchange: string;
-  base_currency: string;
+  baseCurrency: string;
   risk: number;
-  created_at: Moment;
+  date: Moment;
 }

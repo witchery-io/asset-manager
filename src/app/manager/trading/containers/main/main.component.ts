@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { WsHandlerService } from '@trading/services/ws/ws-handler.service';
 import { select, Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
-import { LoadBalance } from '@trading/actions/balance.actions';
-import { LoadOrders } from '@trading/actions/orders.actions';
-import { LoadPositions } from '@trading/actions/positions.actions';
+import { LoadBalance, UpdateBalance } from '@trading/actions/balance.actions';
+import { LoadOrders, UpdateOrders } from '@trading/actions/orders.actions';
+import { LoadPositions, UpdatePositions } from '@trading/actions/positions.actions';
 import { Observable } from 'rxjs';
 import * as Select from '@trading/state/trading.selectors';
 import * as fromOrders from '@trading/reducers/orders.reducers';
@@ -18,14 +18,14 @@ import { TabsetComponent } from 'ngx-bootstrap';
 import { OrderTab } from '@app/shared/enums';
 import { LoadGroups } from '@app/core/actions/group.actions';
 import { LoadAccounts } from '@app/core/actions/account.actions';
-import { LoadTicks } from '@app/core/actions/tick.actions';
+import { LoadTicks, UpdateTicks } from '@app/core/actions/tick.actions';
 
 @Component({
   selector: 'app-trading',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
   @ViewChild('ordersTabs') ordersTabs: TabsetComponent;
 
   orders$: Observable<fromOrders.State>;
@@ -51,6 +51,8 @@ export class MainComponent implements OnInit {
 
   _id: string;
   _type: string;
+
+  interval: any;
 
   constructor(
     private ws: WsHandlerService,
@@ -98,10 +100,30 @@ export class MainComponent implements OnInit {
       /*
       * Set new data
       * */
-      this.store.dispatch(new LoadBalance({id: params.id, type: params.type, groupByPair: this.groupByPair}));
-      this.store.dispatch(new LoadOrders({id: params.id, type: params.type, groupByPair: this.groupByPair}));
-      this.store.dispatch(new LoadPositions({id: params.id, type: params.type, groupByPair: this.groupByPair}));
+      this.setState({
+        id: this._id,
+        type: this._type,
+        groupByPair: this.groupByPair,
+      });
     });
+
+    /*
+    * update state
+    * */
+    this.interval = setInterval(() => {
+      /*
+      * Update new data
+      * */
+      this.updateState({
+        id: this._id,
+        type: this._type,
+        groupByPair: this.groupByPair,
+      });
+    }, 3000);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.interval);
   }
 
   onSelectOrderTab(tab_id) {
@@ -109,5 +131,27 @@ export class MainComponent implements OnInit {
 
     orderPromise.then(() => {
     });
+  }
+
+  /**
+   * set new params to state
+   * @param params :: array
+   */
+  private setState(params) {
+    this.store.dispatch(new LoadBalance({id: params.id, type: params.type, groupByPair: params.groupByPair}));
+    this.store.dispatch(new LoadOrders({id: params.id, type: params.type, groupByPair: params.groupByPair}));
+    this.store.dispatch(new LoadPositions({id: params.id, type: params.type, groupByPair: params.groupByPair}));
+  }
+
+
+  /**
+   * update state
+   * @param params :: array
+   */
+  private updateState(params) {
+    this.store.dispatch(new UpdateTicks());
+    this.store.dispatch(new UpdateBalance({id: params.id, type: params.type, groupByPair: params.groupByPair}));
+    this.store.dispatch(new UpdateOrders({id: params.id, type: params.type, groupByPair: params.groupByPair}));
+    this.store.dispatch(new UpdatePositions({id: params.id, type: params.type, groupByPair: params.groupByPair}));
   }
 }

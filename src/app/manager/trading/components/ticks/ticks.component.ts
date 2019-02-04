@@ -31,7 +31,7 @@ export class TicksComponent implements OnInit {
       last: {
         title: 'LAST',
       },
-      daily_change_prc: {
+      dailyChangePercent: {
         title: '24HR',
         type: 'html',
       },
@@ -69,8 +69,8 @@ export class TicksComponent implements OnInit {
           type: this.type,
           last: tick.last.toFixed(2),
           volume: tick.volume.toFixed(2),
-          daily_change_prc: `<span class="${tick.daily_change_prc > 0 ? 'text-success' : 'text-danger'}">
-                          ${(tick.daily_change_prc * 100).toFixed(2)}%</span>`,
+          dailyChangePercent: `<span class="${tick.dailyChangePercent > 0 ? 'text-success' : 'text-danger'}">
+                          ${(tick.dailyChangePercent * 100).toFixed(2)}%</span>`,
           add: i,
         },
       };

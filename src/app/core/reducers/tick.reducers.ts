@@ -25,6 +25,13 @@ export function reducer(state: State = initialState, action: TickActions.Actions
       };
     }
 
+    case TickActions.UPDATE_TICKS: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
     case TickActions.TICKS_LOADED: {
       return adapter.addMany(action.payload.ticks, {
         ...state,

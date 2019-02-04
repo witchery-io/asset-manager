@@ -11,16 +11,16 @@ import * as fromPositions from '@settings/reducers/positions.reducers';
 import * as fromBalance from '@settings/reducers/balance.reducers';
 import * as fromAccounts from '@app/core/reducers/account.reducers';
 import * as fromGroups from '@app/core/reducers/group.reducers';
-import { CleanUpBalance, LoadBalance } from '@settings/actions/balance.actions';
-import { CleanUpOrders, LoadOrders } from '@settings/actions/orders.actions';
-import { CleanUpPositions, LoadPositions } from '@settings/actions/positions.actions';
+import { CleanUpBalance, LoadBalance, UpdateBalance } from '@settings/actions/balance.actions';
+import { CleanUpOrders, LoadOrders, UpdateOrders } from '@settings/actions/orders.actions';
+import { CleanUpPositions, LoadPositions, UpdatePositions } from '@settings/actions/positions.actions';
 import { SharedService } from '@app/shared/services';
 import { generateUrl } from '@settings/utils/settings.utils';
 import { LoadGroups } from '@app/core/actions/group.actions';
 import { LoadAccounts } from '@app/core/actions/account.actions';
 
 @Component({
-  selector: 'app-trading',
+  selector: 'app-settings',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
@@ -48,6 +48,7 @@ export class MainComponent implements OnInit, OnDestroy {
   account$: Observable<any>;
 
   subscription: Subscription;
+  interval: any;
 
   constructor(
     private store: Store<SettingsState>,
@@ -122,6 +123,19 @@ export class MainComponent implements OnInit, OnDestroy {
         });
       });
     });
+
+    /*
+    * update state
+    * */
+    this.interval = setInterval(() => {
+      /*
+      * Update new data
+      * */
+      this.updateState({
+        id: this._id,
+        type: this._type,
+      });
+    }, 3000);
   }
 
   /**
@@ -130,6 +144,7 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.cleanState();
     this.subscription.unsubscribe();
+    clearInterval(this.interval);
   }
 
   /**
@@ -195,12 +210,26 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * se new params to state
+   * set new params to state
    * @param params :: array
    */
   private setState(params) {
     this.store.dispatch(new LoadBalance({id: params.id, type: params.type}));
     this.store.dispatch(new LoadOrders({id: params.id, type: params.type}));
     this.store.dispatch(new LoadPositions({id: params.id, type: params.type}));
+  }
+
+  /**
+   * update new params to state
+   * @param params :: array
+   */
+  private updateState(params) {
+    if (!params.id) {
+      return;
+    }
+
+    this.store.dispatch(new UpdateBalance({id: params.id, type: params.type}));
+    this.store.dispatch(new UpdateOrders({id: params.id, type: params.type}));
+    this.store.dispatch(new UpdatePositions({id: params.id, type: params.type}));
   }
 }

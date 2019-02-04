@@ -13,13 +13,11 @@ export class AccountService {
   }
 
   getAccounts(): Observable<any> {
-    // return this.http.get(`${this.url}/accounts`);
-    return this.http.get(`http://trade.vitanova.online:50089/accounts/accounts`);
+    return this.http.get(`${this.url}/accounts`);
   }
 
   getAccount(id) {
-    // return this.http.get(`${this.url}/accounts/${id}`);
-    return this.http.get(`http://trade.vitanova.online:50089/accounts/accounts/${id}`);
+    return this.http.get(`${this.url}/accounts/${id}`);
   }
 
   create(params) {

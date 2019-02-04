@@ -33,12 +33,12 @@
           [class.table-active]="account.id === selectedAccount?.id"
         >
           <th scope="row">{{ i + 1 }}</th>
-          <td>{{ account.acc_name }}</td>
-          <td>{{ account.user_name }}</td>
+          <td>{{ account.accName }}</td>
+          <td>{{ account.userName }}</td>
           <td>{{ account.exchange }}</td>
-          <td>{{ account.base_currency }}</td>
+          <td>{{ account.baseCurrency }}</td>
           <td>{{ account.risk }}</td>
-          <td>{{ account.created_at | date: 'shortDate' }}</td>
+          <td>{{ account.date | date: 'shortDate' }}</td>
           <td>
           <span class="switch switch-sm">
           <input
@@ -46,7 +46,7 @@
             class="switch"
             type="checkbox"
             [disabled]="role !== 'admin'"
-            [checked]="account.status"
+            [checked]="account.isActive"
           >
           <label class="m-0" for="switch-{{account.id}}"></label>
         </span>

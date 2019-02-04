@@ -23,6 +23,13 @@ export function reducer(state: State = initialState, action: PositionsActions.Ac
       };
     }
 
+    case PositionsActions.UPDATE_POSITIONS: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
     case PositionsActions.POSITIONS_LOADED: {
       return adapter.addAll(action.payload.positions, {
         ...state,
