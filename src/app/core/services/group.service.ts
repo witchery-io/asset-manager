@@ -18,8 +18,7 @@ export class GroupService {
   }
 
   getGroup(id): Observable<any> {
-    // return this.http.get(`${this.url}/groups/${id}`);
-    return this.http.get(`http://trade.vitanova.online:50089/accounts/groups/${id}`);
+    return this.http.get(`${this.url}/groups/${id}`);
   }
 
   create(params) {

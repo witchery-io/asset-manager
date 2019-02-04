@@ -18,8 +18,7 @@ export class AccountService {
   }
 
   getAccount(id) {
-    // return this.http.get(`${this.url}/accounts/${id}`);
-    return this.http.get(`http://trade.vitanova.online:50089/accounts/accounts/${id}`);
+    return this.http.get(`${this.url}/accounts/${id}`);
   }
 
   create(params) {
