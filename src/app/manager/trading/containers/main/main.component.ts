@@ -87,8 +87,6 @@ export class MainComponent implements OnInit {
 
     this.route.params.subscribe(params => {
 
-      console.log('params*', params);
-
       this._id = params.id;
       this._type = params.type;
 
