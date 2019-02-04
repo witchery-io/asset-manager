@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class OrdersService extends OrderService {
 
+  url = 'http://192.168.1.19:8080';
+
   constructor(
     protected http: HttpClient,
   ) {
@@ -13,12 +15,7 @@ export class OrdersService extends OrderService {
   }
 
   getOrders(params): Observable<any> {
-
-    // - groupByPair
-
-// const url = `http://trade.vitanova.online:50090/payments/exchange/accounts/74f9b418-e7b0-440d-8523-c4ed9cbbe3cc/orders?groupby=pair`;
-    const url = `http://trade.vitanova.online:50090/payments/exchange/${params.type}/${params.id}/orders?groupby=pair`;
-    return this.http.get(url);
+    return this.http.get(`${this.url}/${params.type}/${params.id}/orders`);
   }
 
   cancelOrder(params): Observable<any> {

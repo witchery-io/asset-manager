@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AccountService } from '@app/core/services';
+import { NotifierService } from 'angular-notifier';
+import { ModalService } from '@app/shared/services';
 
 @Component({
   selector: 'app-account-form',
@@ -18,7 +21,15 @@ export class AccountFormComponent implements OnInit {
   exchanges = ['bitfinex', 'cexio'];
   baseCurrency = ['usd', 'btc', 'eth', 'eur'];
 
-  constructor() { }
+  private readonly notifier: NotifierService;
+
+  constructor(
+    private accountService: AccountService,
+    private notifierService: NotifierService,
+    private modalService: ModalService,
+  ) {
+    this.notifier = notifierService;
+  }
 
   ngOnInit() {
     this.accountForm = new FormGroup({
@@ -33,19 +44,36 @@ export class AccountFormComponent implements OnInit {
   }
 
   close() {
-    // code
+    this.modalService.closeAllModals();
   }
 
-  create(values, is_valid) {
-    if (is_valid) {
-      // emit
+  create(values, isValid) {
+    if (isValid) {
+      this.accountService.create(values)
+        .subscribe(d => {
+
+          // todo :: d
+
+          this.close();
+          this.notifier.notify( 'success', `Account was successfully created.`);
+        }, error1 => {
+          this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+        });
     }
   }
 
-  update(values, is_valid) {
-    if (is_valid) {
-      // emit
+  update(values, isValid) {
+    if (isValid) {
+      this.accountService.update(values)
+        .subscribe(d => {
+
+          // todo :: d
+
+          this.close();
+          this.notifier.notify( 'success', `Group was successfully edited.`);
+        }, error1 => {
+          this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+        });
     }
   }
-
 }

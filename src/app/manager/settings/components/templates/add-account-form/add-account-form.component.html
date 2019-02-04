@@ -10,6 +10,17 @@
     </select>
   </div>
   <div>
-    <button type="submit" class="btn btn-primary btn-xs float-right">Add</button>
+    <button
+      type="button"
+      class="btn btn-primary btn-xs float-left"
+      aria-label="Close"
+      (click)="close($event)"
+    >Cancel
+    </button>
+    <button
+      type="submit"
+      class="btn btn-success btn-xs float-right"
+    >Add
+    </button>
   </div>
 </form>

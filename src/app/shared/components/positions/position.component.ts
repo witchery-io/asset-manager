@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { OrderDirection, OrderType, Role } from '@app/shared/enums';
+import { Role } from '@app/shared/enums';
 import { BsModalRef } from 'ngx-bootstrap';
 import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -37,7 +37,6 @@ export class PositionComponent implements OnInit {
   user: any; // User
   ROLE = Role;
   PARENT = PARENT;
-  OrderDirection = OrderDirection;
   isCollapsed: boolean;
   modalRef: BsModalRef;
   account_name: string;
@@ -60,6 +59,7 @@ export class PositionComponent implements OnInit {
   }
 
   get tooltip() {
+    // todo :: account_name
     return this.account_name;
   }
 
@@ -87,20 +87,21 @@ export class PositionComponent implements OnInit {
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
-    const collapse = JSON.parse(localStorage.getItem(`collapse.position.${this.position.order_number}`));
+    const collapse = JSON.parse(localStorage.getItem(`collapse.position.${this.position.id}`));
     this.isCollapsed = collapse === null ? true : collapse;
     this.setAccountName();
   }
 
   collapse() {
     this.isCollapsed = !this.isCollapsed;
-    localStorage.setItem(`collapse.position.${this.position.order_number}`, this.isCollapsed ? 'true' : 'false');
+    localStorage.setItem(`collapse.position.${this.position.id}`, this.isCollapsed ? 'true' : 'false');
   }
 
   setAccountName() {
     if (this.permission !== 'parent' && this.type === 'group' && this.accounts && !this.groupByPair) {
       for (const account of this.accounts) {
         if (account.id === this.position.account) {
+          // todo :: account_name
           this.account_name = account.acc_name;
           break;
         }
@@ -114,7 +115,7 @@ export class PositionComponent implements OnInit {
 
   orderStop(template) {
     this.formValues = {
-      o_type: OrderType.stop,
+      type: 'stop',
       amount: this.amount,
     };
 
@@ -123,7 +124,7 @@ export class PositionComponent implements OnInit {
 
   orderLimit(template) {
     this.formValues = {
-      o_type: OrderType.limit,
+      type: 'limit',
       amount: this.amount,
     };
 
@@ -135,13 +136,11 @@ export class PositionComponent implements OnInit {
     this.positionsService.closePosition(this.position)
       .subscribe(() => {
         this.notifier.notify('success',
-          `Order cancelled, ${OrderType[this.position.type.type]}, ${OrderDirection[this.position.type.direction]}
-           ${this.position.amount} ${this.position.pair} @ ${this.position.open_price}.`);
+          `Order cancelled, ${this.position.type}, ${this.position.direction} ${this.position.amount} ${this.position.pair}
+           @ ${this.position.openPrice}.`);
+        this.modalService.closeAllModals();
       }, error1 => {
         this.notifier.notify('error', `Error msg: ${error1.message}`);
-      }, () => {
-        this.spinner.hide();
-        this.modalRef.hide();
       });
   }
 
@@ -150,47 +149,45 @@ export class PositionComponent implements OnInit {
 
     switch (this.type) {
       case GROUPS:
-        this.groupOrder(this.id, params);
+
+        // todo :: groupId
+
+        this.groupOrder(params);
         break;
       case ACCOUNTS:
-        this.accountOrder(this.id, params);
+
+        // todo :: accountId
+
+        this.accountOrder(params);
         break;
     }
   }
 
   /**
-   *
-   * @param id -- now current trading id
    * @param order -- creating order
    */
-  groupOrder(id, order) {
-    this.ordersService.placeGroupOrder(id, order)
+  groupOrder(order) {
+    this.ordersService.placeGroupOrder(order)
       .subscribe((d: any) => {
-        const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
-           ${d.amount} ${d.pair} @ ${d.open_price}.`;
-        this.notifier.notify('success', msg);
+        this.notifier.notify('success', `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair}
+         @ ${d.openPrice}.`);
+        this.modalService.closeAllModals();
       }, error1 => {
         this.notifier.notify('error', `Error msg: ${error1.message}.`);
-      }, () => {
-        this.modalService.closeAllModals();
       });
   }
 
   /**
-   *
-   * @param id -- now current trading id
    * @param order -- creating order
    */
-  accountOrder(id, order) {
-    this.ordersService.placeAccountOrder(id, order)
+  accountOrder(order) {
+    this.ordersService.placeAccountOrder(order)
       .subscribe((d: any) => {
-        const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
-           ${d.amount} ${d.pair} @ ${d.open_price}.`;
-        this.notifier.notify('success', msg);
+        this.notifier.notify('success', `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair}
+         @ ${d.openPrice}.`);
+        this.modalService.closeAllModals();
       }, error1 => {
         this.notifier.notify('error', `Error msg: ${error1.message}.`);
-      }, () => {
-        this.modalService.closeAllModals();
       });
   }
 }

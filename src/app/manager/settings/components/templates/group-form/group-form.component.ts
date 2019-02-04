@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { GroupService } from '@app/core/services';
+import { NotifierService } from 'angular-notifier';
+import { ModalService } from '@app/shared/services';
 
 @Component({
   selector: 'app-group-form',
@@ -19,7 +22,15 @@ export class GroupFormComponent implements OnInit {
   exchanges = ['bitfinex', 'cexio'];
   allocationMethod = ['fix', 'percent', 'equity'];
 
-  constructor() { }
+  private readonly notifier: NotifierService;
+
+  constructor(
+    private groupService: GroupService,
+    private notifierService: NotifierService,
+    private modalService: ModalService,
+  ) {
+    this.notifier = notifierService;
+  }
 
   ngOnInit() {
     this.groupForm = new FormGroup({
@@ -34,19 +45,36 @@ export class GroupFormComponent implements OnInit {
   }
 
   close() {
-    // code
+    this.modalService.closeAllModals();
   }
 
-  create(values, is_valid) {
-    if (is_valid) {
-      // emit
+  create(values, isValid) {
+    if (isValid) {
+      this.groupService.create(values)
+        .subscribe(d => {
+
+          // todo :: d
+
+          this.close();
+          this.notifier.notify( 'success', `Group was successfully created.`);
+        }, error1 => {
+          this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+        });
     }
   }
 
-  update(values, is_valid) {
-    if (is_valid) {
-      // emit
+  update(values, isValid) {
+    if (isValid) {
+      this.groupService.update(values)
+        .subscribe(d => {
+
+          // todo :: d
+
+          this.close();
+          this.notifier.notify( 'success', `Group was successfully edited.`);
+        }, error1 => {
+          this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+        });
     }
   }
-
 }

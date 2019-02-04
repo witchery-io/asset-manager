@@ -1,27 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class OrderService {
 
+  url = 'http://192.168.1.19:8080';
+
   constructor(
     protected http: HttpClient,
-  ) { }
-
-  placeGroupOrder(id, params): Observable<any> {
-
-    console.log('Order Service', params);
-
-    return of();
-    // return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/groups/${ groupId }/orders`, order);
+  ) {
   }
 
-  placeAccountOrder(id, params): Observable<any> {
+  placeGroupOrder(params): Observable<any> {
+    return this.http.post(`${this.url}/groups/${params.groupId}/orders`, params);
+  }
 
-    console.log('Order Service', params);
-
-    return of();
-    // return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/accounts/${ accountId }/orders`, order);
+  placeAccountOrder(params): Observable<any> {
+    return this.http.post(`${this.url}/accounts/${params.accountId}/orders`, params);
   }
 }

@@ -15,7 +15,7 @@ export class OrdersEffects {
     switchMap((params: any) => {
       return this.ordersService.getOrders(params).pipe(
         map(response => {
-          return new fromOrders.OrdersLoaded({orders: response || []}); // todo :: remove []
+          return new fromOrders.OrdersLoaded({orders: response});
         }),
         catchError(error => of(new fromOrders.OrdersNotLoaded({error: error.message || error}))),
       );
