@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
 import { GROUPS } from '@app/shared/enums/trading.enum';
+import { LoadTicks } from '@app/core/actions/tick.actions';
 
 @Component({
   selector: 'app-groups',
@@ -53,6 +54,10 @@ export class GroupsComponent implements OnInit {
     const routerPromise = this.router.navigate([`/trading/${GROUPS}/${groupId}/${tab}`]);
 
     routerPromise.then(() => {
+      /*
+      * update TICKS
+      * */
+      this.store.dispatch(new LoadTicks());
     });
   }
 }

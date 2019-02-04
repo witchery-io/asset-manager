@@ -101,11 +101,6 @@ export class MainComponent implements OnInit {
       this.store.dispatch(new LoadBalance({id: params.id, type: params.type, groupByPair: this.groupByPair}));
       this.store.dispatch(new LoadOrders({id: params.id, type: params.type, groupByPair: this.groupByPair}));
       this.store.dispatch(new LoadPositions({id: params.id, type: params.type, groupByPair: this.groupByPair}));
-
-      /*
-      * update TICKS
-      * */
-      this.store.dispatch(new LoadTicks());
     });
   }
 

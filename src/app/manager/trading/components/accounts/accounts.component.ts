@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
 import { ACCOUNTS } from '@app/shared/enums/trading.enum';
+import { LoadTicks } from '@app/core/actions/tick.actions';
 
 @Component({
   selector: 'app-accounts',
@@ -53,6 +54,10 @@ export class AccountsComponent implements OnInit {
     const routerPromise = this.router.navigate([`/trading/${ACCOUNTS}/${accountId}/${tab}`]);
 
     routerPromise.then(() => {
+      /*
+      * update TICKS
+      * */
+      this.store.dispatch(new LoadTicks());
     });
   }
 }
