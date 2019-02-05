@@ -5,8 +5,8 @@
 >
   <div class="form-group">
     <label for="accounts" class="small">Accounts</label>
-    <select id="accounts" class="form-control form-control-sm" formControlName="id">
-      <option *ngFor="let account of accounts" [value]="account.id">{{ account.user_name }}</option>
+    <select id="accounts" class="form-control form-control-sm" formControlName="accountId">
+      <option *ngFor="let account of accounts" [value]="account.id">{{ account.userName }}</option>
     </select>
   </div>
   <div>

@@ -10,6 +10,8 @@ import { getAccountFromSection } from '@settings/state/settings.selectors';
 import { LoadAccount } from '@settings/actions/account.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ACCOUNTS } from '@app/shared/enums/trading.enum';
+import { AccountService } from '@app/core/services';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-accounts-tab',
@@ -31,13 +33,18 @@ export class AccountsTabComponent implements OnInit {
   modalRef: BsModalRef;
   formValues: any;
 
+  private readonly notifier: NotifierService;
+
   constructor(
     private modalService: ModalService,
     private store: Store<SettingsState>,
     private route: ActivatedRoute,
     private router: Router,
     private shared: SharedService,
+    private accountService: AccountService,
+    private notifierService: NotifierService,
   ) {
+    this.notifier = notifierService;
   }
 
   get selectedAccount() {
@@ -97,5 +104,18 @@ export class AccountsTabComponent implements OnInit {
     });
 
     this.store.dispatch(new LoadAccount(id));
+  }
+
+  /**
+   * update current account
+   * @param account --- updated account
+   */
+  updateStatus(account) {
+    this.accountService.update(account.id, {isActive: !account.isActive})
+      .subscribe(() => {
+        this.notifier.notify('success', 'Status was successfully updated');
+      }, error1 => {
+        this.notifier.notify('error', `${error1.error.message}.`);
+      });
   }
 }

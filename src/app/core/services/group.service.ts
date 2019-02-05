@@ -20,15 +20,15 @@ export class GroupService {
     return this.http.get(`${this.url}/groups/${id}`);
   }
 
-  create(params) {
-    return this.http.post(`${this.url}`, params);
+  create(params): Observable<any> {
+    return this.http.post(`${this.url}/groups`, params);
   }
 
-  update(params) {
-    return this.http.put(`${this.url}`, params);
+  update(id, params): Observable<any> {
+    return this.http.put(`${this.url}/groups/${id}`, params);
   }
 
-  addAccount(params) {
-    return this.http.post(`${this.url}`, params);
+  addAccount(id, params) {
+    return this.http.post(`${this.url}/groups/${id}/accounts`, params);
   }
 }

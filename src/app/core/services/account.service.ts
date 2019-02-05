@@ -21,10 +21,10 @@ export class AccountService {
   }
 
   create(params) {
-    return this.http.post(`${this.url}`, params);
+    return this.http.post(`${this.url}/accounts`, params);
   }
 
-  update(params) {
-    return this.http.put(`${this.url}`, params);
+  update(id, params) {
+    return this.http.put(`${this.url}/accounts/${id}`, params);
   }
 }

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountService } from '@app/core/services';
 import { NotifierService } from 'angular-notifier';
 import { ModalService } from '@app/shared/services';
+import { Account } from '@app/core/intefaces';
 
 @Component({
   selector: 'app-account-form',
@@ -15,11 +16,11 @@ export class AccountFormComponent implements OnInit {
   formType: string;
 
   @Input()
-  values = {};
+  values: Account;
 
   accountForm: FormGroup;
-  exchanges = ['bitfinex', 'cexio'];
-  baseCurrency = ['usd', 'btc', 'eth', 'eur'];
+  exchanges = ['bitfinex.com'];
+  baseCurrency = ['USD', 'BTC', 'ETH', 'EUR', 'LTC'];
 
   private readonly notifier: NotifierService;
 
@@ -33,14 +34,14 @@ export class AccountFormComponent implements OnInit {
 
   ngOnInit() {
     this.accountForm = new FormGroup({
-      acc_name: new FormControl('', [<any>Validators.required]),
-      user_name: new FormControl('', [<any>Validators.required]),
+      accName: new FormControl('', [<any>Validators.required]),
+      userName: new FormControl('', [<any>Validators.required]),
       risk: new FormControl(0, [<any>Validators.required]),
-      exchange: new FormControl('bitfinex', [<any>Validators.required]),
-      base_currency: new FormControl('usd', [<any>Validators.required]),
+      exchange: new FormControl('bitfinex.com', [<any>Validators.required]),
+      baseCurrency: new FormControl('USD', [<any>Validators.required]),
     });
 
-    this.accountForm.patchValue(this.values);
+    this.accountForm.patchValue(this.values || {});
   }
 
   close() {
@@ -49,30 +50,26 @@ export class AccountFormComponent implements OnInit {
 
   create(values, isValid) {
     if (isValid) {
+      values.key = '';
+      values.secret = '';
       this.accountService.create(values)
-        .subscribe(d => {
-
-          // todo :: d
-
+        .subscribe(() => {
           this.close();
-          this.notifier.notify( 'success', `Account was successfully created.`);
+          this.notifier.notify('success', `Account was successfully created.`);
         }, error1 => {
-          this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+          this.notifier.notify('error', `${error1.error.message}`);
         });
     }
   }
 
   update(values, isValid) {
     if (isValid) {
-      this.accountService.update(values)
-        .subscribe(d => {
-
-          // todo :: d
-
+      this.accountService.update(this.values.id, values)
+        .subscribe(() => {
           this.close();
-          this.notifier.notify( 'success', `Group was successfully edited.`);
+          this.notifier.notify('success', `Group was successfully edited.`);
         }, error1 => {
-          this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+          this.notifier.notify('error', `Error msg: ${error1.error.message}`);
         });
     }
   }

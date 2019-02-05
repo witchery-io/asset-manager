@@ -6,7 +6,7 @@
       type="text"
       class="form-control form-control-sm"
       placeholder="Acc. Name"
-      formControlName="acc_name"
+      formControlName="accName"
     >
   </div>
   <div class="form-group">
@@ -16,7 +16,7 @@
       type="text"
       class="form-control form-control-sm"
       placeholder="User Name"
-      formControlName="user_name"
+      formControlName="userName"
     >
   </div>
   <div class="form-group">
@@ -31,7 +31,7 @@
   </div>
   <div class="form-group">
     <label for="base_currency" class="small">Base currency</label>
-    <select class="form-control form-control-sm" id="base_currency" formControlName="base_currency">
+    <select class="form-control form-control-sm" id="base_currency" formControlName="baseCurrency">
       <option *ngFor="let bc of baseCurrency" [value]="bc">{{ bc | uppercase }}</option>
     </select>
   </div>

@@ -47,6 +47,7 @@
             type="checkbox"
             [disabled]="role !== 'admin'"
             [checked]="account.isActive"
+            (click)="updateStatus(account)"
           >
           <label class="m-0" for="switch-{{account.id}}"></label>
         </span>

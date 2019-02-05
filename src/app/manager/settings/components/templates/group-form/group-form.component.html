@@ -5,8 +5,8 @@
   </div>
   <div class="form-group">
     <label for="allocation_method" class="small">Allocation Method</label>
-    <select class="form-control form-control-sm" id="allocation_method" formControlName="allocation_method">
-      <option *ngFor="let am of allocationMethod; index as i" [value]="i">{{ am | titlecase }}</option>
+    <select class="form-control form-control-sm" id="allocation_method" formControlName="allocationMethod">
+      <option *ngFor="let am of allocationMethod" [value]="am">{{ am | titlecase }}</option>
     </select>
   </div>
   <div class="form-group">
@@ -17,7 +17,7 @@
   </div>
   <div class="form-group">
     <label for="base_currency" class="small">Base currency</label>
-    <select class="form-control form-control-sm" id="base_currency" formControlName="base_currency">
+    <select class="form-control form-control-sm" id="base_currency" formControlName="baseCurrency">
       <option *ngFor="let bc of baseCurrency" [value]="bc">{{ bc | uppercase }}</option>
     </select>
   </div>

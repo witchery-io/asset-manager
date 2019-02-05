@@ -135,7 +135,7 @@ export class MainComponent implements OnInit, OnDestroy {
         id: this._id,
         type: this._type,
       });
-    }, 3000);
+    }, 15000);
   }
 
   /**

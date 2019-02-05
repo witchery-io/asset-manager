@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GroupService } from '@app/core/services';
 import { NotifierService } from 'angular-notifier';
 import { ModalService } from '@app/shared/services';
+import { Group } from '@app/core/intefaces';
 
 @Component({
   selector: 'app-group-form',
@@ -15,11 +16,11 @@ export class GroupFormComponent implements OnInit {
   formType: string;
 
   @Input()
-  values = {};
+  values: Group;
 
   groupForm: FormGroup;
-  baseCurrency = ['usd', 'btc', 'eth', 'eur'];
-  exchanges = ['bitfinex', 'cexio'];
+  baseCurrency = ['USD', 'BTC', 'ETH', 'EUR', 'LTC'];
+  exchanges = ['bitfinex.com'];
   allocationMethod = ['fix', 'percent', 'equity'];
 
   private readonly notifier: NotifierService;
@@ -35,13 +36,12 @@ export class GroupFormComponent implements OnInit {
   ngOnInit() {
     this.groupForm = new FormGroup({
       name: new FormControl('', [<any>Validators.required]),
-      allocation_method: new FormControl('0', [<any>Validators.required]),
-      active: new FormControl(true, [<any>Validators.required]),
-      exchange: new FormControl('bitfinex', [<any>Validators.required]),
-      base_currency: new FormControl('usd', [<any>Validators.required]),
+      allocationMethod: new FormControl('fix', [<any>Validators.required]),
+      exchange: new FormControl('bitfinex.com', [<any>Validators.required]),
+      baseCurrency: new FormControl('USD', [<any>Validators.required]),
     });
 
-    this.groupForm.patchValue(this.values);
+    this.groupForm.patchValue(this.values || {});
   }
 
   close() {
@@ -51,10 +51,7 @@ export class GroupFormComponent implements OnInit {
   create(values, isValid) {
     if (isValid) {
       this.groupService.create(values)
-        .subscribe(d => {
-
-          // todo :: d
-
+        .subscribe(() => {
           this.close();
           this.notifier.notify( 'success', `Group was successfully created.`);
         }, error1 => {
@@ -65,11 +62,8 @@ export class GroupFormComponent implements OnInit {
 
   update(values, isValid) {
     if (isValid) {
-      this.groupService.update(values)
-        .subscribe(d => {
-
-          // todo :: d
-
+      this.groupService.update(this.values.id, values)
+        .subscribe(() => {
           this.close();
           this.notifier.notify( 'success', `Group was successfully edited.`);
         }, error1 => {

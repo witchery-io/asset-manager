@@ -108,6 +108,19 @@ export class GroupsTabComponent implements OnInit {
     this.openModal(template, options);
   }
 
+  /**
+   * update current group
+   * @param group --- updated group
+   */
+  updateStatus(group) {
+    this.groupService.update(group.id, {active: !group.active})
+      .subscribe(() => {
+        this.notifier.notify('success', 'Status was successfully updated');
+      }, error1 => {
+        this.notifier.notify('error', `${error1.error.message}.`);
+      });
+  }
+
   selectGroup(id) {
     this.shared.setSettings({
       id: id,
