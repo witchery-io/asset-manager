@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { Order } from '@app/shared/intefaces/order.interface';
 
 export const LOAD_ORDERS = '[SETTINGS] Load Orders';
+export const UPDATE_ORDERS = '[SETTINGS] Update Orders';
 export const ORDERS_LOADED = '[SETTINGS] Orders Loaded';
 export const ORDERS_NOT_LOADED = '[SETTINGS] Orders Not Loaded';
 export const CLEAN_UP_ORDERS = '[SETTINGS] Clean Up Orders';
@@ -9,6 +10,13 @@ export const CLEAN_UP_ORDERS = '[SETTINGS] Clean Up Orders';
 
 export class LoadOrders implements Action {
   readonly type = LOAD_ORDERS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class UpdateOrders implements Action {
+  readonly type = UPDATE_ORDERS;
 
   constructor(public payload: any) {
   }
@@ -34,6 +42,7 @@ export class CleanUpOrders implements Action {
 
 export type Actions =
   LoadOrders
+  | UpdateOrders
   | OrdersLoaded
   | OrdersNotLoaded
   | CleanUpOrders;

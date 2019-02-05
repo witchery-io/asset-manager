@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col">
       <small>BC</small>
-      <h6>{{ balance?.base_currency }}</h6>
+      <h6>{{ balance?.baseCurrency }}</h6>
     </div>
     <div class="col">
       <small>Balance</small>
@@ -10,7 +10,7 @@
     </div>
     <div class="col">
       <small>WSB</small>
-      <h6>{{ balance?.wsb | number }}</h6>
+      <h6>{{ balance?.WSB | number }}</h6>
     </div>
     <div class="col">
       <small>Equity</small>
@@ -18,7 +18,7 @@
     </div>
     <div class="col">
       <small>PL (%)</small>
-      <h6>{{ balance?.pl | number }}</h6>
+      <h6>{{ balance?.PL | number }}</h6>
     </div>
     <div class="col">
       <small>Exposure</small>
@@ -26,7 +26,7 @@
     </div>
     <div class="col">
       <small>PL</small>
-      <h6>{{ balance?.total_pl | number }}</h6>
+      <h6>{{ balance?.totalPL | number }}</h6>
     </div>
     <div class="col">
       <small>Exp/Eq</small>
@@ -46,25 +46,25 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let balance of balance?.per_currency_balances">
+        <tr *ngFor="let balance of balance?.perCurrencyBalances">
           <td scope="col">{{ balance.currency }}</td>
           <td scope="col">
-            <ng-container *ngIf="balance.exchange !== null && balance.exchange.length === 2">
+            <ng-container *ngIf="balance.exchange !== null && balance.exchange?.length === 2">
               {{ balance.exchange[0] | number }} / {{ balance.exchange[1] | number }}
             </ng-container>
-            <ng-container *ngIf="balance.exchange === null || balance.exchange.length !== 2">0</ng-container>
+            <ng-container *ngIf="balance.exchange === null || balance.exchange?.length !== 2">0</ng-container>
           </td>
           <td scope="col">
-            <ng-container *ngIf="balance.margin !== null && balance.margin.length === 2">
+            <ng-container *ngIf="balance.margin !== null && balance.margin?.length === 2">
               {{ balance.margin[0] | number }} / {{ balance.margin[1] | number }}
             </ng-container>
-            <ng-container *ngIf="balance.margin === null || balance.margin.length !== 2">0</ng-container>
+            <ng-container *ngIf="balance.margin === null || balance.margin?.length !== 2">0</ng-container>
           </td>
           <td scope="col">
-            <ng-container *ngIf="balance.funding !== null && balance.funding.length === 2">
+            <ng-container *ngIf="balance.funding !== null && balance.funding?.length === 2">
               {{ balance.funding[0] | number }} / {{ balance.funding[1] | number }}
             </ng-container>
-            <ng-container *ngIf="balance.funding === null || balance.funding.length !== 2">0</ng-container>
+            <ng-container *ngIf="balance.funding === null || balance.funding?.length !== 2">0</ng-container>
           </td>
         </tr>
         </tbody>

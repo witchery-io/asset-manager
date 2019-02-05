@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
 import { ACCOUNTS } from '@app/shared/enums/trading.enum';
+import { LoadTicks } from '@app/core/actions/tick.actions';
 
 @Component({
   selector: 'app-accounts',
@@ -15,7 +16,7 @@ import { ACCOUNTS } from '@app/shared/enums/trading.enum';
         class="form-control form-control-sm"
         [value]="this.type === ACCOUNTS ? this.id : null"
         (change)="onChange($event.target.value)">
-        <option *ngFor="let account of accounts" [value]="account.id">{{ account.acc_name }}</option>
+        <option *ngFor="let account of accounts" [value]="account.id">{{ account.accName }}</option>
       </select>
     </div>
   `,
@@ -53,6 +54,10 @@ export class AccountsComponent implements OnInit {
     const routerPromise = this.router.navigate([`/trading/${ACCOUNTS}/${accountId}/${tab}`]);
 
     routerPromise.then(() => {
+      /*
+      * update TICKS
+      * */
+      this.store.dispatch(new LoadTicks());
     });
   }
 }

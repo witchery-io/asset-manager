@@ -2,7 +2,7 @@
   <div class="row text-white">
     <div class="col">
       <small>BC</small>
-      <h6>{{ balance.base_currency }}</h6>
+      <h6>{{ balance.baseCurrency }}</h6>
     </div>
     <div class="col">
       <small>Balance</small>
@@ -10,7 +10,7 @@
     </div>
     <div class="col">
       <small>WSB</small>
-      <h6>{{ balance.wsb | number }}</h6>
+      <h6>{{ balance.WSB | number }}</h6>
     </div>
     <div class="col">
       <small>Equity</small>
@@ -18,7 +18,7 @@
     </div>
     <div class="col">
       <small>PL (%)</small>
-      <h6>{{ balance.pl | number }}</h6>
+      <h6>{{ balance.Pl | number }}</h6>
     </div>
     <div class="col">
       <small>Exposure</small>
@@ -26,7 +26,7 @@
     </div>
     <div class="col">
       <small>PL</small>
-      <h6>{{ balance.total_pl | number }}</h6>
+      <h6>{{ balance.totalPL | number }}</h6>
     </div>
     <div class="col">
       <small>Exp/Eq</small>
@@ -48,7 +48,7 @@
         <div class="form-group col-md-6">
           <label for="accounts">Accounts</label>
           <select id="accounts" class="form-control form-control-sm" formControlName="account">
-            <option *ngFor="let account of accounts" [value]="account.id">{{ account.user_name }}</option>
+            <option *ngFor="let account of accounts" [value]="account.id">{{ account.userName }}</option>
           </select>
         </div>
       </div>
@@ -63,27 +63,27 @@
         </select>
       </div>
 
-      <table *ngIf="balance.per_currency_balances" class="table table-xs table-hover">
+      <table *ngIf="balance.perCurrencyBalances" class="table table-xs table-hover">
         <thead>
         <tr>
           <th scope="col">Currency</th>
-          <th *ngIf="curr_balance === 'exchange'" scope="col">Exchange</th>
-          <th *ngIf="curr_balance === 'margin'" scope="col">Margin</th>
-          <th *ngIf="curr_balance === 'funding'" scope="col">Funding</th>
+          <th *ngIf="currBalance === 'exchange'" scope="col">Exchange</th>
+          <th *ngIf="currBalance === 'margin'" scope="col">Margin</th>
+          <th *ngIf="currBalance === 'funding'" scope="col">Funding</th>
         </tr>
         </thead>
         <tbody>
         <tr
-          *ngFor="let per of balance.per_currency_balances"
+          *ngFor="let per of balance.perCurrencyBalances"
           (click)="chooseCurrency(per.currency)"
           [class.table-active]="currency === per.currency"
         >
           <th scope="row">{{ per.currency }}</th>
-          <td *ngIf="curr_balance === 'exchange'"><span *ngIf="per.exchange">{{ per.exchange[0] }}
+          <td *ngIf="currBalance === 'exchange'"><span *ngIf="per.exchange">{{ per.exchange[0] }}
             / {{ per.exchange[1] }}</span></td>
-          <td *ngIf="curr_balance === 'margin'"><span *ngIf="per.margin">{{ per.margin[0] }}
+          <td *ngIf="currBalance === 'margin'"><span *ngIf="per.margin">{{ per.margin[0] }}
             / {{ per.margin[1] }}</span></td>
-          <td *ngIf="curr_balance === 'funding'"><span *ngIf="per.funding">{{ per.funding[0] }}
+          <td *ngIf="currBalance === 'funding'"><span *ngIf="per.funding">{{ per.funding[0] }}
             / {{ per.funding[1] }}</span></td>
         </tr>
         </tbody>

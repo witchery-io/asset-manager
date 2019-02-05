@@ -7,9 +7,7 @@ export interface State extends EntityState<Position> {
   error: string | null;
 }
 
-export const adapter: EntityAdapter<Position> = createEntityAdapter<Position>({
-  selectId: (model: Position) => model.order_number,
-});
+export const adapter: EntityAdapter<Position> = createEntityAdapter<Position>();
 
 export const initialState: State = adapter.getInitialState({
   isLoading: false,
@@ -22,6 +20,13 @@ export function reducer(state: State = initialState, action: PositionsActions.Ac
       return {
         ...state,
         isLoading: true,
+      };
+    }
+
+    case PositionsActions.UPDATE_POSITIONS: {
+      return {
+        ...state,
+        isLoading: false,
       };
     }
 

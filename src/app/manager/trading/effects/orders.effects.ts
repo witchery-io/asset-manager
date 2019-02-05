@@ -15,9 +15,23 @@ export class OrdersEffects {
     switchMap((settings: any) => {
       return this.ordersService.getOrders(settings).pipe(
         map(response => {
-          return new fromOrders.OrdersLoaded({ orders: response || [] }); // todo :: remove []
+          return new fromOrders.OrdersLoaded({orders: response});
         }),
-        catchError(error => of(new fromOrders.OrdersNotLoaded({ error: error.message || error }))),
+        catchError(error => of(new fromOrders.OrdersNotLoaded({error: error.message || error}))),
+      );
+    }),
+  );
+
+  @Effect()
+  updateGroups$ = this.actions$.pipe(
+    ofType<fromOrders.UpdateOrders>(fromOrders.UPDATE_ORDERS),
+    map(settings => settings.payload),
+    switchMap((settings: any) => {
+      return this.ordersService.getOrders(settings).pipe(
+        map(response => {
+          return new fromOrders.OrdersLoaded({orders: response});
+        }),
+        catchError(error => of(new fromOrders.OrdersNotLoaded({error: error.message || error}))),
       );
     }),
   );
@@ -25,5 +39,6 @@ export class OrdersEffects {
   constructor(
     private actions$: Actions<fromOrders.Actions>,
     private ordersService: OrdersService,
-  ) { }
+  ) {
+  }
 }

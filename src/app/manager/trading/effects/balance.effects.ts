@@ -15,9 +15,23 @@ export class BalanceEffects {
     switchMap((settings: any) => {
       return this.balanceService.getBalance(settings).pipe(
         map(response => {
-          return new fromBalance.BalanceLoaded({ balance: response });
+          return new fromBalance.BalanceLoaded({balance: response});
         }),
-        catchError(error => of(new fromBalance.BalanceNotLoaded({ error: error.message || error }))),
+        catchError(error => of(new fromBalance.BalanceNotLoaded({error: error.message || error}))),
+      );
+    }),
+  );
+
+  @Effect()
+  updateGroups$ = this.actions$.pipe(
+    ofType<fromBalance.UpdateBalance>(fromBalance.UPDATE_BALANCE),
+    map(settings => settings.payload),
+    switchMap((settings: any) => {
+      return this.balanceService.getBalance(settings).pipe(
+        map(response => {
+          return new fromBalance.BalanceLoaded({balance: response});
+        }),
+        catchError(error => of(new fromBalance.BalanceNotLoaded({error: error.message || error}))),
       );
     }),
   );
@@ -25,5 +39,6 @@ export class BalanceEffects {
   constructor(
     private actions$: Actions<fromBalance.Actions>,
     private balanceService: BalanceService,
-  ) { }
+  ) {
+  }
 }

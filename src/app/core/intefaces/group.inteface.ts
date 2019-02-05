@@ -1,8 +1,12 @@
+import { Moment } from 'moment';
+import { Account } from './account.inteface';
+
 export interface Group {
   id: string;
   name: string;
-  allocation_method: number;
   active: boolean;
   exchange: string;
-  base_currency: string;
+  baseCurrency: string;
+  accounts: Account[];
+  date: Moment;
 }

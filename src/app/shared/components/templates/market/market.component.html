@@ -1,11 +1,11 @@
 <form novalidate [formGroup]="marketForm" class="m-2">
   <div class="form-group">
-    <label for="o_type" class="small">{{ marketType | titlecase }} Type</label>
+    <label for="type" class="small">{{ marketType | titlecase }} Type</label>
     <select
       class="form-control form-control-sm"
-      id="o_type"
-      formControlName="o_type">
-      <option *ngFor="let type of orderType; index as i" [value]="i">{{ type | titlecase }}</option>
+      id="type"
+      formControlName="type">
+      <option *ngFor="let type of orderType" [value]="type">{{ type | titlecase }}</option>
     </select>
   </div>
 
@@ -13,7 +13,7 @@
     <div class="form-group col">
       <label for="price" class="small">Price</label>
       <input
-        [attr.disabled]="marketForm.value.o_type === 'market' ? '' : null"
+        [attr.disabled]="marketForm.value.type === 'market' ? '' : null"
         id="price"
         type="number"
         class="form-control form-control-sm"

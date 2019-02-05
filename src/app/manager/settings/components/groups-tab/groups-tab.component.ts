@@ -11,6 +11,7 @@ import { getGroupFromSection } from '@settings/state/settings.selectors';
 import { LoadGroup } from '@settings/actions/group.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-groups-tab',
@@ -36,6 +37,8 @@ export class GroupsTabComponent implements OnInit {
   modalRef: BsModalRef;
   formValues: any;
 
+  private readonly notifier: NotifierService;
+
   constructor(
     private modalService: ModalService,
     private groupService: GroupService,
@@ -43,7 +46,9 @@ export class GroupsTabComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private shared: SharedService,
+    private notifierService: NotifierService,
   ) {
+    this.notifier = notifierService;
   }
 
   get selectedGroup() {
@@ -101,6 +106,19 @@ export class GroupsTabComponent implements OnInit {
   edit(group, template: any, options = {}) {
     this.formValues = group;
     this.openModal(template, options);
+  }
+
+  /**
+   * update current group
+   * @param group --- updated group
+   */
+  updateStatus(group) {
+    this.groupService.update(group.id, {active: !group.active})
+      .subscribe(() => {
+        this.notifier.notify('success', 'Status was successfully updated');
+      }, error1 => {
+        this.notifier.notify('error', `${error1.error.message}.`);
+      });
   }
 
   selectGroup(id) {

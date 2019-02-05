@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { OrderContext, OrderDirection, Role } from '@app/shared/enums';
+import { Role } from '@app/shared/enums';
 
 @Component({
   selector: 'app-market',
@@ -32,7 +32,7 @@ export class MarketComponent implements OnInit {
 
   ngOnInit() {
     this.marketForm = new FormGroup({
-      o_type: new FormControl('0', [<any>Validators.required]),
+      type: new FormControl('stop', [<any>Validators.required]),
       price: new FormControl(0),
       amount: new FormControl('', [<any>Validators.required]),
     });
@@ -47,12 +47,10 @@ export class MarketComponent implements OnInit {
     if (isValid) {
       this.order.emit({
         amount: model.amount,
-        open_price: model.price,
-        type: {
-          context: OrderContext[this.marketType],
-          direction: OrderDirection[direction],
-          type: +model.o_type,
-        }
+        price: model.price,
+        context: this.marketType,
+        direction: direction,
+        type: model.type,
       });
     }
   }

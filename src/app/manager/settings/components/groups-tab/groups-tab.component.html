@@ -36,6 +36,7 @@
               class="switch"
               [disabled]="role !== 'admin'"
               [checked]="group.active"
+              (click)="updateStatus(group)"
             >
             <label class="m-0" for="switch-{{group.id}}"></label>
           </span>
@@ -79,7 +80,7 @@
           [class.table-active]="account.id === subId"
           (click)="selectAccount(account.id)"
         >
-          <td>{{ account.user_name }}</td>
+          <td>{{ account.userName }}</td>
           <td>{{ account.risk }}</td>
         </tr>
         </tbody>
@@ -118,6 +119,7 @@
   <div class="modal-body">
     <app-add-account-form
       [accounts]="accounts"
+      [group]="selectedGroup"
     ></app-add-account-form>
   </div>
 </ng-template>

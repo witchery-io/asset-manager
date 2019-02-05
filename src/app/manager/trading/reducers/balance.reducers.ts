@@ -22,8 +22,15 @@ export function reducer(state: State = initialState, action: BalanceActions.Acti
       };
     }
 
+    case BalanceActions.UPDATE_BALANCE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
     case BalanceActions.BALANCE_LOADED: {
-      return  {
+      return {
         ...state,
         isLoading: false,
         error: null,

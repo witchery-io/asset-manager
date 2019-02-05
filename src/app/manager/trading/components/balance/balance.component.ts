@@ -23,7 +23,7 @@ export class BalanceComponent implements OnInit {
 
   modalRef: BsModalRef;
   transferForm: FormGroup;
-  curr_balance: any;
+  currBalance: any;
   currency: any;
 
   constructor(
@@ -60,7 +60,7 @@ export class BalanceComponent implements OnInit {
   }
 
   chooseMarker(market) {
-    this.curr_balance = market;
+    this.currBalance = market;
   }
 
   onTransfer(model: any, is_Valid: boolean) {

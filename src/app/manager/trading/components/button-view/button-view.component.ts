@@ -48,20 +48,20 @@ export class ButtonViewComponent implements ViewCell, OnInit {
 
     switch (this.rowData.type) {
       case GROUPS:
+        params.groupId = this.rowData.id;
         this.groupOrder(this.rowData.id, params);
         break;
       case ACCOUNTS:
+        params.accountId = this.rowData.id;
         this.accountOrder(this.rowData.id, params);
         break;
     }
   }
 
   groupOrder(id, order) {
-    this.ordersService.placeGroupOrder(id, order)
+    this.ordersService.placeGroupOrder(order)
       .subscribe((d: any) => {
-        const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
-           ${d.amount} ${d.pair} @ ${d.open_price}.`;
-        this.notifier.notify('success', msg);
+        this.notifier.notify('success', `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
       }, error1 => {
         this.notifier.notify('error', `Error msg: ${error1.message}`);
       }, () => {
@@ -70,11 +70,9 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   }
 
   accountOrder(id, order) {
-    this.ordersService.placeAccountOrder(id, order)
+    this.ordersService.placeAccountOrder(order)
       .subscribe((d: any) => {
-        const msg = `Placed ${OrderType[d.type.type]} order to ${OrderDirection[d.type.direction]}
-           ${d.amount} ${d.pair} @ ${d.open_price}.`;
-        this.notifier.notify('success', msg);
+        this.notifier.notify('success', `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
       }, error1 => {
         this.notifier.notify('error', `Error msg: ${error1.message}`);
       }, () => {

@@ -21,6 +21,19 @@ export class TickEffects {
     }),
   );
 
+  @Effect()
+  updateTicks$ = this.actions$.pipe(
+    ofType<fromTick.UpdateTicks>(fromTick.UPDATE_TICKS),
+    switchMap(() => {
+      return this.tickService.getTicks().pipe(
+        map(response => {
+          return new fromTick.TicksLoaded({ ticks: response });
+        }),
+        catchError(error => of(new fromTick.TicksNotLoaded({ error: error.message || error }))),
+      );
+    }),
+  );
+
   constructor(
     private actions$: Actions<fromTick.Actions>,
     private tickService: TickService,

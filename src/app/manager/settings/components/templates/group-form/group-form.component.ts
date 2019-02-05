@@ -1,5 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { GroupService } from '@app/core/services';
+import { NotifierService } from 'angular-notifier';
+import { ModalService } from '@app/shared/services';
+import { Group } from '@app/core/intefaces';
 
 @Component({
   selector: 'app-group-form',
@@ -12,41 +16,59 @@ export class GroupFormComponent implements OnInit {
   formType: string;
 
   @Input()
-  values = {};
+  values: Group;
 
   groupForm: FormGroup;
-  baseCurrency = ['usd', 'btc', 'eth', 'eur'];
-  exchanges = ['bitfinex', 'cexio'];
+  baseCurrency = ['USD', 'BTC', 'ETH', 'EUR', 'LTC'];
+  exchanges = ['bitfinex.com'];
   allocationMethod = ['fix', 'percent', 'equity'];
 
-  constructor() { }
+  private readonly notifier: NotifierService;
+
+  constructor(
+    private groupService: GroupService,
+    private notifierService: NotifierService,
+    private modalService: ModalService,
+  ) {
+    this.notifier = notifierService;
+  }
 
   ngOnInit() {
     this.groupForm = new FormGroup({
       name: new FormControl('', [<any>Validators.required]),
-      allocation_method: new FormControl('0', [<any>Validators.required]),
-      active: new FormControl(true, [<any>Validators.required]),
-      exchange: new FormControl('bitfinex', [<any>Validators.required]),
-      base_currency: new FormControl('usd', [<any>Validators.required]),
+      allocationMethod: new FormControl('fix', [<any>Validators.required]),
+      exchange: new FormControl('bitfinex.com', [<any>Validators.required]),
+      baseCurrency: new FormControl('USD', [<any>Validators.required]),
     });
 
-    this.groupForm.patchValue(this.values);
+    this.groupForm.patchValue(this.values || {});
   }
 
   close() {
-    // code
+    this.modalService.closeAllModals();
   }
 
-  create(values, is_valid) {
-    if (is_valid) {
-      // emit
+  create(values, isValid) {
+    if (isValid) {
+      this.groupService.create(values)
+        .subscribe(() => {
+          this.close();
+          this.notifier.notify( 'success', `Group was successfully created.`);
+        }, error1 => {
+          this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+        });
     }
   }
 
-  update(values, is_valid) {
-    if (is_valid) {
-      // emit
+  update(values, isValid) {
+    if (isValid) {
+      this.groupService.update(this.values.id, values)
+        .subscribe(() => {
+          this.close();
+          this.notifier.notify( 'success', `Group was successfully edited.`);
+        }, error1 => {
+          this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
+        });
     }
   }
-
 }
