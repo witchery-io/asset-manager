@@ -19,10 +19,6 @@ export class OrdersService extends OrderService {
   }
 
   cancelOrder(params): Observable<any> {
-
-    console.log('Orders Service', params);
-
-    return of();
-    // return this.http.post('http://trade.vitanova.online:50090/payments/exchange/orders/delete', order);
+    return this.http.delete(`${this.url}/orders/${params.id}`);
   }
 }

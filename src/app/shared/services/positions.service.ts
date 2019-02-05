@@ -19,14 +19,6 @@ export class PositionsService extends OrderService {
   }
 
   closePosition(params): Observable<any> {
-
-    console.log('Positions Service', params);
-
-    /*    if (position.amount < 0) {
-          position.amount = position.amount * -1;
-        }*/
-    // return this.http.post(`http://trade.vitanova.online:50090/payments/exchange/positions/delete`, position);
-
-    return of();
+    return this.http.delete(`${this.url}/positions/${params.id}`);
   }
 }

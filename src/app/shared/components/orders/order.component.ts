@@ -97,7 +97,7 @@ export class OrderComponent implements OnInit {
            @ ${this.order.openPrice}.`);
         this.modalService.closeAllModals();
       }, error1 => {
-        this.notifier.notify('error', `Error msg: ${error1.message}.`);
+        this.notifier.notify('error', `Error msg: ${error1.error.message}.`);
       });
   }
 
@@ -121,7 +121,6 @@ export class OrderComponent implements OnInit {
 
   orderApprove(model: any, isValid: boolean) {
     if (isValid) {
-      this.spinner.show();
       this.ordersService.cancelOrder(this.order)
         .subscribe(() => {
           model.type = this.order.type;
@@ -148,7 +147,7 @@ export class OrderComponent implements OnInit {
         this.notifier.notify('success', `Order modified, ${d.type}, to ${d.direction} ${d.amount} ${d.pair}
          @ ${d.openPrice}.`);
       }, error1 => {
-        this.notifier.notify('error', `Error msg: ${error1.message}.`);
+        this.notifier.notify('error', `Error msg: ${error1.error.message}.`);
       }, () => {
         this.spinner.hide();
         this.modalService.closeAllModals();
@@ -164,7 +163,7 @@ export class OrderComponent implements OnInit {
         this.notifier.notify('success', `Order modified, ${d.type}, to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
         this.modalService.closeAllModals();
       }, error1 => {
-        this.notifier.notify('error', `Error msg: ${error1.message}`);
+        this.notifier.notify('error', `Error msg: ${error1.error.message}`);
       });
   }
 

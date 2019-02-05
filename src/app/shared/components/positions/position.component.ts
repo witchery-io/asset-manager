@@ -146,18 +146,19 @@ export class PositionComponent implements OnInit {
 
   onOrder(params) {
     params.pair = this.position.pair;
+    params.positionId = this.position.id;
 
     switch (this.type) {
       case GROUPS:
 
         // todo :: groupId
-
+debugger
         this.groupOrder(params);
         break;
       case ACCOUNTS:
 
         // todo :: accountId
-
+debugger
         this.accountOrder(params);
         break;
     }
@@ -169,8 +170,8 @@ export class PositionComponent implements OnInit {
   groupOrder(order) {
     this.ordersService.placeGroupOrder(order)
       .subscribe((d: any) => {
-        this.notifier.notify('success', `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair}
-         @ ${d.openPrice}.`);
+        /* `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.openPrice}. `*/
+        this.notifier.notify('success', `${d}`);
         this.modalService.closeAllModals();
       }, error1 => {
         this.notifier.notify('error', `Error msg: ${error1.message}.`);
@@ -183,8 +184,8 @@ export class PositionComponent implements OnInit {
   accountOrder(order) {
     this.ordersService.placeAccountOrder(order)
       .subscribe((d: any) => {
-        this.notifier.notify('success', `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair}
-         @ ${d.openPrice}.`);
+        /* `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.openPrice}.` */
+        this.notifier.notify('success', `${d}`);
         this.modalService.closeAllModals();
       }, error1 => {
         this.notifier.notify('error', `Error msg: ${error1.message}.`);
