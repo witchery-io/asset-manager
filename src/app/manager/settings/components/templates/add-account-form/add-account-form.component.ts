@@ -4,9 +4,6 @@ import { GroupService } from '@app/core/services';
 import { NotifierService } from 'angular-notifier';
 import { ModalService } from '@app/shared/services';
 import { Group } from '@app/core/intefaces';
-import { LoadGroups } from '@app/core/actions/group.actions';
-import { Store } from '@ngrx/store';
-import { SettingsState } from '@settings/reducers';
 
 @Component({
   selector: 'app-add-account-form',
@@ -28,7 +25,6 @@ export class AddAccountFormComponent implements OnInit {
     private groupService: GroupService,
     private notifierService: NotifierService,
     private modalService: ModalService,
-    private store: Store<SettingsState>,
   ) {
     this.notifier = notifierService;
   }
