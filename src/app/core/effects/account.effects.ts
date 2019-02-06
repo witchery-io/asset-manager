@@ -14,9 +14,22 @@ export class AccountEffects {
     switchMap(() => {
       return this.accountService.getAccounts().pipe(
         map(response => {
-          return new fromAccount.AccountsLoaded({ accounts: response });
+          return new fromAccount.AccountsLoaded({accounts: response});
         }),
-        catchError(error => of(new fromAccount.AccountsNotLoaded({ error: error.message || error }))),
+        catchError(error => of(new fromAccount.AccountsNotLoaded({error: error.message || error}))),
+      );
+    }),
+  );
+
+  @Effect()
+  updateAccounts$ = this.actions$.pipe(
+    ofType<fromAccount.UpdateAccounts>(fromAccount.UPDATE_ACCOUNTS),
+    switchMap(() => {
+      return this.accountService.getAccounts().pipe(
+        map(response => {
+          return new fromAccount.AccountsLoaded({accounts: response});
+        }),
+        catchError(error => of(new fromAccount.AccountsNotLoaded({error: error.message || error}))),
       );
     }),
   );
@@ -24,5 +37,6 @@ export class AccountEffects {
   constructor(
     private actions$: Actions<fromAccount.Actions>,
     private accountService: AccountService,
-  ) { }
+  ) {
+  }
 }

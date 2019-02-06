@@ -23,6 +23,12 @@ export function reducer(state: State = initialState, action: AccountActions.Acti
       };
     }
 
+    case AccountActions.UPDATE_ACCOUNTS: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
     case AccountActions.ACCOUNTS_LOADED: {
       return adapter.addMany(action.payload.accounts, {
         ...state,

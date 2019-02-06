@@ -45,6 +45,7 @@
         <tab heading="ORDERS" id="orders" (select)="onSelectOrderTab('orders')">
           <app-orders
             *ngIf="(isLoadingOrders$ | async) === false"
+            [id]="_id"
             [section]="orders$ | async"
             [accountsSection]="accounts$ | async"
           ></app-orders>

@@ -42,25 +42,17 @@ import { getAccountsFromSection } from '@app/core/reducers';
     </table>`,
 })
 export class PositionsComponent implements OnInit {
-
   @Input()
   id: string;
-
   @Input()
   type: string;
-
   @Input()
   section: any;
-
   @Input()
   accountsSection: any;
-
   permission = 'parent';
 
   constructor() {
-  }
-
-  ngOnInit() {
   }
 
   get positions() {
@@ -73,5 +65,8 @@ export class PositionsComponent implements OnInit {
 
   get accounts() {
     return getAccountsFromSection(this.accountsSection);
+  }
+
+  ngOnInit() {
   }
 }

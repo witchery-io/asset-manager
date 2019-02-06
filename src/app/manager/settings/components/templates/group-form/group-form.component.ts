@@ -54,8 +54,6 @@ export class GroupFormComponent implements OnInit {
         .subscribe(() => {
           this.close();
           this.notifier.notify( 'success', `Group was successfully created.`);
-        }, error1 => {
-          this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
         });
     }
   }
@@ -66,8 +64,6 @@ export class GroupFormComponent implements OnInit {
         .subscribe(() => {
           this.close();
           this.notifier.notify( 'success', `Group was successfully edited.`);
-        }, error1 => {
-          this.notifier.notify( 'error', `Error msg: ${ error1.message }`);
         });
     }
   }

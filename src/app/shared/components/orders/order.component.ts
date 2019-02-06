@@ -15,32 +15,29 @@ import { ACCOUNTS, GROUPS, PARENT } from '@app/shared/enums/trading.enum';
 })
 export class OrderComponent implements OnInit {
   role = 'admin';
-  user: any; // user
+  user: any;
   ROLE = Role;
   PARENT = PARENT;
   faPlus = faPlus;
   faMinus = faMinus;
-
   @Input()
-  order: any;
-
-  @Input()
-  permission: string;
-
-  @Input()
-  accounts: any;
-
+  id: string;
   @Input()
   type = GROUPS;
-
+  @Input()
+  order: any;
+  @Input()
+  permission: string;
+  @Input()
+  accounts: any;
   @Input()
   groupByPair = false;
-
   isCollapsed: boolean;
   modalRef: BsModalRef;
   modifyForm: FormGroup;
-  account_name: string;
   private readonly notifier: NotifierService;
+
+  // account_name: string;
 
   constructor(
     private modalService: ModalService,
@@ -52,8 +49,8 @@ export class OrderComponent implements OnInit {
   }
 
   get tooltip() {
-    // todo :: account_name
-    return this.account_name;
+    // return this.account_name;
+    return '';
   }
 
   ngOnInit() {
@@ -63,22 +60,20 @@ export class OrderComponent implements OnInit {
     this.isCollapsed = collapse === null ? true : collapse;
     this.setAccountName();
     this.modifyForm = new FormGroup({
-      openPrice: new FormControl(0),
-      amount: new FormControl('', [<any>Validators.required]),
+      price: new FormControl(0),
+      originalAmount: new FormControl('', [<any>Validators.required]),
     });
   }
 
   setAccountName() {
-    if (this.permission !== 'parent' && this.type === 'group' && this.accounts && !this.groupByPair) {
-      for (const account of this.accounts) {
-        if (account.id === this.order.account) {
-
-          // todo :: account_name
-          this.account_name = account.name;
-          break;
-        }
-      }
-    }
+    /*    if (this.permission !== 'parent' && this.type === 'group' && this.accounts && !this.groupByPair) {
+          for (const account of this.accounts) {
+            if (account.id === this.order.account) {
+              this.account_name = account.name;
+              break;
+            }
+          }
+        }*/
   }
 
   openModal(template: any, options = {}) {
@@ -89,31 +84,26 @@ export class OrderComponent implements OnInit {
    * close current order
    */
   orderCancel() {
-    this.spinner.show();
-    this.ordersService.cancelOrder(this.order)
+    this.ordersService.cancelOrder(this.order.orderNumber)
       .subscribe(() => {
         this.notifier.notify('success',
           `Order cancelled, ${this.order.type}, ${this.order.direction} ${this.order.amount} ${this.order.pair}
            @ ${this.order.openPrice}.`);
         this.modalService.closeAllModals();
-      }, error1 => {
-        this.notifier.notify('error', `Error msg: ${error1.error.message}.`);
       });
   }
 
-  orderModify(template) {
-    let amount = this.order.amount;
+  orderModify(order, template) {
+    let originalAmount = this.order.originalAmount;
     if (this.order.suborders != null && this.order.suborders.length > 0) {
       for (const account of this.accounts) {
         if (account.id === this.order.suborders[0].account) {
-          amount = this.order.suborders[0].amount / account.risk;
+          originalAmount = this.order.suborders[0].originalAmount / account.risk;
         }
       }
     }
 
-    const order = JSON.parse(JSON.stringify(this.order));
-
-    order.amount = amount;
+    order.originalAmount = originalAmount;
 
     this.modifyForm.patchValue(order);
     this.openModal(template, {class: 'modal-sm'});
@@ -121,17 +111,18 @@ export class OrderComponent implements OnInit {
 
   orderApprove(model: any, isValid: boolean) {
     if (isValid) {
-      this.ordersService.cancelOrder(this.order)
+      this.ordersService.cancelOrder(this.order.orderNumber)
         .subscribe(() => {
           model.type = this.order.type;
           model.pair = this.order.pair;
+          model.orderNumber = this.order.orderNumber;
 
           switch (this.type) {
             case GROUPS:
-              this.groupOrder(model);
+              this.groupOrder(this.id, model);
               break;
             case ACCOUNTS:
-              this.accountOrder(model);
+              this.accountOrder(this.id, model);
               break;
           }
         });
@@ -139,31 +130,28 @@ export class OrderComponent implements OnInit {
   }
 
   /**
+   * @param id - string
    * @param order -- creating order
    */
-  groupOrder(order) {
-    this.ordersService.placeGroupOrder(order)
+  groupOrder(id, order) {
+    this.ordersService.placeGroupOrder(id, order)
       .subscribe((d: any) => {
-        this.notifier.notify('success', `Order modified, ${d.type}, to ${d.direction} ${d.amount} ${d.pair}
-         @ ${d.openPrice}.`);
-      }, error1 => {
-        this.notifier.notify('error', `Error msg: ${error1.error.message}.`);
-      }, () => {
-        this.spinner.hide();
+        this.notifier.notify('success',
+          `Order modified, ${d.type}, to ${d.direction} ${d.amount} ${d.pair} @ ${d.openPrice}.`);
         this.modalService.closeAllModals();
       });
   }
 
   /**
+   * @param id - string
    * @param order -- creating order
    */
-  accountOrder(order) {
-    this.ordersService.placeAccountOrder(order)
+  accountOrder(id, order) {
+    this.ordersService.placeAccountOrder(id, order)
       .subscribe((d: any) => {
-        this.notifier.notify('success', `Order modified, ${d.type}, to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
+        this.notifier.notify('success',
+          `Order modified, ${d.type}, to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
         this.modalService.closeAllModals();
-      }, error1 => {
-        this.notifier.notify('error', `Error msg: ${error1.error.message}`);
       });
   }
 

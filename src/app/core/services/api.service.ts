@@ -56,6 +56,20 @@ export class ApiService {
   }
 
   /**
+   * Sends put request
+   */
+  put<T>(url: string, body: any, options = {}) {
+    return this.http.put<T>(`${ url }`, body, options);
+  }
+
+  /**
+   * Sends delete request
+   */
+  remove(url: string, options = {}) {
+    return this.http.delete(`${ url }`, options);
+  }
+
+  /**
    * Set auth key and save to storage (in our case to local storage)
    */
   setAuthKey(key) {

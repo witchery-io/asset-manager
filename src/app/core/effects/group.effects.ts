@@ -14,9 +14,22 @@ export class GroupEffects {
     switchMap(() => {
       return this.groupService.getGroups().pipe(
         map(response => {
-          return new fromGroup.GroupsLoaded({ groups: response });
+          return new fromGroup.GroupsLoaded({groups: response});
         }),
-        catchError(error => of(new fromGroup.GroupsNotLoaded({ error: error.message || error }))),
+        catchError(error => of(new fromGroup.GroupsNotLoaded({error: error.message || error}))),
+      );
+    }),
+  );
+
+  @Effect()
+  updateGroups$ = this.actions$.pipe(
+    ofType<fromGroup.UpdateGroups>(fromGroup.UPDATE_GROUPS),
+    switchMap(() => {
+      return this.groupService.getGroups().pipe(
+        map(response => {
+          return new fromGroup.GroupsLoaded({groups: response});
+        }),
+        catchError(error => of(new fromGroup.GroupsNotLoaded({error: error.message || error}))),
       );
     }),
   );
@@ -24,5 +37,6 @@ export class GroupEffects {
   constructor(
     private actions$: Actions<fromGroup.Actions>,
     private groupService: GroupService,
-  ) { }
+  ) {
+  }
 }

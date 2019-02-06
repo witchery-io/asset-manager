@@ -24,6 +24,7 @@ import { getOrdersFromSection } from '@trading/state/trading.selectors';
         <th colspan="10" class="p-0">
           <app-order
             *ngFor="let order of orders"
+            [id]="id"
             [order]="order"
             [permission]="permission"
             [accounts]="accounts"
@@ -34,6 +35,9 @@ import { getOrdersFromSection } from '@trading/state/trading.selectors';
     </table>`,
 })
 export class OrdersComponent implements OnInit {
+
+  @Input()
+  id: string;
 
   @Input()
   section: any;

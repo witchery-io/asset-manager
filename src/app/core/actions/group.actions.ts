@@ -2,12 +2,17 @@ import { Action } from '@ngrx/store';
 import { Group } from '@app/core/intefaces';
 
 export const LOAD_GROUPS = '[CORE] Load Groups';
+export const UPDATE_GROUPS = '[CORE] Update Groups';
 export const GROUPS_LOADED = '[CORE] Groups Loaded';
 export const GROUPS_NOT_LOADED = '[CORE] Groups Not Loaded';
 
 
 export class LoadGroups implements Action {
   readonly type = LOAD_GROUPS;
+}
+
+export class UpdateGroups implements Action {
+  readonly type = UPDATE_GROUPS;
 }
 
 export class GroupsLoaded implements Action {
@@ -22,5 +27,6 @@ export class GroupsNotLoaded implements Action {
 
 export type Actions =
   LoadGroups
+  | UpdateGroups
   | GroupsLoaded
   | GroupsNotLoaded;

@@ -23,6 +23,13 @@ export function reducer(state: State = initialState, action: GroupActions.Action
       };
     }
 
+    case GroupActions.UPDATE_GROUPS: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
     case GroupActions.GROUPS_LOADED: {
       return adapter.addMany(action.payload.groups, {
         ...state,
