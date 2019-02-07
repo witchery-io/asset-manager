@@ -25,28 +25,22 @@ import { LoadAccounts } from '@app/core/actions/account.actions';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit, OnDestroy {
-
   _id: string;
   _type: string;
-
-  @ViewChild('generalTabs') generalTabs: TabsetComponent;
-  @ViewChild('ordersTabs') ordersTabs: TabsetComponent;
-
+  @ViewChild('generalTabs')
+  generalTabs: TabsetComponent;
+  @ViewChild('ordersTabs')
+  ordersTabs: TabsetComponent;
   orders$: Observable<fromOrders.State>;
   isLoadingOrders$: Observable<boolean>;
-
   positions$: Observable<fromPositions.State>;
   isLoadingPositions$: Observable<boolean>;
-
   balance$: Observable<fromBalance.State>;
   isLoadingBalance$: Observable<boolean>;
-
   accounts$: Observable<fromAccounts.State>;
   groups$: Observable<fromGroups.State>;
-
   group$: Observable<any>;
   account$: Observable<any>;
-
   subscription: Subscription;
   interval: any;
 
@@ -141,7 +135,7 @@ export class MainComponent implements OnInit, OnDestroy {
   /**
    * Clean State on destroy
    */
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.cleanState();
     this.subscription.unsubscribe();
     clearInterval(this.interval);
@@ -163,7 +157,6 @@ export class MainComponent implements OnInit, OnDestroy {
     }
 
     const orderTab = this.router.navigate([generateUrl(params)]);
-
     orderTab.then((status) => {
       if (status) {
         this._id = params.subId || params.id;
@@ -184,6 +177,7 @@ export class MainComponent implements OnInit, OnDestroy {
   onSelectOrderTab(orderTabName: string) {
     const id = this.route.snapshot.paramMap.has('id');
     const generalTab = this.route.snapshot.paramMap.has('generalTab');
+    debugger
     if (!generalTab || !id) {
       return;
     }
@@ -193,10 +187,8 @@ export class MainComponent implements OnInit, OnDestroy {
     let url = '';
     url += hasOrderTab ? '../' : './';
     url += orderTabName;
-
-    const orderTab = this.router.navigate([url], {relativeTo: this.route});
-
-    orderTab.then(() => {
+    const orderProm = this.router.navigate([url], {relativeTo: this.route});
+    orderProm.then(() => {
     });
   }
 
