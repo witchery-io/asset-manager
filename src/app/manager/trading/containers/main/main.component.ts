@@ -119,7 +119,7 @@ export class MainComponent implements OnInit, OnDestroy {
         type: this._type,
         groupByPair: this.groupByPair,
       });
-    }, 15000);
+    }, 3000);
   }
 
   ngOnDestroy() {

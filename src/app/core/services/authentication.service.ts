@@ -54,7 +54,6 @@ export class AuthService {
    */
   private handleError(error: any) {
     let errMsg = 'Server error';
-    let body;
 
     if (error && error.status) {
       if (error.status === 401) {
@@ -64,12 +63,8 @@ export class AuthService {
       }
     }
 
-    if (error && error._body) {
-      body = JSON.parse(error._body);
-    }
-
-    if (body && body.errors && body.errors.exception && body.errors.exception.message) {
-      errMsg = body.errors.exception.message;
+    if (error && error.message) {
+      errMsg = JSON.parse(error.message);
     }
 
     this.notifier.notify('error', errMsg);

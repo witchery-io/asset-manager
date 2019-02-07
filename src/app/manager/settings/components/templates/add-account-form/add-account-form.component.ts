@@ -45,8 +45,6 @@ export class AddAccountFormComponent implements OnInit {
         .subscribe(() => {
           this.close();
           this.notifier.notify('success', `Account was successfully added.`);
-        }, error1 => {
-          this.notifier.notify('error', `Error msg: ${error1.message}.`);
         });
     }
   }

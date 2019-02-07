@@ -114,8 +114,6 @@ export class AccountsTabComponent implements OnInit {
     this.accountService.update(account.id, {isActive: !account.isActive})
       .subscribe(() => {
         this.notifier.notify('success', 'Status was successfully updated');
-      }, error1 => {
-        this.notifier.notify('error', `${error1.error.message}.`);
       });
   }
 }

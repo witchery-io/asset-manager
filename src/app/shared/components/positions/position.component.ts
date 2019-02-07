@@ -13,36 +13,28 @@ import { ACCOUNTS, GROUPS, PARENT } from '@app/shared/enums/trading.enum';
   styleUrls: ['./position.component.scss'],
 })
 export class PositionComponent implements OnInit {
-
   @Input()
   id: string;
-
   @Input()
   type: string;
-
   @Input()
   permission: string;
-
   @Input()
   accounts: any;
-
   @Input()
   position: any;
-
   role = 'admin';
-
   faPlus = faPlus;
   faMinus = faMinus;
-
-  user: any; // User
+  user: any;
   ROLE = Role;
   PARENT = PARENT;
   isCollapsed: boolean;
   modalRef: BsModalRef;
-  account_name: string;
   formValues: any;
   groupByPair = true;
   private readonly notifier: NotifierService;
+  // account_name: string;
 
   constructor(
     private positionsService: PositionsService,
@@ -59,8 +51,8 @@ export class PositionComponent implements OnInit {
   }
 
   get tooltip() {
-    // todo :: account_name
-    return this.account_name;
+    // return this.account_name;
+    return '';
   }
 
   get amount() {
@@ -98,15 +90,14 @@ export class PositionComponent implements OnInit {
   }
 
   setAccountName() {
-    if (this.permission !== 'parent' && this.type === 'group' && this.accounts && !this.groupByPair) {
+/*    if (this.permission !== 'parent' && this.type === 'group' && this.accounts && !this.groupByPair) {
       for (const account of this.accounts) {
         if (account.id === this.position.account) {
-          // todo :: account_name
           this.account_name = account.acc_name;
           break;
         }
       }
-    }
+    }*/
   }
 
   openModal(template: any, options = {}) {
@@ -132,15 +123,12 @@ export class PositionComponent implements OnInit {
   }
 
   orderClose() {
-    this.spinner.show();
-    this.positionsService.closePosition(this.position)
+    this.positionsService.closePosition(this.position.id)
       .subscribe(() => {
         this.notifier.notify('success',
-          `Order cancelled, ${this.position.type}, ${this.position.direction} ${this.position.amount} ${this.position.pair}
-           @ ${this.position.openPrice}.`);
+          `Order cancelled, ${this.position.type}, ${this.position.direction} ${this.position.amount}
+           ${this.position.pair} @ ${this.position.openPrice}.`);
         this.modalService.closeAllModals();
-      }, error1 => {
-        this.notifier.notify('error', `Error msg: ${error1.message}`);
       });
   }
 
@@ -150,45 +138,37 @@ export class PositionComponent implements OnInit {
 
     switch (this.type) {
       case GROUPS:
-
-        // todo :: groupId
-debugger
-        this.groupOrder(params);
+        this.groupOrder(this.id, params);
         break;
       case ACCOUNTS:
-
-        // todo :: accountId
-debugger
-        this.accountOrder(params);
+        this.accountOrder(this.id, params);
         break;
     }
   }
 
   /**
+   * @param id * important param
    * @param order -- creating order
    */
-  groupOrder(order) {
-    this.ordersService.placeGroupOrder(order)
+  groupOrder(id, order) {
+    this.ordersService.placeGroupOrder(id, order)
       .subscribe((d: any) => {
-        /* `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.openPrice}. `*/
-        this.notifier.notify('success', `${d}`);
+        this.notifier.notify('success',
+          `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.openPrice}.`);
         this.modalService.closeAllModals();
-      }, error1 => {
-        this.notifier.notify('error', `Error msg: ${error1.message}.`);
       });
   }
 
   /**
+   * @param id * important param
    * @param order -- creating order
    */
-  accountOrder(order) {
-    this.ordersService.placeAccountOrder(order)
+  accountOrder(id, order) {
+    this.ordersService.placeAccountOrder(id, order)
       .subscribe((d: any) => {
-        /* `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.openPrice}.` */
-        this.notifier.notify('success', `${d}`);
+        this.notifier.notify('success',
+          `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.openPrice}.`);
         this.modalService.closeAllModals();
-      }, error1 => {
-        this.notifier.notify('error', `Error msg: ${error1.message}.`);
       });
   }
 }

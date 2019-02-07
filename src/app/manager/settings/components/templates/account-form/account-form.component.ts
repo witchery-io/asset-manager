@@ -56,8 +56,6 @@ export class AccountFormComponent implements OnInit {
         .subscribe(() => {
           this.close();
           this.notifier.notify('success', `Account was successfully created.`);
-        }, error1 => {
-          this.notifier.notify('error', `${error1.error.message}`);
         });
     }
   }
@@ -68,8 +66,6 @@ export class AccountFormComponent implements OnInit {
         .subscribe(() => {
           this.close();
           this.notifier.notify('success', `Group was successfully edited.`);
-        }, error1 => {
-          this.notifier.notify('error', `Error msg: ${error1.error.message}`);
         });
     }
   }
