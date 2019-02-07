@@ -147,7 +147,6 @@ export class MainComponent implements OnInit, OnDestroy {
    */
   onSelectGeneralTab(generalTabName: string) {
     const params = this.shared.saveSettings[generalTabName];
-
     if (!params) {
       const defaultSettings = this.router.navigate([generateUrl({generalTab: generalTabName})]);
       defaultSettings.then(() => {

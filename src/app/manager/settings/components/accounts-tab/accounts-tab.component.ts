@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ACCOUNTS } from '@app/shared/enums/trading.enum';
 import { AccountService } from '@app/core/services';
 import { NotifierService } from 'angular-notifier';
+import { Account } from '@app/core/intefaces';
 
 @Component({
   selector: 'app-accounts-tab',
@@ -20,19 +21,15 @@ import { NotifierService } from 'angular-notifier';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountsTabComponent implements OnInit {
-
   @Input()
   account: any;
-
   @Input()
   accountsSection: any;
-
   role = 'admin';
   faPlus = faPlus;
   faEdit = faEdit;
   modalRef: BsModalRef;
   formValues: any;
-
   private readonly notifier: NotifierService;
 
   constructor(
@@ -47,7 +44,7 @@ export class AccountsTabComponent implements OnInit {
     this.notifier = notifierService;
   }
 
-  get selectedAccount() {
+  get selectedAccount(): Account {
     return getAccountFromSection(this.account);
   }
 

@@ -12,6 +12,7 @@ import { LoadGroup } from '@settings/actions/group.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
 import { NotifierService } from 'angular-notifier';
+import { Group } from '@app/core/intefaces';
 
 @Component({
   selector: 'app-groups-tab',
@@ -20,23 +21,18 @@ import { NotifierService } from 'angular-notifier';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsTabComponent implements OnInit {
-
   @Input()
   group: any;
-
   @Input()
   groupsSection: any;
-
   @Input()
   accountsSection: any;
-
   subId: string;
   role = 'admin';
   faPlus = faPlus;
   faEdit = faEdit;
   modalRef: BsModalRef;
   formValues: any;
-
   private readonly notifier: NotifierService;
 
   constructor(
@@ -51,7 +47,7 @@ export class GroupsTabComponent implements OnInit {
     this.notifier = notifierService;
   }
 
-  get selectedGroup() {
+  get selectedGroup(): Group {
     return getGroupFromSection(this.group);
   }
 
@@ -134,7 +130,6 @@ export class GroupsTabComponent implements OnInit {
 
   selectAccount(accId: string) {
     this.subId = accId;
-
     this.shared.setSettings({
       id: this.route.snapshot.paramMap.get('id'),
       subId: accId,

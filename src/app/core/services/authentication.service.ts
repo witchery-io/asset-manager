@@ -58,7 +58,8 @@ export class AuthService {
     if (error && error.status) {
       if (error.status === 401) {
         this.api.clearAuthKey();
-        this.router.navigate(['/login']);
+        const navProm = this.router.navigate(['/login']);
+        navProm.then(() => {});
         return observableThrowError(errMsg);
       }
     }
