@@ -177,7 +177,6 @@ export class MainComponent implements OnInit, OnDestroy {
   onSelectOrderTab(orderTabName: string) {
     const id = this.route.snapshot.paramMap.has('id');
     const generalTab = this.route.snapshot.paramMap.has('generalTab');
-    debugger
     if (!generalTab || !id) {
       return;
     }
