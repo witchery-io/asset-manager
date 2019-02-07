@@ -60,36 +60,35 @@ export class GroupsTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    const hasGeneralTab = this.route.snapshot.paramMap.has('generalTab');
-    if (!hasGeneralTab) {
+    if (!this.route.firstChild) {
       return;
     }
 
-    const generalTab = this.route.snapshot.paramMap.get('generalTab');
+    const generalTab = this.route.firstChild.snapshot.paramMap.get('generalTab');
     if (generalTab !== GROUPS) {
       return;
     }
 
-    const hasId = this.route.snapshot.paramMap.has('id');
+    const hasId = this.route.firstChild.snapshot.paramMap.has('id');
     if (!hasId) {
       return;
     }
 
-    const id = this.route.snapshot.paramMap.get('id');
-    const subId = this.route.snapshot.paramMap.get('subId');
+    const id = this.route.firstChild.snapshot.paramMap.get('id');
+    const subId = this.route.firstChild.snapshot.paramMap.get('subId');
 
     this.shared.setSettings({
       id: id,
       subId: subId,
-      subType: this.route.snapshot.paramMap.get('subType'),
+      subType: this.route.firstChild.snapshot.paramMap.get('subType'),
       type: GROUPS,
       generalTab: generalTab,
-      orderTab: this.route.snapshot.paramMap.get('orderTab'),
+      orderTab: this.route.firstChild.snapshot.paramMap.get('orderTab'),
     });
 
     this.store.dispatch(new LoadGroup(id));
 
-    const hasSubType = this.route.snapshot.paramMap.has('subType');
+    const hasSubType = this.route.firstChild.snapshot.paramMap.has('subType');
     if (hasSubType) {
       this.subId = subId;
     }
@@ -116,27 +115,32 @@ export class GroupsTabComponent implements OnInit {
   }
 
   selectGroup(id) {
+    const orderTab = this.route.firstChild ? this.route.firstChild.snapshot.paramMap.get('orderTab') : null;
     this.shared.setSettings({
       id: id,
       subId: null,
       subType: null,
       type: GROUPS,
       generalTab: GROUPS,
-      orderTab: this.route.snapshot.paramMap.get('orderTab'),
+      orderTab: orderTab,
     });
 
     this.store.dispatch(new LoadGroup(id));
   }
 
   selectAccount(accId: string) {
+    if (!this.route.firstChild) {
+      return;
+    }
+
     this.subId = accId;
     this.shared.setSettings({
-      id: this.route.snapshot.paramMap.get('id'),
+      id: this.route.firstChild.snapshot.paramMap.get('id'),
       subId: accId,
       subType: ACCOUNTS,
       type: GROUPS,
       generalTab: GROUPS,
-      orderTab: this.route.snapshot.paramMap.get('orderTab'),
+      orderTab: this.route.firstChild.snapshot.paramMap.get('orderTab'),
     });
   }
 }

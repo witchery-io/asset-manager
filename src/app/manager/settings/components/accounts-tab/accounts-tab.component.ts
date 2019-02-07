@@ -53,29 +53,28 @@ export class AccountsTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    const hasGeneralTab = this.route.snapshot.paramMap.has('generalTab');
-    if (!hasGeneralTab) {
+    if (!this.route.firstChild) {
       return;
     }
 
-    const generalTab = this.route.snapshot.paramMap.get('generalTab');
+    const generalTab = this.route.firstChild.snapshot.paramMap.get('generalTab');
     if (generalTab !== ACCOUNTS) {
       return;
     }
 
-    const hasId = this.route.snapshot.paramMap.has('id');
+    const hasId = this.route.firstChild.snapshot.paramMap.has('id');
     if (!hasId) {
       return;
     }
 
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.firstChild.snapshot.paramMap.get('id');
     this.shared.setSettings({
       id: id,
       subId: null,
       subType: null,
       type: ACCOUNTS,
       generalTab: ACCOUNTS,
-      orderTab: this.route.snapshot.paramMap.get('orderTab'),
+      orderTab: this.route.firstChild.snapshot.paramMap.get('orderTab'),
     });
 
     this.store.dispatch(new LoadAccount(id));
@@ -91,13 +90,17 @@ export class AccountsTabComponent implements OnInit {
   }
 
   selectAccount(id) {
+    if (!this.route.firstChild) {
+      return;
+    }
+
     this.shared.setSettings({
       id: id,
       subId: null,
       subType: null,
       type: ACCOUNTS,
       generalTab: ACCOUNTS,
-      orderTab: this.route.snapshot.paramMap.get('orderTab'),
+      orderTab: this.route.firstChild.snapshot.paramMap.get('orderTab'),
     });
 
     this.store.dispatch(new LoadAccount(id));
