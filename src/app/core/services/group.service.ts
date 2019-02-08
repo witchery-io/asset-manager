@@ -7,7 +7,7 @@ import { NotifierService } from 'angular-notifier';
 @Injectable()
 export class GroupService {
 
-  url = 'http://192.168.1.19:8080';
+  url = 'http://ats.witchery.io';
   private readonly notifier: NotifierService;
 
   constructor(
