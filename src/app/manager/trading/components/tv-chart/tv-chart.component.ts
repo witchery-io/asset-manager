@@ -9,7 +9,7 @@ import { SharedService } from '@app/shared/services';
   styleUrls: ['./tv-chart.component.scss'],
 })
 export class TvChartComponent implements OnInit {
-  private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'Bitfinex:BTCUSD';
+  private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'BITFINEX:BTCUSD';
   private _interval: ChartingLibraryWidgetOptions['interval'] = '15';
   // BEWARE: no trailing slash is expected in feed URL
 
@@ -97,17 +97,16 @@ export class TvChartComponent implements OnInit {
   initChart() {
     new widget({
       symbol: this._symbol,
-      datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl, 20000),
       interval: this._interval,
       container_id: this._containerId,
       library_path: this._libraryPath,
-      disabled_features: ['use_localstorage_for_settings'],
       enabled_features: [],
       client_id: this._clientId,
       user_id: this._userId,
       locale: 'en',
       fullscreen: this._fullscreen,
       autosize: this._autosize,
+      timezone: 'Asia/Dubai',
       // theme: 'Dark',
     });
   }
