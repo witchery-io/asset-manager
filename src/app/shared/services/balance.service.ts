@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError as observableThrowError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { NotifierService } from 'angular-notifier';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class BalanceService {
 
-  url = 'http://ats.witchery.io';
+  url = '';
   private readonly notifier: NotifierService;
 
   constructor(
@@ -18,7 +19,7 @@ export class BalanceService {
   }
 
   getBalance(params): Observable<any> {
-    return this.http.get(`${this.url}/${params.type}/${params.id}/balance`)
+    return this.http.get(`${environment.apiUrl}/${params.type}/${params.id}/balance`)
       .pipe(
         catchError(this.handleError.bind(this))
       );

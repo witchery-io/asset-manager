@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ACCOUNTS } from '@app/shared/enums/trading.enum';
 import { AccountService } from '@app/core/services';
 import { NotifierService } from 'angular-notifier';
+import { Account } from '@app/core/intefaces';
 
 @Component({
   selector: 'app-accounts-tab',
@@ -20,19 +21,15 @@ import { NotifierService } from 'angular-notifier';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountsTabComponent implements OnInit {
-
   @Input()
   account: any;
-
   @Input()
   accountsSection: any;
-
   role = 'admin';
   faPlus = faPlus;
   faEdit = faEdit;
   modalRef: BsModalRef;
   formValues: any;
-
   private readonly notifier: NotifierService;
 
   constructor(
@@ -47,7 +44,7 @@ export class AccountsTabComponent implements OnInit {
     this.notifier = notifierService;
   }
 
-  get selectedAccount() {
+  get selectedAccount(): Account {
     return getAccountFromSection(this.account);
   }
 
@@ -56,29 +53,28 @@ export class AccountsTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    const hasGeneralTab = this.route.snapshot.paramMap.has('generalTab');
-    if (!hasGeneralTab) {
+    if (!this.route.firstChild) {
       return;
     }
 
-    const generalTab = this.route.snapshot.paramMap.get('generalTab');
+    const generalTab = this.route.firstChild.snapshot.paramMap.get('generalTab');
     if (generalTab !== ACCOUNTS) {
       return;
     }
 
-    const hasId = this.route.snapshot.paramMap.has('id');
+    const hasId = this.route.firstChild.snapshot.paramMap.has('id');
     if (!hasId) {
       return;
     }
 
-    const id = this.route.snapshot.paramMap.get('id');
-    this.shared.setSettings({
+    const id = this.route.firstChild.snapshot.paramMap.get('id');
+    this.shared.setSettingsObs({
       id: id,
       subId: null,
       subType: null,
       type: ACCOUNTS,
       generalTab: ACCOUNTS,
-      orderTab: this.route.snapshot.paramMap.get('orderTab'),
+      orderTab: this.route.firstChild.snapshot.paramMap.get('orderTab') || 'orders',
     });
 
     this.store.dispatch(new LoadAccount(id));
@@ -94,13 +90,17 @@ export class AccountsTabComponent implements OnInit {
   }
 
   selectAccount(id) {
-    this.shared.setSettings({
+    if (!this.route.firstChild) {
+      return;
+    }
+
+    this.shared.setSettingsObs({
       id: id,
       subId: null,
       subType: null,
       type: ACCOUNTS,
       generalTab: ACCOUNTS,
-      orderTab: this.route.snapshot.paramMap.get('orderTab'),
+      orderTab: this.route.firstChild.snapshot.paramMap.get('orderTab') || 'orders',
     });
 
     this.store.dispatch(new LoadAccount(id));

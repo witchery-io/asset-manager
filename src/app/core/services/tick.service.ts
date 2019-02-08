@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError as observableThrowError } from 'rxjs';
 import { NotifierService } from 'angular-notifier';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class TickService {
 
-  url = 'http://ats.witchery.io';
+  url = '';
   private readonly notifier: NotifierService;
 
   constructor(
@@ -18,7 +19,7 @@ export class TickService {
   }
 
   getTicks(): Observable<any> {
-    return this.http.get(`${this.url}/tickers`)
+    return this.http.get(`${environment.apiUrl}/tickers`)
       .pipe(
         catchError(this.handleError.bind(this))
       );

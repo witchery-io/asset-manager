@@ -6,6 +6,11 @@ import { AuthGuard } from '@app/shared/services/auth-guard.service';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'groups',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
     component: MainComponent,
     canActivate: [AuthGuard],
     children: [

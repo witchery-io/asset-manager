@@ -3,11 +3,12 @@ import { Observable, throwError as observableThrowError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { NotifierService } from 'angular-notifier';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class OrderService {
 
-  url = 'http://ats.witchery.io';
+  url = '';
   private readonly notifier: NotifierService;
 
   constructor(
@@ -18,14 +19,14 @@ export class OrderService {
   }
 
   placeGroupOrder(id, params): Observable<any> {
-    return this.http.post(`${this.url}/groups/${id}/orders`, params)
+    return this.http.post(`${environment.apiUrl}/groups/${id}/orders`, params)
       .pipe(
         catchError(this.handleError.bind(this))
       );
   }
 
   placeAccountOrder(id, params): Observable<any> {
-    return this.http.post(`${this.url}/accounts/${id}/orders`, params)
+    return this.http.post(`${environment.apiUrl}/accounts/${id}/orders`, params)
       .pipe(
         catchError(this.handleError.bind(this))
       );

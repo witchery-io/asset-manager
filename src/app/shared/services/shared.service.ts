@@ -9,18 +9,37 @@ export class SharedService {
   /*
   * Main Component SAVE settings
   * */
-  saveSettings = {};
+  _saveSettings = {};
 
   subject: Subject<void> = new Subject<void>();
 
   constructor() {
   }
 
-  setSettings(params) {
+  setSettingsObs(params) {
     this.settingsSubject.next(params);
   }
 
-  getSettings(): Observable<any> {
+  getSettingsObs(): Observable<any> {
     return this.settingsSubject.asObservable();
+  }
+
+  get sParams() {
+    return this._saveSettings;
+  }
+
+  setSParams(name, params) {
+    if (!name) {
+      return;
+    }
+
+    if (!params) {
+      return;
+    }
+
+    this._saveSettings[name] = {
+      ...this._saveSettings[name],
+      ...params,
+    };
   }
 }
