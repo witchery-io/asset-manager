@@ -77,13 +77,13 @@ export class GroupsTabComponent implements OnInit {
     const id = this.route.firstChild.snapshot.paramMap.get('id');
     const subId = this.route.firstChild.snapshot.paramMap.get('subId');
 
-    this.shared.setSettings({
+    this.shared.setSettingsObs({
       id: id,
       subId: subId,
       subType: this.route.firstChild.snapshot.paramMap.get('subType'),
       type: GROUPS,
       generalTab: generalTab,
-      orderTab: this.route.firstChild.snapshot.paramMap.get('orderTab'),
+      orderTab: this.route.firstChild.snapshot.paramMap.get('orderTab') || 'orders',
     });
 
     this.store.dispatch(new LoadGroup(id));
@@ -115,8 +115,8 @@ export class GroupsTabComponent implements OnInit {
   }
 
   selectGroup(id) {
-    const orderTab = this.route.firstChild ? this.route.firstChild.snapshot.paramMap.get('orderTab') : null;
-    this.shared.setSettings({
+    const orderTab = this.route.firstChild ? this.route.firstChild.snapshot.paramMap.get('orderTab') : 'orders';
+    this.shared.setSettingsObs({
       id: id,
       subId: null,
       subType: null,
@@ -134,13 +134,13 @@ export class GroupsTabComponent implements OnInit {
     }
 
     this.subId = accId;
-    this.shared.setSettings({
+    this.shared.setSettingsObs({
       id: this.route.firstChild.snapshot.paramMap.get('id'),
       subId: accId,
       subType: ACCOUNTS,
       type: GROUPS,
       generalTab: GROUPS,
-      orderTab: this.route.firstChild.snapshot.paramMap.get('orderTab'),
+      orderTab: this.route.firstChild.snapshot.paramMap.get('orderTab') || 'orders',
     });
   }
 }

@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError as observableThrowError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { NotifierService } from 'angular-notifier';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class GroupService {
 
-  url = 'http://192.168.1.19:8080';
+  url = '';
   private readonly notifier: NotifierService;
 
   constructor(
@@ -18,35 +19,35 @@ export class GroupService {
   }
 
   getGroups(): Observable<any> {
-    return this.http.get(`${this.url}/groups`)
+    return this.http.get(`${environment.apiUrl}/groups`)
       .pipe(
         catchError(this.handleError.bind(this))
       );
   }
 
   getGroup(id): Observable<any> {
-    return this.http.get(`${this.url}/groups/${id}`)
+    return this.http.get(`${environment.apiUrl}/groups/${id}`)
       .pipe(
         catchError(this.handleError.bind(this))
       );
   }
 
   create(params): Observable<any> {
-    return this.http.post(`${this.url}/groups`, params)
+    return this.http.post(`${environment.apiUrl}/groups`, params)
       .pipe(
         catchError(this.handleError.bind(this))
       );
   }
 
   update(id, params): Observable<any> {
-    return this.http.put(`${this.url}/groups/${id}`, params)
+    return this.http.put(`${environment.apiUrl}/groups/${id}`, params)
       .pipe(
         catchError(this.handleError.bind(this))
       );
   }
 
   addAccount(id, params) {
-    return this.http.post(`${this.url}/groups/${id}/accounts`, params)
+    return this.http.post(`${environment.apiUrl}/groups/${id}/accounts`, params)
       .pipe(
         catchError(this.handleError.bind(this))
       );

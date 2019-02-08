@@ -68,13 +68,13 @@ export class AccountsTabComponent implements OnInit {
     }
 
     const id = this.route.firstChild.snapshot.paramMap.get('id');
-    this.shared.setSettings({
+    this.shared.setSettingsObs({
       id: id,
       subId: null,
       subType: null,
       type: ACCOUNTS,
       generalTab: ACCOUNTS,
-      orderTab: this.route.firstChild.snapshot.paramMap.get('orderTab'),
+      orderTab: this.route.firstChild.snapshot.paramMap.get('orderTab') || 'orders',
     });
 
     this.store.dispatch(new LoadAccount(id));
@@ -94,13 +94,13 @@ export class AccountsTabComponent implements OnInit {
       return;
     }
 
-    this.shared.setSettings({
+    this.shared.setSettingsObs({
       id: id,
       subId: null,
       subType: null,
       type: ACCOUNTS,
       generalTab: ACCOUNTS,
-      orderTab: this.route.firstChild.snapshot.paramMap.get('orderTab'),
+      orderTab: this.route.firstChild.snapshot.paramMap.get('orderTab') || 'orders',
     });
 
     this.store.dispatch(new LoadAccount(id));

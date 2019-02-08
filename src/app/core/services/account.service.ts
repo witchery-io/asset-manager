@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError as observableThrowError } from 'rxjs';
 import { NotifierService } from 'angular-notifier';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AccountService {
 
-  url = 'http://192.168.1.19:8080';
+  url = '';
   private readonly notifier: NotifierService;
 
   constructor(
@@ -18,28 +19,28 @@ export class AccountService {
   }
 
   getAccounts(): Observable<any> {
-    return this.http.get(`${this.url}/accounts`)
+    return this.http.get(`${environment.apiUrl}/accounts`)
       .pipe(
         catchError(this.handleError.bind(this))
       );
   }
 
   getAccount(id) {
-    return this.http.get(`${this.url}/accounts/${id}`)
+    return this.http.get(`${environment.apiUrl}/accounts/${id}`)
       .pipe(
         catchError(this.handleError.bind(this))
       );
   }
 
   create(params) {
-    return this.http.post(`${this.url}/accounts`, params)
+    return this.http.post(`${environment.apiUrl}/accounts`, params)
       .pipe(
         catchError(this.handleError.bind(this))
       );
   }
 
   update(id, params) {
-    return this.http.put(`${this.url}/accounts/${id}`, params)
+    return this.http.put(`${environment.apiUrl}/accounts/${id}`, params)
       .pipe(
         catchError(this.handleError.bind(this))
       );
