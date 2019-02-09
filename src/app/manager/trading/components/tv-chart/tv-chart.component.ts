@@ -14,7 +14,7 @@ export class TvChartComponent implements OnInit {
   // BEWARE: no trailing slash is expected in feed URL
 
   //private _datafeedUrl = 'http://trade.vitanova.online:50091/charts';
-  private _datafeedUrl = 'https://www.tradingview.com';
+  private _datafeedUrl = 'https://demo_feed.tradingview.com';
 
   private _libraryPath: ChartingLibraryWidgetOptions['library_path'] = '/assets/charting_library/';
   private _chartsStorageUrl: ChartingLibraryWidgetOptions['charts_storage_url'] = 'https://saveload.tradingview.com';
