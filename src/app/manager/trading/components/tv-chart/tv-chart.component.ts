@@ -13,8 +13,8 @@ export class TvChartComponent implements OnInit {
   private _interval: ChartingLibraryWidgetOptions['interval'] = '15';
   // BEWARE: no trailing slash is expected in feed URL
 
-  private _datafeedUrl = 'http://trade.vitanova.online:50091/charts';
-  // private _datafeedUrl = 'http://192.168.5.60:4447/charts';
+  //private _datafeedUrl = 'http://trade.vitanova.online:50091/charts';
+  private _datafeedUrl = 'https://www.tradingview.com';
 
   private _libraryPath: ChartingLibraryWidgetOptions['library_path'] = '/assets/charting_library/';
   private _chartsStorageUrl: ChartingLibraryWidgetOptions['charts_storage_url'] = 'https://saveload.tradingview.com';
@@ -97,6 +97,7 @@ export class TvChartComponent implements OnInit {
   initChart() {
     new widget({
       symbol: this._symbol,
+      datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl, 20000),
       interval: this._interval,
       container_id: this._containerId,
       library_path: this._libraryPath,
