@@ -46,12 +46,10 @@ export class MainComponent implements OnInit, OnDestroy {
   ticks$: Observable<fromTicks.State>;
   ticksIsLoading$: Observable<boolean>;
 
-  _defaultTabIndex = 0;
-
   _id: string;
   _type: string;
 
-  interval: any;
+  updateInterval: any;
 
   constructor(
     private ws: WsHandlerService,
@@ -86,57 +84,47 @@ export class MainComponent implements OnInit, OnDestroy {
     this.store.dispatch(new LoadAccounts());
     this.store.dispatch(new LoadTicks());
 
-    this.route.params.subscribe(params => {
+    const id = this.route.snapshot.paramMap.get('id');
+    const type = this.route.snapshot.paramMap.get('type');
 
+    /*
+    * Init
+    * */
+    this.store.dispatch(new LoadBalance({id: id, type: type}));
+    this.store.dispatch(new LoadOrders({id: id, type: type}));
+    this.store.dispatch(new LoadPositions({id: id, type: type, groupByPair: true}));
+
+    this.route.params.subscribe(params => {
       this._id = params.id;
       this._type = params.type;
-
       /*
       * Set active tab
       * */
-      this.ordersTabs.tabs[OrderTab[params.tab] || this._defaultTabIndex].active = true;
-
-      /*
-      * Set new data
-      * */
-      this.setState({id: this._id, type: this._type});
+      this.ordersTabs.tabs[OrderTab[params.tab] || 0].active = true;
     });
 
     /*
     * update state
     * */
-    this.interval = setInterval(() => this.updateState({id: this._id, type: this._type}), 3000);
+    this.updateInterval = setInterval(() => {
+      if (!this._id || !this._type) {
+        return;
+      }
+
+      this.store.dispatch(new UpdateTicks());
+      this.store.dispatch(new UpdateBalance({id: this._id, type: this._type}));
+      this.store.dispatch(new UpdateOrders({id: this._id, type: this._type}));
+      this.store.dispatch(new UpdatePositions({id: this._id, type: this._type, groupByPair: true}));
+    }, 2500);
   }
 
   ngOnDestroy() {
-    clearInterval(this.interval);
+    clearInterval(this.updateInterval);
   }
 
-  onSelectOrderTab(tab_id) {
-    const orderPromise = this.router.navigate([`../${tab_id}`], {relativeTo: this.route});
+  onSelectOrderTab(tabId) {
+    const orderPromise = this.router.navigate([`../${tabId}`], {relativeTo: this.route});
     orderPromise.then(() => {
     });
-  }
-
-  /**
-   * set new params to state
-   * @param params :: array
-   */
-  private setState(params) {
-    this.store.dispatch(new LoadBalance({id: params.id, type: params.type}));
-    this.store.dispatch(new LoadOrders({id: params.id, type: params.type}));
-    this.store.dispatch(new LoadPositions({id: params.id, type: params.type, groupByPair: true}));
-  }
-
-
-  /**
-   * update state
-   * @param params :: array
-   */
-  private updateState(params) {
-    this.store.dispatch(new UpdateTicks());
-    this.store.dispatch(new UpdateBalance({id: params.id, type: params.type}));
-    this.store.dispatch(new UpdateOrders({id: params.id, type: params.type}));
-    this.store.dispatch(new UpdatePositions({id: params.id, type: params.type, groupByPair: true}));
   }
 }

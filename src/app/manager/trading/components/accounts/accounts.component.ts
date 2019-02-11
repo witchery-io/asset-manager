@@ -5,6 +5,9 @@ import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
 import { ACCOUNTS } from '@app/shared/enums/trading.enum';
 import { LoadTicks } from '@app/core/actions/tick.actions';
+import { LoadBalance } from '@trading/actions/balance.actions';
+import { LoadOrders } from '@trading/actions/orders.actions';
+import { LoadPositions } from '@trading/actions/positions.actions';
 
 @Component({
   selector: 'app-accounts',
@@ -58,6 +61,13 @@ export class AccountsComponent implements OnInit {
       * update TICKS
       * */
       this.store.dispatch(new LoadTicks());
+
+      /*
+      * load new data
+      * */
+      this.store.dispatch(new LoadBalance({id: accountId, type: ACCOUNTS}));
+      this.store.dispatch(new LoadOrders({id: accountId, type: ACCOUNTS}));
+      this.store.dispatch(new LoadPositions({id: accountId, type: ACCOUNTS, groupByPair: true}));
     });
   }
 }

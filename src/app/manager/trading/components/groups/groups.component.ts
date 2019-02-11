@@ -5,6 +5,9 @@ import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
 import { GROUPS } from '@app/shared/enums/trading.enum';
 import { LoadTicks } from '@app/core/actions/tick.actions';
+import { LoadBalance } from '@trading/actions/balance.actions';
+import { LoadOrders } from '@trading/actions/orders.actions';
+import { LoadPositions } from '@trading/actions/positions.actions';
 
 @Component({
   selector: 'app-groups',
@@ -58,6 +61,13 @@ export class GroupsComponent implements OnInit {
       * update TICKS
       * */
       this.store.dispatch(new LoadTicks());
+
+      /*
+      * load new data
+      * */
+      this.store.dispatch(new LoadBalance({id: groupId, type: GROUPS}));
+      this.store.dispatch(new LoadOrders({id: groupId, type: GROUPS}));
+      this.store.dispatch(new LoadPositions({id: groupId, type: GROUPS, groupByPair: true}));
     });
   }
 }
