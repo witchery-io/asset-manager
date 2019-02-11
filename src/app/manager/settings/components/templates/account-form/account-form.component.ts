@@ -35,8 +35,10 @@ export class AccountFormComponent implements OnInit {
   ngOnInit() {
     this.accountForm = new FormGroup({
       accName: new FormControl('', [<any>Validators.required]),
+      key: new FormControl('', [<any>Validators.required]),
+      secret: new FormControl('', [<any>Validators.required]),
       userName: new FormControl('', [<any>Validators.required]),
-      risk: new FormControl(0, [<any>Validators.required]),
+      rank: new FormControl(0, [<any>Validators.required]),
       exchange: new FormControl('bitfinex.com', [<any>Validators.required]),
       baseCurrency: new FormControl('USD', [<any>Validators.required]),
     });
@@ -50,8 +52,6 @@ export class AccountFormComponent implements OnInit {
 
   create(values, isValid) {
     if (isValid) {
-      values.key = '';
-      values.secret = '';
       this.accountService.create(values)
         .subscribe(() => {
           this.close();

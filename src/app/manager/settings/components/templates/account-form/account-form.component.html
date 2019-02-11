@@ -1,4 +1,28 @@
 <form novalidate [formGroup]="accountForm">
+  <div
+    *ngIf="formType === 'create'"
+    class="form-group">
+    <label for="key" class="small">Key</label>
+    <input
+      id="key"
+      type="text"
+      class="form-control form-control-sm"
+      placeholder="Key"
+      formControlName="key"
+    >
+  </div>
+  <div
+    *ngIf="formType === 'create'"
+    class="form-group">
+    <label for="secret" class="small">Secret</label>
+    <input
+      id="secret"
+      type="text"
+      class="form-control form-control-sm"
+      placeholder="Secret"
+      formControlName="secret"
+    >
+  </div>
   <div class="form-group">
     <label for="acc_name" class="small">Acc. Name</label>
     <input
@@ -20,8 +44,8 @@
     >
   </div>
   <div class="form-group">
-    <label for="risk" class="small">Risk</label>
-    <input id="risk" type="text" class="form-control form-control-sm" placeholder="Risk" formControlName="risk">
+    <label for="rank" class="small">Rank</label>
+    <input id="rank" type="text" class="form-control form-control-sm" placeholder="Rank" formControlName="rank">
   </div>
   <div class="form-group">
     <label for="exchange" class="small">Exchange</label>
