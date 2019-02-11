@@ -16,7 +16,12 @@ export class PositionsService extends OrderService {
   }
 
   getPositions(params): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/${params.type}/${params.id}/positions`)
+    let getParams = '?';
+    if (params.groupByPair) {
+      getParams += 'groupBy=pair';
+    }
+
+    return this.http.get(`${environment.apiUrl}/${params.type}/${params.id}/positions${getParams}`)
       .pipe(
         catchError(this.handleError.bind(this))
       );

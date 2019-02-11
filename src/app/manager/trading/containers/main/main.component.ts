@@ -47,7 +47,6 @@ export class MainComponent implements OnInit, OnDestroy {
   ticksIsLoading$: Observable<boolean>;
 
   _defaultTabIndex = 0;
-  groupByPair = true;
 
   _id: string;
   _type: string;
@@ -100,13 +99,13 @@ export class MainComponent implements OnInit, OnDestroy {
       /*
       * Set new data
       * */
-      this.setState({id: this._id, type: this._type, groupByPair: this.groupByPair});
+      this.setState({id: this._id, type: this._type});
     });
 
     /*
     * update state
     * */
-    this.interval = setInterval(() => this.updateState({id: this._id, type: this._type, groupByPair: this.groupByPair}), 3000);
+    this.interval = setInterval(() => this.updateState({id: this._id, type: this._type}), 3000);
   }
 
   ngOnDestroy() {
@@ -124,9 +123,9 @@ export class MainComponent implements OnInit, OnDestroy {
    * @param params :: array
    */
   private setState(params) {
-    this.store.dispatch(new LoadBalance({id: params.id, type: params.type, groupByPair: params.groupByPair}));
-    this.store.dispatch(new LoadOrders({id: params.id, type: params.type, groupByPair: params.groupByPair}));
-    this.store.dispatch(new LoadPositions({id: params.id, type: params.type, groupByPair: params.groupByPair}));
+    this.store.dispatch(new LoadBalance({id: params.id, type: params.type}));
+    this.store.dispatch(new LoadOrders({id: params.id, type: params.type}));
+    this.store.dispatch(new LoadPositions({id: params.id, type: params.type, groupByPair: true}));
   }
 
 
@@ -136,8 +135,8 @@ export class MainComponent implements OnInit, OnDestroy {
    */
   private updateState(params) {
     this.store.dispatch(new UpdateTicks());
-    this.store.dispatch(new UpdateBalance({id: params.id, type: params.type, groupByPair: params.groupByPair}));
-    this.store.dispatch(new UpdateOrders({id: params.id, type: params.type, groupByPair: params.groupByPair}));
-    this.store.dispatch(new UpdatePositions({id: params.id, type: params.type, groupByPair: params.groupByPair}));
+    this.store.dispatch(new UpdateBalance({id: params.id, type: params.type}));
+    this.store.dispatch(new UpdateOrders({id: params.id, type: params.type}));
+    this.store.dispatch(new UpdatePositions({id: params.id, type: params.type, groupByPair: true}));
   }
 }
