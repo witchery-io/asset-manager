@@ -100,26 +100,13 @@ export class MainComponent implements OnInit, OnDestroy {
       /*
       * Set new data
       * */
-      this.setState({
-        id: this._id,
-        type: this._type,
-        groupByPair: this.groupByPair,
-      });
+      this.setState({id: this._id, type: this._type, groupByPair: this.groupByPair});
     });
 
     /*
     * update state
     * */
-    this.interval = setInterval(() => {
-      /*
-      * Update new data
-      * */
-      this.updateState({
-        id: this._id,
-        type: this._type,
-        groupByPair: this.groupByPair,
-      });
-    }, 3000);
+    this.interval = setInterval(() => this.updateState({id: this._id, type: this._type, groupByPair: this.groupByPair}), 3000);
   }
 
   ngOnDestroy() {
@@ -128,7 +115,6 @@ export class MainComponent implements OnInit, OnDestroy {
 
   onSelectOrderTab(tab_id) {
     const orderPromise = this.router.navigate([`../${tab_id}`], {relativeTo: this.route});
-
     orderPromise.then(() => {
     });
   }
