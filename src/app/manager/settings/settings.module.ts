@@ -18,7 +18,7 @@ import { BalanceEffects } from '@settings/effects/balance.effects';
 import { OrdersEffects } from '@settings/effects/orders.effects';
 import { PositionsEffects } from '@settings/effects/positions.effects';
 import { BalanceService, ModalService, OrdersService, PositionsService, SharedService, } from '@app/shared/services';
-import { TabsModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, TabsModule } from 'ngx-bootstrap';
 import { AccountFormComponent } from './components/templates/account-form/account-form.component';
 import { GroupEffects } from '@settings/effects/group.effects';
 import { AccountEffects } from '@settings/effects/account.effects';
@@ -47,6 +47,7 @@ import { AccountEffects } from '@settings/effects/account.effects';
       AccountEffects,
     ]),
     TabsModule.forRoot(),
+    BsDatepickerModule.forRoot(),
   ],
   providers: [
     PositionsService,

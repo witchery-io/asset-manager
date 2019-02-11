@@ -41,6 +41,7 @@ export class AccountFormComponent implements OnInit {
       rank: new FormControl(0, [<any>Validators.required]),
       exchange: new FormControl('bitfinex.com', [<any>Validators.required]),
       baseCurrency: new FormControl('USD', [<any>Validators.required]),
+      date: new FormControl('', [<any>Validators.required]),
     });
 
     this.accountForm.patchValue(this.values || {});
