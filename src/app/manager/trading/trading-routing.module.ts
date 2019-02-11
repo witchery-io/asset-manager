@@ -4,7 +4,7 @@ import { MainComponent } from '@trading/containers';
 import { AuthGuard } from '@app/shared/services/auth-guard.service';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'groups/5c586baff771351cf5a89704/orders'},
+  {path: '', redirectTo: 'groups/5c60b414bd712d0001cdd315/positions'},
   {path: ':type/:id/:tab', component: MainComponent, canActivate: [AuthGuard]},
 ];
 

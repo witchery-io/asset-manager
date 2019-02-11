@@ -3,19 +3,28 @@
     <label for="name" class="small">Group Name</label>
     <input id="name" type="text" class="form-control form-control-sm" formControlName="name" placeholder="Group Name">
   </div>
-  <div class="form-group">
+  <div
+    *ngIf="formType === 'create'"
+    class="form-group"
+  >
     <label for="allocation_method" class="small">Allocation Method</label>
     <select class="form-control form-control-sm" id="allocation_method" formControlName="allocationMethod">
       <option *ngFor="let am of allocationMethod" [value]="am">{{ am | titlecase }}</option>
     </select>
   </div>
-  <div class="form-group">
+  <div
+    *ngIf="formType === 'create'"
+    class="form-group"
+  >
     <label for="exchange" class="small">Exchange</label>
     <select class="form-control form-control-sm" id="exchange" formControlName="exchange">
       <option *ngFor="let exchange of exchanges" [value]="exchange">{{ exchange | uppercase }}</option>
     </select>
   </div>
-  <div class="form-group">
+  <div
+    *ngIf="formType === 'create'"
+    class="form-group"
+  >
     <label for="base_currency" class="small">Base currency</label>
     <select class="form-control form-control-sm" id="base_currency" formControlName="baseCurrency">
       <option *ngFor="let bc of baseCurrency" [value]="bc">{{ bc | uppercase }}</option>

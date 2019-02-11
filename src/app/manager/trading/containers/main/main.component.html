@@ -45,14 +45,6 @@
   <div class="row">
     <div class="col-12 border-top">
       <tabset #ordersTabs>
-        <tab heading="ORDERS" id="orders" (select)="onSelectOrderTab('orders')">
-          <app-orders
-            *ngIf="(isLoadingOrders$ | async) === false"
-            [id]="_id"
-            [section]="orders$ | async"
-            [accountsSection]="accounts$ | async"
-          ></app-orders>
-        </tab>
         <tab heading="POSITIONS" id="positions" (select)="onSelectOrderTab('positions')">
           <app-positions
             *ngIf="(isLoadingPositions$ | async) === false"
@@ -61,6 +53,14 @@
             [section]="positions$ | async"
             [accountsSection]="accounts$ | async"
           ></app-positions>
+        </tab>
+        <tab heading="ORDERS" id="orders" (select)="onSelectOrderTab('orders')">
+          <app-orders
+            *ngIf="(isLoadingOrders$ | async) === false"
+            [id]="_id"
+            [section]="orders$ | async"
+            [accountsSection]="accounts$ | async"
+          ></app-orders>
         </tab>
       </tabset>
     </div>

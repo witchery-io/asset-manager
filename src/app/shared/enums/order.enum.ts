@@ -12,7 +12,7 @@ export enum OrderContext {
 }
 
 export enum OrderTab {
-  orders, positions
+  positions, orders
 }
 
 export enum TypeTab {
