@@ -90,7 +90,7 @@ export class AccountsTabComponent implements OnInit {
   }
 
   selectAccount(id) {
-    if (!this.route.firstChild) {
+    if (!this.route.firstChild || this.selectedAccount.id === id) {
       return;
     }
 
@@ -111,7 +111,7 @@ export class AccountsTabComponent implements OnInit {
    * @param account --- updated account
    */
   updateStatus(account) {
-    this.accountService.update(account.id, {isActive: !account.isActive})
+    this.accountService.update(account.id, {status: {isActive: !account.isActive}})
       .subscribe(() => {
         this.notifier.notify('success', 'Status was successfully updated');
       });
