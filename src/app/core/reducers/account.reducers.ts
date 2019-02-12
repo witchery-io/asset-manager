@@ -17,34 +17,20 @@ export const initialState: State = adapter.getInitialState({
 export function reducer(state: State = initialState, action: AccountActions.Actions): State {
   switch (action.type) {
     case AccountActions.LOAD_ACCOUNTS: {
-      return {
-        ...state,
-        isLoading: true,
-      };
+      return {...state, isLoading: true};
     }
-
-    case AccountActions.UPDATE_ACCOUNTS: {
-      return {
-        ...state,
-        isLoading: false,
-      };
+    case AccountActions.ADD_ACCOUNT: {
+      return adapter.addOne(action.payload, state);
+    }
+    case AccountActions.UPDATE_ACCOUNT: {
+      return adapter.updateOne({id: action.payload.id, changes: action.payload}, state);
     }
     case AccountActions.ACCOUNTS_LOADED: {
-      return adapter.addMany(action.payload.accounts, {
-        ...state,
-        isLoading: false,
-        error: null,
-      });
+      return adapter.addMany(action.payload.accounts, {...state, isLoading: false, error: null});
     }
-
     case AccountActions.ACCOUNTS_NOT_LOADED: {
-      return {
-        ...state,
-        error: action.payload.error,
-        isLoading: false,
-      };
+      return {...state, error: action.payload.error, isLoading: false};
     }
-
     default: {
       return state;
     }

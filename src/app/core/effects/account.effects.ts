@@ -21,19 +21,6 @@ export class AccountEffects {
     }),
   );
 
-  @Effect()
-  updateAccounts$ = this.actions$.pipe(
-    ofType<fromAccount.UpdateAccounts>(fromAccount.UPDATE_ACCOUNTS),
-    switchMap(() => {
-      return this.accountService.getAccounts().pipe(
-        map(response => {
-          return new fromAccount.AccountsLoaded({accounts: response});
-        }),
-        catchError(error => of(new fromAccount.AccountsNotLoaded({error: error.message || error}))),
-      );
-    }),
-  );
-
   constructor(
     private actions$: Actions<fromAccount.Actions>,
     private accountService: AccountService,

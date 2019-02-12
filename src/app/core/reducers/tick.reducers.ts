@@ -19,35 +19,17 @@ export const initialState: State = adapter.getInitialState({
 export function reducer(state: State = initialState, action: TickActions.Actions): State {
   switch (action.type) {
     case TickActions.LOAD_TICKS: {
-      return {
-        ...state,
-        isLoading: true,
-      };
+      return {...state, isLoading: true};
     }
-
     case TickActions.UPDATE_TICKS: {
-      return {
-        ...state,
-        isLoading: false,
-      };
+      return {...state, isLoading: false};
     }
-
     case TickActions.TICKS_LOADED: {
-      return adapter.addMany(action.payload.ticks, {
-        ...state,
-        isLoading: false,
-        error: null,
-      });
+      return adapter.addMany(action.payload.ticks, {...state, isLoading: false, error: null});
     }
-
     case TickActions.TICKS_NOT_LOADED: {
-      return {
-        ...state,
-        error: action.payload.error,
-        isLoading: false,
-      };
+      return {...state, error: action.payload.error, isLoading: false};
     }
-
     default: {
       return state;
     }

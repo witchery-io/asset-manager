@@ -17,35 +17,20 @@ export const initialState: State = adapter.getInitialState({
 export function reducer(state: State = initialState, action: GroupActions.Actions): State {
   switch (action.type) {
     case GroupActions.LOAD_GROUPS: {
-      return {
-        ...state,
-        isLoading: true,
-      };
+      return {...state, isLoading: true};
     }
-
-    case GroupActions.UPDATE_GROUPS: {
-      return {
-        ...state,
-        isLoading: false,
-      };
+    case GroupActions.ADD_GROUP: {
+      return adapter.addOne(action.payload, state);
     }
-
+    case GroupActions.UPDATE_GROUP: {
+      return adapter.updateOne({id: action.payload.id, changes: action.payload}, state);
+    }
     case GroupActions.GROUPS_LOADED: {
-      return adapter.addMany(action.payload.groups, {
-        ...state,
-        isLoading: false,
-        error: null,
-      });
+      return adapter.addMany(action.payload.groups, {...state, isLoading: false, error: null});
     }
-
     case GroupActions.GROUPS_NOT_LOADED: {
-      return {
-        ...state,
-        error: action.payload.error,
-        isLoading: false,
-      };
+      return {...state, error: action.payload.error, isLoading: false};
     }
-
     default: {
       return state;
     }
