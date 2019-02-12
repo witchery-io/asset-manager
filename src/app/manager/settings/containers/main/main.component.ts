@@ -124,9 +124,9 @@ export class MainComponent implements OnInit, OnDestroy {
     /*
     * update state
     * */
-/*    this.interval = setInterval(() => {
+    this.interval = setInterval(() => {
       this.updateState({id: this._id, type: this._type});
-    }, 3000);*/
+    }, 3000);
   }
 
   /* Clean State on destroy */
