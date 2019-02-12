@@ -11,7 +11,7 @@ export const CLEAN_UP_POSITIONS = '[SETTINGS] Clean Up Positions';
 export class LoadPositions implements Action {
   readonly type = LOAD_POSITIONS;
 
-  constructor(public payload: any) {
+  constructor(public payload:  { id: string, type: string }) {
   }
 }
 

@@ -12,7 +12,7 @@ export const CLEAN_UP_ORDERS = '[SETTINGS] Clean Up Orders';
 export class LoadOrders implements Action {
   readonly type = LOAD_ORDERS;
 
-  constructor(public payload: any) {
+  constructor(public payload:  { id: string, type: string }) {
   }
 }
 

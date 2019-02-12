@@ -228,7 +228,7 @@ export class MainComponent implements OnInit, OnDestroy {
     }
 
     this.store.dispatch(new UpdateBalance({id: params.id, type: params.type}));
-    // this.store.dispatch(new UpdateOrders({id: params.id, type: params.type}));
+    this.store.dispatch(new UpdateOrders({id: params.id, type: params.type}));
     this.store.dispatch(new UpdatePositions({id: params.id, type: params.type}));
   }
 

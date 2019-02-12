@@ -11,14 +11,14 @@ export const CLEAN_UP_BALANCE = '[SETTINGS] Clean Up Balance';
 export class LoadBalance implements Action {
   readonly type = LOAD_BALANCE;
 
-  constructor(public payload: any) {
+  constructor(public payload:  { id: string, type: string }) {
   }
 }
 
 export class UpdateBalance implements Action {
   readonly type = UPDATE_BALANCE;
 
-  constructor(public payload: any) {
+  constructor(public payload:  { id: string, type: string }) {
   }
 }
 

@@ -29,7 +29,7 @@ export class BalanceEffects {
     switchMap((settings: any) => {
       return this.balanceService.getBalance(settings).pipe(
         map(response => {
-          return new fromBalance.BalanceLoaded({balance: response});
+          return new fromBalance.UpdateBalanceItem(response);
         }),
         catchError(error => of(new fromBalance.BalanceNotLoaded({error: error.message || error}))),
       );
