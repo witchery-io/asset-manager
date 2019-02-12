@@ -90,7 +90,7 @@ export class AccountsTabComponent implements OnInit {
   }
 
   selectAccount(id) {
-    if (!this.route.firstChild || this.selectedAccount.id === id) {
+    if (!this.route.firstChild) {
       return;
     }
 
