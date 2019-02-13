@@ -1,13 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { getAccountsFromSection } from '@app/core/reducers';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
 import { ACCOUNTS } from '@app/shared/enums/trading.enum';
-import { LoadTicks } from '@app/core/actions/tick.actions';
-import { LoadBalance } from '@trading/actions/balance.actions';
-import { LoadOrders } from '@trading/actions/orders.actions';
-import { LoadPositions } from '@trading/actions/positions.actions';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-accounts',
@@ -33,12 +30,17 @@ export class AccountsComponent implements OnInit {
   type: string;
   @Input()
   section: any;
+  @Output()
+  select: EventEmitter<{currentId: string, currentType: string}> = new EventEmitter();
+  private readonly notifier: NotifierService;
 
   constructor(
     private router: Router,
     private store: Store<TradingState>,
     private route: ActivatedRoute,
+    private notifierService: NotifierService,
   ) {
+    this.notifier = notifierService;
   }
 
   get accounts() {
@@ -53,17 +55,9 @@ export class AccountsComponent implements OnInit {
     const routerPromise = this.router.navigate([`/trading/${ACCOUNTS}/${accountId}/${tab}`]);
 
     routerPromise.then(() => {
-      /*
-      * update TICKS
-      * */
-      this.store.dispatch(new LoadTicks());
-
-      /*
-      * load new data
-      * */
-      this.store.dispatch(new LoadBalance({id: accountId, type: ACCOUNTS}));
-      this.store.dispatch(new LoadOrders({id: accountId, type: ACCOUNTS}));
-      this.store.dispatch(new LoadPositions({id: accountId, type: ACCOUNTS, groupByPair: true}));
+      this.select.emit({currentId: accountId, currentType: ACCOUNTS});
+    }, error1 => {
+      this.notifierService.notify('error', `Please try again: ${error1}`);
     });
   }
 }

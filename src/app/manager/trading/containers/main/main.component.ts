@@ -26,8 +26,8 @@ import { LoadTicks, UpdateTicks } from '@app/core/actions/tick.actions';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit, OnDestroy {
-  _id: string;
-  _type: string;
+  currentId: string;
+  currentType: string;
   @ViewChild('ordersTabs')
   ordersTabs: TabsetComponent;
   orders$: Observable<fromOrders.State>;
@@ -53,62 +53,64 @@ export class MainComponent implements OnInit, OnDestroy {
   ) {
     this.orders$ = this.store.pipe(select(Select.getOrders));
     this.isLoadingOrders$ = this.store.pipe(select(Select.isLoadingOrders));
-
     this.positions$ = this.store.pipe(select(Select.getPositions));
     this.isLoadingPositions$ = this.store.pipe(select(Select.isLoadingPositions));
-
     this.balance$ = this.store.pipe(select(Select.getBalance));
     this.isLoadingBalance$ = this.store.pipe(select(Select.isLoadingBalance));
-
     this.accounts$ = this.store.pipe(select(Select.getAccounts));
     this.isLoadingAccounts$ = this.store.pipe(select(Select.accountsIsLoading));
-
     this.groups$ = this.store.pipe(select(Select.getGroups));
     this.isLoadingGroups$ = this.store.pipe(select(Select.groupsIsLoading));
-
     this.ticks$ = this.store.pipe(select(Select.getTicks));
     this.ticksIsLoading$ = this.store.pipe(select(Select.ticksIsLoading));
   }
 
+  /**
+   * Get accessible index
+   * @param name: string
+   */
+  static tabIndex(name: string) {
+    return OrderTab[name] || 0;
+  }
+
   ngOnInit() {
+    const urlId = this.route.snapshot.paramMap.get('id');
+    const urlType = this.route.snapshot.paramMap.get('type');
+    const urlTabName = this.route.snapshot.paramMap.get('tab');
+
+    this.ordersTabs.tabs[MainComponent.tabIndex(urlTabName)].active = true;
+
     /*
-    * Load Total Data
+    * Init
+    * */
+    this.store.dispatch(new LoadBalance({id: urlId, type: urlType}));
+    this.store.dispatch(new LoadOrders({id: urlId, type: urlType}));
+    this.store.dispatch(new LoadPositions({id: urlId, type: urlType, groupByPair: true}));
+
+    /*
+    * Load CORE Data
     * */
     this.store.dispatch(new LoadGroups());
     this.store.dispatch(new LoadAccounts());
     this.store.dispatch(new LoadTicks());
 
-    const id = this.route.snapshot.paramMap.get('id');
-    const type = this.route.snapshot.paramMap.get('type');
-
-    /*
-    * Init
-    * */
-    this.store.dispatch(new LoadBalance({id: id, type: type}));
-    this.store.dispatch(new LoadOrders({id: id, type: type}));
-    this.store.dispatch(new LoadPositions({id: id, type: type, groupByPair: true}));
-
     this.route.params.subscribe(params => {
-      this._id = params.id;
-      this._type = params.type;
-      /*
-      * Set active tab
-      * */
-      this.ordersTabs.tabs[OrderTab[params.tab] || 0].active = true;
+      this.currentId = params.id;
+      this.currentType = params.type;
     });
 
     /*
     * update state
     * */
     this.updateInterval = setInterval(() => {
-      if (!this._id || !this._type) {
+      if (!this.currentId || !this.currentType) {
         return;
       }
 
       this.store.dispatch(new UpdateTicks());
-      this.store.dispatch(new UpdateBalance({id: this._id, type: this._type}));
-      this.store.dispatch(new UpdateOrders({id: this._id, type: this._type}));
-      this.store.dispatch(new UpdatePositions({id: this._id, type: this._type, groupByPair: true}));
+      this.store.dispatch(new UpdateBalance({id: this.currentId, type: this.currentType}));
+      this.store.dispatch(new UpdateOrders({id: this.currentId, type: this.currentType}));
+      this.store.dispatch(new UpdatePositions({id: this.currentId, type: this.currentType, groupByPair: true}));
     }, 2500);
   }
 
@@ -116,9 +118,18 @@ export class MainComponent implements OnInit, OnDestroy {
     clearInterval(this.updateInterval);
   }
 
-  onSelectOrderTab(tabId) {
+  selectTab(tabId): void {
     const orderPromise = this.router.navigate([`../${tabId}`], {relativeTo: this.route});
-    orderPromise.then(() => {
-    });
+    orderPromise.then(() => '');
+  }
+
+  onSelect(params: { currentId: string, currentType: string }) {
+    this.currentId = params.currentId;
+    this.currentType = params.currentType;
+
+    this.store.dispatch(new LoadOrders({id: params.currentId, type: params.currentType}));
+    this.store.dispatch(new LoadPositions({id: params.currentId, type: params.currentType, groupByPair: true}));
+    this.store.dispatch(new LoadBalance({id: params.currentId, type: params.currentType}));
+    this.store.dispatch(new LoadTicks());
   }
 }

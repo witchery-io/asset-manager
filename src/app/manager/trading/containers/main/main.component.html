@@ -7,17 +7,19 @@
     <div class="col-lg-3 col-md-6">
       <app-groups
         *ngIf="(isLoadingGroups$ | async) === false"
-        [id]="_id"
-        [type]="_type"
+        [id]="currentId"
+        [type]="currentType"
         [section]="groups$ | async"
+        (select)="onSelect($event)"
       ></app-groups>
     </div>
     <div class="col-lg-3 col-md-6">
       <app-accounts
         *ngIf="(isLoadingAccounts$ | async) === false"
-        [id]="_id"
-        [type]="_type"
+        [id]="currentId"
+        [type]="currentType"
         [section]="accounts$ | async"
+        (select)="onSelect($event)"
       ></app-accounts>
     </div>
   </div>
@@ -29,8 +31,8 @@
     <div class="col-3">
       <app-ticks
         *ngIf="(ticksIsLoading$ | async) === false"
-        [id]="_id"
-        [type]="_type"
+        [id]="currentId"
+        [type]="currentType"
         [section]="ticks$ | async"
       ></app-ticks>
     </div>
@@ -45,19 +47,19 @@
   <div class="row">
     <div class="col-12 border-top">
       <tabset #ordersTabs>
-        <tab heading="POSITIONS" id="positions" (select)="onSelectOrderTab('positions')">
+        <tab heading="POSITIONS" (select)="selectTab('positions')">
           <app-positions
             *ngIf="(isLoadingPositions$ | async) === false"
-            [id]="_id"
-            [type]="_type"
+            [id]="currentId"
+            [type]="currentType"
             [section]="positions$ | async"
             [accountsSection]="accounts$ | async"
           ></app-positions>
         </tab>
-        <tab heading="ORDERS" id="orders" (select)="onSelectOrderTab('orders')">
+        <tab heading="ORDERS" (select)="selectTab('orders')">
           <app-orders
             *ngIf="(isLoadingOrders$ | async) === false"
-            [id]="_id"
+            [id]="currentId"
             [section]="orders$ | async"
             [accountsSection]="accounts$ | async"
           ></app-orders>
