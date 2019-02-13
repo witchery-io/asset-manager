@@ -80,6 +80,7 @@ export class TicksComponent implements OnInit {
 
   ngOnInit() {
     this.source = new LocalDataSource(this.ticks);
+    setInterval(() => this.source.load(this.ticks), 1000);
   }
 
   onSearch(query = '') {
