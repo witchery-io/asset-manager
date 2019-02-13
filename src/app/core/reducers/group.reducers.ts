@@ -26,7 +26,7 @@ export function reducer(state: State = initialState, action: GroupActions.Action
       return adapter.updateOne({id: action.payload.id, changes: action.payload}, state);
     }
     case GroupActions.GROUPS_LOADED: {
-      return adapter.addMany(action.payload.groups, {...state, isLoading: false, error: null});
+      return adapter.addAll(action.payload.groups, {...state, isLoading: false, error: null});
     }
     case GroupActions.GROUPS_NOT_LOADED: {
       return {...state, error: action.payload.error, isLoading: false};

@@ -125,10 +125,10 @@ export class PositionComponent implements OnInit {
   orderClose() {
     this.positionsService.closePosition(this.position.id)
       .subscribe(() => {
+        this.modalService.closeAllModals();
         this.notifier.notify('success',
           `Order cancelled, ${this.position.type}, ${this.position.direction} ${this.position.amount}
            ${this.position.pair} @ ${this.position.openPrice}.`);
-        this.modalService.closeAllModals();
       });
   }
 
@@ -153,9 +153,9 @@ export class PositionComponent implements OnInit {
   groupOrder(id, order) {
     this.ordersService.placeGroupOrder(id, order)
       .subscribe((d: any) => {
+        this.modalService.closeAllModals();
         this.notifier.notify('success',
           `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.openPrice}.`);
-        this.modalService.closeAllModals();
       });
   }
 
@@ -166,9 +166,9 @@ export class PositionComponent implements OnInit {
   accountOrder(id, order) {
     this.ordersService.placeAccountOrder(id, order)
       .subscribe((d: any) => {
+        this.modalService.closeAllModals();
         this.notifier.notify('success',
           `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.openPrice}.`);
-        this.modalService.closeAllModals();
       });
   }
 }

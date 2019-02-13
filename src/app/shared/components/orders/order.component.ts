@@ -86,10 +86,10 @@ export class OrderComponent implements OnInit {
   orderCancel() {
     this.ordersService.cancelOrder(this.order.orderNumber)
       .subscribe(() => {
+        this.modalService.closeAllModals();
         this.notifier.notify('success',
           `Order cancelled, ${this.order.type}, ${this.order.direction} ${this.order.amount} ${this.order.pair}
            @ ${this.order.openPrice}.`);
-        this.modalService.closeAllModals();
       });
   }
 
@@ -136,9 +136,9 @@ export class OrderComponent implements OnInit {
   groupOrder(id, order) {
     this.ordersService.placeGroupOrder(id, order)
       .subscribe((d: any) => {
+        this.modalService.closeAllModals();
         this.notifier.notify('success',
           `Order modified, ${d.type}, to ${d.direction} ${d.amount} ${d.pair} @ ${d.openPrice}.`);
-        this.modalService.closeAllModals();
       });
   }
 
@@ -149,9 +149,9 @@ export class OrderComponent implements OnInit {
   accountOrder(id, order) {
     this.ordersService.placeAccountOrder(id, order)
       .subscribe((d: any) => {
+        this.modalService.closeAllModals();
         this.notifier.notify('success',
           `Order modified, ${d.type}, to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
-        this.modalService.closeAllModals();
       });
   }
 

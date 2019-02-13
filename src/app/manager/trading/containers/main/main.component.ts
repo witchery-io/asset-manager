@@ -78,6 +78,8 @@ export class MainComponent implements OnInit, OnDestroy {
     const urlType = this.route.snapshot.paramMap.get('type');
     const urlTabName = this.route.snapshot.paramMap.get('tab');
 
+    this.currentId = urlId;
+    this.currentType = urlType;
     this.ordersTabs.tabs[MainComponent.tabIndex(urlTabName)].active = true;
 
     /*
@@ -93,11 +95,6 @@ export class MainComponent implements OnInit, OnDestroy {
     this.store.dispatch(new LoadGroups());
     this.store.dispatch(new LoadAccounts());
     this.store.dispatch(new LoadTicks());
-
-    this.route.params.subscribe(params => {
-      this.currentId = params.id;
-      this.currentType = params.type;
-    });
 
     /*
     * update state

@@ -22,10 +22,13 @@ export function reducer(state: State = initialState, action: TickActions.Actions
       return {...state, isLoading: true};
     }
     case TickActions.UPDATE_TICKS: {
-      return {...state, isLoading: false};
+      return state;
+    }
+    case TickActions.UPDATE_TICKS_ITEMS: {
+      return adapter.updateMany(action.payload.ticks.map(changes => ({id: changes.pair, changes})), state);
     }
     case TickActions.TICKS_LOADED: {
-      return adapter.addMany(action.payload.ticks, {...state, isLoading: false, error: null});
+      return adapter.addAll(action.payload.ticks, {...state, isLoading: false, error: null});
     }
     case TickActions.TICKS_NOT_LOADED: {
       return {...state, error: action.payload.error, isLoading: false};

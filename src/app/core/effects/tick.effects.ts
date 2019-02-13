@@ -27,7 +27,7 @@ export class TickEffects {
     switchMap(() => {
       return this.tickService.getTicks().pipe(
         map(response => {
-          return new fromTick.TicksLoaded({ ticks: response });
+          return new fromTick.UpdateTicksItems({ ticks: response });
         }),
         catchError(error => of(new fromTick.TicksNotLoaded({ error: error.message || error }))),
       );
