@@ -29,7 +29,7 @@ export class OrdersEffects {
     switchMap((settings: any) => {
       return this.ordersService.getOrders(settings).pipe(
         map(response => {
-          return new fromOrders.OrdersLoaded({orders: response});
+          return new fromOrders.UpdateOrderItems({orders: response});
         }),
         catchError(error => of(new fromOrders.OrdersNotLoaded({error: error.message || error}))),
       );

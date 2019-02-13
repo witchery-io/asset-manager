@@ -16,40 +16,23 @@ export const initialState: State = {
 export function reducer(state: State = initialState, action: BalanceActions.Actions): State {
   switch (action.type) {
     case BalanceActions.LOAD_BALANCE: {
-      return {
-        ...state,
-        isLoading: true,
-      };
+      return {...state, isLoading: true};
     }
-
     case BalanceActions.UPDATE_BALANCE: {
-      return {
-        ...state,
-        isLoading: false,
-      };
+      return state;
     }
-
+    case BalanceActions.UPDATE_BALANCE_ITEM: {
+      return {...state, ...{data: action.payload}};
+    }
     case BalanceActions.BALANCE_LOADED: {
-      return {
-        ...state,
-        isLoading: false,
-        error: null,
-        data: action.payload.balance,
-      };
+      return {...state, isLoading: false, error: null, data: action.payload.balance};
     }
-
     case BalanceActions.BALANCE_NOT_LOADED: {
-      return {
-        ...state,
-        error: action.payload.error,
-        isLoading: false,
-      };
+      return {...state, error: action.payload.error, isLoading: false};
     }
-
     case BalanceActions.CLEAN_UP_BALANCE: {
       return initialState;
     }
-
     default: {
       return state;
     }

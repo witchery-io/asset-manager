@@ -21,19 +21,6 @@ export class GroupEffects {
     }),
   );
 
-  @Effect()
-  updateGroups$ = this.actions$.pipe(
-    ofType<fromGroup.UpdateGroups>(fromGroup.UPDATE_GROUPS),
-    switchMap(() => {
-      return this.groupService.getGroups().pipe(
-        map(response => {
-          return new fromGroup.GroupsLoaded({groups: response});
-        }),
-        catchError(error => of(new fromGroup.GroupsNotLoaded({error: error.message || error}))),
-      );
-    }),
-  );
-
   constructor(
     private actions$: Actions<fromGroup.Actions>,
     private groupService: GroupService,

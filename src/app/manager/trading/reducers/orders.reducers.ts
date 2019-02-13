@@ -19,35 +19,20 @@ export const initialState: State = adapter.getInitialState({
 export function reducer(state: State = initialState, action: OrdersActions.Actions): State {
   switch (action.type) {
     case OrdersActions.LOAD_ORDERS: {
-      return {
-        ...state,
-        isLoading: true,
-      };
+      return {...state, isLoading: true};
     }
-
     case OrdersActions.UPDATE_ORDERS: {
-      return {
-        ...state,
-        isLoading: false,
-      };
+      return state;
     }
-
+    case OrdersActions.UPDATE_ORDER_ITEMS: {
+      return adapter.updateMany(action.payload.orders.map(changes => ({id: changes.orderNumber, changes})), state);
+    }
     case OrdersActions.ORDERS_LOADED: {
-      return adapter.addAll(action.payload.orders, { /* todo :: addMany */
-        ...state,
-        isLoading: false,
-        error: null,
-      });
+      return adapter.addMany(action.payload.orders, {...state, isLoading: false, error: null});
     }
-
     case OrdersActions.ORDERS_NOT_LOADED: {
-      return {
-        ...state,
-        error: action.payload.error,
-        isLoading: false,
-      };
+      return {...state, error: action.payload.error, isLoading: false};
     }
-
     default: {
       return state;
     }

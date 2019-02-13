@@ -15,33 +15,17 @@ export const initialState: State = {
 export function reducer(state: State = initialState, action: GroupActions.Actions): State {
   switch (action.type) {
     case GroupActions.LOAD_GROUP: {
-      return {
-        ...state,
-        isLoading: true,
-      };
+      return {...state, isLoading: true};
     }
-
     case GroupActions.GROUP_LOADED: {
-      return {
-        ...state,
-        isLoading: false,
-        error: null,
-        data: action.payload.group,
-      };
+      return {...state, isLoading: false, error: null, data: action.payload.group};
     }
-
     case GroupActions.GROUP_NOT_LOADED: {
-      return {
-        ...state,
-        error: action.payload.error,
-        isLoading: false,
-      };
+      return {...state, error: action.payload.error, isLoading: false};
     }
-
     case GroupActions.CLEAN_UP_GROUP: {
       return initialState;
     }
-
     default: {
       return state;
     }

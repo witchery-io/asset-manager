@@ -4,6 +4,9 @@ import { AccountService } from '@app/core/services';
 import { NotifierService } from 'angular-notifier';
 import { ModalService } from '@app/shared/services';
 import { Account } from '@app/core/intefaces';
+import { Store } from '@ngrx/store';
+import { SettingsState } from '@settings/reducers';
+import { AddAccount, UpdateAccount } from '@app/core/actions/account.actions';
 
 @Component({
   selector: 'app-account-form',
@@ -28,6 +31,7 @@ export class AccountFormComponent implements OnInit {
     private accountService: AccountService,
     private notifierService: NotifierService,
     private modalService: ModalService,
+    private store: Store<SettingsState>,
   ) {
     this.notifier = notifierService;
   }
@@ -54,7 +58,8 @@ export class AccountFormComponent implements OnInit {
   create(values, isValid) {
     if (isValid) {
       this.accountService.create(values)
-        .subscribe(() => {
+        .subscribe((account: any) => {
+          this.store.dispatch(new AddAccount(account));
           this.close();
           this.notifier.notify('success', `Account was successfully created.`);
         });
@@ -65,6 +70,8 @@ export class AccountFormComponent implements OnInit {
     if (isValid) {
       this.accountService.update(this.values.id, values)
         .subscribe(() => {
+          values.id = this.values.id;
+          this.store.dispatch(new UpdateAccount(values));
           this.close();
           this.notifier.notify('success', `Group was successfully edited.`);
         });

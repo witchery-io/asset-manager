@@ -30,7 +30,7 @@ export class PositionsEffects {
     switchMap((settings: any) => {
       return this.positionsService.getPositions(settings).pipe(
         map(response => {
-          return new fromPositions.PositionsLoaded({positions: response});
+          return new fromPositions.UpdatePositionItems({positions: response});
         }),
         catchError(error => of(new fromPositions.PositionsNotLoaded({error: error.message || error}))),
       );

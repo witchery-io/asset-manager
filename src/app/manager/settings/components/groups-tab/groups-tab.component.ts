@@ -108,7 +108,7 @@ export class GroupsTabComponent implements OnInit {
    * @param group --- updated group
    */
   updateStatus(group) {
-    this.groupService.update(group.id, {active: !group.active})
+    this.groupService.update(group.id, {status: {isActive: !group.active}})
       .subscribe(() => {
         this.notifier.notify('success', 'Status was successfully updated');
       });

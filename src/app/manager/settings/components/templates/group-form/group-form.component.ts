@@ -4,6 +4,9 @@ import { GroupService } from '@app/core/services';
 import { NotifierService } from 'angular-notifier';
 import { ModalService } from '@app/shared/services';
 import { Group } from '@app/core/intefaces';
+import { AddGroup, UpdateGroup } from '@app/core/actions/group.actions';
+import { Store } from '@ngrx/store';
+import { SettingsState } from '@settings/reducers';
 
 @Component({
   selector: 'app-group-form',
@@ -29,6 +32,7 @@ export class GroupFormComponent implements OnInit {
     private groupService: GroupService,
     private notifierService: NotifierService,
     private modalService: ModalService,
+    private store: Store<SettingsState>,
   ) {
     this.notifier = notifierService;
   }
@@ -51,9 +55,10 @@ export class GroupFormComponent implements OnInit {
   create(values, isValid) {
     if (isValid) {
       this.groupService.create(values)
-        .subscribe(() => {
+        .subscribe((group: Group) => {
+          this.store.dispatch(new AddGroup(group));
           this.close();
-          this.notifier.notify( 'success', `Group was successfully created.`);
+          this.notifier.notify('success', `Group was successfully created.`);
         });
     }
   }
@@ -62,8 +67,10 @@ export class GroupFormComponent implements OnInit {
     if (isValid) {
       this.groupService.update(this.values.id, values)
         .subscribe(() => {
+          values.id = this.values.id;
+          this.store.dispatch(new UpdateGroup(values));
           this.close();
-          this.notifier.notify( 'success', `Group was successfully edited.`);
+          this.notifier.notify('success', `Group was successfully edited.`);
         });
     }
   }
