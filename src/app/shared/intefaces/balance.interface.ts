@@ -3,7 +3,7 @@ import { PerCurrencyBalance } from '@app/shared/intefaces/per-current-balance.in
 import * as moment from 'moment';
 
 export interface Balance {
-  balance: number;
+  totalBalance: number;
   baseCurrency: string;
   equity: number;
   exposure: number;
@@ -16,7 +16,7 @@ export interface Balance {
 
 export function getEmptyBalance(balance: Partial<Balance> = {}): Balance {
   return {
-    balance: 0,
+    totalBalance: 0,
     baseCurrency: '',
     equity: 0,
     exposure: 0,

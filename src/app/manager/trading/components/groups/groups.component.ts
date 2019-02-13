@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { getGroupsFromSection } from '@app/core/reducers';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -8,6 +8,7 @@ import { LoadTicks } from '@app/core/actions/tick.actions';
 import { LoadBalance } from '@trading/actions/balance.actions';
 import { LoadOrders } from '@trading/actions/orders.actions';
 import { LoadPositions } from '@trading/actions/positions.actions';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-groups',
@@ -26,23 +27,24 @@ import { LoadPositions } from '@trading/actions/positions.actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsComponent implements OnInit {
-
   GROUPS = GROUPS;
-
   @Input()
   id: string;
-
   @Input()
   type: string;
-
   @Input()
   section: any;
+  @Output()
+  select: EventEmitter<{currentId: string, currentType: string}> = new EventEmitter();
+  private readonly notifier: NotifierService;
 
   constructor(
     private router: Router,
     private store: Store<TradingState>,
     private route: ActivatedRoute,
+    private notifierService: NotifierService,
   ) {
+    this.notifier = notifierService;
   }
 
   get groups() {
@@ -57,17 +59,9 @@ export class GroupsComponent implements OnInit {
     const routerPromise = this.router.navigate([`/trading/${GROUPS}/${groupId}/${tab}`]);
 
     routerPromise.then(() => {
-      /*
-      * update TICKS
-      * */
-      this.store.dispatch(new LoadTicks());
-
-      /*
-      * load new data
-      * */
-      this.store.dispatch(new LoadBalance({id: groupId, type: GROUPS}));
-      this.store.dispatch(new LoadOrders({id: groupId, type: GROUPS}));
-      this.store.dispatch(new LoadPositions({id: groupId, type: GROUPS, groupByPair: true}));
+      this.select.emit({currentId: groupId, currentType: GROUPS});
+    }, error1 => {
+      this.notifierService.notify('error', `Please try again: ${error1}`);
     });
   }
 }
