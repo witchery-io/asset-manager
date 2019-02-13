@@ -26,15 +26,11 @@ import { LoadPositions } from '@trading/actions/positions.actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsComponent implements OnInit {
-
   GROUPS = GROUPS;
-
   @Input()
   id: string;
-
   @Input()
   type: string;
-
   @Input()
   section: any;
 

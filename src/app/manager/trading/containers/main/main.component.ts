@@ -26,28 +26,22 @@ import { LoadTicks, UpdateTicks } from '@app/core/actions/tick.actions';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit, OnDestroy {
-  @ViewChild('ordersTabs') ordersTabs: TabsetComponent;
-
-  orders$: Observable<fromOrders.State>;
-  isLoadingOrders$: Observable<boolean>;
-
-  positions$: Observable<fromPositions.State>;
-  isLoadingPositions$: Observable<boolean>;
-
-  balance$: Observable<fromBalance.State>;
-  isLoadingBalance$: Observable<boolean>;
-
-  accounts$: Observable<fromAccounts.State>;
-  isLoadingAccounts$: Observable<boolean>;
-
-  groups$: Observable<fromGroups.State>;
-  isLoadingGroups$: Observable<boolean>;
-
-  ticks$: Observable<fromTicks.State>;
-  ticksIsLoading$: Observable<boolean>;
-
   _id: string;
   _type: string;
+  @ViewChild('ordersTabs')
+  ordersTabs: TabsetComponent;
+  orders$: Observable<fromOrders.State>;
+  isLoadingOrders$: Observable<boolean>;
+  positions$: Observable<fromPositions.State>;
+  isLoadingPositions$: Observable<boolean>;
+  balance$: Observable<fromBalance.State>;
+  isLoadingBalance$: Observable<boolean>;
+  accounts$: Observable<fromAccounts.State>;
+  isLoadingAccounts$: Observable<boolean>;
+  groups$: Observable<fromGroups.State>;
+  isLoadingGroups$: Observable<boolean>;
+  ticks$: Observable<fromTicks.State>;
+  ticksIsLoading$: Observable<boolean>;
 
   updateInterval: any;
 

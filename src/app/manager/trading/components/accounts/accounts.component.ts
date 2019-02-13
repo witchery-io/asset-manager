@@ -26,15 +26,11 @@ import { LoadPositions } from '@trading/actions/positions.actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountsComponent implements OnInit {
-
   ACCOUNTS = ACCOUNTS;
-
   @Input()
   id: string;
-
   @Input()
   type: string;
-
   @Input()
   section: any;
 
