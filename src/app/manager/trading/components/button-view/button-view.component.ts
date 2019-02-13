@@ -59,16 +59,16 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   groupOrder(id, order) {
     this.ordersService.placeGroupOrder(id, order)
       .subscribe((d: any) => {
-        this.notifier.notify('success', `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
         this.modalService.closeAllModals();
+        this.notifier.notify('success', `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
       });
   }
 
   accountOrder(id, order) {
     this.ordersService.placeAccountOrder(id, order)
       .subscribe((d: any) => {
-        this.notifier.notify('success', `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
         this.modalService.closeAllModals();
+        this.notifier.notify('success', `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
       });
   }
 }
