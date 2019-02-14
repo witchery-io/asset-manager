@@ -28,33 +28,33 @@
         <tbody>
         <tr
           class="cursor-pointer"
-          *ngFor="let account of accounts; index as i"
-          (click)="selectAccount(account.id)"
-          [class.table-active]="account.id === selectedAccount?.id"
+          *ngFor="let a of accounts; index as i"
+          (click)="selectAccount(a.id)"
+          [class.table-active]="a.id === account?.id"
         >
           <th scope="row">{{ i + 1 }}</th>
-          <td>{{ account.accName }}</td>
-          <td>{{ account.userName }}</td>
-          <td>{{ account.exchange }}</td>
-          <td>{{ account.baseCurrency }}</td>
-          <td>{{ account.rank }}</td>
-          <td>{{ account.date | date: 'shortDate' }}</td>
+          <td>{{ a.accName }}</td>
+          <td>{{ a.userName }}</td>
+          <td>{{ a.exchange }}</td>
+          <td>{{ a.baseCurrency }}</td>
+          <td>{{ a.rank }}</td>
+          <td>{{ a.date | date: 'shortDate' }}</td>
           <td>
           <span class="switch switch-sm">
           <input
-            id="switch-{{account.id}}"
+            id="switch-{{a.id}}"
             class="switch"
             type="checkbox"
             [disabled]="role !== 'admin'"
-            [checked]="account.isActive"
-            (click)="updateStatus(account)"
+            [checked]="a.isActive"
+            (click)="updateStatus(a)"
           >
-          <label class="m-0" for="switch-{{account.id}}"></label>
+          <label class="m-0" for="switch-{{a.id}}"></label>
         </span>
           </td>
           <td>
             <fa-icon
-              (click)="edit(account, editAccountModal, { class: 'modal-sm' })"
+              (click)="edit(a, editAccountModal, { class: 'modal-sm' })"
               [icon]="faEdit"
               class="text-danger float-right"
               title="Edit"

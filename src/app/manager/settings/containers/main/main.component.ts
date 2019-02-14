@@ -14,10 +14,12 @@ import * as fromGroups from '@app/core/reducers/group.reducers';
 import { CleanUpBalance, LoadBalance, UpdateBalance } from '@settings/actions/balance.actions';
 import { CleanUpOrders, LoadOrders, UpdateOrders } from '@settings/actions/orders.actions';
 import { CleanUpPositions, LoadPositions, UpdatePositions } from '@settings/actions/positions.actions';
-import { SharedService } from '@app/shared/services';
-import { generateUrl } from '@settings/utils/settings.utils';
 import { LoadGroups } from '@app/core/actions/group.actions';
 import { LoadAccounts } from '@app/core/actions/account.actions';
+import { LoadAccount } from '@settings/actions/account.actions';
+import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
+import { LoadGroup } from '@settings/actions/group.actions';
+import { generateUrl } from '@settings/utils/settings.utils';
 
 @Component({
   selector: 'app-settings',
@@ -42,127 +44,89 @@ export class MainComponent implements OnInit, OnDestroy {
   group$: Observable<any>;
   account$: Observable<any>;
   subscription: Subscription;
-  interval: any;
+  updateInterval: any;
+  settings = {};
 
   constructor(
     private store: Store<SettingsState>,
     private route: ActivatedRoute,
     private router: Router,
-    private shared: SharedService,
   ) {
     this.orders$ = this.store.pipe(select(Select.getOrders));
     this.isLoadingOrders$ = this.store.pipe(select(Select.isLoadingOrders));
-
     this.positions$ = this.store.pipe(select(Select.getPositions));
     this.isLoadingPositions$ = this.store.pipe(select(Select.isLoadingPositions));
-
     this.balance$ = this.store.pipe(select(Select.getBalance));
     this.isLoadingBalance$ = this.store.pipe(select(Select.isLoadingBalance));
-
     this.accounts$ = this.store.pipe(select(Select.getAccounts));
     this.groups$ = this.store.pipe(select(Select.getGroups));
-
     this.group$ = this.store.pipe(select(Select.getGroup));
     this.account$ = this.store.pipe(select(Select.getAccount));
   }
 
-  static isSame(obj1, obj2) {
-    if (!obj1 || !obj2) {
-      return false;
-    }
-
-    return obj1.id === obj2.id
-      && obj1.subId === obj2.subId
-      && obj1.type === obj2.type
-      && obj1.subType === obj2.subType;
-  }
-
   ngOnInit() {
-    /*
-    * Set default and save tab
-    * */
-    this.setTabs({
-      generalTabName: this.route.firstChild.snapshot.paramMap.get('generalTab'),
-      orderTabName: this.route.firstChild.snapshot.paramMap.get('orderTab'),
-    });
-
-    /*
-    * Load Total Data
-    * */
     this.store.dispatch(new LoadGroups());
     this.store.dispatch(new LoadAccounts());
 
-    /*
-    * set account or group params
-    * */
-    this.subscription = this.shared.getSettingsObs()
-      .subscribe(params => {
-        const savedParams = this.shared.sParams[params.generalTab];
+    if (!this.route.firstChild) {
+      return;
+    }
 
-        /*
-         * check there are same values
-         * */
-        if (MainComponent.isSame(savedParams, params)) {
-          return;
-        }
+    const hasGeneralTab = this.route.firstChild.snapshot.paramMap.has('generalTab');
+    const urlGeneralTab = this.route.firstChild.snapshot.paramMap.get('generalTab');
+    if (hasGeneralTab) {
+      this.generalTabs.tabs[TypeTab[urlGeneralTab] || 0].active = true;
+    }
 
-        this.shared.setSParams(params.generalTab, params);
+    const hasOrderTab = this.route.firstChild.snapshot.paramMap.has('orderTab');
+    const urlOrderTab = this.route.firstChild.snapshot.paramMap.get('orderTab');
+    if (hasOrderTab) {
+      this.ordersTabs.tabs[OrderTab[urlOrderTab] || 0].active = true;
+    }
 
-        /*
-         * change current navigation
-         * */
-        const orderTab = this.router.navigate([generateUrl(params)]);
+    const urlId = this.route.firstChild.snapshot.paramMap.get('id');
+    const hasId = this.route.firstChild.snapshot.paramMap.has('id');
+    if (hasId && hasGeneralTab) {
+      if (urlGeneralTab === GROUPS) {
+        this.store.dispatch(new LoadGroup(urlId));
+      } else if (urlGeneralTab === ACCOUNTS) {
+        this.store.dispatch(new LoadAccount(urlId));
+      }
+    }
 
-        orderTab.then(() => {
-          this.currentId = params.subId || params.id;
-          this.currentType = params.subType || params.type;
+    const urlSubId = this.route.firstChild.snapshot.paramMap.get('subId');
+    const urlSubType = this.route.firstChild.snapshot.paramMap.get('subType');
 
-          this.setState({id: this.currentId, type: this.currentType});
-        });
-      });
-
-    /*
-    * update state
-    * */
-    this.interval = setInterval(() => {
-      this.updateState({id: this.currentId, type: this.currentType});
-    }, 3000);
+    this.onSelect({id: urlId, type: urlGeneralTab, subId: urlSubId, subType: urlSubType});
+    this.updateInterval = setInterval(() => this.updateState({currentId: this.currentId, currentType: this.currentType}), 3000);
   }
 
-  /* Clean State on destroy */
   ngOnDestroy() {
-    this.cleanState();
-    this.subscription.unsubscribe();
-    clearInterval(this.interval);
+    this.forcedCleanState();
+    clearInterval(this.updateInterval);
   }
 
   /**
    * @param generalTabName ex. groups, accounts
    */
   onSelectGeneralTab(generalTabName: string) {
-
-    const params = this.shared.sParams[generalTabName];
-    if (!params) {
-      const orderTab = this.router.navigate([generateUrl({generalTab: generalTabName})]);
-      orderTab.then(() => {
+    const settings = this.settings[generalTabName];
+    if (!settings) {
+      const defPromise = this.router.navigate([`settings/${generalTabName}`]);
+      defPromise.then(() => {
         this.currentId = null;
         this.currentType = null;
-
-        this.setTabs({generalTabName: generalTabName, orderTabName: 'orders'});
-        this.cleanState();
+        this.forcedCleanState();
       });
-    } else {
-      const orderTab = this.router.navigate([generateUrl(params)]);
-      orderTab.then((status) => {
-        if (status) {
-          this.currentId = params.subId || params.id;
-          this.currentType = params.subType || params.type;
-
-          this.setState({id: this.currentId, type: this.currentType});
-          this.setTabs({generalTabName: params['generalTab'], orderTabName: params['orderTab']});
-        }
-      });
+      return;
     }
+
+    const url = generateUrl(settings);
+    const routerPromise = this.router.navigate([url]);
+
+    routerPromise.then(() => {
+      this.putState({currentId: settings.subId || settings.id, currentType: settings.subType || settings.type});
+    });
   }
 
   /**
@@ -170,52 +134,43 @@ export class MainComponent implements OnInit, OnDestroy {
    * @param orderTabName string ex. positions, orders
    */
   onSelectOrderTab(orderTabName: string) {
-    if (!this.route.firstChild) {
-      return;
-    }
+    /*    console.log('self - settings', this.settings);
 
-    const hasGeneralTab = this.route.firstChild.snapshot.paramMap.has('generalTab');
-    if (!hasGeneralTab) {
-      return;
-    }
+        const hasId = this.route.firstChild.snapshot.paramMap.has('id');
+        if (!hasId) {
+          return;
+        }
 
-    const hasId = this.route.firstChild.snapshot.paramMap.has('id');
-    if (!hasId) {
-      return;
-    }
+        const generalTab = this.route.firstChild.snapshot.paramMap.get('generalTab');
+        const hasOrderTab = this.route.firstChild.snapshot.paramMap.has('orderTab');
+        const url = (hasOrderTab ? '../' : './') + orderTabName;
+        const orderPromise = this.router.navigate([url], {relativeTo: this.route.firstChild});
+        orderPromise.then(() => {
+          this.settings[generalTab]['orderTab'] = orderTabName;
+        });*/
+  }
 
-    const generalTab = this.route.firstChild.snapshot.paramMap.get('generalTab');
-    const hasOrderTab = this.route.firstChild.snapshot.paramMap.has('orderTab');
-    const url = (hasOrderTab ? '../' : './') + orderTabName;
-    const orderPromise = this.router.navigate([url], {relativeTo: this.route.firstChild});
-    orderPromise.then(() => {
-      this.shared.setSParams(generalTab, {
-        orderTab: orderTabName,
-      });
+  /**
+   * select account and group
+   * @param params: obj
+   */
+  onSelect(params) {
+    this.settings[params.type] = params;
+    const url = generateUrl(params);
+    const routerPromise = this.router.navigate([url]);
+
+    routerPromise.then(() => {
+      this.putState({currentId: params.subId || params.id, currentType: params.subType || params.type});
     });
   }
 
   /**
    * clean State
    */
-  private cleanState() {
+  private forcedCleanState() {
     this.store.dispatch(new CleanUpBalance());
     this.store.dispatch(new CleanUpOrders());
     this.store.dispatch(new CleanUpPositions());
-  }
-
-  /**
-   * set new params to state
-   * @param params :: array
-   */
-  private setState(params) {
-    if (!params.id) {
-      return;
-    }
-
-    this.store.dispatch(new LoadBalance({id: params.id, type: params.type}));
-    this.store.dispatch(new LoadOrders({id: params.id, type: params.type}));
-    this.store.dispatch(new LoadPositions({id: params.id, type: params.type}));
   }
 
   /**
@@ -223,21 +178,29 @@ export class MainComponent implements OnInit, OnDestroy {
    * @param params :: array
    */
   private updateState(params) {
-    if (!params.id) {
+    if (!params.currentId || !params.currentType) {
       return;
     }
 
-    this.store.dispatch(new UpdateBalance({id: params.id, type: params.type}));
-    this.store.dispatch(new UpdateOrders({id: params.id, type: params.type}));
-    this.store.dispatch(new UpdatePositions({id: params.id, type: params.type}));
+    this.store.dispatch(new UpdateBalance({id: params.currentId, type: params.currentType}));
+    this.store.dispatch(new UpdateOrders({id: params.currentId, type: params.currentType}));
+    this.store.dispatch(new UpdatePositions({id: params.currentId, type: params.currentType}));
   }
 
-  /*
-  * set TAB
-  * */
-  private setTabs(tabs) {
-    const defTab = 0;
-    this.generalTabs.tabs[TypeTab[tabs.generalTabName] || defTab].active = true;
-    this.ordersTabs.tabs[OrderTab[tabs.orderTabName] || defTab].active = true;
+  /**
+   * set new params to state
+   * @param params :: array
+   */
+  private putState(params) {
+    if (!params.currentId || !params.currentType) {
+      return;
+    }
+
+    this.currentId = params.currentId;
+    this.currentType = params.currentType;
+
+    this.store.dispatch(new LoadBalance({id: params.currentId, type: params.currentType}));
+    this.store.dispatch(new LoadOrders({id: params.currentId, type: params.currentType}));
+    this.store.dispatch(new LoadPositions({id: params.currentId, type: params.currentType}));
   }
 }
