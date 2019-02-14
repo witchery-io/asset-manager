@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { getTicksFromSection } from '@app/core/reducers';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ButtonViewComponent } from '@trading/components/button-view/button-view.component';
-import { SharedService } from '@app/shared/services';
 
 @Component({
   selector: 'app-ticks',
@@ -20,7 +19,8 @@ export class TicksComponent implements OnInit {
   @Input()
   section: any;
 
-  _symbol: any;
+  @Output()
+  select: EventEmitter<any> = new EventEmitter();
 
   settings = {
     columns: {
@@ -55,9 +55,7 @@ export class TicksComponent implements OnInit {
 
   source: LocalDataSource;
 
-  constructor(
-    private sharedService: SharedService,
-  ) {
+  constructor() {
   }
 
   get ticks() {
@@ -95,8 +93,7 @@ export class TicksComponent implements OnInit {
     }
   }
 
-  onUserRowSelect($event) {
-    this._symbol = `${$event.data.exchangename}:${$event.data.pair}`;
-    this.sharedService.subject.next();
+  onUserRowSelect($event): void {
+    this.select.emit(`${$event.data.pair}`);
   }
 }

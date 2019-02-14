@@ -11,8 +11,6 @@ export class SharedService {
   * */
   _saveSettings = {};
 
-  subject: Subject<void> = new Subject<void>();
-
   constructor() {
   }
 

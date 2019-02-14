@@ -19,6 +19,7 @@ import { OrderTab } from '@app/shared/enums';
 import { LoadGroups } from '@app/core/actions/group.actions';
 import { LoadAccounts } from '@app/core/actions/account.actions';
 import { LoadTicks, UpdateTicks } from '@app/core/actions/tick.actions';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-trading',
@@ -45,11 +46,17 @@ export class MainComponent implements OnInit, OnDestroy {
 
   updateInterval: any;
 
+  /*
+  * chart url
+  * */
+  chartUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.tradingview.com/widgetembed/?frameElementId=tradingview_ca6f4&symbol=BITFINEX:BTCUSD&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=Dark&style=1&timezone=Asia%2FDubai&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=BITFINEX:BTCUSD`);
+
   constructor(
     private ws: WsHandlerService,
     private store: Store<TradingState>,
     private route: ActivatedRoute,
     private router: Router,
+    private sanitizer: DomSanitizer,
   ) {
     this.orders$ = this.store.pipe(select(Select.getOrders));
     this.isLoadingOrders$ = this.store.pipe(select(Select.isLoadingOrders));
@@ -128,5 +135,12 @@ export class MainComponent implements OnInit, OnDestroy {
     this.store.dispatch(new LoadPositions({id: params.currentId, type: params.currentType, groupByPair: true}));
     this.store.dispatch(new LoadBalance({id: params.currentId, type: params.currentType}));
     this.store.dispatch(new LoadTicks());
+  }
+
+  /*
+  * changes chart url
+  * */
+  onSelectTick(pair) {
+    this.chartUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.tradingview.com/widgetembed/?frameElementId=tradingview_ca6f4&symbol=BITFINEX:${pair}&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=Dark&style=1&timezone=Asia%2FDubai&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=BITFINEX:${pair}`);
   }
 }
