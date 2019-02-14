@@ -89,9 +89,9 @@ export class TvChartComponent implements OnInit {
   ngOnInit() {
     this.initChart();
 
-    this.sharedService.subject.subscribe(() => {
+/*    this.sharedService.subject.subscribe(() => {
       this.initChart();
-    });
+    });*/
   }
 
   initChart() {

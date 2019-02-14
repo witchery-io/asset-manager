@@ -34,10 +34,18 @@
         [id]="currentId"
         [type]="currentType"
         [section]="ticks$ | async"
+        (select)="onSelectTick($event)"
       ></app-ticks>
     </div>
     <div class="col-9">
-      <app-tv-chart></app-tv-chart>
+      <!--<app-tv-chart></app-tv-chart>-->
+      <iframe id="tradingview_ca6f4"
+              [src]="chartUrl"
+              style="width: 100%; height: 470px; margin: 0 !important; padding: 0 !important;" frameborder="0"
+              allowtransparency="true"
+              scrolling="no"
+              allowfullscreen=""
+      ></iframe>
     </div>
   </div>
 </div>

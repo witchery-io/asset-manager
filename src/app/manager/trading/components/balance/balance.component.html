@@ -55,6 +55,7 @@
 
       <div class="form-group">
         <label for="market1">Market</label>
+        <!-- todo :: refactor -->
         <select id="market1" class="form-control form-control-sm" (change)="chooseMarker($event.target.value)"
                 formControlName="market1">
           <option value="exchange">Exchange</option>
@@ -63,9 +64,10 @@
         </select>
       </div>
 
-      <table *ngIf="balance.perCurrencyBalances" class="table table-xs table-hover">
+      <table *ngIf="balance.perCurrencyBalances" class="table table-xs">
         <thead>
         <tr>
+          <!-- todo :: refactor -->
           <th scope="col">Currency</th>
           <th *ngIf="currBalance === 'exchange'" scope="col">Exchange</th>
           <th *ngIf="currBalance === 'margin'" scope="col">Margin</th>
@@ -78,6 +80,7 @@
           (click)="chooseCurrency(per.currency)"
           [class.table-active]="currency === per.currency"
         >
+          <!-- todo :: refactor -->
           <th scope="row">{{ per.currency }}</th>
           <td *ngIf="currBalance === 'exchange'"><span *ngIf="per.exchange">{{ per.exchange[0] }}
             / {{ per.exchange[1] }}</span></td>
