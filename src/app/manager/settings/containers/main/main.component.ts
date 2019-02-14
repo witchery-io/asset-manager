@@ -25,8 +25,8 @@ import { LoadAccounts } from '@app/core/actions/account.actions';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit, OnDestroy {
-  _id: string;
-  _type: string;
+  currentId: string;
+  currentType: string;
   @ViewChild('generalTabs')
   generalTabs: TabsetComponent;
   @ViewChild('ordersTabs')
@@ -114,10 +114,10 @@ export class MainComponent implements OnInit, OnDestroy {
         const orderTab = this.router.navigate([generateUrl(params)]);
 
         orderTab.then(() => {
-          this._id = params.subId || params.id;
-          this._type = params.subType || params.type;
+          this.currentId = params.subId || params.id;
+          this.currentType = params.subType || params.type;
 
-          this.setState({id: this._id, type: this._type});
+          this.setState({id: this.currentId, type: this.currentType});
         });
       });
 
@@ -125,7 +125,7 @@ export class MainComponent implements OnInit, OnDestroy {
     * update state
     * */
     this.interval = setInterval(() => {
-      this.updateState({id: this._id, type: this._type});
+      this.updateState({id: this.currentId, type: this.currentType});
     }, 3000);
   }
 
@@ -145,8 +145,8 @@ export class MainComponent implements OnInit, OnDestroy {
     if (!params) {
       const orderTab = this.router.navigate([generateUrl({generalTab: generalTabName})]);
       orderTab.then(() => {
-        this._id = null;
-        this._type = null;
+        this.currentId = null;
+        this.currentType = null;
 
         this.setTabs({generalTabName: generalTabName, orderTabName: 'orders'});
         this.cleanState();
@@ -155,10 +155,10 @@ export class MainComponent implements OnInit, OnDestroy {
       const orderTab = this.router.navigate([generateUrl(params)]);
       orderTab.then((status) => {
         if (status) {
-          this._id = params.subId || params.id;
-          this._type = params.subType || params.type;
+          this.currentId = params.subId || params.id;
+          this.currentType = params.subType || params.type;
 
-          this.setState({id: this._id, type: this._type});
+          this.setState({id: this.currentId, type: this.currentType});
           this.setTabs({generalTabName: params['generalTab'], orderTabName: params['orderTab']});
         }
       });

@@ -5,7 +5,7 @@ import { getAccountsFromSection } from '@app/core/reducers';
 @Component({
   selector: 'app-positions',
   template: `
-    <table class="table table-hover table-xs text-center">
+    <table class="table table-xs text-center">
       <thead>
       <tr class="d-flex">
         <th class="col">Pair</th>

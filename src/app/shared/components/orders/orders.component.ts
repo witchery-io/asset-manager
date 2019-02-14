@@ -4,7 +4,7 @@ import { getOrdersFromSection } from '@trading/state/trading.selectors';
 @Component({
   selector: 'app-orders',
   template: `
-    <table class="table table-xs table-hover text-center">
+    <table class="table table-xs text-center">
       <thead>
       <tr class="d-flex">
         <th class="col">Pair</th>

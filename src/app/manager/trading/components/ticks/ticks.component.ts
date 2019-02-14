@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { getTicksFromSection } from '@app/core/reducers';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ButtonViewComponent } from '@trading/components/button-view/button-view.component';
@@ -8,7 +8,6 @@ import { SharedService } from '@app/shared/services';
   selector: 'app-ticks',
   templateUrl: './ticks.component.html',
   styleUrls: ['ticks.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TicksComponent implements OnInit {
 
@@ -50,7 +49,7 @@ export class TicksComponent implements OnInit {
     },
     actions: false,
     attr: {
-      class: 'table table-xs table-hover'
+      class: 'table table-xs'
     }
   };
 
