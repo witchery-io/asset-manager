@@ -88,8 +88,8 @@ export class OrderComponent implements OnInit {
       .subscribe(() => {
         this.modalService.closeAllModals();
         this.notifier.notify('success',
-          `Order cancelled, ${this.order.type}, ${this.order.direction} ${this.order.amount} ${this.order.pair}
-           @ ${this.order.openPrice}.`);
+          `Order cancelled,
+           ${this.order.type}, ${this.order.direction} ${this.order.amount} ${this.order.pair} @ ${this.order.price}.`);
       });
   }
 
@@ -138,7 +138,7 @@ export class OrderComponent implements OnInit {
       .subscribe((d: any) => {
         this.modalService.closeAllModals();
         this.notifier.notify('success',
-          `Order modified, ${d.type}, to ${d.direction} ${d.amount} ${d.pair} @ ${d.openPrice}.`);
+          `Order modified, ${d.type}, to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
       });
   }
 

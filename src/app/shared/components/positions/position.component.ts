@@ -127,8 +127,8 @@ export class PositionComponent implements OnInit {
       .subscribe(() => {
         this.modalService.closeAllModals();
         this.notifier.notify('success',
-          `Order cancelled, ${this.position.type}, ${this.position.direction} ${this.position.amount}
-           ${this.position.pair} @ ${this.position.openPrice}.`);
+          `Order cancelled,
+           ${this.position.type}, ${this.position.direction} ${this.position.amount} ${this.position.pair} @ ${this.position.openPrice}.`);
       });
   }
 
