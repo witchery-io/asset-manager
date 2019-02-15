@@ -7,8 +7,6 @@ import { SettingsState } from '@settings/reducers';
 import * as fromOrders from '@settings/reducers/orders.reducers';
 import * as fromPositions from '@settings/reducers/positions.reducers';
 import * as fromBalance from '@settings/reducers/balance.reducers';
-import * as fromAccount from '@settings/reducers/account.reducers';
-import * as fromGroup from '@settings/reducers/group.reducers';
 
 export const getCoreState = createFeatureSelector<SettingsState>('core');
 export const getAccounts = createSelector(getCoreState, (state: SettingsState) => state.accounts);
@@ -25,12 +23,10 @@ export const getPositions = createSelector(getSettingsState, (state: SettingsSta
 export const isLoadingPositions = createSelector(getPositions, (state: fromPositions.State) => state.isLoading);
 export const getBalance = createSelector(getSettingsState, (state: SettingsState) => state.balance);
 export const isLoadingBalance = createSelector(getBalance, (state: fromBalance.State) => state.isLoading);
-export const getAccount = createSelector(getSettingsState, (state: SettingsState) => state.account);
-export const getGroup = createSelector(getSettingsState, (state: SettingsState) => state.group);
+export const getAccount = createSelector(getSettingsState, (state: SettingsState) => state.account.data);
+export const getGroup = createSelector(getSettingsState, (state: SettingsState) => state.group.data);
 
 /**
  * get Entities
  */
 export const getBalanceFromSection = (section: fromBalance.State) => section.data;
-export const getAccountFromSection = (section: fromAccount.State) => section.data;
-export const getGroupFromSection = (section: fromGroup.State) => section.data;

@@ -23,29 +23,29 @@
         <tbody>
         <tr
           class="cursor-pointer"
-          *ngFor="let group of groups"
-          [class.table-active]="group.id === selectedGroup?.id"
-          (click)="selectGroup(group.id)"
+          *ngFor="let g of groups"
+          [class.table-active]="g.id === group?.id"
+          (click)="selectGroup(g.id)"
         >
-          <td>{{ group.name }}</td>
+          <td>{{ g.name }}</td>
           <td>
           <span class="switch switch-sm mr-2">
             <input
-              id="switch-{{group.id}}"
+              id="switch-{{g.id}}"
               type="checkbox"
               class="switch"
               [disabled]="role !== 'admin'"
-              [checked]="group.active"
-              (click)="updateStatus(group)"
+              [checked]="g.active"
+              (click)="updateStatus(g)"
             >
-            <label class="m-0" for="switch-{{group.id}}"></label>
+            <label class="m-0" for="switch-{{g.id}}"></label>
           </span>
           </td>
           <td>
             <fa-icon
               class="text-danger float-right"
               title="Edit"
-              (click)="edit(group, editGroupModal, { class: 'modal-sm' })"
+              (click)="edit(g, editGroupModal, { class: 'modal-sm' })"
               [icon]="faEdit"
             ></fa-icon>
           </td>
@@ -59,7 +59,7 @@
       <div class="form-group">
         <button
           class="btn btn-xs btn-outline-primary"
-          [disabled]="role !== 'admin' || !selectedGroup"
+          [disabled]="role !== 'admin' || !group"
           (click)="openModal(addAccountModal, { class: 'modal-sm' })"
         >
           <fa-icon [icon]="faPlus"></fa-icon>
@@ -76,8 +76,8 @@
         <tbody>
         <tr
           class="cursor-pointer"
-          *ngFor="let account of selectedGroup?.accounts"
-          [class.table-active]="account.id === subId"
+          *ngFor="let account of group?.accounts"
+          [class.table-active]="account.id === settings.subId"
           (click)="selectAccount(account.id)"
         >
           <td>{{ account.userName }}</td>
@@ -119,7 +119,7 @@
   <div class="modal-body">
     <app-add-account-form
       [accounts]="accounts"
-      [group]="selectedGroup"
+      [group]="group"
     ></app-add-account-form>
   </div>
 </ng-template>

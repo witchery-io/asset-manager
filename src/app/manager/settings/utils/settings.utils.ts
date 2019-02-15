@@ -7,8 +7,8 @@
  */
 export function generateUrl(params) {
   let strUrl = './settings';
-  if (params.generalTab) {
-    strUrl += `/${params.generalTab}`;
+  if (params.type) {
+    strUrl += `/${params.type}`;
   }
 
   if (params.id) {
@@ -19,8 +19,9 @@ export function generateUrl(params) {
     strUrl += `/${params.subType}/${params.subId}`;
   }
 
-  if (params.orderTab) {
-    strUrl += `/${params.orderTab}`;
+  if (params.id) {
+    // todo ::
+    // strUrl += params.orderTab ? `/${params.orderTab}` : '/orders';
   }
 
   return strUrl;
