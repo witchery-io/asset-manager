@@ -35,6 +35,8 @@ export class MarketComponent implements OnInit {
       type: new FormControl('stop', [<any>Validators.required]),
       price: new FormControl(0),
       amount: new FormControl('', [<any>Validators.required]),
+      isOCO: new FormControl(false),
+      priceOCOStop: new FormControl(0),
     });
 
     /*
@@ -51,6 +53,8 @@ export class MarketComponent implements OnInit {
         context: this.marketType,
         direction: direction,
         type: model.type,
+        isOCO: model.isOCO,
+        priceOCOStop: model.priceOCOStop,
       });
     }
   }
