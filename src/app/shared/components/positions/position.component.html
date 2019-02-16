@@ -88,7 +88,9 @@
 
 <ng-template #closeOrderModal>
   <div class="modal-body text-center">
-    <p class="small">Do you want to close ?</p>
+    <p class="small">Do you want to close ?
+      {{position.type}}, {{position.direction}} {{position.amount}} {{position.pair}} @ {{position.openPrice}}.
+    </p>
     <button type="button" class="btn btn-default btn-xs" (click)="orderClose()">Yes</button>
     <button type="button" class="btn btn-primary ml-1 btn-xs" (click)="modalRef.hide()">No</button>
   </div>

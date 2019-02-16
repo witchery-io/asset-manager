@@ -30,6 +30,35 @@
         formControlName="amount">
     </div>
   </div>
+
+  <div *ngIf="marketType === 'margin' && marketForm.value.type === 'limit'" class="form-group pl-4">
+    <input
+      id="isOCO"
+      type="checkbox"
+      class="custom-control-input mr-2"
+      formControlName="isOCO"
+    >
+    <label
+      class="custom-control-label small"
+      for="isOCO"
+    >Is OCO ?</label>
+  </div>
+
+  <div *ngIf="marketForm.value.isOCO && marketType === 'margin' && marketForm.value.type === 'limit'"
+       class="form-group">
+    <label
+      for="priceOCOStop"
+      class="small"
+    >Price OCO Stop</label>
+    <input
+      id="priceOCOStop"
+      type="number"
+      class="form-control form-control-sm col-6"
+      placeholder="Price OCO Stop"
+      formControlName="priceOCOStop"
+    >
+  </div>
+
   <div>
     <button
       [disabled]="role !== ROLE.ADMIN"
