@@ -3,7 +3,6 @@ import { ViewCell } from 'ng2-smart-table';
 import { BsModalRef, } from 'ngx-bootstrap';
 import { ModalService, OrdersService } from '@app/shared/services';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { OrderDirection, OrderType } from '@app/shared/enums';
 import { NotifierService } from 'angular-notifier';
 import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
 
