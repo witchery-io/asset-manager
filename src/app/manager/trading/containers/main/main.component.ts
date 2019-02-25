@@ -20,6 +20,7 @@ import { LoadGroups } from '@app/core/actions/group.actions';
 import { LoadAccounts } from '@app/core/actions/account.actions';
 import { LoadTicks, UpdateTicks } from '@app/core/actions/tick.actions';
 import { DomSanitizer } from '@angular/platform-browser';
+import { WebSocketService } from '@trading/services/ws/web-socket.service';
 
 @Component({
   selector: 'app-trading',
@@ -57,6 +58,8 @@ export class MainComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private sanitizer: DomSanitizer,
+    private wsHandlerService: WsHandlerService,
+    private webSocketService: WebSocketService,
   ) {
     this.orders$ = this.store.pipe(select(Select.getOrders));
     this.isLoadingOrders$ = this.store.pipe(select(Select.isLoadingOrders));
@@ -70,6 +73,8 @@ export class MainComponent implements OnInit, OnDestroy {
     this.isLoadingGroups$ = this.store.pipe(select(Select.groupsIsLoading));
     this.ticks$ = this.store.pipe(select(Select.getTicks));
     this.ticksIsLoading$ = this.store.pipe(select(Select.ticksIsLoading));
+
+    // wsHandlerService.start('', '');
   }
 
   /**
@@ -116,6 +121,14 @@ export class MainComponent implements OnInit, OnDestroy {
       this.store.dispatch(new UpdateOrders({id: this.currentId, type: this.currentType}));
       this.store.dispatch(new UpdatePositions({id: this.currentId, type: this.currentType, groupByPair: true}));
     }, 2500);
+
+    this.webSocketService.send(
+      {
+        event : 'subscribe',
+        channel: 'tickers',
+      }
+    );
+
   }
 
   ngOnDestroy() {

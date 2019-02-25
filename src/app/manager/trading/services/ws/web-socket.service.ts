@@ -12,10 +12,7 @@ export class WebSocketService extends WebSocketServiceBase {
   }
 
   send(data) {
-    console.log(15, 'SEND');
-    if (this.isOpenedState) {
-      this.ws$.next(data);
-    }
+    this.ws$.next(data);
   }
 
   handleServerMessage(message: any) {

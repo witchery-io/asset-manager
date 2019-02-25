@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  webSocketUrl: 'wss://api.bitfinex.com/ws/',
+  webSocketUrl: 'ws://192.168.1.3:8081/ws',
   apiUrl: 'http://ats.witchery.io',
 };
 
