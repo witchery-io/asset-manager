@@ -7,6 +7,7 @@ export interface Group {
   active: boolean;
   exchange: string;
   baseCurrency: string;
+  allocationMethod: string;
   accounts: Account[];
   date: Moment;
 }
