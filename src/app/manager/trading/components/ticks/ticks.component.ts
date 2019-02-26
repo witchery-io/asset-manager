@@ -88,7 +88,7 @@ export class TicksComponent implements OnInit {
             last: tick.last.toFixed(2),
             volume: tick.volume.toFixed(2),
             dailyChangePercent: `<span class="${tick.dailyChangePercent > 0 ? 'text-success' : 'text-danger'}">
-                          ${(tick.dailyChangePercent * 100).toFixed(2)}%</span>`,
+                          ${((tick.dailyChangePercent || 0) * 100).toFixed(2)}%</span>`,
             add: i,
           },
         };
