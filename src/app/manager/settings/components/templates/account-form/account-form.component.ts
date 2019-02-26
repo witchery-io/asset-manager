@@ -42,7 +42,7 @@ export class AccountFormComponent implements OnInit {
       key: new FormControl('', [<any>Validators.required]),
       secret: new FormControl('', [<any>Validators.required]),
       userName: new FormControl('', [<any>Validators.required]),
-      rank: new FormControl(0, [<any>Validators.required]),
+      risk: new FormControl(0, [<any>Validators.required]),
       exchange: new FormControl('bitfinex.com', [<any>Validators.required]),
       baseCurrency: new FormControl('USD', [<any>Validators.required]),
       date: new FormControl('', [<any>Validators.required]),

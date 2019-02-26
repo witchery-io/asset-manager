@@ -7,6 +7,6 @@ export interface Account {
   userName: string;
   exchange: string;
   baseCurrency: string;
-  rank: number;
+  risk: number;
   date: Moment;
 }
