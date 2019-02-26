@@ -51,6 +51,7 @@ export class GroupFormComponent implements OnInit {
       allocationMethod: new FormControl('multiplier', [<any>Validators.required]),
       exchange: new FormControl('bitfinex.com', [<any>Validators.required]),
       baseCurrency: new FormControl('USD', [<any>Validators.required]),
+      multiplierType: new FormControl(''),
     });
 
     this.groupForm.patchValue(this.values || {});
