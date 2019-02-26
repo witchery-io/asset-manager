@@ -35,7 +35,7 @@ export class TicksComponent implements OnInit {
         renderComponent: FavoriteViewComponent,
       },
       pair: {
-        title: 'INS.', // INSTRUMENT
+        title: 'INS.',
         sortDirection: 'ASC',
       },
       last: {
@@ -85,8 +85,8 @@ export class TicksComponent implements OnInit {
           ...{
             id: this.id,
             type: this.type,
-            last: tick.last.toFixed(2),
-            volume: tick.volume.toFixed(2),
+            last: parseFloat(tick.last.toFixed(2)),
+            volume: parseFloat(tick.volume.toFixed(2)),
             dailyChangePercent: `<span class="${tick.dailyChangePercent > 0 ? 'text-success' : 'text-danger'}">
                           ${((tick.dailyChangePercent || 0) * 100).toFixed(2)}%</span>`,
             add: i,
