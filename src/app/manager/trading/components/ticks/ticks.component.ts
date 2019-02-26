@@ -44,6 +44,7 @@ export class TicksComponent implements OnInit {
       dailyChangePercent: {
         title: '24HR',
         type: 'html',
+        valuePrepareFunction: val => `<span class="${val > 0 ? 'text-success' : 'text-danger'}">${val}%</span>`,
       },
       volume: {
         title: 'VOL USD',
@@ -80,6 +81,8 @@ export class TicksComponent implements OnInit {
         return favorites.indexOf(tick.pair) !== -1;
       })
       .map((tick, i) => {
+        const dailyChangePercent = tick.dailyChangePercent || 0;
+
         return {
           ...tick,
           ...{
@@ -87,8 +90,7 @@ export class TicksComponent implements OnInit {
             type: this.type,
             last: parseFloat(tick.last.toFixed(2)),
             volume: parseFloat(tick.volume.toFixed(2)),
-            dailyChangePercent: `<span class="${tick.dailyChangePercent > 0 ? 'text-success' : 'text-danger'}">
-                          ${((tick.dailyChangePercent || 0) * 100).toFixed(2)}%</span>`,
+            dailyChangePercent: parseFloat((dailyChangePercent * 100).toFixed(2)),
             add: i,
           },
         };
