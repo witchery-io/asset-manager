@@ -8,5 +8,6 @@ export interface Account {
   exchange: string;
   baseCurrency: string;
   risk: number;
+  multiplier: number;
   date: Moment;
 }

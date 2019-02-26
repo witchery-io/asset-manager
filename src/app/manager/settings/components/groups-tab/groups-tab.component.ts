@@ -61,6 +61,18 @@ export class GroupsTabComponent implements OnInit {
     return getAccountsFromSection(this.accountsSection);
   }
 
+  get allocationMethod() {
+    if (!this.group) {
+      return '';
+    }
+
+    return this.group.allocationMethod;
+  }
+
+  multiplier(val) {
+    return this.group.multiplierType === 'fix' ? val || 0 : `${((val || 0)  * 100)}%`;
+  }
+
   ngOnInit() {
   }
 

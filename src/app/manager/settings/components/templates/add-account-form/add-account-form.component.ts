@@ -36,7 +36,7 @@ export class AddAccountFormComponent implements OnInit {
   ngOnInit() {
     this.addAccountForm = new FormGroup({
       accountId: new FormControl('', [<any>Validators.required]),
-      multiplier: new FormControl(''),
+      multiplier: new FormControl(0),
     });
   }
 

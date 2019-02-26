@@ -8,6 +8,7 @@ export interface Group {
   exchange: string;
   baseCurrency: string;
   allocationMethod: string;
+  multiplierType: string;
   accounts: Account[];
   date: Moment;
 }

@@ -70,7 +70,11 @@
         <thead>
         <tr>
           <th scope="col">Account</th>
-          <th scope="col">Rank</th>
+          <th scope="col">
+            <ng-container *ngIf="allocationMethod === 'multiplier'">
+              Multiplier
+            </ng-container>
+          </th>
         </tr>
         </thead>
         <tbody>
@@ -81,7 +85,11 @@
           (click)="selectAccount(account.id)"
         >
           <td>{{ account.userName }}</td>
-          <td>{{ account.rank }}</td>
+          <td>
+            <ng-container *ngIf="allocationMethod === 'multiplier'">
+              {{ multiplier(account.multiplier) }}
+            </ng-container>
+          </td>
         </tr>
         </tbody>
       </table>
