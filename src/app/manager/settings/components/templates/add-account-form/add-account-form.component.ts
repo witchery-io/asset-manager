@@ -4,7 +4,7 @@ import { GroupService } from '@app/core/services';
 import { NotifierService } from 'angular-notifier';
 import { ModalService } from '@app/shared/services';
 import { Group } from '@app/core/intefaces';
-import { UpdateGroup } from '@app/core/actions/group.actions';
+import { GroupLoaded } from '@settings/actions/group.actions';
 import { Store } from '@ngrx/store';
 import { SettingsState } from '@settings/reducers';
 
@@ -48,7 +48,10 @@ export class AddAccountFormComponent implements OnInit {
     if (isValid) {
       this.groupService.addAccount(this.group.id, values)
         .subscribe((group: Group) => {
-          this.store.dispatch(new UpdateGroup(group));
+          /*
+          * update current group
+          * */
+          this.store.dispatch(new GroupLoaded({group: group}));
           this.close();
           this.notifier.notify('success', `Account was successfully added.`);
         });
