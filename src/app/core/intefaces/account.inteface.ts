@@ -2,7 +2,7 @@ import { Moment } from 'moment';
 
 export interface Account {
   id: string;
-  isActive: boolean;
+  status: any;
   accName: string;
   userName: string;
   exchange: string;

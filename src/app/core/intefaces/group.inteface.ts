@@ -4,7 +4,7 @@ import { Account } from './account.inteface';
 export interface Group {
   id: string;
   name: string;
-  active: boolean;
+  status: any;
   exchange: string;
   baseCurrency: string;
   allocationMethod: string;

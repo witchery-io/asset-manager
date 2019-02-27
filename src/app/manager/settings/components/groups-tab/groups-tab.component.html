@@ -35,7 +35,7 @@
               type="checkbox"
               class="switch"
               [disabled]="role !== 'admin'"
-              [checked]="g.active"
+              [checked]="g.status?.isActive"
               (click)="updateStatus(g)"
             >
             <label class="m-0" for="switch-{{g.id}}"></label>
