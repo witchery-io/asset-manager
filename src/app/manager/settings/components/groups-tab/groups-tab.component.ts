@@ -70,7 +70,7 @@ export class GroupsTabComponent implements OnInit {
   }
 
   multiplier(val) {
-    return this.group.multiplierType === 'fix' ? val || 0 : `${((val || 0)  * 100)}%`;
+    return this.group.multiplierType === 'fix' ? val : `${val}%`;
   }
 
   ngOnInit() {

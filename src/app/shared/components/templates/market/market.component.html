@@ -28,7 +28,7 @@
         class="form-control form-control-sm"
         placeholder="Amount"
         formControlName="amount"
-        (change)="calcTotal()"
+        (keyup)="calcTotal()"
       >
     </div>
   </div>
@@ -91,7 +91,7 @@
       <ng-container *ngIf="group.allocationMethod === 'multiplier'">
         <tr *ngFor="let a of group?.accounts">
           <th scope="row">{{ a.accName }}</th>
-          <td>{{ (a.multiplier || 0) * marketForm.value.amount }}</td>
+          <td>{{ (a.multiplier * marketForm.value.amount) / 100 }}</td>
         </tr>
       </ng-container>
       <!-- calc equity -->

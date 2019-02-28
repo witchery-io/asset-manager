@@ -81,7 +81,7 @@ export class MarketComponent implements OnInit {
     let total = 0;
     if (this.group.allocationMethod === 'multiplier') {
       for (const a of this.group.accounts) {
-        total += (a.multiplier || 0) * this.marketForm.value.amount;
+        total += (a.multiplier * this.marketForm.value.amount) / 100;
       }
     } else if (this.group.allocationMethod === 'equity') {
       for (const a of this.group.accounts) {
