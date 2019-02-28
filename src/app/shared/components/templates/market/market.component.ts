@@ -21,6 +21,8 @@ export class MarketComponent implements OnInit {
   values = {};
   @Input()
   marketType: string;
+  @Input()
+  balance: any;
   @Output()
   order: EventEmitter<any> = new EventEmitter();
   marketForm: FormGroup;
@@ -77,10 +79,15 @@ export class MarketComponent implements OnInit {
     }
 
     let total = 0;
-    for (const a of this.group.accounts) {
-      total += (a.multiplier || 0) * this.marketForm.value.amount;
+    if (this.group.allocationMethod === 'multiplier') {
+      for (const a of this.group.accounts) {
+        total += (a.multiplier || 0) * this.marketForm.value.amount;
+      }
+    } else if (this.group.allocationMethod === 'equity') {
+      for (const a of this.group.accounts) {
+        total += (this.balance.balances[a.id].equity / this.balance.equity) * this.marketForm.value.amount;
+      }
     }
-
     this.total = total;
   }
 }

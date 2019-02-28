@@ -34,6 +34,7 @@
         [id]="currentId"
         [type]="currentType"
         [section]="ticks$ | async"
+        [balanceSections]="balance$ | async"
         (select)="onSelectTick($event)"
       ></app-ticks>
     </div>

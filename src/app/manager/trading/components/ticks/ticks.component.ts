@@ -4,6 +4,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { ButtonViewComponent } from '@trading/components/button-view/button-view.component';
 import { FavoriteViewComponent } from '@trading/components/favorite-view/favorite-view.component';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { getBalanceFromSection } from '@trading/state/trading.selectors';
 
 @Component({
   selector: 'app-ticks',
@@ -24,6 +25,9 @@ export class TicksComponent implements OnInit {
 
   @Input()
   section: any;
+
+  @Input()
+  balanceSections: any;
 
   @Output()
   select: EventEmitter<any> = new EventEmitter();
@@ -92,6 +96,7 @@ export class TicksComponent implements OnInit {
             volume: parseFloat(tick.volume.toFixed(2)),
             dailyChangePercent: parseFloat((dailyChangePercent * 100).toFixed(2)),
             add: i,
+            balance: this.balance,
           },
         };
       });
@@ -99,6 +104,10 @@ export class TicksComponent implements OnInit {
 
   get color() {
     return this.favorites ? 'orange' : 'black';
+  }
+
+  get balance() {
+    return getBalanceFromSection(this.balanceSections);
   }
 
   ngOnInit() {

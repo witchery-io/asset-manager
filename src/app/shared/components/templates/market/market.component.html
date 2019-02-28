@@ -87,10 +87,20 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let a of group?.accounts">
-        <th scope="row">{{ a.accName }}</th>
-        <td>{{ marketForm.value.amount * (a.multiplier || 0) }}</td>
-      </tr>
+      <!-- calc multiplier -->
+      <ng-container *ngIf="group.allocationMethod === 'multiplier'">
+        <tr *ngFor="let a of group?.accounts">
+          <th scope="row">{{ a.accName }}</th>
+          <td>{{ (a.multiplier || 0) * marketForm.value.amount }}</td>
+        </tr>
+      </ng-container>
+      <!-- calc equity -->
+      <ng-container *ngIf="group.allocationMethod === 'equity'">
+        <tr *ngFor="let a of group?.accounts">
+          <th scope="row">{{ a.accName }}</th>
+          <td>{{ (balance?.balances[a.id].equity / balance.equity) * marketForm.value.amount }}</td>
+        </tr>
+      </ng-container>
       <tr>
         <th scope="row">Total</th>
         <td>{{ total }}</td>

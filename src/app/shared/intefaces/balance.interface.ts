@@ -12,6 +12,7 @@ export interface Balance {
   PL: number;
   totalPL: number;
   WSB: number;
+  balances: any;
 }
 
 export function getEmptyBalance(balance: Partial<Balance> = {}): Balance {
@@ -32,6 +33,7 @@ export function getEmptyBalance(balance: Partial<Balance> = {}): Balance {
     PL: 0,
     totalPL: 0,
     WSB: 0,
+    balances: [],
     ...balance,
   };
 }
