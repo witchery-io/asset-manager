@@ -73,7 +73,7 @@ export class AccountsTabComponent implements OnInit {
    * @param account --- updated account
    */
   updateStatus(account) {
-    this.accountService.update(account.id, {status: {isActive: !account.isActive}})
+    this.accountService.update(account.id, {status: {isActive: !account.status.isActive}})
       .subscribe(() => {
         this.notifier.notify('success', 'Status was successfully updated');
       });
