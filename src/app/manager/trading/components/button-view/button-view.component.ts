@@ -5,6 +5,10 @@ import { ModalService, OrdersService } from '@app/shared/services';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { NotifierService } from 'angular-notifier';
 import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
+import { LoadOrders } from '@trading/actions/orders.actions';
+import { Store } from '@ngrx/store';
+import { TradingState } from '@trading/reducers';
+import { LoadPositions } from '@trading/actions/positions.actions';
 
 @Component({
   selector: 'app-button-view, button-view',
@@ -30,6 +34,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     private modalService: ModalService,
     private ordersService: OrdersService,
     private notifierService: NotifierService,
+    private store: Store<TradingState>,
   ) {
     this.notifier = notifierService;
   }
@@ -58,6 +63,13 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   groupOrder(id, order) {
     this.ordersService.placeGroupOrder(id, order)
       .subscribe((d: any) => {
+        /*
+        * update orders and positions when create order
+        * */
+        this.store.dispatch(new LoadOrders({id: id, type: GROUPS}));
+        this.store.dispatch(new LoadPositions({id: id, type: GROUPS, groupByPair: true}));
+        /** Temporary **/
+
         this.modalService.closeAllModals();
         this.notifier.notify('success', `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
       });
@@ -66,6 +78,13 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   accountOrder(id, order) {
     this.ordersService.placeAccountOrder(id, order)
       .subscribe((d: any) => {
+        /*
+        * update orders and positions when create order
+        * */
+        this.store.dispatch(new LoadOrders({id: id, type: ACCOUNTS}));
+        this.store.dispatch(new LoadPositions({id: id, type: ACCOUNTS, groupByPair: true}));
+        /** Temporary **/
+
         this.modalService.closeAllModals();
         this.notifier.notify('success', `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
       });
