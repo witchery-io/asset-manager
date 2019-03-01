@@ -74,14 +74,22 @@ export class MarketComponent implements OnInit {
   }
 
   calcTotal() {
-    if (this.type !== GROUPS || !this.group.accounts) {
+    if (!this.group
+      || !this.group.accounts
+      || this.type !== GROUPS) {
       return;
     }
 
     let total = 0;
     if (this.group.allocationMethod === 'multiplier') {
-      for (const a of this.group.accounts) {
-        total += (a.multiplier * this.marketForm.value.amount) / 100;
+      if (this.group.multiplierType === 'fix') {
+        for (const a of this.group.accounts) {
+          total += (a.multiplier * this.marketForm.value.amount);
+        }
+      } else if (this.group.multiplierType === 'percent') {
+        for (const a of this.group.accounts) {
+          total += (a.multiplier * this.marketForm.value.amount) / 100;
+        }
       }
     } else if (this.group.allocationMethod === 'equity') {
       for (const a of this.group.accounts) {

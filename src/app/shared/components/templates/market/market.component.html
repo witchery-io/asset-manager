@@ -89,10 +89,18 @@
       <tbody>
       <!-- calc multiplier -->
       <ng-container *ngIf="group.allocationMethod === 'multiplier'">
-        <tr *ngFor="let a of group?.accounts">
-          <th scope="row">{{ a.accName }}</th>
-          <td>{{ (a.multiplier * marketForm.value.amount) / 100 }}</td>
-        </tr>
+        <ng-container *ngIf="group.multiplierType === 'fix'">
+          <tr *ngFor="let a of group?.accounts">
+            <th scope="row">{{ a.accName }}</th>
+            <td>{{ (a.multiplier * marketForm.value.amount) }}</td>
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="group.multiplierType === 'percent'">
+          <tr *ngFor="let a of group?.accounts">
+            <th scope="row">{{ a.accName }}</th>
+            <td>{{ (a.multiplier * marketForm.value.amount) / 100 }}</td>
+          </tr>
+        </ng-container>
       </ng-container>
       <!-- calc equity -->
       <ng-container *ngIf="group.allocationMethod === 'equity'">
