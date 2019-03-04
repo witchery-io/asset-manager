@@ -13,16 +13,11 @@ import { ACCOUNTS, GROUPS, PARENT } from '@app/shared/enums/trading.enum';
   styleUrls: ['./position.component.scss'],
 })
 export class PositionComponent implements OnInit {
-  @Input()
-  id: string;
-  @Input()
-  type: string;
-  @Input()
-  permission: string;
-  @Input()
-  accounts: any;
-  @Input()
-  position: any;
+  @Input() id: string;
+  @Input() type: string;
+  @Input() permission: string;
+  @Input() accounts: any;
+  @Input() position: any;
   role = 'admin';
   faPlus = faPlus;
   faMinus = faMinus;

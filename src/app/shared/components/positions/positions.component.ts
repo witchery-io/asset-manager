@@ -42,14 +42,10 @@ import { getAccountsFromSection } from '@app/core/reducers';
     </table>`,
 })
 export class PositionsComponent implements OnInit {
-  @Input()
-  id: string;
-  @Input()
-  type: string;
-  @Input()
-  section: any;
-  @Input()
-  accountsSection: any;
+  @Input() id: string;
+  @Input() type: string;
+  @Input() section: any;
+  @Input() accountsSection: any;
   permission = 'parent';
 
   constructor() {

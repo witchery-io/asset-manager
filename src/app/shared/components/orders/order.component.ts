@@ -20,18 +20,12 @@ export class OrderComponent implements OnInit {
   PARENT = PARENT;
   faPlus = faPlus;
   faMinus = faMinus;
-  @Input()
-  id: string;
-  @Input()
-  type = GROUPS;
-  @Input()
-  order: any;
-  @Input()
-  permission: string;
-  @Input()
-  accounts: any;
-  @Input()
-  groupByPair = false;
+  @Input() id: string;
+  @Input() type = GROUPS;
+  @Input() order: any;
+  @Input() permission: string;
+  @Input() accounts: any;
+  @Input() groupByPair = false;
   isCollapsed: boolean;
   modalRef: BsModalRef;
   modifyForm: FormGroup;

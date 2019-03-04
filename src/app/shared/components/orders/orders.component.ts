@@ -35,16 +35,9 @@ import { getOrdersFromSection } from '@trading/state/trading.selectors';
     </table>`,
 })
 export class OrdersComponent implements OnInit {
-
-  @Input()
-  id: string;
-
-  @Input()
-  section: any;
-
-  @Input()
-  accountsSection: any;
-
+  @Input() id: string;
+  @Input() section: any;
+  @Input() accountsSection: any;
   permission = 'parent';
 
   constructor() {
