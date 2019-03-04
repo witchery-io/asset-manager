@@ -1,9 +1,20 @@
-<input
-  #search
-  class="search form-control form-control-sm"
-  type="text"
-  placeholder="Search..."
-  (keyup)="onSearch(search.value)">
+<div class="row">
+  <div class="col-10">
+    <input
+      #search
+      class="search form-control form-control-sm"
+      type="text"
+      placeholder="Search..."
+      (keyup)="onSearch(search.value)">
+  </div>
+
+  <div class="col-2">
+    <button (click)="selectFavorite()" class="btn btn-outline-warning btn-sm favorites">
+      <fa-icon [icon]="faStar" [style.color]="color"></fa-icon>
+    </button>
+  </div>
+
+</div>
 
 <div class="ticks">
   <ng2-smart-table

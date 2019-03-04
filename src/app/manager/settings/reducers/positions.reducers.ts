@@ -23,7 +23,11 @@ export function reducer(state: State = initialState, action: PositionsActions.Ac
       return state;
     }
     case PositionsActions.UPDATE_POSITION_ITEMS: {
-      return adapter.updateMany(action.payload.positions.map(changes => ({id: changes.id, changes})), state);
+
+      // todo :: will changed
+
+      // return adapter.updateMany(action.payload.positions.map(changes => ({id: changes.id, changes})), state);
+      return adapter.addAll(action.payload.positions, {...state, isLoading: false, error: null});
     }
     case PositionsActions.POSITIONS_LOADED: {
       return adapter.addAll(action.payload.positions, {...state, isLoading: false, error: null});

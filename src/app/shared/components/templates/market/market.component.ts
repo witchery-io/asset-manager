@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Role } from '@app/shared/enums';
+import { GroupService } from '@app/core/services';
+import { GROUPS } from '@app/shared/enums/trading.enum';
+import { Group } from '@app/core/intefaces';
 
 @Component({
   selector: 'app-market',
@@ -8,29 +11,40 @@ import { Role } from '@app/shared/enums';
   styleUrls: ['./market.component.scss']
 })
 export class MarketComponent implements OnInit {
-
+  @Input()
+  id: string;
+  @Input()
+  type: string;
   @Input()
   role = 'admin';
-
   @Input()
   values = {};
-
   @Input()
   marketType: string;
-
+  @Input()
+  balance: any;
   @Output()
   order: EventEmitter<any> = new EventEmitter();
-
   marketForm: FormGroup;
-
   ROLE = Role;
-
   orderType = ['stop', 'market', 'limit'];
+  group: Group;
+  total = 0;
 
-  constructor() {
+  constructor(
+    private groupService: GroupService,
+  ) {
   }
 
   ngOnInit() {
+    if (this.type === GROUPS) {
+      this.groupService.getGroup(this.id)
+        .subscribe(val => {
+          this.group = val;
+          this.calcTotal();
+        });
+    }
+
     this.marketForm = new FormGroup({
       type: new FormControl('stop', [<any>Validators.required]),
       price: new FormControl(0),
@@ -57,5 +71,31 @@ export class MarketComponent implements OnInit {
         priceOCOStop: model.priceOCOStop,
       });
     }
+  }
+
+  calcTotal() {
+    if (!this.group
+      || !this.group.accounts
+      || this.type !== GROUPS) {
+      return;
+    }
+
+    let total = 0;
+    if (this.group.allocationMethod === 'multiplier') {
+      if (this.group.multiplierType === 'fix') {
+        for (const a of this.group.accounts) {
+          total += (a.multiplier * this.marketForm.value.amount);
+        }
+      } else if (this.group.multiplierType === 'percent') {
+        for (const a of this.group.accounts) {
+          total += (a.multiplier * this.marketForm.value.amount) / 100;
+        }
+      }
+    } else if (this.group.allocationMethod === 'equity') {
+      for (const a of this.group.accounts) {
+        total += (this.balance.balances[a.id].equity / this.balance.equity) * this.marketForm.value.amount;
+      }
+    }
+    this.total = total;
   }
 }

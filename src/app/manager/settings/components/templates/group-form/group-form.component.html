@@ -7,10 +7,25 @@
     *ngIf="formType === 'create'"
     class="form-group"
   >
-    <label for="allocation_method" class="small">Allocation Method</label>
+    <label for="allocation_method" class="small">Allocation Methods</label>
     <select class="form-control form-control-sm" id="allocation_method" formControlName="allocationMethod">
-      <option *ngFor="let am of allocationMethod" [value]="am">{{ am | titlecase }}</option>
+      <option *ngFor="let am of allocationMethods" [value]="am.value">{{ am.name }}</option>
     </select>
+  </div>
+  <div
+    *ngIf="formType === 'create' && groupForm.value.allocationMethod === 'multiplier'"
+    class="form-group"
+  >
+    <div class="form-row pl-4">
+      <div class="form-check col">
+        <label class="form-check-label small">
+          <input type="radio" class="form-check-input" formControlName="multiplierType" value="percent">Percent</label>
+      </div>
+      <div class="form-check col">
+        <label class="form-check-label small">
+          <input type="radio" class="form-check-input" formControlName="multiplierType" value="fix">Fix</label>
+      </div>
+    </div>
   </div>
   <div
     *ngIf="formType === 'create'"

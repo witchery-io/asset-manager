@@ -29,6 +29,9 @@ import { NotifierModule } from 'angular-notifier';
           position: 'right',
         },
       },
+      behaviour: {
+        stacking: 8
+      },
     }),
   ],
   providers: [

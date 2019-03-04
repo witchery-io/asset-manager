@@ -19,7 +19,7 @@ export class TickService {
   }
 
   getTicks(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/tickers`)
+    return this.http.get(`${environment.apiUrl}/bitfinex/tickers`)
       .pipe(
         catchError(this.handleError.bind(this))
       );

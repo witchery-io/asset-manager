@@ -9,6 +9,19 @@
       <option *ngFor="let account of accounts" [value]="account.id">{{ account.userName }}</option>
     </select>
   </div>
+  <div
+    *ngIf="group.allocationMethod === 'multiplier'"
+    class="form-group"
+  >
+    <label for="multiplier" class="small">Multiplier</label>
+    <input
+      id="multiplier"
+      type="number"
+      class="form-control form-control-sm"
+      formControlName="multiplier"
+      placeholder="Multiplier"
+    >
+  </div>
   <div>
     <button
       type="button"

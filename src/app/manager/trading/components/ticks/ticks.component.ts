@@ -2,6 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { getTicksFromSection } from '@app/core/reducers';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ButtonViewComponent } from '@trading/components/button-view/button-view.component';
+import { FavoriteViewComponent } from '@trading/components/favorite-view/favorite-view.component';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { getBalanceFromSection } from '@trading/state/trading.selectors';
 
 @Component({
   selector: 'app-ticks',
@@ -9,6 +12,10 @@ import { ButtonViewComponent } from '@trading/components/button-view/button-view
   styleUrls: ['ticks.component.scss'],
 })
 export class TicksComponent implements OnInit {
+
+  faStar = faStar;
+
+  favorites: boolean;
 
   @Input()
   id: string;
@@ -19,13 +26,20 @@ export class TicksComponent implements OnInit {
   @Input()
   section: any;
 
+  @Input()
+  balanceSections: any;
+
   @Output()
   select: EventEmitter<any> = new EventEmitter();
 
   settings = {
     columns: {
+      favorite: {
+        type: 'custom',
+        renderComponent: FavoriteViewComponent,
+      },
       pair: {
-        title: 'INS.', // INSTRUMENT
+        title: 'INS.',
         sortDirection: 'ASC',
       },
       last: {
@@ -34,6 +48,7 @@ export class TicksComponent implements OnInit {
       dailyChangePercent: {
         title: '24HR',
         type: 'html',
+        valuePrepareFunction: val => `<span class="${val > 0 ? 'text-success' : 'text-danger'}">${val}%</span>`,
       },
       volume: {
         title: 'VOL USD',
@@ -59,23 +74,45 @@ export class TicksComponent implements OnInit {
   }
 
   get ticks() {
-    return getTicksFromSection(this.section).map((tick, i) => {
-      return {
-        ...tick,
-        ...{
-          id: this.id,
-          type: this.type,
-          last: tick.last.toFixed(2),
-          volume: tick.volume.toFixed(2),
-          dailyChangePercent: `<span class="${tick.dailyChangePercent > 0 ? 'text-success' : 'text-danger'}">
-                          ${(tick.dailyChangePercent * 100).toFixed(2)}%</span>`,
-          add: i,
-        },
-      };
-    });
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+    return getTicksFromSection(this.section)
+      .filter((tick) => {
+        if (!this.favorites) {
+          return true;
+        }
+
+        return favorites.indexOf(tick.pair) !== -1;
+      })
+      .map((tick, i) => {
+        const dailyChangePercent = tick.dailyChangePercent || 0;
+
+        return {
+          ...tick,
+          ...{
+            id: this.id,
+            type: this.type,
+            last: parseFloat(tick.last.toFixed(2)),
+            volume: parseFloat(tick.volume.toFixed(2)),
+            dailyChangePercent: parseFloat((dailyChangePercent * 100).toFixed(2)),
+            add: i,
+            balance: this.balance,
+          },
+        };
+      });
+  }
+
+  get color() {
+    return this.favorites ? 'orange' : 'black';
+  }
+
+  get balance() {
+    return getBalanceFromSection(this.balanceSections);
   }
 
   ngOnInit() {
+    this.favorites = JSON.parse(localStorage.getItem('filterByFavorites')) || false;
+
     this.source = new LocalDataSource(this.ticks);
     setInterval(() => this.source.load(this.ticks), 1000);
   }
@@ -95,5 +132,10 @@ export class TicksComponent implements OnInit {
 
   onUserRowSelect($event): void {
     this.select.emit(`${$event.data.pair}`);
+  }
+
+  selectFavorite() {
+    this.favorites = !this.favorites;
+    localStorage.setItem('filterByFavorites', JSON.stringify(this.favorites));
   }
 }

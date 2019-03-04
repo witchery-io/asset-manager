@@ -24,7 +24,15 @@ export class GroupFormComponent implements OnInit {
   groupForm: FormGroup;
   baseCurrency = ['USD', 'BTC', 'ETH', 'EUR', 'LTC'];
   exchanges = ['bitfinex.com'];
-  allocationMethod = ['fix', 'percent', 'equity'];
+  allocationMethods = [
+    {
+      name: 'Lot Multiplier Allocation',
+      value: 'multiplier'
+    }, {
+      name: 'Proportional by Equity Allocation',
+      value: 'equity'
+    }
+  ];
 
   private readonly notifier: NotifierService;
 
@@ -40,9 +48,10 @@ export class GroupFormComponent implements OnInit {
   ngOnInit() {
     this.groupForm = new FormGroup({
       name: new FormControl('', [<any>Validators.required]),
-      allocationMethod: new FormControl('fix', [<any>Validators.required]),
+      allocationMethod: new FormControl('multiplier', [<any>Validators.required]),
       exchange: new FormControl('bitfinex.com', [<any>Validators.required]),
       baseCurrency: new FormControl('USD', [<any>Validators.required]),
+      multiplierType: new FormControl(''),
     });
 
     this.groupForm.patchValue(this.values || {});

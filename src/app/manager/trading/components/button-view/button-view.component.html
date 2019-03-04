@@ -8,12 +8,18 @@
     <tabset [justified]="true">
       <tab heading="EXCHANGE">
         <app-market
+          [id]="rowData.id"
+          [type]="rowData.type"
+          [balance]="rowData.balance"
           [marketType]="'exchange'"
           (order)="onOrder($event)"
         ></app-market>
       </tab>
       <tab heading="MARGIN">
         <app-market
+          [id]="rowData.id"
+          [type]="rowData.type"
+          [balance]="rowData.balance"
           [marketType]="'margin'"
           (order)="onOrder($event)"
         ></app-market>

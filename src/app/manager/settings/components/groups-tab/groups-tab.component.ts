@@ -61,6 +61,18 @@ export class GroupsTabComponent implements OnInit {
     return getAccountsFromSection(this.accountsSection);
   }
 
+  get allocationMethod() {
+    if (!this.group) {
+      return '';
+    }
+
+    return this.group.allocationMethod;
+  }
+
+  multiplier(val) {
+    return this.group.multiplierType === 'fix' ? val : `${val}%`;
+  }
+
   ngOnInit() {
   }
 
@@ -78,7 +90,7 @@ export class GroupsTabComponent implements OnInit {
    * @param group --- updated group
    */
   updateStatus(group) {
-    this.groupService.update(group.id, {status: {isActive: !group.active}})
+    this.groupService.update(group.id, {status: {isActive: !group.status.isActive}})
       .subscribe(() => {
         this.notifier.notify('success', 'Status was successfully updated');
       });

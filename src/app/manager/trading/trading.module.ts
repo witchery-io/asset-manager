@@ -23,6 +23,7 @@ import { BalanceService, ModalService, OrdersService, PositionsService, SharedSe
 import { TabsModule } from 'ngx-bootstrap';
 import { TvChartComponent } from '@trading/components/tv-chart/tv-chart.component';
 import { ButtonViewComponent } from '@trading/components/button-view/button-view.component';
+import { FavoriteViewComponent } from '@trading/components/favorite-view/favorite-view.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ButtonViewComponent } from '@trading/components/button-view/button-view
     BalanceComponent,
     TvChartComponent,
     ButtonViewComponent,
+    FavoriteViewComponent,
   ],
   imports: [
     CommonModule,
@@ -55,6 +57,7 @@ import { ButtonViewComponent } from '@trading/components/button-view/button-view
   ],
   entryComponents: [
     ButtonViewComponent,
+    FavoriteViewComponent,
   ],
 })
 export class TradingModule { }

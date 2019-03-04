@@ -27,7 +27,9 @@
         type="number"
         class="form-control form-control-sm"
         placeholder="Amount"
-        formControlName="amount">
+        formControlName="amount"
+        (keyup)="calcTotal()"
+      >
     </div>
   </div>
 
@@ -75,4 +77,44 @@
     >SELL
     </button>
   </div>
+
+  <div *ngIf="group">
+    <table class="table table-xs mt-2">
+      <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Amount</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- calc multiplier -->
+      <ng-container *ngIf="group.allocationMethod === 'multiplier'">
+        <ng-container *ngIf="group.multiplierType === 'fix'">
+          <tr *ngFor="let a of group?.accounts">
+            <th scope="row">{{ a.accName }}</th>
+            <td>{{ (a.multiplier * marketForm.value.amount) }}</td>
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="group.multiplierType === 'percent'">
+          <tr *ngFor="let a of group?.accounts">
+            <th scope="row">{{ a.accName }}</th>
+            <td>{{ (a.multiplier * marketForm.value.amount) / 100 }}</td>
+          </tr>
+        </ng-container>
+      </ng-container>
+      <!-- calc equity -->
+      <ng-container *ngIf="group.allocationMethod === 'equity'">
+        <tr *ngFor="let a of group?.accounts">
+          <th scope="row">{{ a.accName }}</th>
+          <td>{{ (balance?.balances[a.id].equity / balance.equity) * marketForm.value.amount }}</td>
+        </tr>
+      </ng-container>
+      <tr>
+        <th scope="row">Total</th>
+        <td>{{ total }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
 </form>
