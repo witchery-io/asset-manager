@@ -9,7 +9,7 @@ import { OrdersService } from '@app/shared/services/orders.service';
 export class OrdersEffects {
 
   @Effect()
-  loadGroups$ = this.actions$.pipe(
+  loadOrders$ = this.actions$.pipe(
     ofType<fromOrders.LoadOrders>(fromOrders.LOAD_ORDERS),
     map(settings => settings.payload),
     switchMap((settings: any) => {
@@ -23,7 +23,7 @@ export class OrdersEffects {
   );
 
   @Effect()
-  updateGroups$ = this.actions$.pipe(
+  updateOrders$ = this.actions$.pipe(
     ofType<fromOrders.UpdateOrders>(fromOrders.UPDATE_ORDERS),
     map(settings => settings.payload),
     switchMap((settings: any) => {
@@ -35,6 +35,8 @@ export class OrdersEffects {
       );
     }),
   );
+
+
 
   constructor(
     private actions$: Actions<fromOrders.Actions>,

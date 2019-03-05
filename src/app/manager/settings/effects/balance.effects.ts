@@ -9,7 +9,7 @@ import { BalanceService } from '@app/shared/services/balance.service';
 export class BalanceEffects {
 
   @Effect()
-  loadGroups$ = this.actions$.pipe(
+  loadBalance$ = this.actions$.pipe(
     ofType<fromBalance.LoadBalance>(fromBalance.LOAD_BALANCE),
     map(settings => settings.payload),
     switchMap((params: any) => {

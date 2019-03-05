@@ -9,7 +9,7 @@ import { PositionsService } from '@app/shared/services/positions.service';
 export class PositionsEffects {
 
   @Effect()
-  loadGroups$ = this.actions$.pipe(
+  loadPositions$ = this.actions$.pipe(
     ofType<fromPositions.LoadPositions>(fromPositions.LOAD_POSITIONS),
     map(settings => settings.payload),
     switchMap((settings: any) => {
@@ -24,7 +24,7 @@ export class PositionsEffects {
 
 
   @Effect()
-  updateGroups$ = this.actions$.pipe(
+  updatePositions$ = this.actions$.pipe(
     ofType<fromPositions.UpdatePositions>(fromPositions.UPDATE_POSITIONS),
     map(settings => settings.payload),
     switchMap((settings: any) => {

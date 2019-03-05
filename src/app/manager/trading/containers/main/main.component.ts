@@ -129,14 +129,17 @@ export class MainComponent implements OnInit, OnDestroy {
     * order actions
     * */
     this.shared.getOrderCancel().subscribe(order => {
-      this.ordersService.cancelOrder(order.orderNumber).subscribe(() => {
+
+      // this.store.dispatch(new CancelOrder(order.orderNumber));
+
+      /*this.ordersService.cancelOrder(order.orderNumber).subscribe(() => {
         this.store.dispatch(new LoadOrders({id: this.currentId, type: this.currentType}));
         this.modalService.closeAllModals();
         this.notifier.notify('success',
           `Order cancelled, ${order.type || 'type == undefined'},
              ${order.direction || 'direction == undefined'} ${order.amount || 'amount == undefined'}
              ${order.pair || 'pair == undefined'} @ ${order.price || 'price == undefined'}.`);
-      });
+      });*/
     });
 
     this.shared.getOrderApprove().subscribe(params => {
