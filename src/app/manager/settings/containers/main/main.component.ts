@@ -115,6 +115,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.shared.getOrderCancel().subscribe(order => {
       this.ordersService.cancelOrder(order.orderNumber)
         .subscribe(() => {
+          this.store.dispatch(new LoadOrders({id: this.currentId, type: this.currentType}));
           this.modalService.closeAllModals();
           this.notifier.notify('success',
             `Order cancelled, ${order.type || 'type == undefined'},
@@ -128,6 +129,7 @@ export class MainComponent implements OnInit, OnDestroy {
         .subscribe(() => {
           this.ordersService.placeOrder(this.currentId, this.currentType, params)
             .subscribe((order: any) => {
+              this.store.dispatch(new LoadOrders({id: this.currentId, type: this.currentType}));
               this.modalService.closeAllModals();
               this.notifier.notify('success',
                 `Order modified, ${order.type || 'type == undefined'},
@@ -143,6 +145,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.shared.getPositionClose().subscribe(position => {
       this.positionsService.closePosition(position.id)
         .subscribe(() => {
+          this.store.dispatch(new LoadPositions({id: this.currentId, type: this.currentType}));
           this.modalService.closeAllModals();
           this.notifier.notify('success',
             `Order cancelled,
@@ -155,6 +158,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.shared.getPositionPlace().subscribe(params => {
       this.ordersService.placeOrder(this.currentId, this.currentType, params)
         .subscribe((position: any) => {
+          this.store.dispatch(new LoadPositions({id: this.currentId, type: this.currentType}));
           this.modalService.closeAllModals();
           this.notifier.notify('success',
             `Placed ${position.type || 'type == undefined'} order to ${position.direction || 'direction == undefined'}

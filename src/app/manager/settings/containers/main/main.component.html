@@ -48,7 +48,6 @@
         <tab heading="POSITIONS" id="positions" (select)="onSelectOrderTab('positions')">
           <app-positions
             *ngIf="(isLoadingPositions$ | async) === false"
-            [id]="currentId"
             [type]="currentType"
             [section]="positions$ | async"
             [accountsSection]="accounts$ | async"
@@ -57,7 +56,6 @@
         <tab heading="ORDERS" id="orders" (select)="onSelectOrderTab('orders')">
           <app-orders
             *ngIf="(isLoadingOrders$ | async) === false"
-            [id]="currentId"
             [section]="orders$ | async"
             [accountsSection]="accounts$ | async"
           ></app-orders>

@@ -30,7 +30,6 @@ import { getAccountsFromSection } from '@app/core/reducers';
         <th colspan="15" class="p-0">
           <app-position
             *ngFor="let position of positions"
-            [id]="id"
             [type]="type"
             [position]="position"
             [permission]="permission"
@@ -42,7 +41,6 @@ import { getAccountsFromSection } from '@app/core/reducers';
     </table>`,
 })
 export class PositionsComponent implements OnInit {
-  @Input() id: string;
   @Input() type: string;
   @Input() section: any;
   @Input() accountsSection: any;

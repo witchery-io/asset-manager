@@ -24,7 +24,6 @@ import { getOrdersFromSection } from '@trading/state/trading.selectors';
         <th colspan="10" class="p-0">
           <app-order
             *ngFor="let order of orders"
-            [id]="id"
             [order]="order"
             [permission]="permission"
             [accounts]="accounts"

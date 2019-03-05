@@ -20,7 +20,6 @@ export class OrderComponent implements OnInit {
   PARENT = PARENT;
   faPlus = faPlus;
   faMinus = faMinus;
-  @Input() id: string;
   @Input() type = GROUPS;
   @Input() order: any;
   @Input() permission: string;
