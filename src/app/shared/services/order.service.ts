@@ -18,15 +18,8 @@ export class OrderService {
     this.notifier = notifierService;
   }
 
-  placeGroupOrder(id, params): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/groups/${id}/orders`, params)
-      .pipe(
-        catchError(this.handleError.bind(this))
-      );
-  }
-
-  placeAccountOrder(id, params): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/accounts/${id}/orders`, params)
+  placeOrder(id, type, params): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/${type}/${id}/orders`, params)
       .pipe(
         catchError(this.handleError.bind(this))
       );

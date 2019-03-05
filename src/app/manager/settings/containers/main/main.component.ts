@@ -20,6 +20,8 @@ import { LoadAccount } from '@settings/actions/account.actions';
 import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
 import { LoadGroup } from '@settings/actions/group.actions';
 import { generateUrl } from '@settings/utils/settings.utils';
+import { ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-settings',
@@ -46,11 +48,17 @@ export class MainComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   updateInterval: any;
   settings = {};
+  private readonly notifier: NotifierService;
 
   constructor(
     private store: Store<SettingsState>,
     private route: ActivatedRoute,
     private router: Router,
+    private shared: SharedService,
+    private ordersService: OrdersService,
+    private positionsService: PositionsService,
+    private modalService: ModalService,
+    private notifierService: NotifierService,
   ) {
     this.orders$ = this.store.pipe(select(Select.getOrders));
     this.isLoadingOrders$ = this.store.pipe(select(Select.isLoadingOrders));
@@ -62,6 +70,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.groups$ = this.store.pipe(select(Select.getGroups));
     this.group$ = this.store.pipe(select(Select.getGroup));
     this.account$ = this.store.pipe(select(Select.getAccount));
+    this.notifier = notifierService;
   }
 
   ngOnInit() {
@@ -99,6 +108,60 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.onSelect({id: urlId, type: urlGeneralTab, subId: urlSubId, subType: urlSubType});
     this.updateInterval = setInterval(() => this.updateState({currentId: this.currentId, currentType: this.currentType}), 3000);
+
+    /*
+    * order actions
+    * */
+    this.shared.getOrderCancel().subscribe(order => {
+      this.ordersService.cancelOrder(order.orderNumber)
+        .subscribe(() => {
+          this.modalService.closeAllModals();
+          this.notifier.notify('success',
+            `Order cancelled, ${order.type || 'type == undefined'},
+             ${order.direction || 'direction == undefined'} ${order.amount || 'amount == undefined'}
+             ${order.pair || 'pair == undefined'} @ ${order.price || 'price == undefined'}.`);
+        });
+    });
+
+    this.shared.getOrderApprove().subscribe(params => {
+      this.ordersService.cancelOrder(params.orderNumber)
+        .subscribe(() => {
+          this.ordersService.placeOrder(this.currentId, this.currentType, params)
+            .subscribe((order: any) => {
+              this.modalService.closeAllModals();
+              this.notifier.notify('success',
+                `Order modified, ${order.type || 'type == undefined'},
+                 to ${order.direction || 'direction == undefined'} ${order.amount || 'amount == undefined'}
+                  ${order.pair || 'pair == undefined'} @ ${order.price || 'price == undefined'}.`);
+            });
+        });
+    });
+
+    /*
+    * position actions
+    * */
+    this.shared.getPositionClose().subscribe(position => {
+      this.positionsService.closePosition(position.id)
+        .subscribe(() => {
+          this.modalService.closeAllModals();
+          this.notifier.notify('success',
+            `Order cancelled,
+             ${position.type || 'type == undefined'}, ${position.direction || 'direction == undefined'}
+              ${position.amount || 'amount == undefined'} ${position.pair || 'pair == undefined'}
+               @ ${position.openPrice || 'openPrice == undefined'}.`);
+        });
+    });
+
+    this.shared.getPositionPlace().subscribe(params => {
+      this.ordersService.placeOrder(this.currentId, this.currentType, params)
+        .subscribe((position: any) => {
+          this.modalService.closeAllModals();
+          this.notifier.notify('success',
+            `Placed ${position.type || 'type == undefined'} order to ${position.direction || 'direction == undefined'}
+             ${position.amount || 'amount == undefined'} ${position.pair || 'pair == undefined'}
+              @ ${position.openPrice || 'openPrice == undefined'}.`);
+        });
+    });
   }
 
   ngOnDestroy() {

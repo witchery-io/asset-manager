@@ -4,7 +4,6 @@ import { BsModalRef, } from 'ngx-bootstrap';
 import { ModalService, OrdersService } from '@app/shared/services';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { NotifierService } from 'angular-notifier';
-import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
 import { LoadOrders } from '@trading/actions/orders.actions';
 import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
@@ -50,39 +49,13 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   onOrder(params) {
     params.pair = this.rowData.pair;
 
-    switch (this.rowData.type) {
-      case GROUPS:
-        this.groupOrder(this.rowData.id, params);
-        break;
-      case ACCOUNTS:
-        this.accountOrder(this.rowData.id, params);
-        break;
-    }
-  }
-
-  groupOrder(id, order) {
-    this.ordersService.placeGroupOrder(id, order)
+    this.ordersService.placeOrder(this.rowData.id, this.rowData.type, params)
       .subscribe((d: any) => {
         /*
         * update orders and positions when create order
         * */
-        this.store.dispatch(new LoadOrders({id: id, type: GROUPS}));
-        this.store.dispatch(new LoadPositions({id: id, type: GROUPS, groupByPair: true}));
-        /** Temporary **/
-
-        this.modalService.closeAllModals();
-        this.notifier.notify('success', `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
-      });
-  }
-
-  accountOrder(id, order) {
-    this.ordersService.placeAccountOrder(id, order)
-      .subscribe((d: any) => {
-        /*
-        * update orders and positions when create order
-        * */
-        this.store.dispatch(new LoadOrders({id: id, type: ACCOUNTS}));
-        this.store.dispatch(new LoadPositions({id: id, type: ACCOUNTS, groupByPair: true}));
+        this.store.dispatch(new LoadOrders({id: this.rowData.id, type: this.rowData.type}));
+        this.store.dispatch(new LoadPositions({id: this.rowData.id, type: this.rowData.type, groupByPair: true}));
         /** Temporary **/
 
         this.modalService.closeAllModals();

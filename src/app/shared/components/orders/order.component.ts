@@ -4,9 +4,9 @@ import { BsModalRef } from 'ngx-bootstrap';
 import { Role } from '@app/shared/enums';
 import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ModalService, OrdersService } from '@app/shared/services';
+import { ModalService, OrdersService, SharedService } from '@app/shared/services';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { ACCOUNTS, GROUPS, PARENT } from '@app/shared/enums/trading.enum';
+import { GROUPS, PARENT } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-order',
@@ -38,6 +38,7 @@ export class OrderComponent implements OnInit {
     private notifierService: NotifierService,
     private spinner: NgxSpinnerService,
     private ordersService: OrdersService,
+    private shared: SharedService,
   ) {
     this.notifier = notifierService;
   }
@@ -75,16 +76,10 @@ export class OrderComponent implements OnInit {
   }
 
   /**
-   * close current order
+   * cancel current order
    */
   orderCancel() {
-    this.ordersService.cancelOrder(this.order.orderNumber)
-      .subscribe(() => {
-        this.modalService.closeAllModals();
-        this.notifier.notify('success',
-          `Order cancelled,
-           ${this.order.type}, ${this.order.direction} ${this.order.amount} ${this.order.pair} @ ${this.order.price}.`);
-      });
+    this.shared.orderCancel(this.order);
   }
 
   orderModify(order, template) {
@@ -103,50 +98,16 @@ export class OrderComponent implements OnInit {
     this.openModal(template, {class: 'modal-sm'});
   }
 
-  orderApprove(model: any, isValid: boolean) {
+  /*
+  * order
+  * */
+  orderApprove(params: any, isValid: boolean) {
     if (isValid) {
-      this.ordersService.cancelOrder(this.order.orderNumber)
-        .subscribe(() => {
-          model.type = this.order.type;
-          model.pair = this.order.pair;
-          model.orderNumber = this.order.orderNumber;
-
-          switch (this.type) {
-            case GROUPS:
-              this.groupOrder(this.id, model);
-              break;
-            case ACCOUNTS:
-              this.accountOrder(this.id, model);
-              break;
-          }
-        });
+      params.type = this.order.type;
+      params.pair = this.order.pair;
+      params.orderNumber = this.order.orderNumber;
+      this.shared.orderApprove(params);
     }
-  }
-
-  /**
-   * @param id - string
-   * @param order -- creating order
-   */
-  groupOrder(id, order) {
-    this.ordersService.placeGroupOrder(id, order)
-      .subscribe((d: any) => {
-        this.modalService.closeAllModals();
-        this.notifier.notify('success',
-          `Order modified, ${d.type}, to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
-      });
-  }
-
-  /**
-   * @param id - string
-   * @param order -- creating order
-   */
-  accountOrder(id, order) {
-    this.ordersService.placeAccountOrder(id, order)
-      .subscribe((d: any) => {
-        this.modalService.closeAllModals();
-        this.notifier.notify('success',
-          `Order modified, ${d.type}, to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
-      });
   }
 
   collapse() {
