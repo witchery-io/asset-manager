@@ -113,58 +113,53 @@ export class MainComponent implements OnInit, OnDestroy {
     * order actions
     * */
     this.shared.getOrderCancel().subscribe(order => {
-      this.ordersService.cancelOrder(order.orderNumber)
-        .subscribe(() => {
-          this.store.dispatch(new LoadOrders({id: this.currentId, type: this.currentType}));
-          this.modalService.closeAllModals();
-          this.notifier.notify('success',
-            `Order cancelled, ${order.type || 'type == undefined'},
+      this.ordersService.cancelOrder(order.orderNumber).subscribe(() => {
+        this.store.dispatch(new LoadOrders({id: this.currentId, type: this.currentType}));
+        this.modalService.closeAllModals();
+        this.notifier.notify('success',
+          `Order cancelled, ${order.type || 'type == undefined'},
              ${order.direction || 'direction == undefined'} ${order.amount || 'amount == undefined'}
              ${order.pair || 'pair == undefined'} @ ${order.price || 'price == undefined'}.`);
-        });
+      });
     });
 
     this.shared.getOrderApprove().subscribe(params => {
-      this.ordersService.cancelOrder(params.orderNumber)
-        .subscribe(() => {
-          this.ordersService.placeOrder(this.currentId, this.currentType, params)
-            .subscribe((order: any) => {
-              this.store.dispatch(new LoadOrders({id: this.currentId, type: this.currentType}));
-              this.modalService.closeAllModals();
-              this.notifier.notify('success',
-                `Order modified, ${order.type || 'type == undefined'},
+      this.ordersService.cancelOrder(params.orderNumber).subscribe(() => {
+        this.ordersService.placeOrder(this.currentId, this.currentType, params).subscribe((order: any) => {
+          this.store.dispatch(new LoadOrders({id: this.currentId, type: this.currentType}));
+          this.modalService.closeAllModals();
+          this.notifier.notify('success',
+            `Order modified, ${order.type || 'type == undefined'},
                  to ${order.direction || 'direction == undefined'} ${order.amount || 'amount == undefined'}
                   ${order.pair || 'pair == undefined'} @ ${order.price || 'price == undefined'}.`);
-            });
         });
+      });
     });
 
     /*
     * position actions
     * */
     this.shared.getPositionClose().subscribe(position => {
-      this.positionsService.closePosition(position.id)
-        .subscribe(() => {
-          this.store.dispatch(new LoadPositions({id: this.currentId, type: this.currentType}));
-          this.modalService.closeAllModals();
-          this.notifier.notify('success',
-            `Order cancelled,
+      this.positionsService.closePosition(position.id).subscribe(() => {
+        this.store.dispatch(new LoadPositions({id: this.currentId, type: this.currentType}));
+        this.modalService.closeAllModals();
+        this.notifier.notify('success',
+          `Order cancelled,
              ${position.type || 'type == undefined'}, ${position.direction || 'direction == undefined'}
               ${position.amount || 'amount == undefined'} ${position.pair || 'pair == undefined'}
                @ ${position.openPrice || 'openPrice == undefined'}.`);
-        });
+      });
     });
 
     this.shared.getPositionPlace().subscribe(params => {
-      this.ordersService.placeOrder(this.currentId, this.currentType, params)
-        .subscribe((position: any) => {
-          this.store.dispatch(new LoadPositions({id: this.currentId, type: this.currentType}));
-          this.modalService.closeAllModals();
-          this.notifier.notify('success',
-            `Placed ${position.type || 'type == undefined'} order to ${position.direction || 'direction == undefined'}
+      this.ordersService.placeOrder(this.currentId, this.currentType, params).subscribe((position: any) => {
+        this.store.dispatch(new LoadPositions({id: this.currentId, type: this.currentType}));
+        this.modalService.closeAllModals();
+        this.notifier.notify('success',
+          `Placed ${position.type || 'type == undefined'} order to ${position.direction || 'direction == undefined'}
              ${position.amount || 'amount == undefined'} ${position.pair || 'pair == undefined'}
               @ ${position.openPrice || 'openPrice == undefined'}.`);
-        });
+      });
     });
   }
 
