@@ -1,6 +1,7 @@
 import * as PositionsActions from '@settings/actions/positions.actions';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Position } from '@app/shared/intefaces/position.interface';
+import * as OrdersActions from '@trading/actions/orders.actions';
 
 export interface State extends EntityState<Position> {
   isLoading: boolean;
@@ -33,6 +34,12 @@ export function reducer(state: State = initialState, action: PositionsActions.Ac
     }
     case PositionsActions.CLEAN_UP_POSITIONS: {
       return initialState;
+    }
+    case PositionsActions.POSITION_DELETE: {
+      return adapter.removeOne(action.payload, state);
+    }
+    case PositionsActions.POSITION_ADD: {
+      return adapter.addOne(action.payload, state);
     }
     default: {
       return state;

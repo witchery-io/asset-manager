@@ -12,8 +12,8 @@ import * as fromBalance from '@settings/reducers/balance.reducers';
 import * as fromAccounts from '@app/core/reducers/account.reducers';
 import * as fromGroups from '@app/core/reducers/group.reducers';
 import { CleanUpBalance, LoadBalance, UpdateBalance } from '@settings/actions/balance.actions';
-import { CleanUpOrders, LoadOrders, UpdateOrders } from '@settings/actions/orders.actions';
-import { CleanUpPositions, LoadPositions, UpdatePositions } from '@settings/actions/positions.actions';
+import { CleanUpOrders, LoadOrders, OrderCancel, OrderPlace, UpdateOrders } from '@settings/actions/orders.actions';
+import { CleanUpPositions, LoadPositions, PositionClose, PositionPlace, UpdatePositions } from '@settings/actions/positions.actions';
 import { LoadGroups } from '@app/core/actions/group.actions';
 import { LoadAccounts } from '@app/core/actions/account.actions';
 import { LoadAccount } from '@settings/actions/account.actions';
@@ -113,53 +113,22 @@ export class MainComponent implements OnInit, OnDestroy {
     * order actions
     * */
     this.shared.getOrderCancel().subscribe(order => {
-      this.ordersService.cancelOrder(order.orderNumber).subscribe(() => {
-        this.store.dispatch(new LoadOrders({id: this.currentId, type: this.currentType}));
-        this.modalService.closeAllModals();
-        this.notifier.notify('success',
-          `Order cancelled, ${order.type || 'type == undefined'},
-             ${order.direction || 'direction == undefined'} ${order.amount || 'amount == undefined'}
-             ${order.pair || 'pair == undefined'} @ ${order.price || 'price == undefined'}.`);
-      });
+      this.store.dispatch(new OrderCancel(order));
     });
 
     this.shared.getOrderApprove().subscribe(params => {
-      this.ordersService.cancelOrder(params.orderNumber).subscribe(() => {
-        this.ordersService.placeOrder(this.currentId, this.currentType, params).subscribe((order: any) => {
-          this.store.dispatch(new LoadOrders({id: this.currentId, type: this.currentType}));
-          this.modalService.closeAllModals();
-          this.notifier.notify('success',
-            `Order modified, ${order.type || 'type == undefined'},
-                 to ${order.direction || 'direction == undefined'} ${order.amount || 'amount == undefined'}
-                  ${order.pair || 'pair == undefined'} @ ${order.price || 'price == undefined'}.`);
-        });
-      });
+      this.store.dispatch(new OrderPlace({id: this.currentId, type: this.currentType, params: params}));
     });
 
     /*
     * position actions
     * */
     this.shared.getPositionClose().subscribe(position => {
-      this.positionsService.closePosition(position.id).subscribe(() => {
-        this.store.dispatch(new LoadPositions({id: this.currentId, type: this.currentType}));
-        this.modalService.closeAllModals();
-        this.notifier.notify('success',
-          `Order cancelled,
-             ${position.type || 'type == undefined'}, ${position.direction || 'direction == undefined'}
-              ${position.amount || 'amount == undefined'} ${position.pair || 'pair == undefined'}
-               @ ${position.openPrice || 'openPrice == undefined'}.`);
-      });
+      this.store.dispatch(new PositionClose(position));
     });
 
     this.shared.getPositionPlace().subscribe(params => {
-      this.ordersService.placeOrder(this.currentId, this.currentType, params).subscribe((position: any) => {
-        this.store.dispatch(new LoadPositions({id: this.currentId, type: this.currentType}));
-        this.modalService.closeAllModals();
-        this.notifier.notify('success',
-          `Placed ${position.type || 'type == undefined'} order to ${position.direction || 'direction == undefined'}
-             ${position.amount || 'amount == undefined'} ${position.pair || 'pair == undefined'}
-              @ ${position.openPrice || 'openPrice == undefined'}.`);
-      });
+      this.store.dispatch(new PositionPlace({id: this.currentId, type: this.currentType, params: params}));
     });
   }
 

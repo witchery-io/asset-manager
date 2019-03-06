@@ -7,6 +7,10 @@ export const UPDATE_POSITION_ITEMS = '[SETTINGS] Update Positions Items';
 export const POSITIONS_LOADED = '[SETTINGS] Positions Loaded';
 export const POSITIONS_NOT_LOADED = '[SETTINGS] Positions Not Loaded';
 export const CLEAN_UP_POSITIONS = '[SETTINGS] Clean Up Positions';
+export const POSITION_CLOSE = '[SETTINGS] Position Close';
+export const POSITION_DELETE = '[SETTINGS] Position Delete';
+export const POSITION_ADD = '[SETTINGS] Position Add';
+export const POSITION_PLACE = '[SETTINGS] Position Place';
 
 export class LoadPositions implements Action {
   readonly type = LOAD_POSITIONS;
@@ -47,10 +51,42 @@ export class CleanUpPositions implements Action {
   readonly type = CLEAN_UP_POSITIONS;
 }
 
+export class PositionClose implements Action {
+  readonly type = POSITION_CLOSE;
+
+  constructor(public payload: Position) {
+  }
+}
+
+export class PositionDelete implements Action {
+  readonly type = POSITION_DELETE;
+
+  constructor(public payload: string) {
+  }
+}
+
+export class PositionPlace implements Action {
+  readonly type = POSITION_PLACE;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class PositionAdd implements Action {
+  readonly type = POSITION_ADD;
+
+  constructor(public payload: Position) {
+  }
+}
+
 export type Actions =
   LoadPositions
   | UpdatePositions
   | UpdatePositionItems
   | PositionsLoaded
   | PositionsNotLoaded
-  | CleanUpPositions;
+  | CleanUpPositions
+  | PositionClose
+  | PositionDelete
+  | PositionPlace
+  | PositionAdd;

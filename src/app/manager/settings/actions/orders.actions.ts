@@ -7,6 +7,11 @@ export const UPDATE_ORDER_ITEMS = '[SETTINGS] Update Order Items';
 export const ORDERS_LOADED = '[SETTINGS] Orders Loaded';
 export const ORDERS_NOT_LOADED = '[SETTINGS] Orders Not Loaded';
 export const CLEAN_UP_ORDERS = '[SETTINGS] Clean Up Orders';
+export const ORDER_UPDATE = '[SETTINGS] Order Update';
+export const ORDER_CANCEL = '[SETTINGS] Order Cancel';
+export const ORDER_DELETE = '[SETTINGS] Order Delete';
+export const ORDER_ADD = '[SETTINGS] Order Add';
+export const ORDER_PLACE = '[SETTINGS] Order Place';
 
 
 export class LoadOrders implements Action {
@@ -48,10 +53,50 @@ export class CleanUpOrders implements Action {
   readonly type = CLEAN_UP_ORDERS;
 }
 
+export class OrderCancel implements Action {
+  readonly type = ORDER_CANCEL;
+
+  constructor(public payload: Order) {
+  }
+}
+
+export class OrderUpdate implements Action {
+  readonly type = ORDER_UPDATE;
+
+  constructor(public payload: Order) {
+  }
+}
+
+export class OrderDelete implements Action {
+  readonly type = ORDER_DELETE;
+
+  constructor(public payload: string) {
+  }
+}
+
+export class OrderAdd implements Action {
+  readonly type = ORDER_ADD;
+
+  constructor(public payload: Order) {
+  }
+}
+
+export class OrderPlace implements Action {
+  readonly type = ORDER_PLACE;
+
+  constructor(public payload: any) {
+  }
+}
+
 export type Actions =
   LoadOrders
   | UpdateOrders
   | UpdateOrderItems
   | OrdersLoaded
   | OrdersNotLoaded
-  | CleanUpOrders;
+  | CleanUpOrders
+  | OrderCancel
+  | OrderUpdate
+  | OrderDelete
+  | OrderAdd
+  | OrderPlace;

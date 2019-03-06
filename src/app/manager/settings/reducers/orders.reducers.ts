@@ -36,6 +36,12 @@ export function reducer(state: State = initialState, action: OrdersActions.Actio
     case OrdersActions.CLEAN_UP_ORDERS: {
       return initialState;
     }
+    case OrdersActions.ORDER_DELETE: {
+      return adapter.removeOne(action.payload, state);
+    }
+    case OrdersActions.ORDER_ADD: {
+      return adapter.addOne(action.payload, state);
+    }
     default: {
       return state;
     }
