@@ -36,7 +36,41 @@ export class OrdersEffects {
     }),
   );
 
+  @Effect()
+  cancelOrder$ = this.actions$.pipe(
+    ofType<fromOrders.OrderCancel>(fromOrders.ORDER_CANCEL),
+    map(settings => settings.payload),
+    switchMap((id: string) => {
+      return this.ordersService.cancelOrder(id).pipe(
+        map(() => {
+          return new fromOrders.OrderDelete(id);
+        }),
+        catchError(error => of(new fromOrders.OrdersNotLoaded({error: error.message || error}))),
+      );
+    }),
+  );
 
+  @Effect()
+  placeOrder$ = this.actions$.pipe(
+    ofType<fromOrders.OrderPlace>(fromOrders.ORDER_PLACE),
+    map(data => data.payload),
+    switchMap((data: any) => {
+      return this.ordersService.cancelOrder(data.params.orderNumber).pipe(
+        map(() => {
+          return new fromOrders.OrderDelete(data.params.orderNumber);
+        }),
+        switchMap(() => {
+          return this.ordersService.placeOrder(data.id, data.type, data.params).pipe(
+            map((order) => {
+              return new fromOrders.OrderAdd(order);
+            }),
+            catchError(error => of(new fromOrders.OrdersNotLoaded({error: error.message || error}))),
+          );
+        }),
+        catchError(error => of(new fromOrders.OrdersNotLoaded({error: error.message || error}))),
+      );
+    }),
+  );
 
   constructor(
     private actions$: Actions<fromOrders.Actions>,

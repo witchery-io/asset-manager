@@ -23,17 +23,19 @@ export function reducer(state: State = initialState, action: PositionsActions.Ac
       return state;
     }
     case PositionsActions.UPDATE_POSITION_ITEMS: {
-
-      // todo :: will changed
-
-      // return adapter.updateMany(action.payload.positions.map(changes => ({id: changes.id, changes})), state);
-      return adapter.addAll(action.payload.positions, {...state, isLoading: false, error: null});
+      return adapter.updateMany(action.payload.positions.map(changes => ({id: changes.id, changes})), state);
     }
     case PositionsActions.POSITIONS_LOADED: {
       return adapter.addAll(action.payload.positions, {...state, isLoading: false, error: null});
     }
     case PositionsActions.POSITIONS_NOT_LOADED: {
       return {...state, error: action.payload.error, isLoading: false};
+    }
+    case PositionsActions.POSITION_DELETE: {
+      return adapter.removeOne(action.payload, state);
+    }
+    case PositionsActions.POSITION_ADD: {
+      return adapter.addOne(action.payload, state);
     }
     default: {
       return state;

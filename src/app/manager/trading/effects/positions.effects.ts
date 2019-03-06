@@ -37,6 +37,34 @@ export class PositionsEffects {
     }),
   );
 
+  @Effect()
+  cancelOrder$ = this.actions$.pipe(
+    ofType<fromPositions.PositionClose>(fromPositions.POSITION_CLOSE),
+    map(settings => settings.payload),
+    switchMap((id: string) => {
+      return this.positionsService.closePosition(id).pipe(
+        map(() => {
+          return new fromPositions.PositionDelete(id);
+        }),
+        catchError(error => of(new fromPositions.PositionsNotLoaded({error: error.message || error}))),
+      );
+    }),
+  );
+
+  @Effect()
+  placeOrder$ = this.actions$.pipe(
+    ofType<fromPositions.PositionPlace>(fromPositions.POSITION_PLACE),
+    map(data => data.payload),
+    switchMap((data) => {
+      return this.positionsService.placeOrder(data.id, data.type, data.params).pipe(
+        map((position) => {
+          return new fromPositions.PositionAdd(position);
+        }),
+        catchError(error => of(new fromPositions.PositionsNotLoaded({error: error.message || error}))),
+      );
+    }),
+  );
+
   constructor(
     private actions$: Actions<fromPositions.Actions>,
     private positionsService: PositionsService,

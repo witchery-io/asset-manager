@@ -3,8 +3,8 @@ import { WsHandlerService } from '@trading/services/ws/ws-handler.service';
 import { select, Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
 import { LoadBalance, UpdateBalance } from '@trading/actions/balance.actions';
-import { LoadOrders, UpdateOrders } from '@trading/actions/orders.actions';
-import { LoadPositions, UpdatePositions } from '@trading/actions/positions.actions';
+import { LoadOrders, OrderCancel, OrderPlace, UpdateOrders } from '@trading/actions/orders.actions';
+import { LoadPositions, PositionClose, PositionPlace, UpdatePositions } from '@trading/actions/positions.actions';
 import { Observable } from 'rxjs';
 import * as Select from '@trading/state/trading.selectors';
 import * as fromOrders from '@trading/reducers/orders.reducers';
@@ -129,37 +129,43 @@ export class MainComponent implements OnInit, OnDestroy {
     * order actions
     * */
     this.shared.getOrderCancel().subscribe(order => {
+      this.store.dispatch(new OrderCancel(order.orderNumber));
 
-      // this.store.dispatch(new CancelOrder(order.orderNumber));
-
-      /*this.ordersService.cancelOrder(order.orderNumber).subscribe(() => {
-        this.store.dispatch(new LoadOrders({id: this.currentId, type: this.currentType}));
-        this.modalService.closeAllModals();
+      /* this.ordersService.cancelOrder(order.orderNumber).subscribe(() => {
+        // - this.store.dispatch(new LoadOrders({id: this.currentId, type: this.currentType}));
+        // - this.modalService.closeAllModals();
         this.notifier.notify('success',
           `Order cancelled, ${order.type || 'type == undefined'},
              ${order.direction || 'direction == undefined'} ${order.amount || 'amount == undefined'}
              ${order.pair || 'pair == undefined'} @ ${order.price || 'price == undefined'}.`);
-      });*/
+      }); */
     });
 
     this.shared.getOrderApprove().subscribe(params => {
+      this.store.dispatch(new OrderPlace({id: this.currentId, type: this.currentType, params: params}));
+
+/*      // step 1
       this.ordersService.cancelOrder(params.orderNumber).subscribe(() => {
+        // step 2
         this.ordersService.placeOrder(this.currentId, this.currentType, params).subscribe((order: any) => {
-          this.store.dispatch(new LoadOrders({id: this.currentId, type: this.currentType}));
-          this.modalService.closeAllModals();
+          // step 3
+          // - this.store.dispatch(new LoadOrders({id: this.currentId, type: this.currentType}));
+          // - this.modalService.closeAllModals();
           this.notifier.notify('success',
             `Order modified, ${order.type || 'type == undefined'},
                  to ${order.direction || 'direction == undefined'} ${order.amount || 'amount == undefined'}
                   ${order.pair || 'pair == undefined'} @ ${order.price || 'price == undefined'}.`);
         });
-      });
+      });*/
     });
 
     /*
     * position actions
     * */
     this.shared.getPositionClose().subscribe(position => {
-      this.positionsService.closePosition(position.id).subscribe(() => {
+      this.store.dispatch(new PositionClose(position.id));
+
+/*      this.positionsService.closePosition(position.id).subscribe(() => {
         this.store.dispatch(new LoadPositions({id: this.currentId, type: this.currentType, groupByPair: true}));
         this.modalService.closeAllModals();
         this.notifier.notify('success',
@@ -167,11 +173,14 @@ export class MainComponent implements OnInit, OnDestroy {
              ${position.type || 'type == undefined'}, ${position.direction || 'direction == undefined'}
               ${position.amount || 'amount == undefined'} ${position.pair || 'pair == undefined'}
                @ ${position.openPrice || 'openPrice == undefined'}.`);
-      });
+      });*/
     });
 
     this.shared.getPositionPlace().subscribe(params => {
-      this.ordersService.placeOrder(this.currentId, this.currentType, params).subscribe((position: any) => {
+      this.store.dispatch(new PositionPlace({id: this.currentId, type: this.currentType, params: params}));
+
+/*
+        this.ordersService.placeOrder(this.currentId, this.currentType, params).subscribe((position: any) => {
         this.store.dispatch(new LoadPositions({id: this.currentId, type: this.currentType, groupByPair: true}));
         this.modalService.closeAllModals();
         this.notifier.notify('success',
@@ -179,6 +188,7 @@ export class MainComponent implements OnInit, OnDestroy {
              ${position.amount || 'amount == undefined'} ${position.pair || 'pair == undefined'}
               @ ${position.openPrice || 'openPrice == undefined'}.`);
       });
+*/
     });
   }
 
