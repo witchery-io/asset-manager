@@ -49,7 +49,7 @@ export class PositionsNotLoaded implements Action {
 export class PositionClose implements Action {
   readonly type = POSITION_CLOSE;
 
-  constructor(public payload: string) {
+  constructor(public payload: Position) {
   }
 }
 

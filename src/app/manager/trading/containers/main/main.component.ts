@@ -129,66 +129,22 @@ export class MainComponent implements OnInit, OnDestroy {
     * order actions
     * */
     this.shared.getOrderCancel().subscribe(order => {
-      this.store.dispatch(new OrderCancel(order.orderNumber));
-
-      /* this.ordersService.cancelOrder(order.orderNumber).subscribe(() => {
-        // - this.store.dispatch(new LoadOrders({id: this.currentId, type: this.currentType}));
-        // - this.modalService.closeAllModals();
-        this.notifier.notify('success',
-          `Order cancelled, ${order.type || 'type == undefined'},
-             ${order.direction || 'direction == undefined'} ${order.amount || 'amount == undefined'}
-             ${order.pair || 'pair == undefined'} @ ${order.price || 'price == undefined'}.`);
-      }); */
+      this.store.dispatch(new OrderCancel(order));
     });
 
     this.shared.getOrderApprove().subscribe(params => {
       this.store.dispatch(new OrderPlace({id: this.currentId, type: this.currentType, params: params}));
-
-/*      // step 1
-      this.ordersService.cancelOrder(params.orderNumber).subscribe(() => {
-        // step 2
-        this.ordersService.placeOrder(this.currentId, this.currentType, params).subscribe((order: any) => {
-          // step 3
-          // - this.store.dispatch(new LoadOrders({id: this.currentId, type: this.currentType}));
-          // - this.modalService.closeAllModals();
-          this.notifier.notify('success',
-            `Order modified, ${order.type || 'type == undefined'},
-                 to ${order.direction || 'direction == undefined'} ${order.amount || 'amount == undefined'}
-                  ${order.pair || 'pair == undefined'} @ ${order.price || 'price == undefined'}.`);
-        });
-      });*/
     });
 
     /*
     * position actions
     * */
     this.shared.getPositionClose().subscribe(position => {
-      this.store.dispatch(new PositionClose(position.id));
-
-/*      this.positionsService.closePosition(position.id).subscribe(() => {
-        this.store.dispatch(new LoadPositions({id: this.currentId, type: this.currentType, groupByPair: true}));
-        this.modalService.closeAllModals();
-        this.notifier.notify('success',
-          `Order cancelled,
-             ${position.type || 'type == undefined'}, ${position.direction || 'direction == undefined'}
-              ${position.amount || 'amount == undefined'} ${position.pair || 'pair == undefined'}
-               @ ${position.openPrice || 'openPrice == undefined'}.`);
-      });*/
+      this.store.dispatch(new PositionClose(position));
     });
 
     this.shared.getPositionPlace().subscribe(params => {
       this.store.dispatch(new PositionPlace({id: this.currentId, type: this.currentType, params: params}));
-
-/*
-        this.ordersService.placeOrder(this.currentId, this.currentType, params).subscribe((position: any) => {
-        this.store.dispatch(new LoadPositions({id: this.currentId, type: this.currentType, groupByPair: true}));
-        this.modalService.closeAllModals();
-        this.notifier.notify('success',
-          `Placed ${position.type || 'type == undefined'} order to ${position.direction || 'direction == undefined'}
-             ${position.amount || 'amount == undefined'} ${position.pair || 'pair == undefined'}
-              @ ${position.openPrice || 'openPrice == undefined'}.`);
-      });
-*/
     });
   }
 

@@ -50,7 +50,7 @@ export class OrdersNotLoaded implements Action {
 export class OrderCancel implements Action {
   readonly type = ORDER_CANCEL;
 
-  constructor(public payload: string) {
+  constructor(public payload: Order) {
   }
 }
 
