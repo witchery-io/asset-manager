@@ -57,7 +57,7 @@ export class PositionsEffects {
     map(data => data.payload),
     switchMap((data) => {
       return this.positionsService.placeOrder(data.id, data.type, data.params).pipe(
-        map((position) => {
+        map(position => {
           return new fromPositions.PositionAdd(position);
         }),
         catchError(error => of(new fromPositions.PositionsNotLoaded({error: error.message || error}))),

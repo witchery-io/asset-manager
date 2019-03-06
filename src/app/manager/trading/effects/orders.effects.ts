@@ -61,7 +61,7 @@ export class OrdersEffects {
         }),
         switchMap(() => {
           return this.ordersService.placeOrder(data.id, data.type, data.params).pipe(
-            map((order) => {
+            map(order => {
               return new fromOrders.OrderAdd(order);
             }),
             catchError(error => of(new fromOrders.OrdersNotLoaded({error: error.message || error}))),
