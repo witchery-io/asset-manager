@@ -3,6 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as fromPositions from '@trading/actions/positions.actions';
+import * as fromOrders from '@trading/actions/orders.actions';
 import { PositionsService } from '@app/shared/services/positions.service';
 
 @Injectable()
@@ -52,13 +53,13 @@ export class PositionsEffects {
   );
 
   @Effect()
-  placeOrder$ = this.actions$.pipe(
+  placePosition$ = this.actions$.pipe(
     ofType<fromPositions.PositionPlace>(fromPositions.POSITION_PLACE),
     map(data => data.payload),
     switchMap((data) => {
       return this.positionsService.placeOrder(data.id, data.type, data.params).pipe(
-        map(position => {
-          return new fromPositions.PositionAdd(position);
+        map(order => {
+          return new fromOrders.OrderAdd(order);
         }),
         catchError(error => of(new fromPositions.PositionsNotLoaded({error: error.message || error}))),
       );
