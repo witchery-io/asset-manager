@@ -102,9 +102,14 @@ export class OrderComponent implements OnInit {
   * */
   orderApprove(params: any, isValid: boolean) {
     if (isValid) {
+      /*
+      * todo :: test
+      * */
       params.type = this.order.type;
       params.pair = this.order.pair;
       params.orderNumber = this.order.orderNumber;
+      params.amount = params.originalAmount;
+      params.context = this.order.context;
       this.shared.orderApprove(params);
     }
   }
