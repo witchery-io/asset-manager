@@ -1,56 +1,39 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { WebSocketService } from '@trading/services/ws/web-socket.service';
-import { ApiService } from '@app/core/services';
+import { WSActionHandlerServer } from '@trading/services/ws/ws-action-handler-server.service';
 
 @Injectable()
 export class WsHandlerService {
-
-  private ticksSubscription: Subscription;
-
-  private channelId: string;
-
-  private channel: any;
+  private tradingSubscription: Subscription;
 
   constructor(
     private ws: WebSocketService,
-    private apiService: ApiService,
+    private wsActionHandlerServer: WSActionHandlerServer,
   ) {
   }
 
-  start(channelId?: string, channel?: any) {
-    /*    if (channelId === '') {
-          return ;
-        }*/
+  start() {
+    this.clearSubscriptions();
 
-    this.channel = channel;
-    this.channelId = channelId;
+    this.tradingSubscription = this.ws.trading$.subscribe(data => {
+      this.wsActionHandlerServer.onWSData(data);
+    });
 
-    this.ticksSubscription = this.ws.ticks$
-      .subscribe(data => {
-        console.log(27, 'TICKS', data);
-      });
+    this.ws.start('');
+  }
 
-    this.ws.connectionStateUpdate$
-      .subscribe(data => {
-        console.log(31, 'CONNECTION STATE UPDATE', data);
-      });
+  stop() {
+    this.clearSubscriptions();
+    this.ws.close();
+  }
 
-    this.ws.message$
-      .subscribe(data => {
-        console.log(35, 'MESSAGE', data);
-      });
-
-    console.log(19, 'START');
-
-    const token = this.apiService.authKey;
-    const params = [
-/*      {
-        name: 'token',
-        value: token,
-      },*/
-    ];
-
-    this.ws.start(channel, params);
+  /**
+   * Unsubscribe all subscriptions.
+   */
+  private clearSubscriptions() {
+    if (this.tradingSubscription) {
+      this.tradingSubscription.unsubscribe();
+    }
   }
 }

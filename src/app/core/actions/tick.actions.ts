@@ -3,6 +3,7 @@ import { Tick } from '@app/core/intefaces';
 
 export const LOAD_TICKS = '[CORE] Load Ticks';
 export const UPDATE_TICKS = '[CORE] Update Ticks';
+export const UPDATE_TICK = '[CORE] Update Tick';
 export const UPDATE_TICKS_ITEMS = '[CORE] Update Ticks Items';
 export const TICKS_LOADED = '[CORE] Ticks Loaded';
 export const TICKS_NOT_LOADED = '[CORE] Ticks Not Loaded';
@@ -14,6 +15,13 @@ export class LoadTicks implements Action {
 
 export class UpdateTicks implements Action {
   readonly type = UPDATE_TICKS;
+}
+
+export class UpdateTick implements Action {
+  readonly type = UPDATE_TICK;
+
+  constructor(public payload: { tick: any }) { // todo : Tick
+  }
 }
 
 export class UpdateTicksItems implements Action {
@@ -40,6 +48,7 @@ export class TicksNotLoaded implements Action {
 export type Actions =
   LoadTicks
   | UpdateTicks
+  | UpdateTick
   | UpdateTicksItems
   | TicksLoaded
   | TicksNotLoaded;

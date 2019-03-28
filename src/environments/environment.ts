@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  webSocketUrl: 'ws://192.168.1.3:8081/ws',
-  apiUrl: 'http://ats.witchery.io',
+  webSocketUrl: 'ws://192.168.1.2:8081/ws',
+  apiUrl: 'http://192.168.1.2:8080',
 };
 
 /*

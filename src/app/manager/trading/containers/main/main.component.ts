@@ -23,6 +23,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
 import { NotifierService } from 'angular-notifier';
 import { WebSocketService } from '@trading/services/ws/web-socket.service';
+import { GROUPS } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-trading',
@@ -82,7 +83,11 @@ export class MainComponent implements OnInit, OnDestroy {
     this.ticksIsLoading$ = this.store.pipe(select(Select.ticksIsLoading));
     this.notifier = notifierService;
 
-    // wsHandlerService.start('', '');
+    wsHandlerService.start();
+  }
+
+  get currentSingularType() {
+    return this.currentType === GROUPS ? 'group' : 'account';
   }
 
   /**
@@ -119,7 +124,7 @@ export class MainComponent implements OnInit, OnDestroy {
     /*
     * update state
     * */
-    this.updateInterval = setInterval(() => {
+/*    this.updateInterval = setInterval(() => {
       if (!this.currentId || !this.currentType) {
         return;
       }
@@ -128,7 +133,7 @@ export class MainComponent implements OnInit, OnDestroy {
       this.store.dispatch(new UpdateBalance({id: this.currentId, type: this.currentType}));
       this.store.dispatch(new UpdateOrders({id: this.currentId, type: this.currentType}));
       this.store.dispatch(new UpdatePositions({id: this.currentId, type: this.currentType, groupByPair: true}));
-    }, 2500);
+    }, 2500);*/
 
     /*
     * order actions
@@ -154,8 +159,9 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.webSocketService.send(
       {
-        event : 'subscribe',
-        channel: 'tickers',
+        event: 'subscribe',
+        channel: 'all',
+        options: `${this.currentSingularType}:${urlId}`,
       }
     );
 
@@ -171,13 +177,29 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   onSelect(params: { currentId: string, currentType: string }) {
+    this.webSocketService.send(
+      {
+        event: 'unsubscribe',
+        channel: 'all',
+        options: `${this.currentSingularType}:${this.currentId}`,
+      }
+    );
+
     this.currentId = params.currentId;
     this.currentType = params.currentType;
 
-    this.store.dispatch(new LoadOrders({id: params.currentId, type: params.currentType}));
-    this.store.dispatch(new LoadPositions({id: params.currentId, type: params.currentType, groupByPair: true}));
-    this.store.dispatch(new LoadBalance({id: params.currentId, type: params.currentType}));
-    this.store.dispatch(new LoadTicks());
+    this.webSocketService.send(
+      {
+        event: 'subscribe',
+        channel: 'all',
+        options: `${this.currentSingularType}:${this.currentId}`,
+      }
+    );
+    /*
+        this.store.dispatch(new LoadOrders({id: params.currentId, type: params.currentType}));
+        this.store.dispatch(new LoadPositions({id: params.currentId, type: params.currentType, groupByPair: true}));
+        this.store.dispatch(new LoadBalance({id: params.currentId, type: params.currentType}));
+        this.store.dispatch(new LoadTicks());*/
   }
 
   /*

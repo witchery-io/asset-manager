@@ -21,7 +21,7 @@ import { INTERCEPTOR_PROVIDERS } from '@app/core/interceptors';
     EffectsModule.forRoot([AccountEffects, GroupEffects, TickEffects]),
 
     StoreDevtoolsModule.instrument({
-      maxAge: 60,
+      maxAge: 5,
     }),
   ],
   providers: [

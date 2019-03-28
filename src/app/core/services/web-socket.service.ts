@@ -61,7 +61,7 @@ export class WebSocketService {
           this.handleServerMessage(message);
         },
         error: err => {
-          console.error(89, 'ERROR', err);
+          console.error('ERROR', err);
         },
         complete: () => {
           const message = 'websocket_connection_lost';

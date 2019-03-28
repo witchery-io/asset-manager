@@ -13,6 +13,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { WebSocketService } from '@trading/services/ws/web-socket.service';
 import { WsHandlerService } from '@trading/services/ws/ws-handler.service';
 import { WSActionHandlerClient } from '@trading/services/ws/ws-action-handler-client.service';
+import { WSActionHandlerServer } from '@trading/services/ws/ws-action-handler-server.service';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from '@trading/reducers';
 import { EffectsModule } from '@ngrx/effects';
@@ -48,6 +49,7 @@ import { FavoriteViewComponent } from '@trading/components/favorite-view/favorit
     WebSocketService,
     WsHandlerService,
     WSActionHandlerClient,
+    WSActionHandlerServer,
 
     PositionsService,
     OrdersService,

@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 @Injectable()
 export class WebSocketService extends WebSocketServiceBase {
 
-  ticks$ = new Subject<any>();
+  trading$ = new Subject<any>();
 
   constructor() {
     super();
@@ -16,6 +16,6 @@ export class WebSocketService extends WebSocketServiceBase {
   }
 
   handleServerMessage(message: any) {
-    this.ticks$.next(message);
+    this.trading$.next(message);
   }
 }
