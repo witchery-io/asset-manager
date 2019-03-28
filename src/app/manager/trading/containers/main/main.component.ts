@@ -22,6 +22,7 @@ import { LoadTicks, UpdateTicks } from '@app/core/actions/tick.actions';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
 import { NotifierService } from 'angular-notifier';
+import { WebSocketService } from '@trading/services/ws/web-socket.service';
 
 @Component({
   selector: 'app-trading',
@@ -64,6 +65,8 @@ export class MainComponent implements OnInit, OnDestroy {
     private positionsService: PositionsService,
     private modalService: ModalService,
     private notifierService: NotifierService,
+    private wsHandlerService: WsHandlerService,
+    private webSocketService: WebSocketService,
   ) {
     this.orders$ = this.store.pipe(select(Select.getOrders));
     this.isLoadingOrders$ = this.store.pipe(select(Select.isLoadingOrders));
@@ -78,6 +81,8 @@ export class MainComponent implements OnInit, OnDestroy {
     this.ticks$ = this.store.pipe(select(Select.getTicks));
     this.ticksIsLoading$ = this.store.pipe(select(Select.ticksIsLoading));
     this.notifier = notifierService;
+
+    // wsHandlerService.start('', '');
   }
 
   /**
@@ -146,6 +151,14 @@ export class MainComponent implements OnInit, OnDestroy {
     this.shared.getPositionPlace().subscribe(params => {
       this.store.dispatch(new PositionPlace({id: this.currentId, type: this.currentType, params: params}));
     });
+
+    this.webSocketService.send(
+      {
+        event : 'subscribe',
+        channel: 'tickers',
+      }
+    );
+
   }
 
   ngOnDestroy() {
