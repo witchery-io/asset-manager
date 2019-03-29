@@ -15,7 +15,8 @@ export class TicksComponent implements OnInit {
 
   faStar = faStar;
 
-  favorites: boolean;
+  filterByFavorites: boolean;
+  favorites: any;
 
   @Input()
   id: string;
@@ -74,15 +75,13 @@ export class TicksComponent implements OnInit {
   }
 
   get ticks() {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
     return getTicksFromSection(this.section)
       .filter((tick) => {
-        if (!this.favorites) {
+        if (!this.filterByFavorites) {
           return true;
         }
 
-        return favorites.indexOf(tick.pair) !== -1;
+        return this.favorites.indexOf(tick.pair) !== -1;
       })
       .map((tick, i) => {
         const dailyChangePercent = tick.dailyChangePercent || 0;
@@ -101,7 +100,7 @@ export class TicksComponent implements OnInit {
   }
 
   get color() {
-    return this.favorites ? 'orange' : 'black';
+    return this.filterByFavorites ? 'orange' : 'black';
   }
 
   get balance() {
@@ -109,10 +108,11 @@ export class TicksComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.favorites = JSON.parse(localStorage.getItem('filterByFavorites')) || false;
+    this.filterByFavorites = JSON.parse(localStorage.getItem('filterByFavorites')) || false;
+    this.favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
     this.source = new LocalDataSource(this.ticks);
-    setInterval(() => this.source.load(this.ticks), 1000);
+    setInterval(() => this.source.load(this.ticks), 1500);
   }
 
   onSearch(query = '') {
@@ -133,7 +133,7 @@ export class TicksComponent implements OnInit {
   }
 
   selectFavorite() {
-    this.favorites = !this.favorites;
-    localStorage.setItem('filterByFavorites', JSON.stringify(this.favorites));
+    this.filterByFavorites = !this.filterByFavorites;
+    localStorage.setItem('filterByFavorites', JSON.stringify(this.filterByFavorites));
   }
 }
