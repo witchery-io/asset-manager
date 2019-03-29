@@ -19,9 +19,6 @@ export function reducer(state: State = initialState, action: BalanceActions.Acti
       return {...state, isLoading: true};
     }
     case BalanceActions.UPDATE_BALANCE: {
-      return state;
-    }
-    case BalanceActions.UPDATE_BALANCE_ITEM: {
       return {...state, ...{data: action.payload}};
     }
     case BalanceActions.BALANCE_LOADED: {

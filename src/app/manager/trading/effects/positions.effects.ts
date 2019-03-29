@@ -25,21 +25,6 @@ export class PositionsEffects {
     }),
   );
 
-
-  @Effect()
-  updatePositions$ = this.actions$.pipe(
-    ofType<fromPositions.UpdatePositions>(fromPositions.UPDATE_POSITIONS),
-    map(settings => settings.payload),
-    switchMap((settings: any) => {
-      return this.positionsService.getPositions(settings).pipe(
-        map(response => {
-          return new fromPositions.UpdatePositionItems({positions: response});
-        }),
-        catchError(error => of(new fromPositions.PositionsNotLoaded({error: error.message || error}))),
-      );
-    }),
-  );
-
   @Effect()
   cancelOrder$ = this.actions$.pipe(
     ofType<fromPositions.PositionClose>(fromPositions.POSITION_CLOSE),

@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { WsHandlerService } from '@trading/services/ws/ws-handler.service';
 import { select, Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
-import { LoadBalance, UpdateBalance } from '@trading/actions/balance.actions';
-import { LoadOrders, OrderCancel, OrderPlace, UpdateOrders } from '@trading/actions/orders.actions';
-import { LoadPositions, PositionClose, PositionPlace, UpdatePositions } from '@trading/actions/positions.actions';
+import { LoadBalance } from '@trading/actions/balance.actions';
+import { LoadOrders, OrderCancel, OrderPlace } from '@trading/actions/orders.actions';
+import { LoadPositions, PositionClose, PositionPlace } from '@trading/actions/positions.actions';
 import { Observable } from 'rxjs';
 import * as Select from '@trading/state/trading.selectors';
 import * as fromOrders from '@trading/reducers/orders.reducers';
@@ -18,7 +18,7 @@ import { TabsetComponent } from 'ngx-bootstrap';
 import { OrderTab } from '@app/shared/enums';
 import { LoadGroups } from '@app/core/actions/group.actions';
 import { LoadAccounts } from '@app/core/actions/account.actions';
-import { LoadTicks, UpdateTicks } from '@app/core/actions/tick.actions';
+import { LoadTicks } from '@app/core/actions/tick.actions';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
 import { NotifierService } from 'angular-notifier';
@@ -110,9 +110,9 @@ export class MainComponent implements OnInit, OnDestroy {
     /*
     * Init
     * */
-    this.store.dispatch(new LoadBalance({id: urlId, type: urlType}));
-    this.store.dispatch(new LoadOrders({id: urlId, type: urlType}));
-    this.store.dispatch(new LoadPositions({id: urlId, type: urlType, groupByPair: true}));
+    // this.store.dispatch(new LoadBalance({id: urlId, type: urlType}));
+    // this.store.dispatch(new LoadOrders({id: urlId, type: urlType}));
+    // this.store.dispatch(new LoadPositions({id: urlId, type: urlType, groupByPair: true}));
 
     /*
     * Load CORE Data
@@ -120,20 +120,6 @@ export class MainComponent implements OnInit, OnDestroy {
     this.store.dispatch(new LoadGroups());
     this.store.dispatch(new LoadAccounts());
     this.store.dispatch(new LoadTicks());
-
-    /*
-    * update state
-    * */
-/*    this.updateInterval = setInterval(() => {
-      if (!this.currentId || !this.currentType) {
-        return;
-      }
-
-      this.store.dispatch(new UpdateTicks());
-      this.store.dispatch(new UpdateBalance({id: this.currentId, type: this.currentType}));
-      this.store.dispatch(new UpdateOrders({id: this.currentId, type: this.currentType}));
-      this.store.dispatch(new UpdatePositions({id: this.currentId, type: this.currentType, groupByPair: true}));
-    }, 2500);*/
 
     /*
     * order actions
@@ -195,11 +181,6 @@ export class MainComponent implements OnInit, OnDestroy {
         options: `${this.currentSingularType}:${this.currentId}`,
       }
     );
-    /*
-        this.store.dispatch(new LoadOrders({id: params.currentId, type: params.currentType}));
-        this.store.dispatch(new LoadPositions({id: params.currentId, type: params.currentType, groupByPair: true}));
-        this.store.dispatch(new LoadBalance({id: params.currentId, type: params.currentType}));
-        this.store.dispatch(new LoadTicks());*/
   }
 
   /*

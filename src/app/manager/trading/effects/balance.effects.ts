@@ -22,20 +22,6 @@ export class BalanceEffects {
     }),
   );
 
-  @Effect()
-  updateBalance$ = this.actions$.pipe(
-    ofType<fromBalance.UpdateBalance>(fromBalance.UPDATE_BALANCE),
-    map(settings => settings.payload),
-    switchMap((settings: any) => {
-      return this.balanceService.getBalance(settings).pipe(
-        map(response => {
-          return new fromBalance.UpdateBalanceItem(response);
-        }),
-        catchError(error => of(new fromBalance.BalanceNotLoaded({error: error.message || error}))),
-      );
-    }),
-  );
-
   constructor(
     private actions$: Actions<fromBalance.Actions>,
     private balanceService: BalanceService,

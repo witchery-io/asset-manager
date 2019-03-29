@@ -3,7 +3,7 @@ import { Position } from '@app/shared/intefaces/position.interface';
 
 export const LOAD_POSITIONS = '[TRADING] Load Positions';
 export const UPDATE_POSITIONS = '[TRADING] Update Positions';
-export const UPDATE_POSITION_ITEMS = '[TRADING] Update Positions Items';
+export const UPDATE_POSITION = '[TRADING] Update Position';
 export const POSITIONS_LOADED = '[TRADING] Positions Loaded';
 export const POSITIONS_NOT_LOADED = '[TRADING] Positions Not Loaded';
 export const POSITION_CLOSE = '[TRADING] Position Close';
@@ -21,14 +21,14 @@ export class LoadPositions implements Action {
 export class UpdatePositions implements Action {
   readonly type = UPDATE_POSITIONS;
 
-  constructor(public payload: { id: string, type: string, groupByPair: boolean }) {
+  constructor(public payload: { positions: Position[] }) {
   }
 }
 
-export class UpdatePositionItems implements Action {
-  readonly type = UPDATE_POSITION_ITEMS;
+export class UpdatePosition implements Action {
+  readonly type = UPDATE_POSITION;
 
-  constructor(public payload: { positions: Position[] }) {
+  constructor(public payload: Position) {
   }
 }
 
@@ -77,7 +77,7 @@ export class PositionAdd implements Action {
 export type Actions =
   LoadPositions
   | UpdatePositions
-  | UpdatePositionItems
+  | UpdatePosition
   | PositionsLoaded
   | PositionsNotLoaded
   | PositionClose

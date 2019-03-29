@@ -20,7 +20,7 @@ export class UpdateTicks implements Action {
 export class UpdateTick implements Action {
   readonly type = UPDATE_TICK;
 
-  constructor(public payload: { tick: any }) { // todo : Tick
+  constructor(public payload: { tick: Tick }) {
   }
 }
 
