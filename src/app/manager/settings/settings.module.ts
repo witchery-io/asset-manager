@@ -22,6 +22,7 @@ import { BsDatepickerModule, TabsModule } from 'ngx-bootstrap';
 import { AccountFormComponent } from './components/templates/account-form/account-form.component';
 import { GroupEffects } from '@settings/effects/group.effects';
 import { AccountEffects } from '@settings/effects/account.effects';
+import { WebSocketService, WsHandlerService, WSActionHandlerClient, WSActionHandlerServer  } from '@settings/services';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,11 @@ import { AccountEffects } from '@settings/effects/account.effects';
     BalanceService,
     ModalService,
     SharedService,
+
+    WebSocketService,
+    WsHandlerService,
+    WSActionHandlerClient,
+    WSActionHandlerServer,
   ],
 })
 export class SettingsModule {

@@ -2,9 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { WsHandlerService } from '@trading/services/ws/ws-handler.service';
 import { select, Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
-import { LoadBalance } from '@trading/actions/balance.actions';
-import { LoadOrders, OrderCancel, OrderPlace } from '@trading/actions/orders.actions';
-import { LoadPositions, PositionClose, PositionPlace } from '@trading/actions/positions.actions';
+import { OrderCancel, OrderPlace } from '@trading/actions/orders.actions';
+import { PositionClose, PositionPlace } from '@trading/actions/positions.actions';
 import { Observable } from 'rxjs';
 import * as Select from '@trading/state/trading.selectors';
 import * as fromOrders from '@trading/reducers/orders.reducers';
@@ -48,7 +47,6 @@ export class MainComponent implements OnInit, OnDestroy {
   ticks$: Observable<fromTicks.State>;
   ticksIsLoading$: Observable<boolean>;
 
-  updateInterval: any;
   /*
   * chart url
   * */
@@ -108,13 +106,6 @@ export class MainComponent implements OnInit, OnDestroy {
     this.ordersTabs.tabs[MainComponent.tabIndex(urlTabName)].active = true;
 
     /*
-    * Init
-    * */
-    // this.store.dispatch(new LoadBalance({id: urlId, type: urlType}));
-    // this.store.dispatch(new LoadOrders({id: urlId, type: urlType}));
-    // this.store.dispatch(new LoadPositions({id: urlId, type: urlType, groupByPair: true}));
-
-    /*
     * Load CORE Data
     * */
     this.store.dispatch(new LoadGroups());
@@ -150,11 +141,10 @@ export class MainComponent implements OnInit, OnDestroy {
         options: `${this.currentSingularType}:${urlId}`,
       }
     );
-
   }
 
   ngOnDestroy() {
-    clearInterval(this.updateInterval);
+    this.webSocketService.close();
   }
 
   selectTab(tabId): void {

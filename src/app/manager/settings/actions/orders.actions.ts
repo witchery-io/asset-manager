@@ -2,11 +2,10 @@ import { Action } from '@ngrx/store';
 import { Order } from '@app/shared/intefaces/order.interface';
 
 export const LOAD_ORDERS = '[SETTINGS] Load Orders';
-export const UPDATE_ORDERS = '[SETTINGS] Update Orders';
-export const UPDATE_ORDER_ITEMS = '[SETTINGS] Update Order Items';
 export const ORDERS_LOADED = '[SETTINGS] Orders Loaded';
 export const ORDERS_NOT_LOADED = '[SETTINGS] Orders Not Loaded';
 export const CLEAN_UP_ORDERS = '[SETTINGS] Clean Up Orders';
+export const ORDERS_UPDATE = '[SETTINGS] Orders Update';
 export const ORDER_UPDATE = '[SETTINGS] Order Update';
 export const ORDER_CANCEL = '[SETTINGS] Order Cancel';
 export const ORDER_DELETE = '[SETTINGS] Order Delete';
@@ -18,20 +17,6 @@ export class LoadOrders implements Action {
   readonly type = LOAD_ORDERS;
 
   constructor(public payload:  { id: string, type: string }) {
-  }
-}
-
-export class UpdateOrders implements Action {
-  readonly type = UPDATE_ORDERS;
-
-  constructor(public payload: { id: string, type: string }) {
-  }
-}
-
-export class UpdateOrderItems implements Action {
-  readonly type = UPDATE_ORDER_ITEMS;
-
-  constructor(public payload: { orders: Order[] }) {
   }
 }
 
@@ -53,15 +38,22 @@ export class CleanUpOrders implements Action {
   readonly type = CLEAN_UP_ORDERS;
 }
 
-export class OrderCancel implements Action {
-  readonly type = ORDER_CANCEL;
+export class OrdersUpdate implements Action {
+  readonly type = ORDERS_UPDATE;
 
-  constructor(public payload: Order) {
+  constructor(public payload: { orders: Order[] }) {
   }
 }
 
 export class OrderUpdate implements Action {
   readonly type = ORDER_UPDATE;
+
+  constructor(public payload: Order) {
+  }
+}
+
+export class OrderCancel implements Action {
+  readonly type = ORDER_CANCEL;
 
   constructor(public payload: Order) {
   }
@@ -90,12 +82,11 @@ export class OrderPlace implements Action {
 
 export type Actions =
   LoadOrders
-  | UpdateOrders
-  | UpdateOrderItems
   | OrdersLoaded
   | OrdersNotLoaded
   | CleanUpOrders
   | OrderCancel
+  | OrdersUpdate
   | OrderUpdate
   | OrderDelete
   | OrderAdd

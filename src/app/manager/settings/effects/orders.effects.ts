@@ -26,20 +26,6 @@ export class OrdersEffects {
   );
 
   @Effect()
-  updateOrders$ = this.actions$.pipe(
-    ofType<fromOrders.UpdateOrders>(fromOrders.UPDATE_ORDERS),
-    map(settings => settings.payload),
-    switchMap((params: any) => {
-      return this.ordersService.getOrders(params).pipe(
-        map(response => {
-          return new fromOrders.UpdateOrderItems({orders: response});
-        }),
-        catchError(error => of(new fromOrders.OrdersNotLoaded({error: error.message || error}))),
-      );
-    }),
-  );
-
-  @Effect()
   cancelOrder$ = this.actions$.pipe(
     ofType<fromOrders.OrderCancel>(fromOrders.ORDER_CANCEL),
     map(settings => settings.payload),
