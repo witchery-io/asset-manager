@@ -84,15 +84,13 @@ export class TicksComponent implements OnInit {
         return this.favorites.indexOf(tick.pair) !== -1;
       })
       .map((tick, i) => {
-        const dailyChangePercent = tick.dailyChangePercent || 0;
-
         return {
           id: this.id,
           type: this.type,
           pair: tick.pair,
           last: parseFloat(tick.last.toFixed(2)),
           volume: parseFloat(tick.volume.toFixed(2)),
-          dailyChangePercent: parseFloat((dailyChangePercent * 100).toFixed(2)),
+          dailyChangePercent: parseFloat(((tick.dailyChangePercent || 0) * 100).toFixed(2)),
           add: i,
           balance: this.balance,
         };
@@ -112,7 +110,7 @@ export class TicksComponent implements OnInit {
     this.favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
     this.source = new LocalDataSource(this.ticks);
-    setInterval(() => this.source.load(this.ticks), 1500);
+    setInterval(() => this.source.load(this.ticks), 2000);
   }
 
   onSearch(query = '') {
