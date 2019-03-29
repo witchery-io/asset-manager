@@ -88,16 +88,14 @@ export class TicksComponent implements OnInit {
         const dailyChangePercent = tick.dailyChangePercent || 0;
 
         return {
-          ...tick,
-          ...{
-            id: this.id,
-            type: this.type,
-            last: parseFloat(tick.last.toFixed(2)),
-            volume: parseFloat(tick.volume.toFixed(2)),
-            dailyChangePercent: parseFloat((dailyChangePercent * 100).toFixed(2)),
-            add: i,
-            balance: this.balance,
-          },
+          id: this.id,
+          type: this.type,
+          pair: tick.pair,
+          last: parseFloat(tick.last.toFixed(2)),
+          volume: parseFloat(tick.volume.toFixed(2)),
+          dailyChangePercent: parseFloat((dailyChangePercent * 100).toFixed(2)),
+          add: i,
+          balance: this.balance,
         };
       });
   }
