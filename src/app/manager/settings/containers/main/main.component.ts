@@ -223,13 +223,15 @@ export class MainComponent implements OnInit, OnDestroy {
    * @param params :: array
    */
   private putState(params) {
-    this.webSocketService.send(
-      {
-        event: 'unsubscribe',
-        channel: 'all',
-        options: `${this.currentSingularType}:${this.currentId}`,
-      }
-    );
+    if (this.currentId || this.currentType) {
+      this.webSocketService.send(
+        {
+          event: 'unsubscribe',
+          channel: 'all',
+          options: `${this.currentSingularType}:${this.currentId}`,
+        }
+      );
+    }
 
     if (!params.currentId || !params.currentType) {
       return;
