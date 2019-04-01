@@ -31,13 +31,13 @@
           [class.active]="order === 'last'"
       >Last <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span></th>
       <th scope="col"
-          (click)="setOrder('24hr')"
-          [class.active]="order === '24hr'"
+          (click)="setOrder('dailyChangePercent')"
+          [class.active]="order === 'dailyChangePercent'"
       >24HR <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
       </th>
       <th scope="col"
-          (click)="setOrder('values')"
-          [class.active]="order === 'values'"
+          (click)="setOrder('volume')"
+          [class.active]="order === 'volume'"
       >VOL USD <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
       </th>
       <th scope="col"></th>
