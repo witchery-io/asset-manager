@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { getTicksFromSection } from '@app/core/reducers';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { getBalanceFromSection } from '@trading/state/trading.selectors';
@@ -7,6 +7,7 @@ import { getBalanceFromSection } from '@trading/state/trading.selectors';
   selector: 'app-ticks',
   templateUrl: './ticks.component.html',
   styleUrls: ['ticks.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TicksComponent implements OnInit {
 
@@ -33,7 +34,9 @@ export class TicksComponent implements OnInit {
   order = 'pair';
   reverse = false;
 
-  constructor() {
+  constructor(
+    private cdr: ChangeDetectorRef
+  ) {
   }
 
   get ticks() {
@@ -71,6 +74,8 @@ export class TicksComponent implements OnInit {
 
   ngOnInit() {
     this.filterByFavorites = JSON.parse(localStorage.getItem('filterByFavorites')) || false;
+
+    console.log(this.cdr);
   }
 
   onUserRowSelect(pair): void {
