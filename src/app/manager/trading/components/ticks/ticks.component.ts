@@ -73,8 +73,8 @@ export class TicksComponent implements OnInit {
     this.filterByFavorites = JSON.parse(localStorage.getItem('filterByFavorites')) || false;
   }
 
-  onUserRowSelect($event): void {
-    this.select.emit(`${$event.data.pair}`);
+  onUserRowSelect(pair): void {
+    this.select.emit(`${pair}`);
   }
 
   selectFavorite() {

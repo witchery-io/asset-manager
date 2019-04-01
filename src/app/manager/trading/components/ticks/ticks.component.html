@@ -49,7 +49,7 @@
       <th scope="row">
         <app-favorite-view [rowData]="tick"></app-favorite-view>
       </th>
-      <td (click)="onUserRowSelect($event);">{{tick.pair}}</td>
+      <td (click)="onUserRowSelect(tick.pair);">{{tick.pair}}</td>
       <td>{{ tick.last }}</td>
       <td>{{ tick.dailyChangePercent }}</td>
       <td>{{ tick.volume }}</td>
