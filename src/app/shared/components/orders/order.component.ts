@@ -118,4 +118,8 @@ export class OrderComponent implements OnInit {
     this.isCollapsed = !this.isCollapsed;
     localStorage.setItem(`collapse.position.${this.order.orderNumber}`, this.isCollapsed ? 'true' : 'false');
   }
+
+  trackByFn(index, item) {
+    return item.orderNumber;
+  }
 }

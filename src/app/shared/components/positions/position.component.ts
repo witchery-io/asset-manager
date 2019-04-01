@@ -133,4 +133,8 @@ export class PositionComponent implements OnInit {
     params.positionId = this.position.id;
     this.shared.positionPlace(params);
   }
+
+  trackByFn(index, item) {
+    return item.id;
+  }
 }

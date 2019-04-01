@@ -29,7 +29,7 @@ import { getAccountsFromSection } from '@app/core/reducers';
       <tr>
         <th colspan="15" class="p-0">
           <app-position
-            *ngFor="let position of positions"
+            *ngFor="let position of positions; trackBy: trackByFn"
             [type]="type"
             [position]="position"
             [permission]="permission"
@@ -62,5 +62,9 @@ export class PositionsComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  trackByFn(index, item) {
+    return item.id;
   }
 }

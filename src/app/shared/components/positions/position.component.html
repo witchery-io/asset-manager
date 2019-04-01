@@ -50,10 +50,9 @@
     <th colspan="15" class="p-0">
       <table class="table table-hover m-0">
         <app-position
-          *ngFor="let position of position.subPositions"
+          *ngFor="let position of position.subPositions; trackBy: trackByFn"
           [position]="position"
           [accounts]="accounts"
-          [id]="id"
           [type]="type"
         ></app-position>
       </table>

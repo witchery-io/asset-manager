@@ -23,7 +23,7 @@ import { getOrdersFromSection } from '@trading/state/trading.selectors';
       <tr>
         <th colspan="10" class="p-0">
           <app-order
-            *ngFor="let order of orders"
+            *ngFor="let order of orders; trackBy: trackByFn"
             [order]="order"
             [permission]="permission"
             [accounts]="accounts"
@@ -42,14 +42,18 @@ export class OrdersComponent implements OnInit {
   constructor() {
   }
 
-  ngOnInit() {
-  }
-
   get orders() {
     return getOrdersFromSection(this.section);
   }
 
   get accounts() {
     return getOrdersFromSection(this.accountsSection);
+  }
+
+  ngOnInit() {
+  }
+
+  trackByFn(index, item) {
+    return item.orderNumber;
   }
 }
