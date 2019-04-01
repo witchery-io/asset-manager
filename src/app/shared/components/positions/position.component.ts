@@ -17,6 +17,7 @@ export class PositionComponent implements OnInit {
   @Input() permission: string;
   @Input() accounts: any;
   @Input() position: any;
+  @Input() readonly: boolean;
   role = 'admin';
   faPlus = faPlus;
   faMinus = faMinus;

@@ -72,6 +72,8 @@
       <app-positions
         *ngIf="(isLoadingHistories$ | async) === false"
         [section]="histories$ | async"
+        [accountsSection]="accounts$ | async"
+        [readonly]="historyReadOnly"
       ></app-positions>
     </div>
   </div>

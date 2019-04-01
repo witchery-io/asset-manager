@@ -35,7 +35,7 @@ export class MainComponent implements OnInit, OnDestroy {
   currentType: string;
   @ViewChild('generalTabs')
   generalTabs: TabsetComponent;
-  genActiveTab: string;
+  genActiveTab = 'groups';
   @ViewChild('ordersTabs')
   ordersTabs: TabsetComponent;
   orders$: Observable<fromOrders.State>;
@@ -53,6 +53,7 @@ export class MainComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   settings = {};
   private readonly notifier: NotifierService;
+  historyReadOnly = true;
 
   constructor(
     private store: Store<SettingsState>,

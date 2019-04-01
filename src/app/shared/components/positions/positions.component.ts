@@ -13,16 +13,16 @@ import { getAccountsFromSection } from '@app/core/reducers';
         <th class="col">Amount</th>
         <th class="col">Open Price</th>
         <th class="col">Market Price</th>
-        <th class="col">Stop</th>
-        <th class="col">Limit</th>
+        <th class="col" *ngIf="!readonly">Stop</th>
+        <th class="col" *ngIf="!readonly">Limit</th>
         <th class="col">{{ feeOrSwap }}</th>
         <th class="col">PL</th>
         <th class="col">PL(BTC)</th>
         <th class="col">PL %</th>
         <th class="col">Exposure (BTC)</th>
         <th class="col">Opened</th>
-        <th class="col"></th>
-        <th class="col"></th>
+        <th class="col" *ngIf="!readonly"></th>
+        <th class="col" *ngIf="!readonly"></th>
       </tr>
       </thead>
       <tbody>
@@ -34,6 +34,7 @@ import { getAccountsFromSection } from '@app/core/reducers';
             [position]="position"
             [permission]="permission"
             [accounts]="accounts"
+            [readonly]="readonly"
           ></app-position>
         </th>
       </tr>
@@ -44,6 +45,7 @@ export class PositionsComponent implements OnInit {
   @Input() type: string;
   @Input() section: any;
   @Input() accountsSection: any;
+  @Input() readonly: boolean;
   permission = 'parent';
 
   constructor() {
