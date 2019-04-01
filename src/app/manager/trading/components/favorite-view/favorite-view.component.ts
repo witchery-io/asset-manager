@@ -33,6 +33,7 @@ export class FavoriteViewComponent implements OnInit {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
     const favIndex = favorites.indexOf(favId);
+    this.favorite = favIndex === -1;
     if (favIndex === -1) {
       favorites.push(favId);
     } else {

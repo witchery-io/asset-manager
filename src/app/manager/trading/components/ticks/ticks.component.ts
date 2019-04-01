@@ -1,8 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { getTicksFromSection } from '@app/core/reducers';
-import { LocalDataSource } from 'ng2-smart-table';
-import { ButtonViewComponent } from '@trading/components/button-view/button-view.component';
-import { FavoriteViewComponent } from '@trading/components/favorite-view/favorite-view.component';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { getBalanceFromSection } from '@trading/state/trading.selectors';
 
@@ -16,7 +13,6 @@ export class TicksComponent implements OnInit {
   faStar = faStar;
 
   filterByFavorites: boolean;
-  favorites: any;
 
   @Input()
   id: string;
@@ -33,55 +29,23 @@ export class TicksComponent implements OnInit {
   @Output()
   select: EventEmitter<any> = new EventEmitter();
 
-  settings = {
-    columns: {
-      favorite: {
-        type: 'custom',
-        renderComponent: FavoriteViewComponent,
-      },
-      pair: {
-        title: 'INS.',
-        sortDirection: 'ASC',
-      },
-      last: {
-        title: 'LAST',
-      },
-      dailyChangePercent: {
-        title: '24HR',
-        type: 'html',
-        valuePrepareFunction: val => `<span class="${val > 0 ? 'text-success' : 'text-danger'}">${val}%</span>`,
-      },
-      volume: {
-        title: 'VOL USD',
-      },
-      add: {
-        type: 'custom',
-        renderComponent: ButtonViewComponent,
-      },
-    },
-    hideSubHeader: true,
-    pager: {
-      perPage: 500
-    },
-    actions: false,
-    attr: {
-      class: 'table table-xs'
-    }
-  };
-
-  source: LocalDataSource;
+  tickFilter: any = {pair: ''};
+  order = 'pair';
+  reverse = false;
 
   constructor() {
   }
 
   get ticks() {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
     return getTicksFromSection(this.section)
       .filter((tick) => {
         if (!this.filterByFavorites) {
           return true;
         }
 
-        return this.favorites.indexOf(tick.pair) !== -1;
+        return favorites.indexOf(tick.pair) !== -1;
       })
       .map((tick, i) => {
         return {
@@ -107,23 +71,6 @@ export class TicksComponent implements OnInit {
 
   ngOnInit() {
     this.filterByFavorites = JSON.parse(localStorage.getItem('filterByFavorites')) || false;
-    this.favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-    this.source = new LocalDataSource(this.ticks);
-    setInterval(() => this.source.load(this.ticks), 2000);
-  }
-
-  onSearch(query = '') {
-    if (query === '') {
-      this.source.setFilter([]);
-    } else {
-      this.source.setFilter([
-        {
-          field: 'pair',
-          search: query
-        },
-      ], false);
-    }
   }
 
   onUserRowSelect($event): void {
@@ -133,5 +80,17 @@ export class TicksComponent implements OnInit {
   selectFavorite() {
     this.filterByFavorites = !this.filterByFavorites;
     localStorage.setItem('filterByFavorites', JSON.stringify(this.filterByFavorites));
+  }
+
+  trackByFn(index, item) {
+    return item.pair;
+  }
+
+  setOrder(value: string) {
+    if (this.order === value) {
+      this.reverse = !this.reverse;
+    }
+
+    this.order = value;
   }
 }

@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, } from '@angular/core';
-import { ViewCell } from 'ng2-smart-table';
 import { BsModalRef, } from 'ngx-bootstrap';
 import { ModalService, OrdersService } from '@app/shared/services';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -14,11 +13,8 @@ import { LoadPositions } from '@trading/actions/positions.actions';
   templateUrl: './button-view.component.html',
   styleUrls: ['./button-view.component.scss'],
 })
-export class ButtonViewComponent implements ViewCell, OnInit {
+export class ButtonViewComponent implements OnInit {
   role = 'admin';
-
-  @Input()
-  value: string | number;
 
   @Input()
   rowData: any;

@@ -17,7 +17,6 @@ import { TabsetComponent } from 'ngx-bootstrap';
 import { OrderTab } from '@app/shared/enums';
 import { LoadGroups } from '@app/core/actions/group.actions';
 import { LoadAccounts } from '@app/core/actions/account.actions';
-import { LoadTicks } from '@app/core/actions/tick.actions';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
 import { NotifierService } from 'angular-notifier';
@@ -110,7 +109,6 @@ export class MainComponent implements OnInit, OnDestroy {
     * */
     this.store.dispatch(new LoadGroups());
     this.store.dispatch(new LoadAccounts());
-    this.store.dispatch(new LoadTicks());
 
     /*
     * order actions
