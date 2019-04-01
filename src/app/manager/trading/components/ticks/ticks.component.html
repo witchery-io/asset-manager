@@ -51,7 +51,8 @@
       </th>
       <td (click)="onUserRowSelect(tick.pair);">{{tick.pair}}</td>
       <td>{{ tick.last }}</td>
-      <td>{{ tick.dailyChangePercent }}</td>
+      <td><span [ngClass]="tick.dailyChangePercent > 0 ? 'text-success' : 'text-danger'">
+        {{ tick.dailyChangePercent }}%</span></td>
       <td>{{ tick.volume }}</td>
       <td>
         <app-button-view [rowData]="tick"></app-button-view>
