@@ -49,7 +49,7 @@
       <th scope="row">
         <app-favorite-view [rowData]="tick"></app-favorite-view>
       </th>
-      <td (click)="onUserRowSelect(tick.pair);">{{ tick.pair }}</td>
+      <td class="cursor-pointer" (click)="onUserRowSelect(tick.pair);">{{ tick.pair }}</td>
       <td>{{ tick.last }}</td>
       <td><span [ngClass]="tick.dailyChangePercent > 0 ? 'text-success' : 'text-danger'">
         {{ tick.dailyChangePercent }}%</span></td>
