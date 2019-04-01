@@ -74,8 +74,6 @@ export class TicksComponent implements OnInit {
 
   ngOnInit() {
     this.filterByFavorites = JSON.parse(localStorage.getItem('filterByFavorites')) || false;
-
-    console.log(this.cdr);
   }
 
   onUserRowSelect(pair): void {
