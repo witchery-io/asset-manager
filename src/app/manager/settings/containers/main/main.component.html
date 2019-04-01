@@ -64,3 +64,15 @@
     </div>
   </div>
 </div>
+
+<div *ngIf="genActiveTab === 'accounts'" class="container-fluid border-top">
+  <div class="row">
+    <div class="col-12">
+      <h5>History</h5>
+      <app-positions
+        *ngIf="(isLoadingHistories$ | async) === false"
+        [section]="histories$ | async"
+      ></app-positions>
+    </div>
+  </div>
+</div>

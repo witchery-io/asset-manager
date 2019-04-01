@@ -23,6 +23,7 @@ import { generateUrl } from '@settings/utils/settings.utils';
 import { ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
 import { NotifierService } from 'angular-notifier';
 import { WebSocketService, WsHandlerService } from '@settings/services';
+import { LoadHistories } from '@settings/actions/history.actions';
 
 @Component({
   selector: 'app-settings',
@@ -34,6 +35,7 @@ export class MainComponent implements OnInit, OnDestroy {
   currentType: string;
   @ViewChild('generalTabs')
   generalTabs: TabsetComponent;
+  genActiveTab: string;
   @ViewChild('ordersTabs')
   ordersTabs: TabsetComponent;
   orders$: Observable<fromOrders.State>;
@@ -46,6 +48,8 @@ export class MainComponent implements OnInit, OnDestroy {
   groups$: Observable<fromGroups.State>;
   group$: Observable<any>;
   account$: Observable<any>;
+  histories$: Observable<any>;
+  isLoadingHistories$: Observable<any>;
   subscription: Subscription;
   settings = {};
   private readonly notifier: NotifierService;
@@ -72,6 +76,8 @@ export class MainComponent implements OnInit, OnDestroy {
     this.groups$ = this.store.pipe(select(Select.getGroups));
     this.group$ = this.store.pipe(select(Select.getGroup));
     this.account$ = this.store.pipe(select(Select.getAccount));
+    this.histories$ = this.store.pipe(select(Select.getHistories));
+    this.isLoadingHistories$ = this.store.pipe(select(Select.isLoadingHistories));
     this.notifier = notifierService;
 
     wsHandlerService.start();
@@ -148,6 +154,7 @@ export class MainComponent implements OnInit, OnDestroy {
    * @param generalTabName ex. groups, accounts
    */
   onSelectGeneralTab(generalTabName: string) {
+    this.genActiveTab = generalTabName;
     const settings = this.settings[generalTabName];
     if (!settings) {
       const defPromise = this.router.navigate([`settings/${generalTabName}`]);
@@ -238,5 +245,9 @@ export class MainComponent implements OnInit, OnDestroy {
         options: `${this.currentSingularType}:${this.currentId}`,
       }
     );
+
+    if (this.genActiveTab === 'accounts') {
+      this.store.dispatch(new LoadHistories({id: this.currentId}));
+    }
   }
 }
