@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { getTicksFromSection } from '@app/core/reducers';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { getBalanceFromSection } from '@trading/state/trading.selectors';
@@ -33,10 +33,9 @@ export class TicksComponent implements OnInit {
   tickFilter: any = {pair: ''};
   order = 'pair';
   reverse = false;
+  oldLasts = [];
 
-  constructor(
-    private cdr: ChangeDetectorRef
-  ) {
+  constructor() {
   }
 
   get ticks() {
@@ -51,6 +50,9 @@ export class TicksComponent implements OnInit {
         return favorites.indexOf(tick.pair) !== -1;
       })
       .map((tick, i) => {
+        const oldLast = this.oldLasts[tick.pair];
+        this.oldLasts[tick.pair] = tick.last;
+
         return {
           id: this.id,
           type: this.type,
@@ -60,6 +62,7 @@ export class TicksComponent implements OnInit {
           dailyChangePercent: parseFloat(((tick.dailyChangePercent || 0) * 100).toFixed(2)),
           add: i,
           balance: this.balance,
+          isGrow: tick.last > oldLast,
         };
       });
   }

@@ -31,7 +31,7 @@ export class WSActionHandlerServer {
   /**
    * Handle server events(from other customers)
    */
-  onWSData(data: any) {
+  onWSData(data: Object) {
     const params = WSActionHandlerServer.parseParams(data);
 
     switch (params.key) {

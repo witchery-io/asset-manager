@@ -50,7 +50,7 @@
         <app-favorite-view [rowData]="tick"></app-favorite-view>
       </th>
       <td class="cursor-pointer" (click)="onUserRowSelect(tick.pair);">{{ tick.pair }}</td>
-      <td>{{ tick.last }}</td>
+      <td><span [ngClass]="tick.isGrow > 0 ? 'text-success' : 'text-danger'">{{ tick.last }}</span></td>
       <td><span [ngClass]="tick.dailyChangePercent > 0 ? 'text-success' : 'text-danger'">
         {{ tick.dailyChangePercent }}%</span></td>
       <td>{{ tick.volume }}</td>
