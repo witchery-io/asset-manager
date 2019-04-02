@@ -48,7 +48,6 @@
         <tab heading="POSITIONS" id="positions" (select)="onSelectOrderTab('positions')">
           <app-positions
             *ngIf="(isLoadingPositions$ | async) === false"
-            [id]="currentId"
             [type]="currentType"
             [section]="positions$ | async"
             [accountsSection]="accounts$ | async"
@@ -57,12 +56,25 @@
         <tab heading="ORDERS" id="orders" (select)="onSelectOrderTab('orders')">
           <app-orders
             *ngIf="(isLoadingOrders$ | async) === false"
-            [id]="currentId"
             [section]="orders$ | async"
             [accountsSection]="accounts$ | async"
           ></app-orders>
         </tab>
       </tabset>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="genActiveTab === 'accounts'" class="container-fluid border-top">
+  <div class="row">
+    <div class="col-12">
+      <h5>History</h5>
+      <app-positions
+        *ngIf="(isLoadingHistories$ | async) === false"
+        [section]="histories$ | async"
+        [accountsSection]="accounts$ | async"
+        [readonly]="historyReadOnly"
+      ></app-positions>
     </div>
   </div>
 </div>

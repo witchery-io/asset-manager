@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { WebSocketService } from '@trading/services/ws/web-socket.service';
-import { WSActionHandlerServer } from '@trading/services/ws/ws-action-handler-server.service';
+import { WebSocketService } from '@settings/services/ws/web-socket.service';
+import { WSActionHandlerServer } from '@settings/services/ws/ws-action-handler-server.service';
 
 @Injectable()
 export class WsHandlerService {
-  private tradingSubscription: Subscription;
+  private settingsSubscription: Subscription;
 
   constructor(
     private ws: WebSocketService,
@@ -16,7 +16,7 @@ export class WsHandlerService {
   start() {
     this.clearSubscriptions();
 
-    this.tradingSubscription = this.ws.trading$.subscribe(data => {
+    this.settingsSubscription = this.ws.settings$.subscribe(data => {
       this.wsActionHandlerServer.onWSData(data);
     });
 
@@ -32,8 +32,8 @@ export class WsHandlerService {
    * Unsubscribe all subscriptions.
    */
   private clearSubscriptions() {
-    if (this.tradingSubscription) {
-      this.tradingSubscription.unsubscribe();
+    if (this.settingsSubscription) {
+      this.settingsSubscription.unsubscribe();
     }
   }
 }

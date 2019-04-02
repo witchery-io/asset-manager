@@ -16,15 +16,20 @@
     margin: 4px 0;
   }
 
-  ng2-smart-table {
-    font-size: 12px;
-    ng2-smart-table-title > a {
-      color: black;
+  thead th {
+    cursor: pointer;
+    margin-right: 15px;
+    margin-left: 15px;
+
+    span {
+      visibility: hidden;
     }
 
-    tr {
-      td {
-        padding: 0 6px!important;
+    &.active {
+      color: #000;
+
+      span {
+        visibility: visible;
       }
     }
   }

@@ -13,28 +13,28 @@ import { getAccountsFromSection } from '@app/core/reducers';
         <th class="col">Amount</th>
         <th class="col">Open Price</th>
         <th class="col">Market Price</th>
-        <th class="col">Stop</th>
-        <th class="col">Limit</th>
+        <th class="col" *ngIf="!readonly">Stop</th>
+        <th class="col" *ngIf="!readonly">Limit</th>
         <th class="col">{{ feeOrSwap }}</th>
         <th class="col">PL</th>
         <th class="col">PL(BTC)</th>
         <th class="col">PL %</th>
         <th class="col">Exposure (BTC)</th>
         <th class="col">Opened</th>
-        <th class="col"></th>
-        <th class="col"></th>
+        <th class="col" *ngIf="!readonly"></th>
+        <th class="col" *ngIf="!readonly"></th>
       </tr>
       </thead>
       <tbody>
       <tr>
         <th colspan="15" class="p-0">
           <app-position
-            *ngFor="let position of positions"
-            [id]="id"
+            *ngFor="let position of positions; trackBy: trackByFn"
             [type]="type"
             [position]="position"
             [permission]="permission"
             [accounts]="accounts"
+            [readonly]="readonly"
           ></app-position>
         </th>
       </tr>
@@ -42,14 +42,10 @@ import { getAccountsFromSection } from '@app/core/reducers';
     </table>`,
 })
 export class PositionsComponent implements OnInit {
-  @Input()
-  id: string;
-  @Input()
-  type: string;
-  @Input()
-  section: any;
-  @Input()
-  accountsSection: any;
+  @Input() type: string;
+  @Input() section: any;
+  @Input() accountsSection: any;
+  @Input() readonly: boolean;
   permission = 'parent';
 
   constructor() {
@@ -68,5 +64,9 @@ export class PositionsComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  trackByFn(index, item) {
+    return item.id;
   }
 }

@@ -2,9 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { WsHandlerService } from '@trading/services/ws/ws-handler.service';
 import { select, Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
-import { LoadBalance, UpdateBalance } from '@trading/actions/balance.actions';
-import { LoadOrders, UpdateOrders } from '@trading/actions/orders.actions';
-import { LoadPositions, UpdatePositions } from '@trading/actions/positions.actions';
+import { OrderCancel, OrderPlace } from '@trading/actions/orders.actions';
+import { PositionClose, PositionPlace } from '@trading/actions/positions.actions';
 import { Observable } from 'rxjs';
 import * as Select from '@trading/state/trading.selectors';
 import * as fromOrders from '@trading/reducers/orders.reducers';
@@ -18,8 +17,11 @@ import { TabsetComponent } from 'ngx-bootstrap';
 import { OrderTab } from '@app/shared/enums';
 import { LoadGroups } from '@app/core/actions/group.actions';
 import { LoadAccounts } from '@app/core/actions/account.actions';
-import { LoadTicks, UpdateTicks } from '@app/core/actions/tick.actions';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
+import { NotifierService } from 'angular-notifier';
+import { WebSocketService } from '@trading/services/ws/web-socket.service';
+import { GROUPS } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-trading',
@@ -44,12 +46,11 @@ export class MainComponent implements OnInit, OnDestroy {
   ticks$: Observable<fromTicks.State>;
   ticksIsLoading$: Observable<boolean>;
 
-  updateInterval: any;
-
   /*
   * chart url
   * */
   chartUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.tradingview.com/widgetembed/?frameElementId=tradingview_ca6f4&symbol=BITFINEX:BTCUSD&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=%5B%5D&theme=Dark&style=1&timezone=Asia%2FDubai&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=www.tradingview.com&utm_medium=widget_new&utm_campaign=chart&utm_term=BITFINEX:BTCUSD`);
+  private readonly notifier: NotifierService;
 
   constructor(
     private ws: WsHandlerService,
@@ -57,6 +58,13 @@ export class MainComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private sanitizer: DomSanitizer,
+    private shared: SharedService,
+    private ordersService: OrdersService,
+    private positionsService: PositionsService,
+    private modalService: ModalService,
+    private notifierService: NotifierService,
+    private wsHandlerService: WsHandlerService,
+    private webSocketService: WebSocketService,
   ) {
     this.orders$ = this.store.pipe(select(Select.getOrders));
     this.isLoadingOrders$ = this.store.pipe(select(Select.isLoadingOrders));
@@ -70,6 +78,13 @@ export class MainComponent implements OnInit, OnDestroy {
     this.isLoadingGroups$ = this.store.pipe(select(Select.groupsIsLoading));
     this.ticks$ = this.store.pipe(select(Select.getTicks));
     this.ticksIsLoading$ = this.store.pipe(select(Select.ticksIsLoading));
+    this.notifier = notifierService;
+
+    wsHandlerService.start();
+  }
+
+  get currentSingularType() {
+    return this.currentType === GROUPS ? 'group' : 'account';
   }
 
   /**
@@ -90,36 +105,44 @@ export class MainComponent implements OnInit, OnDestroy {
     this.ordersTabs.tabs[MainComponent.tabIndex(urlTabName)].active = true;
 
     /*
-    * Init
-    * */
-    this.store.dispatch(new LoadBalance({id: urlId, type: urlType}));
-    this.store.dispatch(new LoadOrders({id: urlId, type: urlType}));
-    this.store.dispatch(new LoadPositions({id: urlId, type: urlType, groupByPair: true}));
-
-    /*
     * Load CORE Data
     * */
     this.store.dispatch(new LoadGroups());
     this.store.dispatch(new LoadAccounts());
-    this.store.dispatch(new LoadTicks());
 
     /*
-    * update state
+    * order actions
     * */
-    this.updateInterval = setInterval(() => {
-      if (!this.currentId || !this.currentType) {
-        return;
-      }
+    this.shared.getOrderCancel().subscribe(order => {
+      this.store.dispatch(new OrderCancel(order));
+    });
 
-      this.store.dispatch(new UpdateTicks());
-      this.store.dispatch(new UpdateBalance({id: this.currentId, type: this.currentType}));
-      this.store.dispatch(new UpdateOrders({id: this.currentId, type: this.currentType}));
-      this.store.dispatch(new UpdatePositions({id: this.currentId, type: this.currentType, groupByPair: true}));
-    }, 2500);
+    this.shared.getOrderApprove().subscribe(params => {
+      this.store.dispatch(new OrderPlace({id: this.currentId, type: this.currentType, params: params}));
+    });
+
+    /*
+    * position actions
+    * */
+    this.shared.getPositionClose().subscribe(position => {
+      this.store.dispatch(new PositionClose(position));
+    });
+
+    this.shared.getPositionPlace().subscribe(params => {
+      this.store.dispatch(new PositionPlace({id: this.currentId, type: this.currentType, params: params}));
+    });
+
+    this.webSocketService.send(
+      {
+        event: 'subscribe',
+        channel: 'all',
+        options: `${this.currentSingularType}:${urlId}`,
+      }
+    );
   }
 
   ngOnDestroy() {
-    clearInterval(this.updateInterval);
+    this.webSocketService.close();
   }
 
   selectTab(tabId): void {
@@ -128,13 +151,24 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   onSelect(params: { currentId: string, currentType: string }) {
+    this.webSocketService.send(
+      {
+        event: 'unsubscribe',
+        channel: 'all',
+        options: `${this.currentSingularType}:${this.currentId}`,
+      }
+    );
+
     this.currentId = params.currentId;
     this.currentType = params.currentType;
 
-    this.store.dispatch(new LoadOrders({id: params.currentId, type: params.currentType}));
-    this.store.dispatch(new LoadPositions({id: params.currentId, type: params.currentType, groupByPair: true}));
-    this.store.dispatch(new LoadBalance({id: params.currentId, type: params.currentType}));
-    this.store.dispatch(new LoadTicks());
+    this.webSocketService.send(
+      {
+        event: 'subscribe',
+        channel: 'all',
+        options: `${this.currentSingularType}:${this.currentId}`,
+      }
+    );
   }
 
   /*

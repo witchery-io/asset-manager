@@ -1,8 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { getTicksFromSection } from '@app/core/reducers';
-import { LocalDataSource } from 'ng2-smart-table';
-import { ButtonViewComponent } from '@trading/components/button-view/button-view.component';
-import { FavoriteViewComponent } from '@trading/components/favorite-view/favorite-view.component';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { getBalanceFromSection } from '@trading/state/trading.selectors';
 
@@ -10,12 +7,13 @@ import { getBalanceFromSection } from '@trading/state/trading.selectors';
   selector: 'app-ticks',
   templateUrl: './ticks.component.html',
   styleUrls: ['ticks.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TicksComponent implements OnInit {
 
   faStar = faStar;
 
-  favorites: boolean;
+  filterByFavorites: boolean;
 
   @Input()
   id: string;
@@ -32,45 +30,13 @@ export class TicksComponent implements OnInit {
   @Output()
   select: EventEmitter<any> = new EventEmitter();
 
-  settings = {
-    columns: {
-      favorite: {
-        type: 'custom',
-        renderComponent: FavoriteViewComponent,
-      },
-      pair: {
-        title: 'INS.',
-        sortDirection: 'ASC',
-      },
-      last: {
-        title: 'LAST',
-      },
-      dailyChangePercent: {
-        title: '24HR',
-        type: 'html',
-        valuePrepareFunction: val => `<span class="${val > 0 ? 'text-success' : 'text-danger'}">${val}%</span>`,
-      },
-      volume: {
-        title: 'VOL USD',
-      },
-      add: {
-        type: 'custom',
-        renderComponent: ButtonViewComponent,
-      },
-    },
-    hideSubHeader: true,
-    pager: {
-      perPage: 500
-    },
-    actions: false,
-    attr: {
-      class: 'table table-xs'
-    }
-  };
+  tickFilter: any = {pair: ''};
+  order = 'pair';
+  reverse = false;
 
-  source: LocalDataSource;
-
-  constructor() {
+  constructor(
+    private cdr: ChangeDetectorRef
+  ) {
   }
 
   get ticks() {
@@ -78,32 +44,28 @@ export class TicksComponent implements OnInit {
 
     return getTicksFromSection(this.section)
       .filter((tick) => {
-        if (!this.favorites) {
+        if (!this.filterByFavorites) {
           return true;
         }
 
         return favorites.indexOf(tick.pair) !== -1;
       })
       .map((tick, i) => {
-        const dailyChangePercent = tick.dailyChangePercent || 0;
-
         return {
-          ...tick,
-          ...{
-            id: this.id,
-            type: this.type,
-            last: parseFloat(tick.last.toFixed(2)),
-            volume: parseFloat(tick.volume.toFixed(2)),
-            dailyChangePercent: parseFloat((dailyChangePercent * 100).toFixed(2)),
-            add: i,
-            balance: this.balance,
-          },
+          id: this.id,
+          type: this.type,
+          pair: tick.pair,
+          last: parseFloat(tick.last.toFixed(2)),
+          volume: parseFloat(tick.volume.toFixed(2)),
+          dailyChangePercent: parseFloat(((tick.dailyChangePercent || 0) * 100).toFixed(2)),
+          add: i,
+          balance: this.balance,
         };
       });
   }
 
   get color() {
-    return this.favorites ? 'orange' : 'black';
+    return this.filterByFavorites ? 'orange' : 'black';
   }
 
   get balance() {
@@ -111,31 +73,27 @@ export class TicksComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.favorites = JSON.parse(localStorage.getItem('filterByFavorites')) || false;
-
-    this.source = new LocalDataSource(this.ticks);
-    setInterval(() => this.source.load(this.ticks), 1000);
+    this.filterByFavorites = JSON.parse(localStorage.getItem('filterByFavorites')) || false;
   }
 
-  onSearch(query = '') {
-    if (query === '') {
-      this.source.setFilter([]);
-    } else {
-      this.source.setFilter([
-        {
-          field: 'pair',
-          search: query
-        },
-      ], false);
-    }
-  }
-
-  onUserRowSelect($event): void {
-    this.select.emit(`${$event.data.pair}`);
+  onUserRowSelect(pair): void {
+    this.select.emit(`${pair}`);
   }
 
   selectFavorite() {
-    this.favorites = !this.favorites;
-    localStorage.setItem('filterByFavorites', JSON.stringify(this.favorites));
+    this.filterByFavorites = !this.filterByFavorites;
+    localStorage.setItem('filterByFavorites', JSON.stringify(this.filterByFavorites));
+  }
+
+  trackByFn(index, item) {
+    return item.pair;
+  }
+
+  setOrder(value: string) {
+    if (this.order === value) {
+      this.reverse = !this.reverse;
+    }
+
+    this.order = value;
   }
 }

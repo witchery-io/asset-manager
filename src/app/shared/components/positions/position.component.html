@@ -6,7 +6,7 @@
     <td class="col">{{ position.amount | number }}</td>
     <td class="col">{{ position.openPrice | number }}</td>
     <td class="col">{{ position.lastPrice | number }}</td>
-    <td class="col">
+    <td class="col" *ngIf="!readonly">
       <button
         [disabled]="role !== ROLE.ADMIN"
         class="btn btn-xs btn-danger"
@@ -14,7 +14,7 @@
       >Add
       </button>
     </td>
-    <td class="col">
+    <td class="col" *ngIf="!readonly">
       <button
         [disabled]="role !== ROLE.ADMIN"
         class="btn btn-xs btn-warning"
@@ -28,7 +28,7 @@
     <td class="col">{{ position.plPercent | number }}</td>
     <td class="col">{{ position.exposure | number }}</td>
     <td class="col">{{ position.openedAt | date:'short' }}</td>
-    <td class="col">
+    <td class="col" *ngIf="!readonly">
       <button
         [disabled]="role !== ROLE.ADMIN"
         class="btn btn-danger btn-xs"
@@ -36,7 +36,7 @@
       >Close
       </button>
     </td>
-    <th class="col">
+    <th class="col" *ngIf="!readonly">
       <button
         [hidden]="permission !== PARENT || position.subPositions === undefined"
         (click)="collapse()"
@@ -50,11 +50,11 @@
     <th colspan="15" class="p-0">
       <table class="table table-hover m-0">
         <app-position
-          *ngFor="let position of position.subPositions"
+          *ngFor="let position of position.subPositions; trackBy: trackByFn"
           [position]="position"
           [accounts]="accounts"
-          [id]="id"
           [type]="type"
+          [readonly]="readonly"
         ></app-position>
       </table>
     </th>

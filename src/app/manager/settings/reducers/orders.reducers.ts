@@ -21,16 +21,6 @@ export function reducer(state: State = initialState, action: OrdersActions.Actio
     case OrdersActions.LOAD_ORDERS: {
       return {...state, isLoading: true};
     }
-    case OrdersActions.UPDATE_ORDERS: {
-      return state;
-    }
-    case OrdersActions.UPDATE_ORDER_ITEMS: {
-
-      // todo :: will changed
-
-      // return adapter.updateMany(action.payload.orders.map(changes => ({id: changes.orderNumber, changes})), state);
-      return adapter.addAll(action.payload.orders, {...state, isLoading: false, error: null});
-    }
     case OrdersActions.ORDERS_LOADED: {
       return adapter.addAll(action.payload.orders, {...state, isLoading: false, error: null});
     }
@@ -39,6 +29,18 @@ export function reducer(state: State = initialState, action: OrdersActions.Actio
     }
     case OrdersActions.CLEAN_UP_ORDERS: {
       return initialState;
+    }
+    case OrdersActions.ORDERS_UPDATE: {
+      return adapter.updateMany(action.payload.orders.map(changes => ({id: changes.orderNumber, changes})), state);
+    }
+    case OrdersActions.ORDER_UPDATE: {
+      return adapter.updateOne({id: action.payload.orderNumber, changes: action.payload}, state);
+    }
+    case OrdersActions.ORDER_DELETE: {
+      return adapter.removeOne(action.payload, state);
+    }
+    case OrdersActions.ORDER_ADD: {
+      return adapter.addOne(action.payload, state);
     }
     default: {
       return state;

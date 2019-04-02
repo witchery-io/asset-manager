@@ -1,25 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError as observableThrowError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
 import { NotifierService } from 'angular-notifier';
 import { environment } from '../../../environments/environment';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
-export class OrderService {
+export class HistoryService {
 
-  url = '';
   private readonly notifier: NotifierService;
 
   constructor(
-    protected http: HttpClient,
-    protected notifierService: NotifierService,
+    private http: HttpClient,
+    private notifierService: NotifierService,
   ) {
     this.notifier = notifierService;
   }
 
-  placeOrder(id, type, params): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/${type}/${id}/orders`, params)
+  getHistory(params): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/accounts/${params.id}/positions/history`)
       .pipe(
         catchError(this.handleError.bind(this))
       );
@@ -28,8 +27,9 @@ export class OrderService {
   /**
    * Handle server response errors here
    */
-  protected handleError(error1: any) {
+  private handleError(error1: any) {
     let errMsg = 'Server error';
+
 
     if (error1 && error1.error.message) {
       errMsg = error1.error.message;

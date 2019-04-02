@@ -23,8 +23,7 @@ import { getOrdersFromSection } from '@trading/state/trading.selectors';
       <tr>
         <th colspan="10" class="p-0">
           <app-order
-            *ngFor="let order of orders"
-            [id]="id"
+            *ngFor="let order of orders; trackBy: trackByFn"
             [order]="order"
             [permission]="permission"
             [accounts]="accounts"
@@ -35,22 +34,12 @@ import { getOrdersFromSection } from '@trading/state/trading.selectors';
     </table>`,
 })
 export class OrdersComponent implements OnInit {
-
-  @Input()
-  id: string;
-
-  @Input()
-  section: any;
-
-  @Input()
-  accountsSection: any;
-
+  @Input() id: string;
+  @Input() section: any;
+  @Input() accountsSection: any;
   permission = 'parent';
 
   constructor() {
-  }
-
-  ngOnInit() {
   }
 
   get orders() {
@@ -59,5 +48,12 @@ export class OrdersComponent implements OnInit {
 
   get accounts() {
     return getOrdersFromSection(this.accountsSection);
+  }
+
+  ngOnInit() {
+  }
+
+  trackByFn(index, item) {
+    return item.orderNumber;
   }
 }

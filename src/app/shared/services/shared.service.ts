@@ -3,41 +3,64 @@ import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class SharedService {
-
-  private settingsSubject: Subject<any> = new Subject<any>();
+  private orderCancelSubject = new Subject<any>();
+  private orderApproveSubject = new Subject<any>();
+  private positionCloseSubject = new Subject<any>();
+  private positionPlaceSubject = new Subject<any>();
 
   /*
-  * Main Component SAVE settings
+  * send order
   * */
-  _saveSettings = {};
-
-  constructor() {
+  orderCancel(data) {
+    this.orderCancelSubject.next(data);
   }
 
-  setSettingsObs(params) {
-    this.settingsSubject.next(params);
+  /*
+  * get Observable
+  * */
+  getOrderCancel(): Observable<any> {
+    return this.orderCancelSubject.asObservable();
   }
 
-  getSettingsObs(): Observable<any> {
-    return this.settingsSubject.asObservable();
+  /*
+  * send data
+  * */
+  orderApprove(data) {
+    this.orderApproveSubject.next(data);
   }
 
-  get sParams() {
-    return this._saveSettings;
+  /*
+  * get Observable
+  * */
+  getOrderApprove(): Observable<any> {
+    return this.orderApproveSubject.asObservable();
   }
 
-  setSParams(name, params) {
-    if (!name) {
-      return;
-    }
+  /*
+  * send position
+  * */
+  positionClose(data) {
+    this.positionCloseSubject.next(data);
+  }
 
-    if (!params) {
-      return;
-    }
+  /*
+  * get Observable
+  * */
+  getPositionClose(): Observable<any> {
+    return this.positionCloseSubject.asObservable();
+  }
 
-    this._saveSettings[name] = {
-      ...this._saveSettings[name],
-      ...params,
-    };
+  /*
+  * send data
+  * */
+  positionPlace(data) {
+    this.positionPlaceSubject.next(data);
+  }
+
+  /*
+  * get Observable
+  * */
+  getPositionPlace(): Observable<any> {
+    return this.positionPlaceSubject.asObservable();
   }
 }

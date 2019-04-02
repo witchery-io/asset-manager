@@ -17,11 +17,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { BalanceEffects } from '@settings/effects/balance.effects';
 import { OrdersEffects } from '@settings/effects/orders.effects';
 import { PositionsEffects } from '@settings/effects/positions.effects';
-import { BalanceService, ModalService, OrdersService, PositionsService, SharedService, } from '@app/shared/services';
+import { BalanceService, HistoryService, ModalService, OrdersService, PositionsService, SharedService, } from '@app/shared/services';
 import { BsDatepickerModule, TabsModule } from 'ngx-bootstrap';
 import { AccountFormComponent } from './components/templates/account-form/account-form.component';
 import { GroupEffects } from '@settings/effects/group.effects';
 import { AccountEffects } from '@settings/effects/account.effects';
+import { WebSocketService, WsHandlerService, WSActionHandlerClient, WSActionHandlerServer  } from '@settings/services';
+import { HistoriesEffects } from '@settings/effects/history.effects';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { AccountEffects } from '@settings/effects/account.effects';
       PositionsEffects,
       GroupEffects,
       AccountEffects,
+      HistoriesEffects,
     ]),
     TabsModule.forRoot(),
     BsDatepickerModule.forRoot(),
@@ -55,6 +58,12 @@ import { AccountEffects } from '@settings/effects/account.effects';
     BalanceService,
     ModalService,
     SharedService,
+    HistoryService,
+
+    WebSocketService,
+    WsHandlerService,
+    WSActionHandlerClient,
+    WSActionHandlerServer,
   ],
 })
 export class SettingsModule {

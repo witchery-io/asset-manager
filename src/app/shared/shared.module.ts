@@ -14,6 +14,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { INTERCEPTOR_PROVIDERS } from '@app/core/interceptors';
+import { FilterPipeModule } from 'ngx-filter-pipe';
+import { OrderModule } from 'ngx-order-pipe';
 
 @NgModule({
   imports: [
@@ -37,6 +39,8 @@ import { INTERCEPTOR_PROVIDERS } from '@app/core/interceptors';
     ReactiveFormsModule,
     FontAwesomeModule,
     Ng2SmartTableModule,
+    FilterPipeModule,
+    OrderModule,
     MarketComponent,
   ],
   declarations: [

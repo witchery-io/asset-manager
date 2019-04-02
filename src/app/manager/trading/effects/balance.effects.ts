@@ -9,27 +9,13 @@ import { BalanceService } from '@app/shared/services/balance.service';
 export class BalanceEffects {
 
   @Effect()
-  loadGroups$ = this.actions$.pipe(
+  loadBalance$ = this.actions$.pipe(
     ofType<fromBalance.LoadBalance>(fromBalance.LOAD_BALANCE),
     map(settings => settings.payload),
     switchMap((settings: any) => {
       return this.balanceService.getBalance(settings).pipe(
         map(response => {
           return new fromBalance.BalanceLoaded({balance: response});
-        }),
-        catchError(error => of(new fromBalance.BalanceNotLoaded({error: error.message || error}))),
-      );
-    }),
-  );
-
-  @Effect()
-  updateGroups$ = this.actions$.pipe(
-    ofType<fromBalance.UpdateBalance>(fromBalance.UPDATE_BALANCE),
-    map(settings => settings.payload),
-    switchMap((settings: any) => {
-      return this.balanceService.getBalance(settings).pipe(
-        map(response => {
-          return new fromBalance.UpdateBalanceItem(response);
         }),
         catchError(error => of(new fromBalance.BalanceNotLoaded({error: error.message || error}))),
       );

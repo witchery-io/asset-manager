@@ -11,15 +11,19 @@ import * as fromPositions from '@settings/reducers/positions.reducers';
 import * as fromBalance from '@settings/reducers/balance.reducers';
 import * as fromAccounts from '@app/core/reducers/account.reducers';
 import * as fromGroups from '@app/core/reducers/group.reducers';
-import { CleanUpBalance, LoadBalance, UpdateBalance } from '@settings/actions/balance.actions';
-import { CleanUpOrders, LoadOrders, UpdateOrders } from '@settings/actions/orders.actions';
-import { CleanUpPositions, LoadPositions, UpdatePositions } from '@settings/actions/positions.actions';
+import { CleanUpBalance } from '@settings/actions/balance.actions';
+import { CleanUpOrders, OrderCancel, OrderPlace } from '@settings/actions/orders.actions';
+import { CleanUpPositions, PositionClose, PositionPlace } from '@settings/actions/positions.actions';
 import { LoadGroups } from '@app/core/actions/group.actions';
 import { LoadAccounts } from '@app/core/actions/account.actions';
 import { LoadAccount } from '@settings/actions/account.actions';
 import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
 import { LoadGroup } from '@settings/actions/group.actions';
 import { generateUrl } from '@settings/utils/settings.utils';
+import { ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
+import { NotifierService } from 'angular-notifier';
+import { WebSocketService, WsHandlerService } from '@settings/services';
+import { LoadHistories } from '@settings/actions/history.actions';
 
 @Component({
   selector: 'app-settings',
@@ -31,6 +35,7 @@ export class MainComponent implements OnInit, OnDestroy {
   currentType: string;
   @ViewChild('generalTabs')
   generalTabs: TabsetComponent;
+  genActiveTab = 'groups';
   @ViewChild('ordersTabs')
   ordersTabs: TabsetComponent;
   orders$: Observable<fromOrders.State>;
@@ -43,14 +48,24 @@ export class MainComponent implements OnInit, OnDestroy {
   groups$: Observable<fromGroups.State>;
   group$: Observable<any>;
   account$: Observable<any>;
+  histories$: Observable<any>;
+  isLoadingHistories$: Observable<any>;
   subscription: Subscription;
-  updateInterval: any;
   settings = {};
+  private readonly notifier: NotifierService;
+  historyReadOnly = true;
 
   constructor(
     private store: Store<SettingsState>,
     private route: ActivatedRoute,
     private router: Router,
+    private shared: SharedService,
+    private ordersService: OrdersService,
+    private positionsService: PositionsService,
+    private modalService: ModalService,
+    private notifierService: NotifierService,
+    private wsHandlerService: WsHandlerService,
+    private webSocketService: WebSocketService,
   ) {
     this.orders$ = this.store.pipe(select(Select.getOrders));
     this.isLoadingOrders$ = this.store.pipe(select(Select.isLoadingOrders));
@@ -62,6 +77,15 @@ export class MainComponent implements OnInit, OnDestroy {
     this.groups$ = this.store.pipe(select(Select.getGroups));
     this.group$ = this.store.pipe(select(Select.getGroup));
     this.account$ = this.store.pipe(select(Select.getAccount));
+    this.histories$ = this.store.pipe(select(Select.getHistories));
+    this.isLoadingHistories$ = this.store.pipe(select(Select.isLoadingHistories));
+    this.notifier = notifierService;
+
+    wsHandlerService.start();
+  }
+
+  get currentSingularType() {
+    return this.currentType === GROUPS ? 'group' : 'account';
   }
 
   ngOnInit() {
@@ -98,18 +122,40 @@ export class MainComponent implements OnInit, OnDestroy {
     const urlSubType = this.route.firstChild.snapshot.paramMap.get('subType');
 
     this.onSelect({id: urlId, type: urlGeneralTab, subId: urlSubId, subType: urlSubType});
-    this.updateInterval = setInterval(() => this.updateState({currentId: this.currentId, currentType: this.currentType}), 3000);
+
+    /*
+    * order actions
+    * */
+    this.shared.getOrderCancel().subscribe(order => {
+      this.store.dispatch(new OrderCancel(order));
+    });
+
+    this.shared.getOrderApprove().subscribe(params => {
+      this.store.dispatch(new OrderPlace({id: this.currentId, type: this.currentType, params: params}));
+    });
+
+    /*
+    * position actions
+    * */
+    this.shared.getPositionClose().subscribe(position => {
+      this.store.dispatch(new PositionClose(position));
+    });
+
+    this.shared.getPositionPlace().subscribe(params => {
+      this.store.dispatch(new PositionPlace({id: this.currentId, type: this.currentType, params: params}));
+    });
   }
 
   ngOnDestroy() {
     this.forcedCleanState();
-    clearInterval(this.updateInterval);
+    this.webSocketService.close();
   }
 
   /**
    * @param generalTabName ex. groups, accounts
    */
   onSelectGeneralTab(generalTabName: string) {
+    this.genActiveTab = generalTabName;
     const settings = this.settings[generalTabName];
     if (!settings) {
       const defPromise = this.router.navigate([`settings/${generalTabName}`]);
@@ -174,24 +220,20 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * update new params to state
-   * @param params :: array
-   */
-  private updateState(params) {
-    if (!params.currentId || !params.currentType) {
-      return;
-    }
-
-    this.store.dispatch(new UpdateBalance({id: params.currentId, type: params.currentType}));
-    this.store.dispatch(new UpdateOrders({id: params.currentId, type: params.currentType}));
-    this.store.dispatch(new UpdatePositions({id: params.currentId, type: params.currentType}));
-  }
-
-  /**
    * set new params to state
    * @param params :: array
    */
   private putState(params) {
+    if (this.currentId || this.currentType) {
+      this.webSocketService.send(
+        {
+          event: 'unsubscribe',
+          channel: 'all',
+          options: `${this.currentSingularType}:${this.currentId}`,
+        }
+      );
+    }
+
     if (!params.currentId || !params.currentType) {
       return;
     }
@@ -199,8 +241,16 @@ export class MainComponent implements OnInit, OnDestroy {
     this.currentId = params.currentId;
     this.currentType = params.currentType;
 
-    this.store.dispatch(new LoadBalance({id: params.currentId, type: params.currentType}));
-    this.store.dispatch(new LoadOrders({id: params.currentId, type: params.currentType}));
-    this.store.dispatch(new LoadPositions({id: params.currentId, type: params.currentType}));
+    this.webSocketService.send(
+      {
+        event: 'subscribe',
+        channel: 'all',
+        options: `${this.currentSingularType}:${this.currentId}`,
+      }
+    );
+
+    if (this.genActiveTab === 'accounts') {
+      this.store.dispatch(new LoadHistories({id: this.currentId}));
+    }
   }
 }

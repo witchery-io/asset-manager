@@ -3,16 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { TradingRoutingModule } from './trading-routing.module';
 import { MainComponent } from '@trading/containers';
-import {
-  AccountsComponent,
-  GroupsComponent,
-  TicksComponent,
-  BalanceComponent,
-} from '@trading/components';
+import { AccountsComponent, BalanceComponent, GroupsComponent, TicksComponent, } from '@trading/components';
 import { SharedModule } from '@app/shared/shared.module';
-import { WebSocketService } from '@trading/services/ws/web-socket.service';
-import { WsHandlerService } from '@trading/services/ws/ws-handler.service';
-import { WSActionHandlerClient } from '@trading/services/ws/ws-action-handler-client.service';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from '@trading/reducers';
 import { EffectsModule } from '@ngrx/effects';
@@ -24,6 +16,7 @@ import { TabsModule } from 'ngx-bootstrap';
 import { TvChartComponent } from '@trading/components/tv-chart/tv-chart.component';
 import { ButtonViewComponent } from '@trading/components/button-view/button-view.component';
 import { FavoriteViewComponent } from '@trading/components/favorite-view/favorite-view.component';
+import { WebSocketService, WsHandlerService, WSActionHandlerClient, WSActionHandlerServer } from '@trading/services';
 
 @NgModule({
   declarations: [
@@ -45,19 +38,21 @@ import { FavoriteViewComponent } from '@trading/components/favorite-view/favorit
     TabsModule.forRoot(),
   ],
   providers: [
-    WebSocketService,
-    WsHandlerService,
-    WSActionHandlerClient,
-
     PositionsService,
     OrdersService,
     BalanceService,
     ModalService,
     SharedService,
+
+    WebSocketService,
+    WsHandlerService,
+    WSActionHandlerClient,
+    WSActionHandlerServer,
   ],
   entryComponents: [
     ButtonViewComponent,
     FavoriteViewComponent,
   ],
 })
-export class TradingModule { }
+export class TradingModule {
+}

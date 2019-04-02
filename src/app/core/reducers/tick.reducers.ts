@@ -24,6 +24,9 @@ export function reducer(state: State = initialState, action: TickActions.Actions
     case TickActions.UPDATE_TICKS: {
       return state;
     }
+    case TickActions.UPDATE_TICK: {
+      return adapter.updateOne({id: action.payload.tick.pair, changes: action.payload.tick}, state);
+    }
     case TickActions.UPDATE_TICKS_ITEMS: {
       return adapter.updateMany(action.payload.ticks.map(changes => ({id: changes.pair, changes})), state);
     }

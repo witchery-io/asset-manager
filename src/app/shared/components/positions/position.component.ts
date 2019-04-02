@@ -3,9 +3,9 @@ import { Role } from '@app/shared/enums';
 import { BsModalRef } from 'ngx-bootstrap';
 import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ModalService, OrdersService, PositionsService } from '@app/shared/services';
+import { ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { ACCOUNTS, GROUPS, PARENT } from '@app/shared/enums/trading.enum';
+import { PARENT } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-position',
@@ -13,16 +13,11 @@ import { ACCOUNTS, GROUPS, PARENT } from '@app/shared/enums/trading.enum';
   styleUrls: ['./position.component.scss'],
 })
 export class PositionComponent implements OnInit {
-  @Input()
-  id: string;
-  @Input()
-  type: string;
-  @Input()
-  permission: string;
-  @Input()
-  accounts: any;
-  @Input()
-  position: any;
+  @Input() type: string;
+  @Input() permission: string;
+  @Input() accounts: any;
+  @Input() position: any;
+  @Input() readonly: boolean;
   role = 'admin';
   faPlus = faPlus;
   faMinus = faMinus;
@@ -34,6 +29,7 @@ export class PositionComponent implements OnInit {
   formValues: any;
   groupByPair = true;
   private readonly notifier: NotifierService;
+
   // account_name: string;
 
   constructor(
@@ -42,6 +38,7 @@ export class PositionComponent implements OnInit {
     private notifierService: NotifierService,
     private spinner: NgxSpinnerService,
     private ordersService: OrdersService,
+    private shared: SharedService,
   ) {
     this.notifier = notifierService;
   }
@@ -90,14 +87,14 @@ export class PositionComponent implements OnInit {
   }
 
   setAccountName() {
-/*    if (this.permission !== 'parent' && this.type === 'group' && this.accounts && !this.groupByPair) {
-      for (const account of this.accounts) {
-        if (account.id === this.position.account) {
-          this.account_name = account.acc_name;
-          break;
-        }
-      }
-    }*/
+    /*    if (this.permission !== 'parent' && this.type === 'group' && this.accounts && !this.groupByPair) {
+          for (const account of this.accounts) {
+            if (account.id === this.position.account) {
+              this.account_name = account.acc_name;
+              break;
+            }
+          }
+        }*/
   }
 
   openModal(template: any, options = {}) {
@@ -122,53 +119,23 @@ export class PositionComponent implements OnInit {
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
+  /*
+  * close current position
+  * */
   orderClose() {
-    this.positionsService.closePosition(this.position.id)
-      .subscribe(() => {
-        this.modalService.closeAllModals();
-        this.notifier.notify('success',
-          `Order cancelled,
-           ${this.position.type}, ${this.position.direction} ${this.position.amount} ${this.position.pair} @ ${this.position.openPrice}.`);
-      });
+    this.shared.positionClose(this.position);
   }
 
+  /*
+  * position
+  * */
   onOrder(params) {
     params.pair = this.position.pair;
     params.positionId = this.position.id;
-
-    switch (this.type) {
-      case GROUPS:
-        this.groupOrder(this.id, params);
-        break;
-      case ACCOUNTS:
-        this.accountOrder(this.id, params);
-        break;
-    }
+    this.shared.positionPlace(params);
   }
 
-  /**
-   * @param id * important param
-   * @param order -- creating order
-   */
-  groupOrder(id, order) {
-    this.ordersService.placeGroupOrder(id, order)
-      .subscribe((d: any) => {
-        this.modalService.closeAllModals();
-        this.notifier.notify('success',
-          `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.openPrice}.`);
-      });
-  }
-
-  /**
-   * @param id * important param
-   * @param order -- creating order
-   */
-  accountOrder(id, order) {
-    this.ordersService.placeAccountOrder(id, order)
-      .subscribe((d: any) => {
-        this.modalService.closeAllModals();
-        this.notifier.notify('success',
-          `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.openPrice}.`);
-      });
+  trackByFn(index, item) {
+    return item.id;
   }
 }

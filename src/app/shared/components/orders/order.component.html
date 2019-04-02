@@ -37,8 +37,7 @@
     <th colspan="15" class="p-0">
       <table class="table table-xs m-0">
         <app-order
-          *ngFor="let order of order.subOrders"
-          [id]="id"
+          *ngFor="let order of order.subOrders; trackBy: trackByFn"
           [order]="order"
           [accounts]="accounts"
         ></app-order>
@@ -51,7 +50,7 @@
 <ng-template #cancelOrder>
   <div class="modal-body text-center">
     <p class="small">Do you want to cancel ?
-      {{order.type}} {{order.direction}} {{order.amount}} {{order.pair}} @ {{order.price}}</p>
+      {{order.type}} {{order.direction}} {{order.originalAmount}} {{order.pair}} @ {{order.price}}</p>
     <button type="button" class="btn btn-default btn-xs" (click)="orderCancel()">Yes</button>
     <button type="button" class="btn btn-primary btn-xs ml-1" (click)="modalRef.hide()">No</button>
   </div>
