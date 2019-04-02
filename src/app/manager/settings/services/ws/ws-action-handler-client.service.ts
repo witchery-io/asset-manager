@@ -11,7 +11,7 @@ export class WSActionHandlerClient {
 
   notifyWebSocketServer(data) {
     if (data.isOpened) {
-      this.notifierService.notify('info', 'Websocket is connected');
+      this.notifierService.notify('info', 'Websocket has connected');
     } else {
       this.notifierService.notify('error', data.message);
     }
