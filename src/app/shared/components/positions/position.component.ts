@@ -44,7 +44,7 @@ export class PositionComponent implements OnInit {
   }
 
   get feeOrSwap() {
-    return this.type === 'group' ? this.position.fee : this.position.swap;
+    return this.type === 'groups' ? this.position.fee : this.position.swap;
   }
 
   get tooltip() {

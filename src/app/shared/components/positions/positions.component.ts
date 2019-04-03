@@ -56,7 +56,7 @@ export class PositionsComponent implements OnInit {
   }
 
   get feeOrSwap() {
-    return this.type === 'group' ? 'Fee' : 'Swap';
+    return this.type === 'groups' ? 'Fee' : 'Swap';
   }
 
   get accounts() {
