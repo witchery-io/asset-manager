@@ -16,7 +16,7 @@ import { TabsModule } from 'ngx-bootstrap';
 import { TvChartComponent } from '@trading/components/tv-chart/tv-chart.component';
 import { ButtonViewComponent } from '@trading/components/button-view/button-view.component';
 import { FavoriteViewComponent } from '@trading/components/favorite-view/favorite-view.component';
-import { WebSocketService, WsHandlerService, WSActionHandlerClient, WSActionHandlerServer } from '@trading/services';
+import { WebSocketService, WSActionHandlerClient, WSActionHandlerServer, WsHandlerService } from '@trading/services';
 
 @NgModule({
   declarations: [

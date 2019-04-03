@@ -15,7 +15,7 @@
 
 </div>
 
-<div class="ticks">
+<cdk-virtual-scroll-viewport class="ticks" style="height: 420px" itemSize="30">
   <table class="table table-xs">
     <thead>
     <tr>
@@ -45,7 +45,7 @@
     </thead>
     <tbody>
     <tr
-      *ngFor="let tick of ticks | filterBy: tickFilter | orderBy: order:reverse; trackBy: trackByFn">
+      *cdkVirtualFor="let tick of ticks | filterBy: tickFilter | orderBy: order:reverse; trackBy: trackByFn">
       <th scope="row">
         <app-favorite-view [rowData]="tick"></app-favorite-view>
       </th>
@@ -61,4 +61,4 @@
     </tbody>
   </table>
 
-</div>
+</cdk-virtual-scroll-viewport>
