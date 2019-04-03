@@ -13,7 +13,7 @@ export class WSActionHandlerClient {
     if (data.isOpened) {
       this.notifierService.notify('info', 'Websocket has connected');
     } else {
-      this.notifierService.notify('error', data.message);
+      this.notifierService.notify('warning', data.message);
     }
   }
 }
