@@ -63,6 +63,7 @@ export class TicksComponent implements OnInit {
           add: i,
           balance: this.balance,
           isGrow: tick.last > oldLast,
+          isFavorite: favorites.indexOf(tick.pair) !== -1,
         };
       });
   }

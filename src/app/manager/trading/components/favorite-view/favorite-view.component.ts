@@ -13,27 +13,20 @@ export class FavoriteViewComponent implements OnInit {
 
   faStar = faStar;
 
-  favorite: boolean;
-
   constructor() {
   }
 
   get color() {
-    return this.favorite ? 'orange' : 'black';
+    return this.rowData.isFavorite ? 'orange' : 'black';
   }
 
   ngOnInit() {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-    const favIndex = favorites.indexOf(this.rowData.pair);
-    this.favorite = favIndex !== -1;
   }
 
   select(favId) {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
     const favIndex = favorites.indexOf(favId);
-    this.favorite = favIndex === -1;
     if (favIndex === -1) {
       favorites.push(favId);
     } else {
