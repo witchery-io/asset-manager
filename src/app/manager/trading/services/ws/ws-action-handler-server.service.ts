@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
 import { TicksLoaded, UpdateTick } from '@app/core/actions/tick.actions';
-import { OrderAdd, OrderDelete, OrdersLoaded, SubOrderDelete, UpdateOrder } from '@trading/actions/orders.actions';
+import { OrderAdd, OrderDelete, OrdersLoaded, UpdateOrder } from '@trading/actions/orders.actions';
 import { Order } from '@app/shared/intefaces/order.interface';
 import { Position } from '@app/shared/intefaces/position.interface';
 import { Tick } from '@app/core/intefaces';
-import { PositionAdd, PositionDelete, PositionsLoaded, SubPositionDelete, UpdatePosition } from '@trading/actions/positions.actions';
+import { PositionAdd, PositionDelete, PositionsLoaded, UpdatePosition } from '@trading/actions/positions.actions';
 import { Balance } from '@app/shared/intefaces/balance.interface';
 import { BalanceLoaded, UpdateBalance } from '@trading/actions/balance.actions';
 
@@ -65,8 +65,8 @@ export class WSActionHandlerServer {
       case 'anp':
         this.store.dispatch(new PositionAdd(params.value as Position));
         break;
-      case 'gou':
-      case 'aou':
+      case 'gpu':
+      case 'apu':
         this.store.dispatch(new UpdatePosition(params.value as Position));
         break;
       case 'gpc':

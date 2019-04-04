@@ -67,8 +67,8 @@ export class WSActionHandlerServer {
       case 'anp':
         this.store.dispatch(new PositionAdd(params.value as Position));
         break;
-      case 'gou':
-      case 'aou':
+      case 'gpu':
+      case 'apu':
         this.store.dispatch(new PositionDelete((params.value as Position).id));
         this.store.dispatch(new HistoryAdd(params.value as History));
         break;
