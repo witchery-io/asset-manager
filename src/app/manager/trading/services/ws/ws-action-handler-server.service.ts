@@ -51,7 +51,6 @@ export class WSActionHandlerServer {
         break;
       case 'goc':
       case 'aoc':
-        this.store.dispatch(new SubOrderDelete((params.value as Order).orderNumber));
         this.store.dispatch(new OrderDelete((params.value as Order).orderNumber));
         break;
       case 'goe':
@@ -72,7 +71,6 @@ export class WSActionHandlerServer {
         break;
       case 'gpc':
       case 'apc':
-        this.store.dispatch(new SubPositionDelete((params.value as Position).id));
         this.store.dispatch(new PositionDelete((params.value as Position).id));
         break;
       case 'gbs':
