@@ -33,7 +33,9 @@ export class TicksComponent implements OnInit {
   tickFilter: any = {pair: ''};
   order = 'pair';
   reverse = false;
+
   oldLasts = [];
+  isGrowLasts = [];
 
   constructor() {
   }
@@ -50,8 +52,20 @@ export class TicksComponent implements OnInit {
         return favorites.indexOf(tick.pair) !== -1;
       })
       .map((tick, i) => {
+
+        /*
+        * get old last and id grow last
+        * */
         const oldLast = this.oldLasts[tick.pair];
-        this.oldLasts[tick.pair] = tick.last;
+        const isGrowLast = this.isGrowLasts[tick.pair];
+
+        /*
+        * is last modify, compare after save new last
+        * */
+        if (oldLast !== tick.last) {
+          this.isGrowLasts[tick.pair] = tick.last > oldLast;
+          this.oldLasts[tick.pair] = tick.last;
+        }
 
         return {
           id: this.id,
@@ -62,7 +76,7 @@ export class TicksComponent implements OnInit {
           dailyChangePercent: parseFloat(((tick.dailyChangePercent || 0) * 100).toFixed(2)),
           add: i,
           balance: this.balance,
-          isGrow: tick.last > oldLast,
+          isGrow: isGrowLast,
           isFavorite: favorites.indexOf(tick.pair) !== -1,
         };
       });
