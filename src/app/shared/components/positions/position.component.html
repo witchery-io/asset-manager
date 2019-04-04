@@ -28,6 +28,8 @@
     <td class="col">{{ position.plPercent | number }}</td>
     <td class="col">{{ position.exposure | number }}</td>
     <td class="col">{{ position.openedAt | date:'short' }}</td>
+    <td *ngIf="componentRole !== 'history'" class="col">{{ position.updatedAt | date:'short' }}</td>
+    <td *ngIf="componentRole === 'history'" class="col">{{ position.closedAt | date:'short' }}</td>
     <td class="col" *ngIf="!readonly">
       <button
         [disabled]="role !== ROLE.ADMIN"

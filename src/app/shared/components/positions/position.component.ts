@@ -18,6 +18,7 @@ export class PositionComponent implements OnInit {
   @Input() accounts: any;
   @Input() position: any;
   @Input() readonly: boolean;
+  @Input() componentRole: string;
   role = 'admin';
   faPlus = faPlus;
   faMinus = faMinus;
