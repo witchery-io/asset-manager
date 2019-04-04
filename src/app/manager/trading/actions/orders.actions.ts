@@ -8,6 +8,7 @@ export const ORDERS_LOADED = '[TRADING] Orders Loaded';
 export const ORDERS_NOT_LOADED = '[TRADING] Orders Not Loaded';
 export const ORDER_CANCEL = '[TRADING] Order Cancel';
 export const ORDER_DELETE = '[TRADING] Order Delete';
+export const SUB_ORDER_DELETE = '[TRADING] Sub Order Delete';
 export const ORDER_ADD = '[TRADING] Order Add';
 export const ORDER_PLACE = '[TRADING] Order Place';
 
@@ -60,6 +61,13 @@ export class OrderDelete implements Action {
   }
 }
 
+export class SubOrderDelete implements Action {
+  readonly type = SUB_ORDER_DELETE;
+
+  constructor(public payload: string) {
+  }
+}
+
 export class OrderAdd implements Action {
   readonly type = ORDER_ADD;
 
@@ -82,5 +90,6 @@ export type Actions =
   | OrderCancel
   | UpdateOrder
   | OrderDelete
+  | SubOrderDelete
   | OrderAdd
   | OrderPlace;

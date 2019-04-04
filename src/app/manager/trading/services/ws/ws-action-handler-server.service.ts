@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
 import { TicksLoaded, UpdateTick } from '@app/core/actions/tick.actions';
-import { OrderAdd, OrderDelete, OrdersLoaded, UpdateOrder } from '@trading/actions/orders.actions';
+import { OrderAdd, OrderDelete, OrdersLoaded, SubOrderDelete, UpdateOrder } from '@trading/actions/orders.actions';
 import { Order } from '@app/shared/intefaces/order.interface';
 import { Position } from '@app/shared/intefaces/position.interface';
 import { Tick } from '@app/core/intefaces';
-import { PositionAdd, PositionDelete, PositionsLoaded, UpdatePosition } from '@trading/actions/positions.actions';
+import { PositionAdd, PositionDelete, PositionsLoaded, SubPositionDelete, UpdatePosition } from '@trading/actions/positions.actions';
 import { Balance } from '@app/shared/intefaces/balance.interface';
 import { BalanceLoaded, UpdateBalance } from '@trading/actions/balance.actions';
 
@@ -51,6 +51,7 @@ export class WSActionHandlerServer {
         break;
       case 'goc':
       case 'aoc':
+        this.store.dispatch(new SubOrderDelete((params.value as Order).orderNumber));
         this.store.dispatch(new OrderDelete((params.value as Order).orderNumber));
         break;
       case 'goe':
@@ -67,11 +68,12 @@ export class WSActionHandlerServer {
         break;
       case 'gou':
       case 'aou':
-        this.store.dispatch(new PositionDelete((params.value as Position).id));
+        this.store.dispatch(new UpdatePosition(params.value as Position));
         break;
       case 'gpc':
       case 'apc':
-        this.store.dispatch(new UpdatePosition(params.value as Position));
+        this.store.dispatch(new SubPositionDelete((params.value as Position).id));
+        this.store.dispatch(new PositionDelete((params.value as Position).id));
         break;
       case 'gbs':
       case 'abs':
