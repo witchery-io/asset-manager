@@ -22,4 +22,6 @@ export interface Position {
   updatedAt: Moment;
   closedAt: Moment;
   accountId: string;
+  ask?: number;
+  bid?: number;
 }

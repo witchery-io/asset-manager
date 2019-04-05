@@ -74,6 +74,21 @@ export class PositionComponent implements OnInit {
     return amount;
   }
 
+  get mPrice() {
+    return this.position.direction === 'sell' ? this.position.ask : this.position.bid;
+  }
+
+  get pl() {
+    // @todo :: change fee to get from exchange
+    const fee = this.position.amount * 0.002 * this.position.openPrice + this.position.amount * 0.002
+      * (this.position.lastPrice || this.mPrice);
+    return ((this.position.lastPrice || this.mPrice) - this.position.openPrice) * this.position.amount - fee;
+  }
+
+  get plPercent() {
+    return (((this.position.lastPrice || this.mPrice) / this.position.openPrice) - 1) * 100;
+  }
+
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 

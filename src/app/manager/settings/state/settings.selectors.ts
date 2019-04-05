@@ -34,3 +34,4 @@ export const isLoadingHistories = createSelector(getHistories, (state: fromHisto
  * get Entities
  */
 export const getBalanceFromSection = (section: fromBalance.State) => section.data;
+export const getPositionsFromSection = (section: fromPositions.State) => Object.values(section.entities);

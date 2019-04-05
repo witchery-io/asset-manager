@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Position } from '@app/shared/intefaces/position.interface';
+import { Tick } from '@app/core/intefaces';
 
 export const LOAD_POSITIONS = '[TRADING] Load Positions';
 export const UPDATE_POSITIONS = '[TRADING] Update Positions';
@@ -13,6 +14,7 @@ export const SUB_POSITION_DELETE = '[TRADING] Sub Position Delete';
 export const POSITION_ADD = '[TRADING] Position Add';
 export const POSITION_PLACE = '[TRADING] Position Place';
 export const POSITION_PLACE_SUCCESS = '[TRADING] Position Place Success';
+export const POSITIONS_UPDATE_DETAILS = '[TRADING] Positions Update Details';
 
 export class LoadPositions implements Action {
   readonly type = LOAD_POSITIONS;
@@ -92,6 +94,13 @@ export class PositionAdd implements Action {
   }
 }
 
+export class PositionsUpdateDetails {
+  readonly type = POSITIONS_UPDATE_DETAILS;
+
+  constructor(public payload: Tick) {
+  }
+}
+
 export type Actions =
   LoadPositions
   | UpdatePositions
@@ -104,4 +113,5 @@ export type Actions =
   | SubPositionDelete
   | PositionPlace
   | PositionPlaceSuccess
-  | PositionAdd;
+  | PositionAdd
+  | PositionsUpdateDetails;
