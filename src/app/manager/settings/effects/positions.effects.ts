@@ -3,7 +3,6 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as fromPositions from '@settings/actions/positions.actions';
-import * as fromOrders from '@settings/actions/orders.actions';
 import { PositionsService } from '@app/shared/services/positions.service';
 import { ModalService } from '@app/shared/services';
 import { NotifierService } from 'angular-notifier';
