@@ -37,7 +37,7 @@ export class OrdersEffects {
              ${order.direction || 'direction == undefined'} ${order.originalAmount || 'originalAmount == undefined'}
              ${order.pair || 'pair == undefined'} @ ${order.price || 'price == undefined'}.`);
           this.modalService.closeAllModals();
-          return new fromOrders.OrderDelete(order.orderNumber);
+          return new fromOrders.OrderCancelSuccess();
         }),
         catchError(error => of(new fromOrders.OrdersNotLoaded({error: error.message || error}))),
       );
@@ -50,9 +50,6 @@ export class OrdersEffects {
     map(data => data.payload),
     switchMap((data: any) => {
       return this.ordersService.cancelOrder(data.params.orderNumber).pipe(
-        map(() => {
-          return new fromOrders.OrderDelete(data.params.orderNumber);
-        }),
         switchMap(() => {
           return this.ordersService.placeOrder(data.id, data.type, data.params).pipe(
             map(order => {
@@ -61,7 +58,7 @@ export class OrdersEffects {
                 `Order modified, ${order.type || 'type == undefined'},
                  to ${order.direction || 'direction == undefined'} ${order.amount || 'amount == undefined'}
                   ${order.pair || 'pair == undefined'} @ ${order.price || 'price == undefined'}.`);
-              return new fromOrders.OrderAdd(order);
+              return new fromOrders.OrderPlaceSuccess();
             }),
             catchError(error => of(new fromOrders.OrdersNotLoaded({error: error.message || error}))),
           );

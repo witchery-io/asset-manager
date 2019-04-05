@@ -7,10 +7,12 @@ export const UPDATE_POSITION = '[TRADING] Update Position';
 export const POSITIONS_LOADED = '[TRADING] Positions Loaded';
 export const POSITIONS_NOT_LOADED = '[TRADING] Positions Not Loaded';
 export const POSITION_CLOSE = '[TRADING] Position Close';
+export const POSITION_CLOSE_SUCCESS = '[TRADING] Position Close Success';
 export const POSITION_DELETE = '[TRADING] Position Delete';
 export const SUB_POSITION_DELETE = '[TRADING] Sub Position Delete';
 export const POSITION_ADD = '[TRADING] Position Add';
 export const POSITION_PLACE = '[TRADING] Position Place';
+export const POSITION_PLACE_SUCCESS = '[TRADING] Position Place Success';
 
 export class LoadPositions implements Action {
   readonly type = LOAD_POSITIONS;
@@ -54,6 +56,10 @@ export class PositionClose implements Action {
   }
 }
 
+export class PositionCloseSuccess implements Action {
+  readonly type = POSITION_CLOSE_SUCCESS;
+}
+
 export class PositionDelete implements Action {
   readonly type = POSITION_DELETE;
 
@@ -75,6 +81,10 @@ export class PositionPlace implements Action {
   }
 }
 
+export class PositionPlaceSuccess implements Action {
+  readonly type = POSITION_PLACE_SUCCESS;
+}
+
 export class PositionAdd implements Action {
   readonly type = POSITION_ADD;
 
@@ -90,6 +100,8 @@ export type Actions =
   | PositionsNotLoaded
   | PositionClose
   | PositionDelete
+  | PositionCloseSuccess
   | SubPositionDelete
   | PositionPlace
+  | PositionPlaceSuccess
   | PositionAdd;

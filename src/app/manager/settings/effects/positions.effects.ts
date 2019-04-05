@@ -39,7 +39,7 @@ export class PositionsEffects {
               ${position.amount || 'amount == undefined'} ${position.pair || 'pair == undefined'}
                @ ${position.openPrice || 'openPrice == undefined'}.`);
           this.modalService.closeAllModals();
-          return new fromPositions.PositionDelete(position.id);
+          return new fromPositions.PositionCloseSuccess();
         }),
         catchError(error => of(new fromPositions.PositionsNotLoaded({error: error.message || error}))),
       );
@@ -53,15 +53,12 @@ export class PositionsEffects {
     switchMap((data) => {
       return this.positionsService.placeOrder(data.id, data.type, data.params).pipe(
         map(order => {
-          /* notification */
           this.notifierService.notify('success',
             `Placed ${order.type || 'type == undefined'} order to ${order.direction || 'direction == undefined'}
              ${order.amount || 'amount == undefined'} ${order.pair || 'pair == undefined'}
               @ ${order.openPrice || 'openPrice == undefined'}.`);
-          /* modal */
           this.modalService.closeAllModals();
-          /* add */
-          return new fromOrders.OrderAdd(order);
+          return new fromPositions.PositionPlaceSuccess();
         }),
         catchError(error => of(new fromPositions.PositionsNotLoaded({error: error.message || error}))),
       );

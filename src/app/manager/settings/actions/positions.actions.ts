@@ -8,9 +8,11 @@ export const CLEAN_UP_POSITIONS = '[SETTINGS] Clean Up Positions';
 export const POSITIONS_UPDATE = '[SETTINGS] Positions Update';
 export const POSITION_UPDATE = '[SETTINGS] Position Update';
 export const POSITION_CLOSE = '[SETTINGS] Position Close';
+export const POSITION_CLOSE_SUCCESS = '[SETTINGS] Position Close Success';
 export const POSITION_DELETE = '[SETTINGS] Position Delete';
 export const POSITION_ADD = '[SETTINGS] Position Add';
 export const POSITION_PLACE = '[SETTINGS] Position Place';
+export const POSITION_PLACE_SUCCESS = '[SETTINGS] Position Place Success';
 
 export class LoadPositions implements Action {
   readonly type = LOAD_POSITIONS;
@@ -58,6 +60,10 @@ export class PositionClose implements Action {
   }
 }
 
+export class PositionCloseSuccess implements Action {
+  readonly type = POSITION_CLOSE_SUCCESS;
+}
+
 export class PositionDelete implements Action {
   readonly type = POSITION_DELETE;
 
@@ -70,6 +76,10 @@ export class PositionPlace implements Action {
 
   constructor(public payload: any) {
   }
+}
+
+export class PositionPlaceSuccess implements Action {
+  readonly type = POSITION_PLACE_SUCCESS;
 }
 
 export class PositionAdd implements Action {
@@ -87,6 +97,8 @@ export type Actions =
   | UpdatePositions
   | UpdatePosition
   | PositionClose
+  | PositionCloseSuccess
   | PositionDelete
   | PositionPlace
+  | PositionPlaceSuccess
   | PositionAdd;

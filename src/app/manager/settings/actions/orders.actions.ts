@@ -8,9 +8,11 @@ export const CLEAN_UP_ORDERS = '[SETTINGS] Clean Up Orders';
 export const ORDERS_UPDATE = '[SETTINGS] Orders Update';
 export const ORDER_UPDATE = '[SETTINGS] Order Update';
 export const ORDER_CANCEL = '[SETTINGS] Order Cancel';
+export const ORDER_CANCEL_SUCCESS = '[SETTINGS] Order Cancel Success';
 export const ORDER_DELETE = '[SETTINGS] Order Delete';
 export const ORDER_ADD = '[SETTINGS] Order Add';
 export const ORDER_PLACE = '[SETTINGS] Order Place';
+export const ORDER_PLACE_SUCCESS = '[SETTINGS] Order Place Success';
 
 
 export class LoadOrders implements Action {
@@ -59,6 +61,10 @@ export class OrderCancel implements Action {
   }
 }
 
+export class OrderCancelSuccess implements Action {
+  readonly type = ORDER_CANCEL_SUCCESS;
+}
+
 export class OrderDelete implements Action {
   readonly type = ORDER_DELETE;
 
@@ -80,14 +86,20 @@ export class OrderPlace implements Action {
   }
 }
 
+export class OrderPlaceSuccess implements Action {
+  readonly type = ORDER_PLACE_SUCCESS;
+}
+
 export type Actions =
   LoadOrders
   | OrdersLoaded
   | OrdersNotLoaded
   | CleanUpOrders
   | OrderCancel
+  | OrderCancelSuccess
   | OrdersUpdate
   | OrderUpdate
   | OrderDelete
   | OrderAdd
-  | OrderPlace;
+  | OrderPlace
+  | OrderPlaceSuccess;
