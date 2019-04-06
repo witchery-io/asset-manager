@@ -6,7 +6,7 @@ import { OrderAdd, OrderDelete, OrdersLoaded, UpdateOrder } from '@trading/actio
 import { Order } from '@app/shared/intefaces/order.interface';
 import { Position } from '@app/shared/intefaces/position.interface';
 import { Tick } from '@app/core/intefaces';
-import { PositionAdd, PositionDelete, PositionsLoaded, UpdatePosition } from '@trading/actions/positions.actions';
+import { PositionAdd, PositionDelete, PositionsLoaded, PositionsUpdateDetails, UpdatePosition } from '@trading/actions/positions.actions';
 import { Balance } from '@app/shared/intefaces/balance.interface';
 import { BalanceLoaded, UpdateBalance } from '@trading/actions/balance.actions';
 
@@ -31,7 +31,7 @@ export class WSActionHandlerServer {
   /**
    * Handle server events(from other customers)
    */
-  onWSData(data: any) {
+  onWSData(data: Object) {
     const params = WSActionHandlerServer.parseParams(data);
 
     switch (params.key) {
@@ -39,6 +39,7 @@ export class WSActionHandlerServer {
         this.store.dispatch(new TicksLoaded({ticks: params.value as Tick[]}));
         break;
       case 'ticker':
+        this.store.dispatch(new PositionsUpdateDetails(params.value as Tick));
         this.store.dispatch(new UpdateTick({tick: params.value as Tick}));
         break;
       case 'gos':
@@ -65,13 +66,13 @@ export class WSActionHandlerServer {
       case 'anp':
         this.store.dispatch(new PositionAdd(params.value as Position));
         break;
-      case 'gou':
-      case 'aou':
-        this.store.dispatch(new PositionDelete((params.value as Position).id));
+      case 'gpu':
+      case 'apu':
+        this.store.dispatch(new UpdatePosition(params.value as Position));
         break;
       case 'gpc':
       case 'apc':
-        this.store.dispatch(new UpdatePosition(params.value as Position));
+        this.store.dispatch(new PositionDelete((params.value as Position).id));
         break;
       case 'gbs':
       case 'abs':

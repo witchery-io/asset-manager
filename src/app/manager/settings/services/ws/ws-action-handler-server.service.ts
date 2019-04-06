@@ -6,7 +6,7 @@ import { Order } from '@app/shared/intefaces/order.interface';
 import { Position } from '@app/shared/intefaces/position.interface';
 import { History } from '@app/shared/intefaces/history.interface';
 import { Tick } from '@app/core/intefaces';
-import { PositionAdd, PositionDelete, PositionsLoaded, UpdatePosition } from '@settings/actions/positions.actions';
+import { PositionAdd, PositionDelete, PositionsLoaded, PositionsUpdateDetails, UpdatePosition } from '@settings/actions/positions.actions';
 import { Balance } from '@app/shared/intefaces/balance.interface';
 import { BalanceLoaded, BalanceUpdate } from '@settings/actions/balance.actions';
 import { SettingsState } from '@settings/reducers';
@@ -41,6 +41,7 @@ export class WSActionHandlerServer {
         this.store.dispatch(new TicksLoaded({ticks: params.value as Tick[]}));
         break;
       case 'ticker':
+        this.store.dispatch(new PositionsUpdateDetails(params.value as Tick));
         this.store.dispatch(new UpdateTick({tick: params.value as Tick}));
         break;
       case 'gos':
@@ -67,8 +68,8 @@ export class WSActionHandlerServer {
       case 'anp':
         this.store.dispatch(new PositionAdd(params.value as Position));
         break;
-      case 'gou':
-      case 'aou':
+      case 'gpu':
+      case 'apu':
         this.store.dispatch(new PositionDelete((params.value as Position).id));
         this.store.dispatch(new HistoryAdd(params.value as History));
         break;

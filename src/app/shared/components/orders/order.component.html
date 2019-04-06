@@ -5,8 +5,8 @@
     <td class="col">{{ order.context }}</td>
     <td class="col">{{ order.type }}</td>
     <td class="col">{{ order.direction }}</td>
-    <td class="col">{{ order.originalAmount | number }}</td>
-    <td class="col">{{ order.price | number }}</td>
+    <td class="col">{{ order.originalAmount | number: '1.5-5' }}</td>
+    <td class="col">{{ order.price | number: '1.5-5' }}</td>
     <td class="col">GTC</td>
     <td class="col">{{ order.openedAt | date: 'short' }}</td>
     <td class="col">

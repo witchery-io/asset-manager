@@ -21,6 +21,8 @@ import { getAccountsFromSection } from '@app/core/reducers';
         <th class="col">PL %</th>
         <th class="col">Exposure (BTC)</th>
         <th class="col">Opened</th>
+        <th class="col" *ngIf="componentRole !== 'history'">Updated</th>
+        <th class="col" *ngIf="componentRole === 'history'">Closed</th>
         <th class="col" *ngIf="!readonly"></th>
         <th class="col" *ngIf="!readonly"></th>
       </tr>
@@ -46,6 +48,7 @@ export class PositionsComponent implements OnInit {
   @Input() section: any;
   @Input() accountsSection: any;
   @Input() readonly: boolean;
+  @Input() componentRole: string;
   permission = 'parent';
 
   constructor() {
@@ -56,7 +59,7 @@ export class PositionsComponent implements OnInit {
   }
 
   get feeOrSwap() {
-    return this.type === 'group' ? 'Fee' : 'Swap';
+    return this.type === 'groups' ? 'Fee' : 'Swap';
   }
 
   get accounts() {

@@ -7,9 +7,11 @@ export const UPDATE_ORDER = '[TRADING] Update Order';
 export const ORDERS_LOADED = '[TRADING] Orders Loaded';
 export const ORDERS_NOT_LOADED = '[TRADING] Orders Not Loaded';
 export const ORDER_CANCEL = '[TRADING] Order Cancel';
+export const ORDER_CANCEL_SUCCESS = '[TRADING] Order Cancel Success';
 export const ORDER_DELETE = '[TRADING] Order Delete';
 export const ORDER_ADD = '[TRADING] Order Add';
 export const ORDER_PLACE = '[TRADING] Order Place';
+export const ORDER_PLACE_SUCCESS = '[TRADING] Order Place Success';
 
 export class LoadOrders implements Action {
   readonly type = LOAD_ORDERS;
@@ -53,6 +55,10 @@ export class OrderCancel implements Action {
   }
 }
 
+export class OrderCancelSuccess implements Action {
+  readonly type = ORDER_CANCEL_SUCCESS;
+}
+
 export class OrderDelete implements Action {
   readonly type = ORDER_DELETE;
 
@@ -74,13 +80,19 @@ export class OrderPlace implements Action {
   }
 }
 
+export class OrderPlaceSuccess implements Action {
+  readonly type = ORDER_PLACE_SUCCESS;
+}
+
 export type Actions =
   LoadOrders
   | UpdateOrders
   | OrdersLoaded
   | OrdersNotLoaded
   | OrderCancel
+  | OrderCancelSuccess
   | UpdateOrder
   | OrderDelete
   | OrderAdd
-  | OrderPlace;
+  | OrderPlace
+  | OrderPlaceSuccess;

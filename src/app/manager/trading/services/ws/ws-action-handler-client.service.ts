@@ -1,11 +1,19 @@
-import { Injectable} from '@angular/core';
-import { WebSocketService} from '@trading/services/ws/web-socket.service';
+import { Injectable } from '@angular/core';
+import { NotifierService } from 'angular-notifier';
 
 @Injectable()
 export class WSActionHandlerClient {
 
   constructor(
-    private ws: WebSocketService,
+    private notifierService: NotifierService,
   ) {
+  }
+
+  notifyWebSocketServer(data) {
+    if (data.isOpened) {
+      this.notifierService.notify('info', 'Websocket has connected');
+    } else {
+      this.notifierService.notify('warning', data.message);
+    }
   }
 }

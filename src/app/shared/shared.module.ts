@@ -16,6 +16,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { INTERCEPTOR_PROVIDERS } from '@app/core/interceptors';
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { OrderModule } from 'ngx-order-pipe';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { OrderModule } from 'ngx-order-pipe';
     Ng2SmartTableModule,
     FilterPipeModule,
     OrderModule,
+    ScrollingModule,
     MarketComponent,
   ],
   declarations: [

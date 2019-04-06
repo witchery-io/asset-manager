@@ -44,7 +44,7 @@ export class WebSocketService {
           .pipe(
             map((_, i) => i),
             flatMap(i => {
-              const message = 'websocket_connection_reconnect';
+              const message = 'Websocket connection reconnect';
               this.isOpenedState = false;
               this.connectionStateUpdate$.next({ isOpened: false, message: message, isTryingToReconnect: true });
 
@@ -64,7 +64,7 @@ export class WebSocketService {
           console.error('ERROR', err);
         },
         complete: () => {
-          const message = 'websocket_connection_lost';
+          const message = 'Websocket connection lost';
           this.connectionStateUpdate$.next({ isOpened: false, message: message });
         },
       });

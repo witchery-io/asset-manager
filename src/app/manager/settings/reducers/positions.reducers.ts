@@ -1,6 +1,7 @@
 import * as PositionsActions from '@settings/actions/positions.actions';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Position } from '@app/shared/intefaces/position.interface';
+import { getPositionsFromSection } from '@settings/state/settings.selectors';
 
 export interface State extends EntityState<Position> {
   isLoading: boolean;
@@ -39,6 +40,28 @@ export function reducer(state: State = initialState, action: PositionsActions.Ac
     }
     case PositionsActions.POSITION_ADD: {
       return adapter.addOne(action.payload, state);
+    }
+    case PositionsActions.POSITIONS_UPDATE_DETAILS: {
+      const positions = getPositionsFromSection(state).map((position): Position => {
+        if (action.payload.pair !== position.pair) {
+          return position;
+        }
+
+        const subPositions = position.subPositions.map((subPosition) => {
+          return {
+            ...subPosition,
+            ...{ask: action.payload.ask, bid: action.payload.bid},
+          };
+        });
+
+        return {
+          ...position,
+          ...{subPositions: subPositions},
+          ...{ask: action.payload.ask, bid: action.payload.bid},
+        };
+      });
+
+      return adapter.updateMany((positions as Position[]).map(changes => ({id: changes.id, changes})), state);
     }
     default: {
       return state;

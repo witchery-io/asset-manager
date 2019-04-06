@@ -18,6 +18,7 @@ export class PositionComponent implements OnInit {
   @Input() accounts: any;
   @Input() position: any;
   @Input() readonly: boolean;
+  @Input() componentRole: string;
   role = 'admin';
   faPlus = faPlus;
   faMinus = faMinus;
@@ -44,7 +45,7 @@ export class PositionComponent implements OnInit {
   }
 
   get feeOrSwap() {
-    return this.type === 'group' ? this.position.fee : this.position.swap;
+    return this.type === 'groups' ? this.position.fee : this.position.swap;
   }
 
   get tooltip() {
@@ -71,6 +72,21 @@ export class PositionComponent implements OnInit {
     }
 
     return amount;
+  }
+
+  get mPrice() {
+    return this.position.direction === 'sell' ? this.position.ask : this.position.bid;
+  }
+
+  get pl() {
+    // @todo :: change fee to get from exchange
+    const fee = this.position.amount * 0.002 * this.position.openPrice + this.position.amount * 0.002
+      * (this.position.lastPrice || this.mPrice);
+    return ((this.position.lastPrice || this.mPrice) - this.position.openPrice) * this.position.amount - fee;
+  }
+
+  get plPercent() {
+    return (((this.position.lastPrice || this.mPrice) / this.position.openPrice) - 1) * 100;
   }
 
   ngOnInit() {
