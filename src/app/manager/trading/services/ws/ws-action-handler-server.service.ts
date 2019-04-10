@@ -57,7 +57,8 @@ export class WSActionHandlerServer {
       case 'goe':
       case 'aoe':
         const order = params.value as Order;
-        if (order.remainingAmount === 0) {
+        // Math module values are same
+        if (Math.abs(order.executedAmount) === Math.abs(order.originalAmount)) {
           this.store.dispatch(new OrderDelete((params.value as Order).orderNumber));
           break;
         }
