@@ -58,6 +58,12 @@ export class WSActionHandlerServer {
         break;
       case 'goe':
       case 'aoe':
+        const order = params.value as Order;
+        if (order.remainingAmount === 0) {
+          this.store.dispatch(new OrderDelete((params.value as Order).orderNumber));
+          break;
+        }
+
         this.store.dispatch(new OrderUpdate(params.value as Order));
         break;
       case 'gps':

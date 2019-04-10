@@ -2,10 +2,10 @@ import { Action } from '@ngrx/store';
 import { Order } from '@app/shared/intefaces/order.interface';
 
 export const LOAD_ORDERS = '[TRADING] Load Orders';
-export const UPDATE_ORDERS = '[TRADING] Update Orders';
-export const UPDATE_ORDER = '[TRADING] Update Order';
 export const ORDERS_LOADED = '[TRADING] Orders Loaded';
 export const ORDERS_NOT_LOADED = '[TRADING] Orders Not Loaded';
+export const ORDERS_UPDATE = '[TRADING] Orders Update';
+export const ORDER_UPDATE = '[TRADING] Order Update';
 export const ORDER_CANCEL = '[TRADING] Order Cancel';
 export const ORDER_CANCEL_SUCCESS = '[TRADING] Order Cancel Success';
 export const ORDER_DELETE = '[TRADING] Order Delete';
@@ -20,20 +20,6 @@ export class LoadOrders implements Action {
   }
 }
 
-export class UpdateOrders implements Action {
-  readonly type = UPDATE_ORDERS;
-
-  constructor(public payload: { orders: Order[] }) {
-  }
-}
-
-export class UpdateOrder implements Action {
-  readonly type = UPDATE_ORDER;
-
-  constructor(public payload: Order) {
-  }
-}
-
 export class OrdersLoaded implements Action {
   readonly type = ORDERS_LOADED;
 
@@ -45,6 +31,20 @@ export class OrdersNotLoaded implements Action {
   readonly type = ORDERS_NOT_LOADED;
 
   constructor(public payload: { error: string }) {
+  }
+}
+
+export class OrdersUpdate implements Action {
+  readonly type = ORDERS_UPDATE;
+
+  constructor(public payload: { orders: Order[] }) {
+  }
+}
+
+export class OrderUpdate implements Action {
+  readonly type = ORDER_UPDATE;
+
+  constructor(public payload: Order) {
   }
 }
 
@@ -86,12 +86,12 @@ export class OrderPlaceSuccess implements Action {
 
 export type Actions =
   LoadOrders
-  | UpdateOrders
   | OrdersLoaded
   | OrdersNotLoaded
+  | OrdersUpdate
+  | OrderUpdate
   | OrderCancel
   | OrderCancelSuccess
-  | UpdateOrder
   | OrderDelete
   | OrderAdd
   | OrderPlace
