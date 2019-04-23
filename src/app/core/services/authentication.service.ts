@@ -40,7 +40,7 @@ export class AuthService {
             /*
             * todo :: temporary
             * */
-            if (res.userId === 'user id') {
+            if (res.userId === '5cbf11a33889f80001c830f3') {
               localStorage.setItem('role', 'guest');
             } else {
               localStorage.setItem('role', 'admin');
