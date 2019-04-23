@@ -21,10 +21,10 @@ export function reducer(state: State = initialState, action: OrdersActions.Actio
     case OrdersActions.LOAD_ORDERS: {
       return {...state, isLoading: true};
     }
-    case OrdersActions.UPDATE_ORDERS: {
+    case OrdersActions.ORDERS_UPDATE: {
       return adapter.updateMany(action.payload.orders.map(changes => ({id: changes.orderNumber, changes})), state);
     }
-    case OrdersActions.UPDATE_ORDER: {
+    case OrdersActions.ORDER_UPDATE: {
       return adapter.updateOne({id: action.payload.orderNumber, changes: action.payload}, state);
     }
     case OrdersActions.ORDERS_LOADED: {

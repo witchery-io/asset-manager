@@ -58,6 +58,13 @@ export class WSActionHandlerServer {
         break;
       case 'goe':
       case 'aoe':
+        const order = params.value as Order;
+        // Math module values are same
+        if (Math.abs(order.executedAmount) === Math.abs(order.originalAmount)) {
+          this.store.dispatch(new OrderDelete((params.value as Order).orderNumber));
+          break;
+        }
+
         this.store.dispatch(new OrderUpdate(params.value as Order));
         break;
       case 'gps':
@@ -70,12 +77,12 @@ export class WSActionHandlerServer {
         break;
       case 'gpu':
       case 'apu':
-        this.store.dispatch(new PositionDelete((params.value as Position).id));
-        this.store.dispatch(new HistoryAdd(params.value as History));
+        this.store.dispatch(new UpdatePosition(params.value as Position));
         break;
       case 'gpc':
       case 'apc':
-        this.store.dispatch(new UpdatePosition(params.value as Position));
+        this.store.dispatch(new PositionDelete((params.value as Position).id));
+        this.store.dispatch(new HistoryAdd(params.value as History));
         break;
       case 'gbs':
       case 'abs':
