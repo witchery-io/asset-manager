@@ -55,7 +55,7 @@
         {{ tick.dailyChangePercent }}%</span></td>
       <td>{{ tick.volume }}</td>
       <td>
-        <app-button-view [rowData]="tick"></app-button-view>
+        <app-button-view *ngIf="!readonly" [rowData]="tick"></app-button-view>
       </td>
     </tr>
     </tbody>

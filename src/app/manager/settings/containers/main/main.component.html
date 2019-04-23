@@ -7,13 +7,14 @@
   <div class="row">
     <div class="col-12">
       <tabset #generalTabs>
-        <tab heading="GROUPS" id="groups" (select)="onSelectGeneralTab('groups')">
+        <tab heading="GROUPS" id="groups" (select)="onSelectGeneralTab('groups')" [disabled]="readonly">
           <app-groups-tab
             [group]="group$ | async"
             [groupsSection]="groups$ | async"
             [accountsSection]="accounts$ | async"
             (select)="onSelect($event)"
             [settings]="settings['groups']"
+            [readonly]="readonly"
           ></app-groups-tab>
         </tab>
         <tab heading="ACCOUNTS" id="accounts" (select)="onSelectGeneralTab('accounts')">
@@ -21,6 +22,7 @@
             [account]="account$ | async"
             [accountsSection]="accounts$ | async"
             (select)="onSelect($event)"
+            [readonly]="readonly"
           ></app-accounts-tab>
         </tab>
       </tabset>
@@ -51,6 +53,7 @@
             [type]="currentType"
             [section]="positions$ | async"
             [accountsSection]="accounts$ | async"
+            [readonly]="readonly"
           ></app-positions>
         </tab>
         <tab heading="ORDERS" id="orders" (select)="onSelectOrderTab('orders')">
@@ -58,6 +61,7 @@
             *ngIf="(isLoadingOrders$ | async) === false"
             [section]="orders$ | async"
             [accountsSection]="accounts$ | async"
+            [readonly]="readonly"
           ></app-orders>
         </tab>
       </tabset>

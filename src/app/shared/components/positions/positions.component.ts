@@ -24,7 +24,7 @@ import { getAccountsFromSection } from '@app/core/reducers';
         <th class="col" *ngIf="componentRole !== 'history'">Updated</th>
         <th class="col" *ngIf="componentRole === 'history'">Closed</th>
         <th class="col" *ngIf="!readonly"></th>
-        <th class="col" *ngIf="!readonly"></th>
+        <th class="col"></th>
       </tr>
       </thead>
       <tbody>

@@ -4,6 +4,7 @@ import { PageNotFoundComponent } from '@app/pages/page-not-found.component';
 import { ServerErrorComponent } from '@app/pages/server-error.component';
 import { AuthGuard } from '@app/shared/services/auth-guard.service';
 import { NotAuthGuard } from '@app/shared/services/not-auth-guard.service';
+import { RoleGuard } from '@app/shared/services/role-guard.service';
 
 const routes: Routes = [
   {path: '', redirectTo: 'trading', pathMatch: 'full'},
@@ -29,6 +30,7 @@ const routes: Routes = [
 ];
 export const appRoutingProviders: any[] = [
   AuthGuard,
+  RoleGuard,
   NotAuthGuard,
 ];
 

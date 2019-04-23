@@ -6,7 +6,7 @@
         <button
           class="btn btn-xs btn-primary"
           (click)="openModal(groupModal, { class: 'modal-sm' })"
-          [disabled]="role !== 'admin'"
+          [disabled]="readonly"
         >
           <fa-icon [icon]="faPlus"></fa-icon>
           Create group
@@ -16,8 +16,8 @@
         <thead>
         <tr>
           <th scope="col">Name</th>
-          <th scope="col">Status</th>
-          <th scope="col"></th>
+          <th scope="col" *ngIf="!readonly">Status</th>
+          <th scope="col" *ngIf="!readonly"></th>
         </tr>
         </thead>
         <tbody>
@@ -28,20 +28,20 @@
           (click)="selectGroup(g.id)"
         >
           <td>{{ g.name }}</td>
-          <td>
-          <span class="switch switch-sm mr-2">
-            <input
-              id="switch-{{g.id}}"
-              type="checkbox"
-              class="switch"
-              [disabled]="role !== 'admin'"
-              [checked]="g.status?.isActive"
-              (click)="updateStatus(g)"
-            >
-            <label class="m-0" for="switch-{{g.id}}"></label>
-          </span>
+          <td *ngIf="!readonly">
+            <span class="switch switch-sm mr-2">
+              <input
+                id="switch-{{g.id}}"
+                type="checkbox"
+                class="switch"
+                [disabled]="role !== 'admin'"
+                [checked]="g.status?.isActive"
+                (click)="updateStatus(g)"
+              >
+              <label class="m-0" for="switch-{{g.id}}"></label>
+            </span>
           </td>
-          <td>
+          <td *ngIf="!readonly">
             <fa-icon
               class="text-danger float-right"
               title="Edit"

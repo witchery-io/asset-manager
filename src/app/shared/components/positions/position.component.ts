@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Role } from '@app/shared/enums';
 import { BsModalRef } from 'ngx-bootstrap';
 import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -19,11 +18,8 @@ export class PositionComponent implements OnInit {
   @Input() position: any;
   @Input() readonly: boolean;
   @Input() componentRole: string;
-  role = 'admin';
   faPlus = faPlus;
   faMinus = faMinus;
-  user: any;
-  ROLE = Role;
   PARENT = PARENT;
   isCollapsed: boolean;
   modalRef: BsModalRef;
@@ -90,8 +86,6 @@ export class PositionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem('currentUser'));
-
     const collapse = JSON.parse(localStorage.getItem(`collapse.position.${this.position.id}`));
     this.isCollapsed = collapse === null ? true : collapse;
     this.setAccountName();

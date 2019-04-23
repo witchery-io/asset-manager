@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OrderTab, TypeTab } from '@app/shared/enums';
+import { OrderTab, Role, TypeTab } from '@app/shared/enums';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { select, Store } from '@ngrx/store';
 import * as Select from '@settings/state/settings.selectors';
@@ -52,8 +52,9 @@ export class MainComponent implements OnInit, OnDestroy {
   isLoadingHistories$: Observable<any>;
   subscription: Subscription;
   settings = {};
-  private readonly notifier: NotifierService;
   historyReadOnly = true;
+  readonly: boolean;
+  private readonly notifier: NotifierService;
 
   constructor(
     private store: Store<SettingsState>,
@@ -123,6 +124,10 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.onSelect({id: urlId, type: urlGeneralTab, subId: urlSubId, subType: urlSubType});
 
+    this.readonly = localStorage.getItem('role') !== Role.ADMIN;
+    if (this.readonly) {
+      this.generalTabs.tabs[TypeTab['accounts']].active = true;
+    }
     /*
     * order actions
     * */

@@ -32,10 +32,20 @@ export class AuthService {
   }
 
   login(data) {
-    return this.api.post('http://moneo-partner-api.witchery.io/token', data)
+    return this.api.post('https://moneo-partner.witchery.io/token', data)
       .pipe(
         map((res: any) => {
           if (res.token && res.userId) {
+
+            /*
+            * todo :: temporary
+            * */
+            if (res.userId === '5cbf11a33889f80001c830f3') {
+              localStorage.setItem('role', 'guest');
+            } else {
+              localStorage.setItem('role', 'admin');
+            }
+
             this.api.setAuthKey(res.token);
           }
 

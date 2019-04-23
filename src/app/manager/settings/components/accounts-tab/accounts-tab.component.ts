@@ -19,15 +19,10 @@ import { NotifierService } from 'angular-notifier';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountsTabComponent implements OnInit {
-  @Input()
-  account: any;
-
-  @Input()
-  accountsSection: any;
-
-  @Output()
-  select: EventEmitter<any> = new EventEmitter();
-
+  @Input() account: any;
+  @Input() accountsSection: any;
+  @Output() select: EventEmitter<any> = new EventEmitter();
+  @Input() readonly: any;
   formValues: any;
   role = 'admin';
   faPlus = faPlus;

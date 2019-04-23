@@ -14,7 +14,7 @@ import * as fromGroups from '@app/core/reducers/group.reducers';
 import * as fromTicks from '@app/core/reducers/tick.reducers';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap';
-import { OrderTab } from '@app/shared/enums';
+import { OrderTab, Role } from '@app/shared/enums';
 import { LoadGroups } from '@app/core/actions/group.actions';
 import { LoadAccounts } from '@app/core/actions/account.actions';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -45,6 +45,7 @@ export class MainComponent implements OnInit, OnDestroy {
   isLoadingGroups$: Observable<boolean>;
   ticks$: Observable<fromTicks.State>;
   ticksIsLoading$: Observable<boolean>;
+  readonly: boolean;
 
   /*
   * chart url
@@ -139,6 +140,8 @@ export class MainComponent implements OnInit, OnDestroy {
         options: `${this.currentSingularType}:${urlId}`,
       }
     );
+
+    this.readonly = localStorage.getItem('role') !== Role.ADMIN;
   }
 
   ngOnDestroy() {
