@@ -8,7 +8,6 @@
     <td class="col">{{ mPrice || position.lastPrice | number: '1.5-5' }}</td>
     <td class="col" *ngIf="!readonly">
       <button
-        [disabled]="role !== ROLE.ADMIN"
         class="btn btn-xs btn-danger"
         (click)="orderStop(tradingModal)"
       >Add
@@ -16,7 +15,6 @@
     </td>
     <td class="col" *ngIf="!readonly">
       <button
-        [disabled]="role !== ROLE.ADMIN"
         class="btn btn-xs btn-warning"
         (click)="orderLimit(tradingModal)"
       >Add
@@ -32,13 +30,12 @@
     <td *ngIf="componentRole === 'history'" class="col">{{ position.closedAt | date:'short' }}</td>
     <td class="col" *ngIf="!readonly">
       <button
-        [disabled]="role !== ROLE.ADMIN"
         class="btn btn-danger btn-xs"
         (click)="openModal(closeOrderModal, { class: 'modal-sm' })"
       >Close
       </button>
     </td>
-    <th class="col" *ngIf="!readonly">
+    <th class="col">
       <button
         [hidden]="permission !== PARENT || position.subPositions === undefined"
         (click)="collapse()"

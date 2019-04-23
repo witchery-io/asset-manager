@@ -15,7 +15,7 @@ import { getOrdersFromSection } from '@trading/state/trading.selectors';
         <th class="col">Price</th>
         <th class="col">Duration</th>
         <th class="col">Created</th>
-        <th class="col"></th>
+        <th class="col" *ngIf="!readonly"></th>
         <th class="col"></th>
       </tr>
       </thead>
@@ -27,6 +27,7 @@ import { getOrdersFromSection } from '@trading/state/trading.selectors';
             [order]="order"
             [permission]="permission"
             [accounts]="accounts"
+            [readonly]="readonly"
           ></app-order>
         </th>
       </tr>
@@ -37,6 +38,7 @@ export class OrdersComponent implements OnInit {
   @Input() id: string;
   @Input() section: any;
   @Input() accountsSection: any;
+  @Input() readonly: boolean;
   permission = 'parent';
 
   constructor() {

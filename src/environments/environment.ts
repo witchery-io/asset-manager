@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  webSocketUrl: 'ws://192.168.1.3:8081/ws',
-  apiUrl: 'http://192.168.1.3:8080',
+  webSocketUrl: 'ws://192.168.1.6:8081/ws',
+  apiUrl: 'http://192.168.1.6:8080',
 };
 
 /*

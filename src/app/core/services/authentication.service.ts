@@ -36,6 +36,16 @@ export class AuthService {
       .pipe(
         map((res: any) => {
           if (res.token && res.userId) {
+
+            /*
+            * todo :: temporary
+            * */
+            if (res.userId === 546545) {
+              localStorage.setItem('role', 'guest');
+            } else {
+              localStorage.setItem('role', 'admin');
+            }
+
             this.api.setAuthKey(res.token);
           }
 

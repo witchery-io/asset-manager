@@ -19,21 +19,12 @@ import { NotifierService } from 'angular-notifier';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsTabComponent implements OnInit {
-  @Input()
-  group: any;
-
-  @Input()
-  groupsSection: any;
-
-  @Input()
-  accountsSection: any;
-
-  @Output()
-  select: EventEmitter<any> = new EventEmitter();
-
-  @Input()
-  settings: any;
-
+  @Input() group: any;
+  @Input() groupsSection: any;
+  @Input() accountsSection: any;
+  @Output() select: EventEmitter<any> = new EventEmitter();
+  @Input() settings: any;
+  @Input() readonly: boolean;
   formValues: any;
   role = 'admin';
   faPlus = faPlus;

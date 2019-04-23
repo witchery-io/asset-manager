@@ -10,30 +10,17 @@ import { getBalanceFromSection } from '@trading/state/trading.selectors';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TicksComponent implements OnInit {
-
+  @Input() id: string;
+  @Input() type: string;
+  @Input() section: any;
+  @Input() balanceSections: any;
+  @Input() readonly: boolean;
+  @Output() select: EventEmitter<any> = new EventEmitter();
   faStar = faStar;
-
   filterByFavorites: boolean;
-
-  @Input()
-  id: string;
-
-  @Input()
-  type: string;
-
-  @Input()
-  section: any;
-
-  @Input()
-  balanceSections: any;
-
-  @Output()
-  select: EventEmitter<any> = new EventEmitter();
-
-  tickFilter: any = {pair: ''};
+  tickFilter = {pair: ''};
   order = 'pair';
   reverse = false;
-
   oldLasts = [];
   isGrowLasts = [];
 

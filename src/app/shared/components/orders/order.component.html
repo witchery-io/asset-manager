@@ -9,15 +9,13 @@
     <td class="col">{{ order.price | number: '1.5-5' }}</td>
     <td class="col">GTC</td>
     <td class="col">{{ order.openedAt | date: 'short' }}</td>
-    <td class="col">
+    <td class="col" *ngIf="!readonly">
       <button
-        [disabled]="role !== ROLE.ADMIN"
         class="btn btn-warning btn-xs"
         (click)="orderModify(order, modifyModal)"
       >Modify
       </button>
       <button
-        [disabled]="role !== ROLE.ADMIN"
         class="btn btn-danger btn-xs ml-1"
         (click)="openModal(cancelOrder, { class: 'modal-sm' })"
       >Cancel
@@ -40,6 +38,7 @@
           *ngFor="let order of order.subOrders; trackBy: trackByFn"
           [order]="order"
           [accounts]="accounts"
+          [readonly]="readonly"
         ></app-order>
       </table>
     </th>
@@ -99,7 +98,7 @@
         >Cancel
         </button>
         <button
-          [disabled]="role !== ROLE.ADMIN"
+          *ngIf="!readonly"
           type="submit"
           class="btn btn-success float-right btn-xs"
           (click)="orderApprove(modifyForm.value, modifyForm.valid)"

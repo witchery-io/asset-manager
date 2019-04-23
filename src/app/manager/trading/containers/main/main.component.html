@@ -36,6 +36,7 @@
         [section]="ticks$ | async"
         [balanceSections]="balance$ | async"
         (select)="onSelectTick($event)"
+        [readonly]="readonly"
       ></app-ticks>
     </div>
     <div class="col-9">
@@ -62,6 +63,7 @@
             [type]="currentType"
             [section]="positions$ | async"
             [accountsSection]="accounts$ | async"
+            [readonly]="readonly"
           ></app-positions>
         </tab>
         <tab heading="ORDERS" (select)="selectTab('orders')">
@@ -69,6 +71,7 @@
             *ngIf="(isLoadingOrders$ | async) === false"
             [section]="orders$ | async"
             [accountsSection]="accounts$ | async"
+            [readonly]="readonly"
           ></app-orders>
         </tab>
       </tabset>

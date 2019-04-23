@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap';
-import { Role } from '@app/shared/enums';
 import { NotifierService } from 'angular-notifier';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalService, OrdersService, SharedService } from '@app/shared/services';
@@ -14,9 +13,6 @@ import { GROUPS, PARENT } from '@app/shared/enums/trading.enum';
   styleUrls: ['./order.component.scss'],
 })
 export class OrderComponent implements OnInit {
-  role = 'admin';
-  user: any;
-  ROLE = Role;
   PARENT = PARENT;
   faPlus = faPlus;
   faMinus = faMinus;
@@ -25,6 +21,7 @@ export class OrderComponent implements OnInit {
   @Input() permission: string;
   @Input() accounts: any;
   @Input() groupByPair = false;
+  @Input() readonly: boolean;
   isCollapsed: boolean;
   modalRef: BsModalRef;
   modifyForm: FormGroup;
@@ -48,8 +45,6 @@ export class OrderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem('currentUser'));
-
     const collapse = JSON.parse(localStorage.getItem(`collapse.position.${this.order.orderNumber}`));
     this.isCollapsed = collapse === null ? true : collapse;
     this.setAccountName();
