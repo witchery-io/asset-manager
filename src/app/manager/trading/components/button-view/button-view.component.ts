@@ -3,10 +3,8 @@ import { BsModalRef, } from 'ngx-bootstrap';
 import { ModalService, OrdersService } from '@app/shared/services';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { NotifierService } from 'angular-notifier';
-import { LoadOrders } from '@trading/actions/orders.actions';
 import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
-import { LoadPositions } from '@trading/actions/positions.actions';
 
 @Component({
   selector: 'app-button-view, button-view',
@@ -47,13 +45,6 @@ export class ButtonViewComponent implements OnInit {
 
     this.ordersService.placeOrder(this.rowData.id, this.rowData.type, params)
       .subscribe((d: any) => {
-        /*
-        * update orders and positions when create order
-        * */
-        this.store.dispatch(new LoadOrders({id: this.rowData.id, type: this.rowData.type}));
-        this.store.dispatch(new LoadPositions({id: this.rowData.id, type: this.rowData.type, groupByPair: true}));
-        /** Temporary **/
-
         this.modalService.closeAllModals();
         this.notifier.notify('success', `Placed ${d.type} order to ${d.direction} ${d.amount} ${d.pair} @ ${d.price}.`);
       });

@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TradingState } from '@trading/reducers';
 import { TicksLoaded, UpdateTick } from '@app/core/actions/tick.actions';
-import { OrderAdd, OrderDelete, OrdersLoaded, UpdateOrder } from '@trading/actions/orders.actions';
 import { Order } from '@app/shared/intefaces/order.interface';
 import { Position } from '@app/shared/intefaces/position.interface';
 import { Tick } from '@app/core/intefaces';
 import { PositionAdd, PositionDelete, PositionsLoaded, PositionsUpdateDetails, UpdatePosition } from '@trading/actions/positions.actions';
 import { Balance } from '@app/shared/intefaces/balance.interface';
 import { BalanceLoaded, UpdateBalance } from '@trading/actions/balance.actions';
+import { OrderAdd, OrderDelete, OrdersLoaded, OrderUpdate } from '@trading/actions/orders.actions';
 
 @Injectable()
 export class WSActionHandlerServer {
@@ -56,7 +56,14 @@ export class WSActionHandlerServer {
         break;
       case 'goe':
       case 'aoe':
-        this.store.dispatch(new UpdateOrder(params.value as Order));
+        const order = params.value as Order;
+        // Math module values are same
+        if (Math.abs(order.executedAmount) === Math.abs(order.originalAmount)) {
+          this.store.dispatch(new OrderDelete((params.value as Order).orderNumber));
+          break;
+        }
+
+        this.store.dispatch(new OrderUpdate(params.value as Order));
         break;
       case 'gps':
       case 'aps':
