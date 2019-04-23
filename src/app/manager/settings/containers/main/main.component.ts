@@ -125,7 +125,9 @@ export class MainComponent implements OnInit, OnDestroy {
     this.onSelect({id: urlId, type: urlGeneralTab, subId: urlSubId, subType: urlSubType});
 
     this.readonly = localStorage.getItem('role') !== Role.ADMIN;
-
+    if (this.readonly) {
+      this.generalTabs.tabs[TypeTab['accounts']].active = true;
+    }
     /*
     * order actions
     * */

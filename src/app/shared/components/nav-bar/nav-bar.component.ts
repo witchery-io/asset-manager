@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { faCogs, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '@app/core/services';
 import { Router } from '@angular/router';
+import { Role } from '@app/shared/enums';
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,6 +14,7 @@ export class NavBarComponent implements OnInit {
   isCollapsed = true;
   faSignOutAlt = faSignOutAlt;
   faCogs = faCogs;
+  readonly: boolean;
 
   constructor(
     private auth: AuthService,
@@ -25,6 +27,7 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.readonly = localStorage.getItem('role') !== Role.ADMIN;
   }
 
   onLogout() {

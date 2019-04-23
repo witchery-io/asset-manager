@@ -7,7 +7,7 @@
   <div class="row">
     <div class="col-12">
       <tabset #generalTabs>
-        <tab heading="GROUPS" id="groups" (select)="onSelectGeneralTab('groups')">
+        <tab heading="GROUPS" id="groups" (select)="onSelectGeneralTab('groups')" [disabled]="readonly">
           <app-groups-tab
             [group]="group$ | async"
             [groupsSection]="groups$ | async"
