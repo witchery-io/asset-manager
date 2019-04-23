@@ -32,7 +32,7 @@ export class AuthService {
   }
 
   login(data) {
-    return this.api.post('http://moneo-partner-api.witchery.io/token', data)
+    return this.api.post('https://moneo-partner.witchery.io/token', data)
       .pipe(
         map((res: any) => {
           if (res.token && res.userId) {
@@ -40,7 +40,7 @@ export class AuthService {
             /*
             * todo :: temporary
             * */
-            if (res.userId === 546545) {
+            if (res.userId === 'test user id') {
               localStorage.setItem('role', 'guest');
             } else {
               localStorage.setItem('role', 'admin');
