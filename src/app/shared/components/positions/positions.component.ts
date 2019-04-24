@@ -17,12 +17,12 @@ import { getAccountsFromSection } from '@app/core/reducers';
         <th class="col" *ngIf="!readonly">Limit</th>
         <th class="col">{{ feeOrSwap }}</th>
         <th class="col">PL</th>
-        <th class="col">PL(BTC)</th>
-        <th class="col">PL %</th>
-        <th class="col">Exposure (BTC)</th>
-        <th class="col">Opened</th>
-        <th class="col" *ngIf="componentRole !== 'history'">Updated</th>
-        <th class="col" *ngIf="componentRole === 'history'">Closed</th>
+        <th class="col" *ngIf="!readonly">PL(BTC)</th>
+        <th class="col" *ngIf="!readonly">PL %</th>
+        <th class="col" *ngIf="!readonly">Exposure (BTC)</th>
+        <th class="col" *ngIf="!readonly">Opened</th>
+        <th class="col" *ngIf="componentRole !== 'history' && !readonly">Updated</th>
+        <th class="col" *ngIf="componentRole === 'history' && !readonly">Closed</th>
         <th class="col" *ngIf="!readonly"></th>
         <th class="col"></th>
       </tr>
