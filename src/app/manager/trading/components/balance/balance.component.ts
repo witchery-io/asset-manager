@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { getBalanceFromSection } from '@trading/state/trading.selectors';
+import { getBalanceFromSection, getPositionsFromSection } from '@trading/state/trading.selectors';
 import { getAccountsFromSection, getGroupsFromSection } from '@app/core/reducers';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
@@ -20,6 +20,9 @@ export class BalanceComponent implements OnInit {
 
   @Input()
   accountsSection: any;
+
+  @Input()
+  positionsSection: any;
 
   modalRef: BsModalRef;
   transferForm: FormGroup;
@@ -43,6 +46,31 @@ export class BalanceComponent implements OnInit {
 
   get groups() {
     return getGroupsFromSection(this.groupsSection);
+  }
+
+  get positions() {
+    return getPositionsFromSection(this.positionsSection);
+  }
+
+  get equity() {
+    if (!this.balance) {
+      return 0;
+    }
+
+    let equity = this.balance.equity;
+    for (const position of this.positions) {
+      equity = equity + BalanceComponent.pl(position) / 5600;
+    }
+
+    return equity;
+  }
+
+  static mPrice(position) {
+    return position.direction === 'sell' ? position.ask : position.bid;
+  }
+
+  static pl(position) {
+    return ((BalanceComponent.mPrice(position) || position.lastPrice) - position.openPrice) * position.amount;
   }
 
   ngOnInit() {
@@ -74,4 +102,5 @@ export class BalanceComponent implements OnInit {
   chooseCurrency(curr) {
     this.currency = curr;
   }
+
 }
