@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {getBalanceFromSection} from '@settings/state/settings.selectors';
-import {getPositionsFromSection} from '@trading/state/trading.selectors';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { getBalanceFromSection } from '@settings/state/settings.selectors';
+import { getPositionsFromSection } from '@trading/state/trading.selectors';
 
 @Component({
   selector: 'app-balance-details',
@@ -14,16 +14,13 @@ export class BalanceDetailsComponent implements OnInit {
   section: any;
 
   @Input()
-  positions?: any;
+  positionsSection: any;
 
   constructor() {
   }
 
-  ngOnInit() {
-  }
-
-  get pos() {
-    return getPositionsFromSection(this.positions);
+  get positions() {
+    return getPositionsFromSection(this.positionsSection);
   }
 
   get balance() {
@@ -35,16 +32,22 @@ export class BalanceDetailsComponent implements OnInit {
       return 0;
     }
 
-    const positions = this.pos;
-
-    let eq = this.balance.equity;
-
-    for (const p of positions) {
-      eq = eq + p.pl / 5600;
+    let equity = this.balance.equity;
+    for (const position of this.positions) {
+      equity = equity + BalanceDetailsComponent.pl(position) / 5600;
     }
 
-    console.log(positions);
+    return equity;
+  }
 
-    return eq;
+  static mPrice(position) {
+    return position.direction === 'sell' ? position.ask : position.bid;
+  }
+
+  static pl(position) {
+    return ((BalanceDetailsComponent.mPrice(position) || position.lastPrice) - position.openPrice) * position.amount;
+  }
+
+  ngOnInit() {
   }
 }

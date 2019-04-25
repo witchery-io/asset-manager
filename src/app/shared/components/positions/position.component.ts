@@ -75,12 +75,6 @@ export class PositionComponent implements OnInit {
   }
 
   get pl() {
-
-    let marketPrice = this.mPrice;
-    if (!marketPrice) {
-      marketPrice = this.position.lastPrice;
-    }
-
     // @todo :: change fee to get from exchange
     // let fee = this.position.amount * 0.002 * this.position.openPrice + this.position.amount * 0.002
     //   * marketPrice;
@@ -88,7 +82,7 @@ export class PositionComponent implements OnInit {
     // const gorc = this.position.direction === 'sell' ? 1 : -1;
     // fee = fee * gorc;
 
-    return (marketPrice - this.position.openPrice) * this.position.amount;
+    return ((this.mPrice || this.position.lastPrice) - this.position.openPrice) * this.position.amount;
   }
 
   get plPercent() {
