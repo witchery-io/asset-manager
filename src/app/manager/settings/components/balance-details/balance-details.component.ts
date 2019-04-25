@@ -1,6 +1,7 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {getBalanceFromSection} from '@settings/state/settings.selectors';
-import {getPositionsFromSection} from '@trading/state/trading.selectors';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { getBalanceFromSection } from '@settings/state/settings.selectors';
+import { getPositionsFromSection } from '@trading/state/trading.selectors';
+import { getTicksFromSection } from '@app/core/reducers';
 
 @Component({
   selector: 'app-balance-details',
@@ -9,25 +10,23 @@ import {getPositionsFromSection} from '@trading/state/trading.selectors';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BalanceDetailsComponent implements OnInit {
-
-  @Input()
-  section: any;
-
-  @Input()
-  positions?: any;
+  @Input() section: any;
+  @Input() positionsSection: any;
+  @Input() ticksSection: any;
 
   constructor() {
   }
 
-  ngOnInit() {
-  }
-
-  get pos() {
-    return getPositionsFromSection(this.positions);
+  get positions() {
+    return getPositionsFromSection(this.positionsSection);
   }
 
   get balance() {
     return getBalanceFromSection(this.section);
+  }
+
+  get ticks() {
+    return getTicksFromSection(this.ticksSection);
   }
 
   get equity() {
@@ -35,16 +34,35 @@ export class BalanceDetailsComponent implements OnInit {
       return 0;
     }
 
-    const positions = this.pos;
-
-    let eq = this.balance.equity;
-
-    for (const p of positions) {
-      eq = eq + p.pl / 5600;
+    let equity = this.balance.equity;
+    for (const position of this.positions) {
+      equity = equity + BalanceDetailsComponent.pl(position) / this.plBTC(position);
     }
 
-    console.log(positions);
+    return equity;
+  }
 
-    return eq;
+  static mPrice(position) {
+    return position.direction === 'sell' ? position.ask : position.bid;
+  }
+
+  static pl(position) {
+    return ((BalanceDetailsComponent.mPrice(position) || position.lastPrice) - position.openPrice) * position.amount;
+  }
+
+  ngOnInit() {
+  }
+
+  private plBTC(position) {
+    const pair = position.pair.slice(-3);
+    const tick = this.ticks.filter(t => {
+      return t.pair === 'BTC' + pair;
+    });
+
+    if (tick.length === 0 || pair === 'BTC') {
+      return 1;
+    }
+
+    return position.direction === 'sell' ? tick[0].ask : tick[0].bid;
   }
 }

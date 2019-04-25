@@ -37,7 +37,8 @@
       <app-balance-details
         *ngIf="(isLoadingBalance$ | async) === false"
         [section]="balance$ | async"
-        [positions]="positions$ | async"
+        [positionsSection]="positions$ | async"
+        [ticksSection]="ticks$ | async"
       ></app-balance-details>
     </div>
   </div>
@@ -55,6 +56,7 @@
             [section]="positions$ | async"
             [accountsSection]="accounts$ | async"
             [readonly]="readonly"
+            [ticksSection]="ticks$ | async"
           ></app-positions>
         </tab>
         <tab heading="ORDERS" id="orders" (select)="onSelectOrderTab('orders')">
@@ -80,6 +82,7 @@
         [accountsSection]="accounts$ | async"
         [readonly]="historyReadOnly"
         [componentRole]="'history'"
+        [ticksSection]="ticks$ | async"
       ></app-positions>
     </div>
   </div>

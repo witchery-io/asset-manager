@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {BsModalRef} from 'ngx-bootstrap';
-import {NotifierService} from 'angular-notifier';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {ModalService, OrdersService, PositionsService, SharedService} from '@app/shared/services';
-import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
-import {PARENT} from '@app/shared/enums/trading.enum';
+import { Component, Input, OnInit } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap';
+import { NotifierService } from 'angular-notifier';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { PARENT } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-position',
@@ -18,6 +18,7 @@ export class PositionComponent implements OnInit {
   @Input() position: any;
   @Input() readonly: boolean;
   @Input() componentRole: string;
+  @Input() ticks: any;
   faPlus = faPlus;
   faMinus = faMinus;
   PARENT = PARENT;
@@ -75,12 +76,6 @@ export class PositionComponent implements OnInit {
   }
 
   get pl() {
-
-    let marketPrice = this.mPrice;
-    if (!marketPrice) {
-      marketPrice = this.position.lastPrice;
-    }
-
     // @todo :: change fee to get from exchange
     // let fee = this.position.amount * 0.002 * this.position.openPrice + this.position.amount * 0.002
     //   * marketPrice;
@@ -88,7 +83,7 @@ export class PositionComponent implements OnInit {
     // const gorc = this.position.direction === 'sell' ? 1 : -1;
     // fee = fee * gorc;
 
-    return (marketPrice - this.position.openPrice) * this.position.amount;
+    return ((this.mPrice || this.position.lastPrice) - this.position.openPrice) * this.position.amount;
   }
 
   get plPercent() {
@@ -105,7 +100,20 @@ export class PositionComponent implements OnInit {
   }
 
   get plMain() {
-    return this.pl / 5600;
+    return this.pl / this.plBTC;
+  }
+
+  get plBTC() {
+    const pair = this.position.pair.slice(-3);
+    const tick = this.ticks.filter(t => {
+      return t.pair === 'BTC' + pair;
+    });
+
+    if (tick.length === 0 || pair === 'BTC') {
+      return 1;
+    }
+
+    return this.position.direction === 'sell' ? tick[0].ask : tick[0].bid;
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { getPositionsFromSection } from '@trading/state/trading.selectors';
-import { getAccountsFromSection } from '@app/core/reducers';
+import { getAccountsFromSection, getTicksFromSection } from '@app/core/reducers';
 
 @Component({
   selector: 'app-positions',
@@ -37,6 +37,7 @@ import { getAccountsFromSection } from '@app/core/reducers';
             [permission]="permission"
             [accounts]="accounts"
             [readonly]="readonly"
+            [ticks]="ticks"
           ></app-position>
         </th>
       </tr>
@@ -49,6 +50,7 @@ export class PositionsComponent implements OnInit {
   @Input() accountsSection: any;
   @Input() readonly: boolean;
   @Input() componentRole: string;
+  @Input() ticksSection: any;
   permission = 'parent';
 
   constructor() {
@@ -64,6 +66,10 @@ export class PositionsComponent implements OnInit {
 
   get accounts() {
     return getAccountsFromSection(this.accountsSection);
+  }
+
+  get ticks() {
+    return getTicksFromSection(this.ticksSection);
   }
 
   ngOnInit() {

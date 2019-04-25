@@ -64,6 +64,7 @@
             [section]="positions$ | async"
             [accountsSection]="accounts$ | async"
             [readonly]="readonly"
+            [ticksSection]="ticks$ | async"
           ></app-positions>
         </tab>
         <tab heading="ORDERS" (select)="selectTab('orders')">
@@ -85,4 +86,6 @@
   [section]="balance$ | async"
   [groupsSection]="groups$ | async"
   [accountsSection]="accounts$ | async"
+  [positionsSection]="positions$ | async"
+  [ticksSection]="ticks$ | async"
 ></app-balance>
