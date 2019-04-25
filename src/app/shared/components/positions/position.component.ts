@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {BsModalRef} from 'ngx-bootstrap';
-import {NotifierService} from 'angular-notifier';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {ModalService, OrdersService, PositionsService, SharedService} from '@app/shared/services';
-import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
-import {PARENT} from '@app/shared/enums/trading.enum';
+import { Component, Input, OnInit } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap';
+import { NotifierService } from 'angular-notifier';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { PARENT } from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-position',
@@ -18,6 +18,7 @@ export class PositionComponent implements OnInit {
   @Input() position: any;
   @Input() readonly: boolean;
   @Input() componentRole: string;
+  @Input() ticks: any;
   faPlus = faPlus;
   faMinus = faMinus;
   PARENT = PARENT;
@@ -99,7 +100,20 @@ export class PositionComponent implements OnInit {
   }
 
   get plMain() {
-    return this.pl / 5600;
+    return this.pl / this.plBTC;
+  }
+
+  get plBTC() {
+    const pair = this.position.pair.slice(-3);
+    const tick = this.ticks.filter(t => {
+      return t.pair === 'BTC' + pair;
+    });
+
+    if (tick.length === 0 || pair === 'BTC') {
+      return 1;
+    }
+
+    return this.position.direction === 'sell' ? tick[0].ask : tick[0].bid;
   }
 
   ngOnInit() {

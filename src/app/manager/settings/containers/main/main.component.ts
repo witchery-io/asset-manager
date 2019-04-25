@@ -24,6 +24,7 @@ import { ModalService, OrdersService, PositionsService, SharedService } from '@a
 import { NotifierService } from 'angular-notifier';
 import { WebSocketService, WsHandlerService } from '@settings/services';
 import { LoadHistories } from '@settings/actions/history.actions';
+import * as fromTicks from '@app/core/reducers/tick.reducers';
 
 @Component({
   selector: 'app-settings',
@@ -50,6 +51,8 @@ export class MainComponent implements OnInit, OnDestroy {
   account$: Observable<any>;
   histories$: Observable<any>;
   isLoadingHistories$: Observable<any>;
+  ticks$: Observable<fromTicks.State>;
+  ticksIsLoading$: Observable<boolean>;
   subscription: Subscription;
   settings = {};
   historyReadOnly = true;
@@ -80,6 +83,8 @@ export class MainComponent implements OnInit, OnDestroy {
     this.account$ = this.store.pipe(select(Select.getAccount));
     this.histories$ = this.store.pipe(select(Select.getHistories));
     this.isLoadingHistories$ = this.store.pipe(select(Select.isLoadingHistories));
+    this.ticks$ = this.store.pipe(select(Select.getTicks));
+    this.ticksIsLoading$ = this.store.pipe(select(Select.ticksIsLoading));
     this.notifier = notifierService;
 
     wsHandlerService.start();
