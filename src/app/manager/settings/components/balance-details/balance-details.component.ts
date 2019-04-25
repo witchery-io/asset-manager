@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { getBalanceFromSection } from '@settings/state/settings.selectors';
 import { getPositionsFromSection } from '@trading/state/trading.selectors';
+import { getTicksFromSection } from '@app/core/reducers';
 
 @Component({
   selector: 'app-balance-details',
@@ -9,12 +10,9 @@ import { getPositionsFromSection } from '@trading/state/trading.selectors';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BalanceDetailsComponent implements OnInit {
-
-  @Input()
-  section: any;
-
-  @Input()
-  positionsSection: any;
+  @Input() section: any;
+  @Input() positionsSection: any;
+  @Input() ticksSection: any;
 
   constructor() {
   }
@@ -27,6 +25,10 @@ export class BalanceDetailsComponent implements OnInit {
     return getBalanceFromSection(this.section);
   }
 
+  get ticks() {
+    return getTicksFromSection(this.ticksSection);
+  }
+
   get equity() {
     if (!this.balance) {
       return 0;
@@ -34,7 +36,7 @@ export class BalanceDetailsComponent implements OnInit {
 
     let equity = this.balance.equity;
     for (const position of this.positions) {
-      equity = equity + BalanceDetailsComponent.pl(position) / 5600;
+      equity = equity + BalanceDetailsComponent.pl(position) / this.plBTC(position);
     }
 
     return equity;
@@ -49,5 +51,18 @@ export class BalanceDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  private plBTC(position) {
+    const pair = position.pair.slice(-3);
+    const tick = this.ticks.filter(t => {
+      return t.pair === 'BTC' + pair;
+    });
+
+    if (tick.length === 0 || pair === 'BTC') {
+      return 1;
+    }
+
+    return position.direction === 'sell' ? tick[0].ask : tick[0].bid;
   }
 }

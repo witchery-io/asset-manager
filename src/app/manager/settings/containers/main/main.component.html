@@ -38,6 +38,7 @@
         *ngIf="(isLoadingBalance$ | async) === false"
         [section]="balance$ | async"
         [positionsSection]="positions$ | async"
+        [ticksSection]="ticks$ | async"
       ></app-balance-details>
     </div>
   </div>

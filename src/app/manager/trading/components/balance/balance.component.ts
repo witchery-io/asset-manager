@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { getBalanceFromSection, getPositionsFromSection } from '@trading/state/trading.selectors';
-import { getAccountsFromSection, getGroupsFromSection } from '@app/core/reducers';
+import { getAccountsFromSection, getGroupsFromSection, getTicksFromSection } from '@app/core/reducers';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { OrdersService } from '@app/shared/services';
@@ -11,19 +11,11 @@ import { OrdersService } from '@app/shared/services';
   styleUrls: ['./balance.component.scss']
 })
 export class BalanceComponent implements OnInit {
-
-  @Input()
-  section: any;
-
-  @Input()
-  groupsSection: any;
-
-  @Input()
-  accountsSection: any;
-
-  @Input()
-  positionsSection: any;
-
+  @Input() section: any;
+  @Input() groupsSection: any;
+  @Input() accountsSection: any;
+  @Input() positionsSection: any;
+  @Input() ticksSection: any;
   modalRef: BsModalRef;
   transferForm: FormGroup;
   currBalance: any;
@@ -52,6 +44,10 @@ export class BalanceComponent implements OnInit {
     return getPositionsFromSection(this.positionsSection);
   }
 
+  get ticks() {
+    return getTicksFromSection(this.ticksSection);
+  }
+
   get equity() {
     if (!this.balance) {
       return 0;
@@ -59,7 +55,7 @@ export class BalanceComponent implements OnInit {
 
     let equity = this.balance.equity;
     for (const position of this.positions) {
-      equity = equity + BalanceComponent.pl(position) / 5600;
+      equity = equity + BalanceComponent.pl(position) / this.plBTC(position);
     }
 
     return equity;
@@ -103,4 +99,16 @@ export class BalanceComponent implements OnInit {
     this.currency = curr;
   }
 
+  private plBTC(position) {
+    const pair = position.pair.slice(-3);
+    const tick = this.ticks.filter(t => {
+      return t.pair === 'BTC' + pair;
+    });
+
+    if (tick.length === 0 || pair === 'BTC') {
+      return 1;
+    }
+
+    return position.direction === 'sell' ? tick[0].ask : tick[0].bid;
+  }
 }
