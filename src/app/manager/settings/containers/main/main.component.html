@@ -1,8 +1,4 @@
-
-<!-- ** NAV BAR ** -->
 <app-nav-bar></app-nav-bar>
-
-<!-- ** GROUPS & ACCOUNTS ** -->
 <div class="container-fluid">
   <div class="row">
     <div class="col-12">
@@ -28,10 +24,6 @@
       </tabset>
     </div>
   </div>
-</div>
-
-<!-- ** BALANCE ** -->
-<div class="container-fluid">
   <div class="row border-top">
     <div class="col-12">
       <app-balance-details
@@ -42,10 +34,6 @@
       ></app-balance-details>
     </div>
   </div>
-</div>
-
-<!-- ** ORDERS & POSITIONS ** -->
-<div class="container-fluid">
   <div class="row">
     <div class="col-12 border-top">
       <tabset #ordersTabs>
@@ -70,10 +58,7 @@
       </tabset>
     </div>
   </div>
-</div>
-
-<div *ngIf="genActiveTab === 'accounts' && !readonly" class="container-fluid border-top">
-  <div class="row">
+  <div *ngIf="genActiveTab === 'accounts' && !readonly" class="row border-top">
     <div class="col-12">
       <h5>History</h5>
       <app-positions
