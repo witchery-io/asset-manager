@@ -23,7 +23,7 @@ import { getOrdersFromSection } from '@trading/state/trading.selectors';
       <tr>
         <th colspan="10" class="p-0">
           <app-order
-            *ngFor="let order of orders; trackBy: trackByFn"
+            *ngFor="let order of orders | orderBy: order:reverse; trackBy: trackByFn"
             [order]="order"
             [permission]="permission"
             [accounts]="accounts"
@@ -40,6 +40,8 @@ export class OrdersComponent implements OnInit {
   @Input() accountsSection: any;
   @Input() readonly: boolean;
   permission = 'parent';
+  order = 'pair';
+  reverse = false;
 
   constructor() {
   }
