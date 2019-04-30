@@ -63,6 +63,7 @@
 
   <div>
     <button
+      [hidden]="direction === 'buy'"
       [disabled]="role !== ROLE.ADMIN"
       type="submit"
       class="btn btn-success btn-xs"
@@ -70,6 +71,7 @@
     >BUY
     </button>
     <button
+      [hidden]="direction === 'sell'"
       [disabled]="role !== ROLE.ADMIN"
       type="submit"
       class="btn btn-danger btn-xs float-right"

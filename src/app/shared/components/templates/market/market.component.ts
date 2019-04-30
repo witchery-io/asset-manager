@@ -11,20 +11,14 @@ import { Group } from '@app/core/intefaces';
   styleUrls: ['./market.component.scss']
 })
 export class MarketComponent implements OnInit {
-  @Input()
-  id: string;
-  @Input()
-  type: string;
-  @Input()
-  role = 'admin';
-  @Input()
-  values = {};
-  @Input()
-  marketType: string;
-  @Input()
-  balance: any;
-  @Output()
-  order: EventEmitter<any> = new EventEmitter();
+  @Input() id: string;
+  @Input() type: string;
+  @Input() role = 'admin';
+  @Input() values = {};
+  @Input() marketType: string;
+  @Input() balance: any;
+  @Input() direction: any;
+  @Output() order: EventEmitter<any> = new EventEmitter();
   marketForm: FormGroup;
   ROLE = Role;
   orderType = ['stop', 'market', 'limit'];

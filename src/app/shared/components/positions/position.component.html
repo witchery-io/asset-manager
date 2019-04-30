@@ -73,6 +73,7 @@
           [marketType]="'exchange'"
           [values]="formValues"
           (order)="onOrder($event)"
+          [direction]="position.direction"
         ></app-market>
       </tab>
       <tab heading="Margin" [active]="true">
@@ -80,6 +81,7 @@
           [marketType]="'margin'"
           [values]="formValues"
           (order)="onOrder($event)"
+          [direction]="position.direction"
         ></app-market>
       </tab>
     </tabset>
