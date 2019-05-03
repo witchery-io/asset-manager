@@ -10,6 +10,7 @@ import { AccountEffects } from '@app/core/effects/account.effects';
 import { GroupEffects } from '@app/core/effects/group.effects';
 import { TickEffects } from '@app/core/effects/tick.effects';
 import { INTERCEPTOR_PROVIDERS } from '@app/core/interceptors';
+import { environment } from '../../environments/environment';
 
 @NgModule({
   declarations: [],
@@ -19,10 +20,7 @@ import { INTERCEPTOR_PROVIDERS } from '@app/core/interceptors';
     StoreModule.forRoot({}),
     StoreModule.forFeature('core', reducers),
     EffectsModule.forRoot([AccountEffects, GroupEffects, TickEffects]),
-
-    StoreDevtoolsModule.instrument({
-      maxAge: 30,
-    }),
+    !environment.production ? StoreDevtoolsModule.instrument({maxAge: 30}) : [],
   ],
   providers: [
     AccountService,
