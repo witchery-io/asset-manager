@@ -31,6 +31,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     TooltipModule.forRoot(),
     TabsModule.forRoot(),
     Ng2SmartTableModule,
+    OrderModule,
   ],
   exports: [
     OrdersComponent,

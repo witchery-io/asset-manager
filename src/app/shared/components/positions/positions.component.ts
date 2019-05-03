@@ -31,7 +31,7 @@ import { getAccountsFromSection, getTicksFromSection } from '@app/core/reducers'
       <tr>
         <th colspan="15" class="p-0">
           <app-position
-            *ngFor="let position of positions; trackBy: trackByFn"
+            *ngFor="let position of positions | orderBy: order:reverse; trackBy: trackByFn"
             [type]="type"
             [position]="position"
             [permission]="permission"
@@ -51,6 +51,8 @@ export class PositionsComponent implements OnInit {
   @Input() readonly: boolean;
   @Input() componentRole: string;
   @Input() ticksSection: any;
+  order = 'pair';
+  reverse = false;
   permission = 'parent';
 
   constructor() {

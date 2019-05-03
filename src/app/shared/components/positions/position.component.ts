@@ -145,7 +145,7 @@ export class PositionComponent implements OnInit {
   orderStop(template) {
     this.formValues = {
       type: 'stop',
-      amount: this.amount,
+      amount: Math.abs(this.amount),
     };
 
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
@@ -154,7 +154,7 @@ export class PositionComponent implements OnInit {
   orderLimit(template) {
     this.formValues = {
       type: 'limit',
-      amount: this.amount,
+      amount: Math.abs(this.amount),
     };
 
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});

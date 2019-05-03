@@ -105,6 +105,7 @@ export class OrderComponent implements OnInit {
       params.orderNumber = this.order.orderNumber;
       params.amount = params.originalAmount;
       params.context = this.order.context;
+      params.direction = this.order.direction;
       this.shared.orderApprove(params);
     }
   }
