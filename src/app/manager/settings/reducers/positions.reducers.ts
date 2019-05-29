@@ -35,6 +35,13 @@ export function reducer(state: State = initialState, action: PositionsActions.Ac
     case PositionsActions.POSITION_UPDATE: {
       return adapter.updateOne({id: action.payload.id, changes: action.payload}, state);
     }
+    case PositionsActions.POSITION_UPDATE_OR_ADD: {
+      if (typeof state.entities[action.payload.id] === 'undefined') {
+        return adapter.addOne(action.payload, state);
+      } else {
+        return adapter.updateOne({id: action.payload.id, changes: action.payload}, state);
+      }
+    }
     case PositionsActions.POSITION_DELETE: {
       return adapter.removeOne(action.payload, state);
     }

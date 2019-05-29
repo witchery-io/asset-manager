@@ -5,6 +5,7 @@ import { Tick } from '@app/core/intefaces';
 export const LOAD_POSITIONS = '[TRADING] Load Positions';
 export const UPDATE_POSITIONS = '[TRADING] Update Positions';
 export const UPDATE_POSITION = '[TRADING] Update Position';
+export const UPDATE_OR_ADD_POSITION = '[TRADING] Update Or Add Position';
 export const POSITIONS_LOADED = '[TRADING] Positions Loaded';
 export const POSITIONS_NOT_LOADED = '[TRADING] Positions Not Loaded';
 export const POSITION_CLOSE = '[TRADING] Position Close';
@@ -31,6 +32,13 @@ export class UpdatePositions implements Action {
 
 export class UpdatePosition implements Action {
   readonly type = UPDATE_POSITION;
+
+  constructor(public payload: Position) {
+  }
+}
+
+export class UpdateOrAddPosition implements Action {
+  readonly type = UPDATE_OR_ADD_POSITION;
 
   constructor(public payload: Position) {
   }
@@ -97,6 +105,7 @@ export type Actions =
   LoadPositions
   | UpdatePositions
   | UpdatePosition
+  | UpdateOrAddPosition
   | PositionsLoaded
   | PositionsNotLoaded
   | PositionClose
