@@ -5,7 +5,13 @@ import { TicksLoaded, UpdateTick } from '@app/core/actions/tick.actions';
 import { Order } from '@app/shared/intefaces/order.interface';
 import { Position } from '@app/shared/intefaces/position.interface';
 import { Tick } from '@app/core/intefaces';
-import { PositionAdd, PositionDelete, PositionsLoaded, PositionsUpdateDetails, UpdatePosition } from '@trading/actions/positions.actions';
+import {
+  PositionAdd,
+  PositionDelete,
+  PositionsLoaded,
+  PositionsUpdateDetails,
+  UpdateOrAddPosition
+} from '@trading/actions/positions.actions';
 import { Balance } from '@app/shared/intefaces/balance.interface';
 import { BalanceLoaded, UpdateBalance } from '@trading/actions/balance.actions';
 import { OrderAdd, OrderDelete, OrdersLoaded, OrderUpdate } from '@trading/actions/orders.actions';
@@ -75,7 +81,7 @@ export class WSActionHandlerServer {
         break;
       case 'gpu':
       case 'apu':
-        this.store.dispatch(new UpdatePosition(params.value as Position));
+        this.store.dispatch(new UpdateOrAddPosition(params.value as Position));
         break;
       case 'gpc':
       case 'apc':

@@ -26,6 +26,13 @@ export function reducer(state: State = initialState, action: PositionsActions.Ac
     case PositionsActions.UPDATE_POSITION: {
       return adapter.updateOne({id: action.payload.id, changes: action.payload}, state);
     }
+    case PositionsActions.UPDATE_OR_ADD_POSITION: {
+      if (typeof state.entities[action.payload.id] === 'undefined') {
+        return adapter.addOne(action.payload, state);
+      } else {
+        return adapter.updateOne({id: action.payload.id, changes: action.payload}, state);
+      }
+    }
     case PositionsActions.POSITIONS_LOADED: {
       return adapter.addAll(action.payload.positions, {...state, isLoading: false, error: null});
     }
