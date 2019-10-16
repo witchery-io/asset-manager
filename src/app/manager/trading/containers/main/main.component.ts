@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { WsHandlerService } from '@trading/services/ws/ws-handler.service';
-import { select, Store } from '@ngrx/store';
-import { TradingState } from '@trading/reducers';
-import { OrderCancel, OrderPlace } from '@trading/actions/orders.actions';
-import { PositionClose, PositionPlace } from '@trading/actions/positions.actions';
-import { Observable } from 'rxjs';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {WsHandlerService} from '@trading/services/ws/ws-handler.service';
+import {select, Store} from '@ngrx/store';
+import {TradingState} from '@trading/reducers';
+import {OrderCancel, OrderPlace} from '@trading/actions/orders.actions';
+import {PositionClose, PositionPlace} from '@trading/actions/positions.actions';
+import {Observable} from 'rxjs';
 import * as Select from '@trading/state/trading.selectors';
 import * as fromOrders from '@trading/reducers/orders.reducers';
 import * as fromPositions from '@trading/reducers/positions.reducers';
@@ -12,16 +12,16 @@ import * as fromBalance from '@trading/reducers/balance.reducers';
 import * as fromAccounts from '@app/core/reducers/account.reducers';
 import * as fromGroups from '@app/core/reducers/group.reducers';
 import * as fromTicks from '@app/core/reducers/tick.reducers';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TabsetComponent } from 'ngx-bootstrap';
-import { OrderTab, Role } from '@app/shared/enums';
-import { LoadGroups } from '@app/core/actions/group.actions';
-import { LoadAccounts } from '@app/core/actions/account.actions';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
-import { NotifierService } from 'angular-notifier';
-import { WebSocketService } from '@trading/services/ws/web-socket.service';
-import { GROUPS } from '@app/shared/enums/trading.enum';
+import {ActivatedRoute, Router} from '@angular/router';
+import {TabsetComponent} from 'ngx-bootstrap';
+import {OrderTab, Role} from '@app/shared/enums';
+import {LoadGroups} from '@app/core/actions/group.actions';
+import {LoadAccounts} from '@app/core/actions/account.actions';
+import {DomSanitizer} from '@angular/platform-browser';
+import {ModalService, OrdersService, PositionsService, SharedService} from '@app/shared/services';
+import {NotifierService} from 'angular-notifier';
+import {WebSocketService} from '@trading/services/ws/web-socket.service';
+import {GROUPS} from '@app/shared/enums/trading.enum';
 
 @Component({
   selector: 'app-trading',
@@ -31,7 +31,7 @@ import { GROUPS } from '@app/shared/enums/trading.enum';
 export class MainComponent implements OnInit, OnDestroy {
   currentId: string;
   currentType: string;
-  @ViewChild('ordersTabs')
+  @ViewChild('ordersTabs', {static: false})
   ordersTabs: TabsetComponent;
   orders$: Observable<fromOrders.State>;
   isLoadingOrders$: Observable<boolean>;

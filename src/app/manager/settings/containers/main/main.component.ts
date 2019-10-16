@@ -1,29 +1,29 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { OrderTab, Role, TypeTab } from '@app/shared/enums';
-import { TabsetComponent } from 'ngx-bootstrap';
-import { select, Store } from '@ngrx/store';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {OrderTab, Role, TypeTab} from '@app/shared/enums';
+import {TabsetComponent} from 'ngx-bootstrap';
+import {select, Store} from '@ngrx/store';
 import * as Select from '@settings/state/settings.selectors';
-import { SettingsState } from '@settings/reducers';
-import { Observable, Subscription } from 'rxjs';
+import {SettingsState} from '@settings/reducers';
+import {Observable, Subscription} from 'rxjs';
 import * as fromOrders from '@settings/reducers/orders.reducers';
 import * as fromPositions from '@settings/reducers/positions.reducers';
 import * as fromBalance from '@settings/reducers/balance.reducers';
 import * as fromAccounts from '@app/core/reducers/account.reducers';
 import * as fromGroups from '@app/core/reducers/group.reducers';
-import { CleanUpBalance } from '@settings/actions/balance.actions';
-import { CleanUpOrders, OrderCancel, OrderPlace } from '@settings/actions/orders.actions';
-import { CleanUpPositions, PositionClose, PositionPlace } from '@settings/actions/positions.actions';
-import { LoadGroups } from '@app/core/actions/group.actions';
-import { LoadAccounts } from '@app/core/actions/account.actions';
-import { LoadAccount } from '@settings/actions/account.actions';
-import { ACCOUNTS, GROUPS } from '@app/shared/enums/trading.enum';
-import { LoadGroup } from '@settings/actions/group.actions';
-import { generateUrl } from '@settings/utils/settings.utils';
-import { ModalService, OrdersService, PositionsService, SharedService } from '@app/shared/services';
-import { NotifierService } from 'angular-notifier';
-import { WebSocketService, WsHandlerService } from '@settings/services';
-import { LoadHistories } from '@settings/actions/history.actions';
+import {CleanUpBalance} from '@settings/actions/balance.actions';
+import {CleanUpOrders, OrderCancel, OrderPlace} from '@settings/actions/orders.actions';
+import {CleanUpPositions, PositionClose, PositionPlace} from '@settings/actions/positions.actions';
+import {LoadGroups} from '@app/core/actions/group.actions';
+import {LoadAccounts} from '@app/core/actions/account.actions';
+import {LoadAccount} from '@settings/actions/account.actions';
+import {ACCOUNTS, GROUPS} from '@app/shared/enums/trading.enum';
+import {LoadGroup} from '@settings/actions/group.actions';
+import {generateUrl} from '@settings/utils/settings.utils';
+import {ModalService, OrdersService, PositionsService, SharedService} from '@app/shared/services';
+import {NotifierService} from 'angular-notifier';
+import {WebSocketService, WsHandlerService} from '@settings/services';
+import {LoadHistories} from '@settings/actions/history.actions';
 import * as fromTicks from '@app/core/reducers/tick.reducers';
 
 @Component({
@@ -34,10 +34,10 @@ import * as fromTicks from '@app/core/reducers/tick.reducers';
 export class MainComponent implements OnInit, OnDestroy {
   currentId: string;
   currentType: string;
-  @ViewChild('generalTabs')
+  @ViewChild('generalTabs', {static: false})
   generalTabs: TabsetComponent;
   genActiveTab = 'groups';
-  @ViewChild('ordersTabs')
+  @ViewChild('ordersTabs', {static: false})
   ordersTabs: TabsetComponent;
   orders$: Observable<fromOrders.State>;
   isLoadingOrders$: Observable<boolean>;
