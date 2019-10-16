@@ -20,7 +20,7 @@
     "@angular/cdk": "^8.2.3",
     "@angular/common": "^8.2.11",
     "@angular/compiler": "~7.1.0",
-    "@angular/core": "~7.1.0",
+    "@angular/core": "^8.2.11",
     "@angular/forms": "^8.2.11",
     "@angular/platform-browser": "~7.1.0",
     "@angular/platform-browser-dynamic": "~7.1.0",
