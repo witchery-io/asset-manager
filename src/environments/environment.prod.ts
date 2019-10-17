@@ -3,3 +3,4 @@ export const environment = {
   webSocketUrl: 'wss://ws.ats.cber.app/ws',
   apiUrl: 'https://api.ats.cber.app',
 };
+
