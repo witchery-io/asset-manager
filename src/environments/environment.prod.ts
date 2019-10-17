@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  webSocketUrl: 'wss://ats-ws.witchery.io/ws',
-  apiUrl: 'https://ats-api.witchery.io',
+  webSocketUrl: 'wss://ws.ats.cber.app/ws',
+  apiUrl: 'https://api.ats.cber.app',
 };
