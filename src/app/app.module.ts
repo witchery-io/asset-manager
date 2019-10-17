@@ -1,15 +1,16 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {HttpClientModule} from '@angular/common/http';
 
-import { AppRoutingModule, appRoutingProviders } from '@app/app-routing.module';
-import { CoreModule } from '@app/core/core.module';
-import { SharedModule } from '@app/shared/shared.module';
+import {AppRoutingModule, appRoutingProviders} from '@app/app-routing.module';
+import {CoreModule} from '@app/core/core.module';
+import {SharedModule} from '@app/shared/shared.module';
 
-import { AppComponent } from '@app/app.component';
-import { PageNotFoundComponent } from '@app/pages/page-not-found.component';
-import { ServerErrorComponent } from '@app/pages/server-error.component';
-import { NotifierModule } from 'angular-notifier';
+import {AppComponent} from '@app/app.component';
+import {PageNotFoundComponent} from '@app/pages/page-not-found.component';
+import {ServerErrorComponent} from '@app/pages/server-error.component';
+import {NotifierModule} from 'angular-notifier';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { NotifierModule } from 'angular-notifier';
     CoreModule,
     SharedModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {
@@ -39,4 +41,5 @@ import { NotifierModule } from 'angular-notifier';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

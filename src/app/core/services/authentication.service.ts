@@ -32,7 +32,7 @@ export class AuthService {
   }
 
   login(data) {
-    return this.api.post('https://api.ats.cber.app/token', data)
+    return this.api.post('https://api.ats.cber.app', data)
       .pipe(
         map((res: any) => {
           if (res.token && res.userId) {
@@ -63,8 +63,22 @@ export class AuthService {
    * Handle server response errors here
    */
   private handleError(error: any) {
-    localStorage.setItem('role', 'admin');
+    let errMsg = 'Server error';
 
-    this.api.setAuthKey('abudabu');
+    if (error && error.status) {
+      if (error.status === 401) {
+        this.api.clearAuthKey();
+        const navProm = this.router.navigate(['/login']);
+        navProm.then(() => {});
+        return observableThrowError(errMsg);
+      }
+    }
+
+    if (error && error.message) {
+      errMsg = JSON.parse(error.message);
+    }
+
+    this.notifier.notify('error', errMsg);
+    return observableThrowError(errMsg);
   }
 }

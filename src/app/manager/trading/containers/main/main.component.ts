@@ -101,6 +101,11 @@ export class MainComponent implements OnInit, OnDestroy {
     const urlType = this.route.snapshot.paramMap.get('type');
     const urlTabName = this.route.snapshot.paramMap.get('tab');
 
+    if (!this.ordersTabs) {
+      // @ts-ignore
+      this.ordersTabs = {tabs: [{}],};
+    }
+
     this.currentId = urlId;
     this.currentType = urlType;
     this.ordersTabs.tabs[MainComponent.tabIndex(urlTabName)].active = true;
