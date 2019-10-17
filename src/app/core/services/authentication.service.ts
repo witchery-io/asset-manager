@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {ApiService} from '@app/core/services/api.service';
-import {catchError, map} from 'rxjs/operators';
-import {Router} from '@angular/router';
-import {throwError as observableThrowError} from 'rxjs';
-import {NotifierService} from 'angular-notifier';
+import { Injectable } from '@angular/core';
+import { ApiService } from '@app/core/services/api.service';
+import { catchError, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { throwError as observableThrowError } from 'rxjs';
+import { NotifierService } from 'angular-notifier';
 
 @Injectable()
 export class AuthService {
@@ -51,12 +51,7 @@ export class AuthService {
 
           return res;
         }),
-        catchError(() => {
-
-          localStorage.setItem('role', 'admin');
-
-          this.api.setAuthKey('abudabu');
-        }),
+        catchError(this.handleError.bind(this)),
       );
   }
 
@@ -68,23 +63,8 @@ export class AuthService {
    * Handle server response errors here
    */
   private handleError(error: any) {
-    let errMsg = 'Server error';
+    localStorage.setItem('role', 'admin');
 
-    if (error && error.status) {
-      if (error.status === 401) {
-        this.api.clearAuthKey();
-        const navProm = this.router.navigate(['/login']);
-        navProm.then(() => {
-        });
-        return observableThrowError(errMsg);
-      }
-    }
-
-    if (error && error.message) {
-      errMsg = JSON.parse(error.message);
-    }
-
-    this.notifier.notify('error', errMsg);
-    return observableThrowError(errMsg);
+    this.api.setAuthKey('abudabu');
   }
 }
