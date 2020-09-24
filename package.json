@@ -46,7 +46,7 @@
     "ngx-filter-pipe": "^2.1.2",
     "ngx-order-pipe": "^2.0.4",
     "ngx-spinner": "^8.0.3",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "rxjs": "^6.5.3",
     "rxjs-compat": "^6.5.3",
     "tslib": "^1.10.0",
